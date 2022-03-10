@@ -1,0 +1,7 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<LogicalDesign class="oracle.dbtools.crest.model.design.logical.LogicalDesign" name="Logical" id="D48E837B-E876-8198-3165-DF24D8E06235" mainViewID="F32C57AB-88F5-B1B9-8060-F1F5C1575903">
+<createdBy>alumno</createdBy>
+<createdTime>2022-03-10 12:09:02 UTC</createdTime>
+<ownerDesignName>g7DataBase</ownerDesignName>
+<shouldBeOpen>false</shouldBeOpen>
+</LogicalDesign>

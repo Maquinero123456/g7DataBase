@@ -1,0 +1,174 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="82DCAC85-A935-505C-841A-79A812F7230B" name="CLIENTE">
+<createdBy>alumno</createdBy>
+<createdTime>2022-03-10 12:36:16 UTC</createdTime>
+<ownerDesignName>G7</ownerDesignName>
+<engineerTo>
+<item key="923C15B0-0FB3-0794-849C-24B8193EC6E2" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="ID" id="51B87B6B-379F-55B2-61F2-A87BB6E1F1DA">
+<createdBy>alumno</createdBy>
+<createdTime>2022-03-10 12:36:22 UTC</createdTime>
+<ownerDesignName>G7</ownerDesignName>
+<engineerTo>
+<item key="923C15B0-0FB3-0794-849C-24B8193EC6E2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="IDENTIFICACION" id="188ACA1C-04A9-9012-39F1-C62EB7DE9256">
+<createdBy>alumno</createdBy>
+<createdTime>2022-03-10 12:36:38 UTC</createdTime>
+<ownerDesignName>G7</ownerDesignName>
+<engineerTo>
+<item key="923C15B0-0FB3-0794-849C-24B8193EC6E2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="TIPO_CLIENTE" id="CDF49CC5-0C40-EC51-1CDA-5F380F793153">
+<createdBy>alumno</createdBy>
+<createdTime>2022-03-10 12:37:22 UTC</createdTime>
+<ownerDesignName>G7</ownerDesignName>
+<engineerTo>
+<item key="923C15B0-0FB3-0794-849C-24B8193EC6E2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ESTADO" id="9582D478-FC40-53A0-1FD9-FFDB59D1B491">
+<createdBy>alumno</createdBy>
+<createdTime>2022-03-10 12:42:20 UTC</createdTime>
+<ownerDesignName>G7</ownerDesignName>
+<engineerTo>
+<item key="923C15B0-0FB3-0794-849C-24B8193EC6E2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="FECHA_DE_ALTA" id="07ECC4F1-6B3B-8D90-CB27-21F0E6AD282B">
+<createdBy>alumno</createdBy>
+<createdTime>2022-03-10 12:43:02 UTC</createdTime>
+<ownerDesignName>G7</ownerDesignName>
+<engineerTo>
+<item key="923C15B0-0FB3-0794-849C-24B8193EC6E2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="FECHA_DE_BAJA" id="DDDC74AD-FB50-6869-1C81-E1D7963F1CAA">
+<createdBy>alumno</createdBy>
+<createdTime>2022-03-10 12:43:24 UTC</createdTime>
+<ownerDesignName>G7</ownerDesignName>
+<engineerTo>
+<item key="923C15B0-0FB3-0794-849C-24B8193EC6E2" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="DIRECCION" id="C5583F33-D99F-DF3C-F5CA-D402A10B734D">
+<createdBy>alumno</createdBy>
+<createdTime>2022-03-10 12:43:37 UTC</createdTime>
+<ownerDesignName>G7</ownerDesignName>
+<engineerTo>
+<item key="923C15B0-0FB3-0794-849C-24B8193EC6E2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="CIUDAD" id="D1ECDC74-8117-E0B5-D371-AE8EA654B61E">
+<createdBy>alumno</createdBy>
+<createdTime>2022-03-10 12:44:00 UTC</createdTime>
+<ownerDesignName>G7</ownerDesignName>
+<engineerTo>
+<item key="923C15B0-0FB3-0794-849C-24B8193EC6E2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="CODIGO_POSTL" id="26433B1F-D6B4-E8E0-D59C-3B5F4C799DD1">
+<createdBy>alumno</createdBy>
+<createdTime>2022-03-10 12:44:15 UTC</createdTime>
+<ownerDesignName>G7</ownerDesignName>
+<engineerTo>
+<item key="923C15B0-0FB3-0794-849C-24B8193EC6E2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="PAIS" id="0A349FAF-B96A-A074-CBD3-8A8585E75803">
+<createdBy>alumno</createdBy>
+<createdTime>2022-03-10 12:44:36 UTC</createdTime>
+<ownerDesignName>G7</ownerDesignName>
+<engineerTo>
+<item key="923C15B0-0FB3-0794-849C-24B8193EC6E2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="FACD3D1A-A6A7-476E-9719-46F5BB6C42D1" name="CLIENTE PK">
+<createdBy>alumno</createdBy>
+<createdTime>2022-03-10 12:36:26 UTC</createdTime>
+<ownerDesignName>G7</ownerDesignName>
+<engineerTo>
+<item key="923C15B0-0FB3-0794-849C-24B8193EC6E2" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>51B87B6B-379F-55B2-61F2-A87BB6E1F1DA</attributeRef>
+</usedAttributes>
+</identifier>
+<identifier id="9D950281-2093-5690-B02A-17CB96D51898" name="IDENTIFICACION_UK">
+<createdBy>alumno</createdBy>
+<createdTime>2022-03-10 12:36:55 UTC</createdTime>
+<ownerDesignName>G7</ownerDesignName>
+<engineerTo>
+<item key="923C15B0-0FB3-0794-849C-24B8193EC6E2" value="true"/>
+</engineerTo>
+<newElementsIDs>188ACA1C-04A9-9012-39F1-C62EB7DE9256</newElementsIDs>
+<usedAttributes>
+<attributeRef>188ACA1C-04A9-9012-39F1-C62EB7DE9256</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

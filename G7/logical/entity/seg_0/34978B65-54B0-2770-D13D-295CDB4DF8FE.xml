@@ -1,0 +1,18 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="34978B65-54B0-2770-D13D-295CDB4DF8FE" name="POOLED_ACCOUNT">
+<createdBy>alumno</createdBy>
+<createdTime>2022-03-10 13:09:55 UTC</createdTime>
+<ownerDesignName>G7</ownerDesignName>
+<engineerTo>
+<item key="923C15B0-0FB3-0794-849C-24B8193EC6E2" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<hierarchicalParent>B7C8CA76-296F-403A-9250-F9DBD9D43F48</hierarchicalParent>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+</Entity>

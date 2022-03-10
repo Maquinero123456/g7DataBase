@@ -1,0 +1,48 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="0127633B-81C8-32F4-B400-848C1CF0D38C" name="SEGREGADA">
+<createdBy>alumno</createdBy>
+<createdTime>2022-03-10 13:10:19 UTC</createdTime>
+<ownerDesignName>G7</ownerDesignName>
+<engineerTo>
+<item key="923C15B0-0FB3-0794-849C-24B8193EC6E2" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<hierarchicalParent>B7C8CA76-296F-403A-9250-F9DBD9D43F48</hierarchicalParent>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="COMISION" id="551BF483-77E6-AFA5-2D09-0D7EE1949234">
+<createdBy>alumno</createdBy>
+<createdTime>2022-03-10 13:10:34 UTC</createdTime>
+<ownerDesignName>G7</ownerDesignName>
+<engineerTo>
+<item key="923C15B0-0FB3-0794-849C-24B8193EC6E2" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT026</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="IBAN" id="F358158E-D387-0DFD-56B9-D35C4D2559AA">
+<createdBy>alumno</createdBy>
+<createdTime>2022-03-10 13:21:06 UTC</createdTime>
+<generatorID>572DED67-9356-7012-0A36-FAD87C19B64E</generatorID>
+<ownerDesignName>G7</ownerDesignName>
+<engineerTo>
+<item key="923C15B0-0FB3-0794-849C-24B8193EC6E2" value="true"/>
+</engineerTo>
+<referedAttribute>C6ADF1A3-C821-E84C-3788-4F0955F9BA15</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+</Entity>

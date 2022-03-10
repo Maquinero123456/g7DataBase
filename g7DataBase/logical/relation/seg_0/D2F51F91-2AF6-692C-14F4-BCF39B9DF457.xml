@@ -1,0 +1,19 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="POOLEAD_DEPOSITADA" directorySegmentName="seg_0" id="D2F51F91-2AF6-692C-14F4-BCF39B9DF457">
+<createdBy>alumno</createdBy>
+<createdTime>2022-03-10 13:19:00 UTC</createdTime>
+<ownerDesignName>g7DataBase</ownerDesignName>
+<engineerTo>
+<item key="923C15B0-0FB3-0794-849C-24B8193EC6E2" value="true"/>
+</engineerTo>
+<sourcePk>BF4C48EE-B88F-459B-3AF6-6F95F3074534</sourcePk>
+<identifying>true</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>34978B65-54B0-2770-D13D-295CDB4DF8FE</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>0202765F-C67B-7538-B999-65E96FFF78D4</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

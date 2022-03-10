@@ -1,0 +1,19 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="CUENTA_EMPRESA_DIVISA" directorySegmentName="seg_0" id="19C0D758-2B5B-7E14-9E0A-607DB32CAE47">
+<createdBy>alumno</createdBy>
+<createdTime>2022-03-10 13:20:24 UTC</createdTime>
+<ownerDesignName>G7</ownerDesignName>
+<engineerTo>
+<item key="923C15B0-0FB3-0794-849C-24B8193EC6E2" value="true"/>
+</engineerTo>
+<sourcePk>E43F2A16-95E9-51A8-6C46-BCB72B935488</sourcePk>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>665BD2A0-1653-BFF2-B864-1C88B98C6BDD</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>008454B8-069B-BA80-F097-57A32FFE9181</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

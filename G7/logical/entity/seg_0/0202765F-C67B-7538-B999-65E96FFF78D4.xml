@@ -1,0 +1,76 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="0202765F-C67B-7538-B999-65E96FFF78D4" name="DEPOSITADO_EN">
+<createdBy>alumno</createdBy>
+<createdTime>2022-03-10 12:45:36 UTC</createdTime>
+<ownerDesignName>G7</ownerDesignName>
+<engineerTo>
+<item key="923C15B0-0FB3-0794-849C-24B8193EC6E2" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="SALDO" id="B0F721E5-2C04-7E41-C948-3793B0ADD4E7">
+<createdBy>alumno</createdBy>
+<createdTime>2022-03-10 12:45:54 UTC</createdTime>
+<ownerDesignName>G7</ownerDesignName>
+<engineerTo>
+<item key="923C15B0-0FB3-0794-849C-24B8193EC6E2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT026</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="IBAN" id="06089C51-D0B0-F263-22D9-E58771DA196A">
+<createdBy>alumno</createdBy>
+<createdTime>2022-03-10 13:16:41 UTC</createdTime>
+<generatorID>EB4EAA57-7E91-0A0D-D2C1-EDCC9126B3ED</generatorID>
+<ownerDesignName>G7</ownerDesignName>
+<engineerTo>
+<item key="923C15B0-0FB3-0794-849C-24B8193EC6E2" value="true"/>
+</engineerTo>
+<referedAttribute>C6ADF1A3-C821-E84C-3788-4F0955F9BA15</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="IBAN1" id="53D3B6F1-547D-3256-A2C6-475F61AF9840">
+<createdBy>alumno</createdBy>
+<createdTime>2022-03-10 13:19:00 UTC</createdTime>
+<generatorID>D2F51F91-2AF6-692C-14F4-BCF39B9DF457</generatorID>
+<ownerDesignName>G7</ownerDesignName>
+<engineerTo>
+<item key="923C15B0-0FB3-0794-849C-24B8193EC6E2" value="true"/>
+</engineerTo>
+<referedAttribute>C6ADF1A3-C821-E84C-3788-4F0955F9BA15</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="EE0F5FBA-E10A-2E6C-7C0E-70011347150B" name="DEPOSITADO_EN PK">
+<createdBy>alumno</createdBy>
+<createdTime>2022-03-10 13:18:48 UTC</createdTime>
+<ownerDesignName>G7</ownerDesignName>
+<engineerTo>
+<item key="923C15B0-0FB3-0794-849C-24B8193EC6E2" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>06089C51-D0B0-F263-22D9-E58771DA196A</attributeRef>
+<attributeRef>53D3B6F1-547D-3256-A2C6-475F61AF9840</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

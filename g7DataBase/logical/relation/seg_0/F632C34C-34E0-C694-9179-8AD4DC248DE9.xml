@@ -1,0 +1,19 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="DIVISA_EMISOR" directorySegmentName="seg_0" id="F632C34C-34E0-C694-9179-8AD4DC248DE9">
+<createdBy>alumno</createdBy>
+<createdTime>2022-03-10 13:16:21 UTC</createdTime>
+<ownerDesignName>g7DataBase</ownerDesignName>
+<engineerTo>
+<item key="923C15B0-0FB3-0794-849C-24B8193EC6E2" value="true"/>
+</engineerTo>
+<sourcePk>E43F2A16-95E9-51A8-6C46-BCB72B935488</sourcePk>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>665BD2A0-1653-BFF2-B864-1C88B98C6BDD</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>1DE95F9B-FE2F-8346-FF1E-89FEDA49AF6C</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>
