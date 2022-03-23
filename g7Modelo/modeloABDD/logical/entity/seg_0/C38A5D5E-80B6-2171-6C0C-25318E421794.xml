@@ -1,8 +1,8 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="A5D1A778-1DF4-F263-3621-FBA60311A5E8" name="CLIENTE">
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="C38A5D5E-80B6-2171-6C0C-25318E421794" name="PERSONA_AUTORIZADA">
 <createdBy>david</createdBy>
-<createdTime>2022-03-14 21:38:03 UTC</createdTime>
-<ownerDesignName>modelo</ownerDesignName>
+<createdTime>2022-03-14 21:28:52 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
 <item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
@@ -15,10 +15,10 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
-<Attribute name="ID" id="413A118A-DAC6-9FE1-0E14-10C41B93DB0F">
+<Attribute name="ID" id="2381D03A-32DB-726B-1D89-98887444E511">
 <createdBy>david</createdBy>
-<createdTime>2022-03-14 21:38:10 UTC</createdTime>
-<ownerDesignName>modelo</ownerDesignName>
+<createdTime>2022-03-14 21:29:06 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
 <item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
@@ -28,10 +28,10 @@
 <dataTypeSize>40 CHAR</dataTypeSize>
 <ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="Identificacion" id="8F90D743-420F-39B4-B7C9-7368011878D8">
+<Attribute name="Identificacion" id="A006E0AB-2EAA-BD3C-EC14-EADF871E618C">
 <createdBy>david</createdBy>
-<createdTime>2022-03-14 21:38:22 UTC</createdTime>
-<ownerDesignName>modelo</ownerDesignName>
+<createdTime>2022-03-14 21:34:02 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
 <item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
@@ -41,10 +41,10 @@
 <dataTypeSize>40 CHAR</dataTypeSize>
 <ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="Tipo_Cliente" id="2D7C4315-C4BB-0F98-0B10-DF5CEB99BE67">
+<Attribute name="Nombre" id="C214CA9F-25A6-C28F-9270-91AC2844F26D">
 <createdBy>david</createdBy>
-<createdTime>2022-03-14 21:38:42 UTC</createdTime>
-<ownerDesignName>modelo</ownerDesignName>
+<createdTime>2022-03-14 21:34:15 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
 <item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
@@ -54,35 +54,36 @@
 <dataTypeSize>20 CHAR</dataTypeSize>
 <ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="Estado" id="00E2D67F-1467-9975-71D9-189B637E2938">
+<Attribute name="Apellidos" id="30C4DA78-9E58-8AC6-B2A1-B4C482D20976">
 <createdBy>david</createdBy>
-<createdTime>2022-03-14 21:39:01 UTC</createdTime>
-<ownerDesignName>modelo</ownerDesignName>
+<createdTime>2022-03-14 21:34:51 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
 <item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT006</logicalDatatype>
-<dataTypeSize>1 BYTE</dataTypeSize>
-<ownDataTypeParameters>1 BYTE,,</ownDataTypeParameters>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="Fecha_Alta" id="F15EFE3D-0E76-E750-489B-76BDEEC4BE01">
+<Attribute name="Direccion" id="B3AE1CFD-EBF6-F85E-8A1D-240C49A60ABC">
 <createdBy>david</createdBy>
-<createdTime>2022-03-14 21:39:27 UTC</createdTime>
-<ownerDesignName>modelo</ownerDesignName>
+<createdTime>2022-03-14 21:35:05 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
 <item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT007</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="Fecha_Baja" id="858ACDA4-7CB1-B3B2-B67D-448A0CB2961C">
+<Attribute name="Fecha_Nacimiento" id="2EF8DB05-9D35-003E-2C38-20ABA867F99E">
 <createdBy>david</createdBy>
-<createdTime>2022-03-14 21:39:45 UTC</createdTime>
-<ownerDesignName>modelo</ownerDesignName>
+<createdTime>2022-03-14 21:35:31 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
 <item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
@@ -92,81 +93,70 @@
 <logicalDatatype>LOGDT007</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="Direccion" id="F277D330-A39C-E84B-A338-5CA43F25A511">
+<Attribute name="Estado" id="47C5F9D7-089D-34C4-D995-FFEE3AA2E4C2">
 <createdBy>david</createdBy>
-<createdTime>2022-03-14 21:39:58 UTC</createdTime>
-<ownerDesignName>modelo</ownerDesignName>
+<createdTime>2022-03-14 21:35:49 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
 <item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
+<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>40 CHAR</dataTypeSize>
-<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1 BYTE</dataTypeSize>
+<ownDataTypeParameters>1 BYTE,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="Ciudad" id="537DF63C-73B2-A865-E211-36CDB2E427BE">
+<Attribute name="FechaInicio" id="6FA6AC33-918B-65F9-CC30-CE76EEDF465A">
 <createdBy>david</createdBy>
-<createdTime>2022-03-14 21:40:10 UTC</createdTime>
-<ownerDesignName>modelo</ownerDesignName>
+<createdTime>2022-03-14 21:36:12 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
 <item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
+<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>40 CHAR</dataTypeSize>
-<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="CodigoPostal" id="CED8A64A-879F-6D44-8956-2580146E8F84">
-<createdBy>david</createdBy>
-<createdTime>2022-03-14 21:40:37 UTC</createdTime>
-<ownerDesignName>modelo</ownerDesignName>
-<engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
-</engineerTo>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT011</logicalDatatype>
+<logicalDatatype>LOGDT007</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="Pais" id="935544AC-6E5D-C053-8087-01C45191B868">
+<Attribute name="FechaFin" id="B485C505-1EEE-B3F5-D0D4-2835B4F3BB4B">
 <createdBy>david</createdBy>
-<createdTime>2022-03-14 21:41:20 UTC</createdTime>
-<ownerDesignName>modelo</ownerDesignName>
+<createdTime>2022-03-14 21:36:21 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
 <item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
+<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>40 CHAR</dataTypeSize>
-<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
-<identifier id="95502299-648F-9C22-6AF4-350B978DEC2B" name="CLIENTE PK">
+<identifier id="0A480C7E-0A2B-B173-4685-BC8F51B96EF6" name="PERSONA_AUTORIZADA PK">
 <createdBy>david</createdBy>
-<createdTime>2022-03-14 21:38:20 UTC</createdTime>
-<ownerDesignName>modelo</ownerDesignName>
+<createdTime>2022-03-14 21:33:53 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
 <item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
-<attributeRef>413A118A-DAC6-9FE1-0E14-10C41B93DB0F</attributeRef>
+<attributeRef>2381D03A-32DB-726B-1D89-98887444E511</attributeRef>
 </usedAttributes>
 </identifier>
-<identifier id="D19811D1-C8AA-50B0-4DF2-177A2B6C3DE4" name="IDENTIFICACION_U">
-<createdBy>Usuario</createdBy>
-<createdTime>2022-03-21 11:54:17 UTC</createdTime>
-<ownerDesignName>modelo</ownerDesignName>
+<identifier id="F8574A8A-D1EE-D52A-B3AB-CD7F0D4FB4C7" name="IDENTIFICACION_U">
+<createdBy>david</createdBy>
+<createdTime>2022-03-14 21:36:40 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
 <item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
-<newElementsIDs>8F90D743-420F-39B4-B7C9-7368011878D8</newElementsIDs>
+<newElementsIDs>A006E0AB-2EAA-BD3C-EC14-EADF871E618C</newElementsIDs>
 <usedAttributes>
-<attributeRef>8F90D743-420F-39B4-B7C9-7368011878D8</attributeRef>
+<attributeRef>A006E0AB-2EAA-BD3C-EC14-EADF871E618C</attributeRef>
 </usedAttributes>
 </identifier>
 </identifiers>

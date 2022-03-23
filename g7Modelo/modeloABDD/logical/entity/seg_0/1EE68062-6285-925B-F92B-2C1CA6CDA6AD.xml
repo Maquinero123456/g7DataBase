@@ -2,7 +2,7 @@
 <Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="1EE68062-6285-925B-F92B-2C1CA6CDA6AD" name="AUTORIZACION">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:37:30 UTC</createdTime>
-<ownerDesignName>modelo</ownerDesignName>
+<ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
 <item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
@@ -18,7 +18,7 @@
 <Attribute name="Tipo" id="6B9ACECD-68E0-4B4F-5804-59FD99A0EB7C">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:37:42 UTC</createdTime>
-<ownerDesignName>modelo</ownerDesignName>
+<ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
 <item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
@@ -32,7 +32,7 @@
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:44:27 UTC</createdTime>
 <generatorID>B0DC85A6-1B4B-7A88-B8C0-DC9739DD8FC5</generatorID>
-<ownerDesignName>modelo</ownerDesignName>
+<ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
 <item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
@@ -47,7 +47,7 @@
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:44:37 UTC</createdTime>
 <generatorID>06E15B16-335D-E8AF-9A61-DEDD033B31EE</generatorID>
-<ownerDesignName>modelo</ownerDesignName>
+<ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
 <item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
@@ -63,7 +63,7 @@
 <identifier id="07D14FBE-F549-C771-F25B-36192B2CACE3" name="AUTORIZACION PK">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:44:27 UTC</createdTime>
-<ownerDesignName>modelo</ownerDesignName>
+<ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
 <item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>

@@ -1,0 +1,202 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="7830891E-CBC1-7ECD-EE08-6D440392FEA8" name="MOVIMIENTOS">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-03-21 12:26:06 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="ID" id="A08F8EF9-0116-7A13-21DE-612742312FE2">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-03-21 12:26:24 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ModoOperacion" id="AFE0349B-D8F4-8775-A22D-1C44CBBFD52B">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-03-21 12:26:43 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="FechaOperacion" id="F559D358-4F21-3047-A905-9FC8FF75541C">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-03-21 12:27:11 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Concepto" id="0BF89EB0-0F22-E846-8FD0-BA2D7AB93C5A">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-03-21 12:28:21 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Descripcion" id="11A7DF4C-E30C-8329-9D35-378D297CE5FE">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-03-21 12:28:34 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>80 CHAR</dataTypeSize>
+<ownDataTypeParameters>80 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="NombreEmisor" id="4A289268-02BB-8AC6-BDF1-1AFF80D1884C">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-03-21 12:27:41 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<dataTypeSize>60 CHAR</dataTypeSize>
+<ownDataTypeParameters>60 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="TipoEmisor" id="208C3926-73F9-AE42-9339-A8B0531B68D4">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-03-21 12:28:49 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Cantidad" id="E5A3A181-CDA7-750A-FF43-1F9A1D0B6439">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-03-21 12:29:12 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT026</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Divisa" id="5440C391-3876-22CF-7545-7A12E35523FA">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-03-21 12:35:02 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="LimiteFisicoMensual" id="C03320E9-F70D-83F2-84C5-FA268395DFC6">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-03-21 12:35:16 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT026</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="LimiteCajero" id="2D81FE6C-BE58-0425-E034-BB82A332D905">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-03-21 12:37:11 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT026</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="LimiteOnlineMensual" id="190DA279-5031-4715-EF75-5D0474AAB9F1">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-03-21 12:37:23 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT026</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Numero" id="4346950A-C13D-23B1-BF0A-284435B4FB8A">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-03-21 12:39:54 UTC</createdTime>
+<generatorID>1E52EBC8-1A80-36B7-A501-9D3309DA0E0F</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<referedAttribute>49AE9C19-A2E7-4402-A859-FB22234E0F3B</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="112D6FA5-8BA5-876A-0F7B-CC410AB464DA" name="MOVIMIENTOS PK">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-03-21 12:26:42 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>A08F8EF9-0116-7A13-21DE-612742312FE2</attributeRef>
+<attributeRef>4346950A-C13D-23B1-BF0A-284435B4FB8A</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

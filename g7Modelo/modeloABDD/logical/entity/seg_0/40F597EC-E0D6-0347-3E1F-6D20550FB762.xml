@@ -1,8 +1,8 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="1EE68062-6285-925B-F92B-2C1CA6CDA6AD" name="AUTORIZACION">
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="40F597EC-E0D6-0347-3E1F-6D20550FB762" name="DIVISA">
 <createdBy>david</createdBy>
-<createdTime>2022-03-14 21:37:30 UTC</createdTime>
-<ownerDesignName>modelo</ownerDesignName>
+<createdTime>2022-03-14 21:51:50 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
 <item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
@@ -15,10 +15,23 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
-<Attribute name="Tipo" id="6B9ACECD-68E0-4B4F-5804-59FD99A0EB7C">
+<Attribute name="Abreviatura" id="8565745B-B5F9-FE1D-2FAA-4186A0AE6513">
 <createdBy>david</createdBy>
-<createdTime>2022-03-14 21:37:42 UTC</createdTime>
-<ownerDesignName>modelo</ownerDesignName>
+<createdTime>2022-03-14 21:52:01 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Nombre" id="CE6ACF28-DB15-7B52-D6A8-E08ABFD87EE0">
+<createdBy>david</createdBy>
+<createdTime>2022-03-14 21:52:24 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
 <item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
@@ -28,49 +41,44 @@
 <dataTypeSize>40 CHAR</dataTypeSize>
 <ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="ID" id="AD70C902-11EE-48A1-6A6E-9AA3203076E6">
+<Attribute name="Simbolo" id="335004C2-8A8C-D15A-8296-6DC2B23DDDFF">
 <createdBy>david</createdBy>
-<createdTime>2022-03-14 21:44:27 UTC</createdTime>
-<generatorID>B0DC85A6-1B4B-7A88-B8C0-DC9739DD8FC5</generatorID>
-<ownerDesignName>modelo</ownerDesignName>
+<createdTime>2022-03-14 21:52:37 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
 <item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
-<referedAttribute>2381D03A-32DB-726B-1D89-98887444E511</referedAttribute>
+<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>40 CHAR</dataTypeSize>
-<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+<dataTypeSize>5 CHAR</dataTypeSize>
+<ownDataTypeParameters>5 CHAR,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="ID1" id="06BF9082-275F-8A21-E140-5E727D33948D">
+<Attribute name="CambioEuro" id="5EC69713-D9CA-35CE-3EB5-0E82A3299261">
 <createdBy>david</createdBy>
-<createdTime>2022-03-14 21:44:37 UTC</createdTime>
-<generatorID>06E15B16-335D-E8AF-9A61-DEDD033B31EE</generatorID>
-<ownerDesignName>modelo</ownerDesignName>
+<createdTime>2022-03-14 21:53:01 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
 <item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
-<referedAttribute>413A118A-DAC6-9FE1-0E14-10C41B93DB0F</referedAttribute>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>40 CHAR</dataTypeSize>
-<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+<logicalDatatype>LOGDT026</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
-<identifier id="07D14FBE-F549-C771-F25B-36192B2CACE3" name="AUTORIZACION PK">
+<identifier id="C7D5BEC9-C67E-5077-56BE-F5CB34C67DAF" name="DIVISA PK">
 <createdBy>david</createdBy>
-<createdTime>2022-03-14 21:44:27 UTC</createdTime>
-<ownerDesignName>modelo</ownerDesignName>
+<createdTime>2022-03-14 21:52:14 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
 <item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
-<attributeRef>AD70C902-11EE-48A1-6A6E-9AA3203076E6</attributeRef>
-<attributeRef>06BF9082-275F-8A21-E140-5E727D33948D</attributeRef>
+<attributeRef>8565745B-B5F9-FE1D-2FAA-4186A0AE6513</attributeRef>
 </usedAttributes>
 </identifier>
 </identifiers>

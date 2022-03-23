@@ -2,7 +2,7 @@
 <Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="CEC5345A-C708-298A-3D3B-5933F25E62D2" name="SEGREGADA">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:48:33 UTC</createdTime>
-<ownerDesignName>modelo</ownerDesignName>
+<ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
 <item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
@@ -19,7 +19,7 @@
 <Attribute name="Comision" id="FDDD33B2-581B-8200-C71D-2E8886207000">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:48:41 UTC</createdTime>
-<ownerDesignName>modelo</ownerDesignName>
+<ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
 <item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
@@ -33,7 +33,7 @@
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:57:16 UTC</createdTime>
 <generatorID>4005F740-FFD7-4DCC-D844-C569A2614C6C</generatorID>
-<ownerDesignName>modelo</ownerDesignName>
+<ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
 <item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
