@@ -1,0 +1,76 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="5E18831C-7441-E137-74DD-2516E7F54171" name="DEPOSITADA_EN">
+<createdBy>david</createdBy>
+<createdTime>2022-03-14 21:51:19 UTC</createdTime>
+<ownerDesignName>david</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="Saldo" id="507D8228-2F11-3228-D8E5-A378077224EF">
+<createdBy>david</createdBy>
+<createdTime>2022-03-14 21:51:28 UTC</createdTime>
+<ownerDesignName>david</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT026</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="IBAN" id="0889D601-4228-752D-1E94-900CA2074E8C">
+<createdBy>david</createdBy>
+<createdTime>2022-03-14 21:56:17 UTC</createdTime>
+<generatorID>4F399B3C-D466-0050-FE4F-7417F94EDDD8</generatorID>
+<ownerDesignName>david</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<referedAttribute>36A3E848-ECAE-4CA0-9F88-ECFB760D7C08</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30 CHAR</dataTypeSize>
+<ownDataTypeParameters>30 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="IBAN1" id="C36A51B9-7942-A08B-6ADA-ADFEE2FBDDF2">
+<createdBy>david</createdBy>
+<createdTime>2022-03-14 21:56:25 UTC</createdTime>
+<generatorID>A45B24E8-2755-B750-F8BA-851F491C5954</generatorID>
+<ownerDesignName>david</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<referedAttribute>36A3E848-ECAE-4CA0-9F88-ECFB760D7C08</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30 CHAR</dataTypeSize>
+<ownDataTypeParameters>30 CHAR,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="B3265951-BE6D-5ED5-3E20-E69F1FB00989" name="DEPOSITADA_EN PK">
+<createdBy>david</createdBy>
+<createdTime>2022-03-14 21:56:17 UTC</createdTime>
+<ownerDesignName>david</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>0889D601-4228-752D-1E94-900CA2074E8C</attributeRef>
+<attributeRef>C36A51B9-7942-A08B-6ADA-ADFEE2FBDDF2</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

@@ -1,0 +1,19 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="TARJETA_MOVIMIENTOS" directorySegmentName="seg_0" id="1E52EBC8-1A80-36B7-A501-9D3309DA0E0F">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-03-21 12:39:54 UTC</createdTime>
+<ownerDesignName>david</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<sourcePk>A7286BD4-2596-2C32-AD94-2C034C670D6C</sourcePk>
+<identifying>true</identifying>
+<optionalSource>false</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>4CF401C5-A5A8-1B2B-9DA8-367660202CAF</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>7830891E-CBC1-7ECD-EE08-6D440392FEA8</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>
