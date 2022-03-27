@@ -29,7 +29,7 @@
 <logicalDatatype>LOGDT026</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="IBAN" id="6FF386AA-9480-6CA0-746B-4DE673873186">
+<Attribute name="CUENTA REFERENCIA IBAN" id="6FF386AA-9480-6CA0-746B-4DE673873186">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:57:16 UTC</createdTime>
 <generatorID>4005F740-FFD7-4DCC-D844-C569A2614C6C</generatorID>

@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="31552E5E-98A0-6F1C-7D7E-9DE54E6D794A" name="POOLED_ACCOUNT">
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="31552E5E-98A0-6F1C-7D7E-9DE54E6D794A" name="POOLED ACCOUNT">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:48:17 UTC</createdTime>
 <ownerDesignName>modelo</ownerDesignName>

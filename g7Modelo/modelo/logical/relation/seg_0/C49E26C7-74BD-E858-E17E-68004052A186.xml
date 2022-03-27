@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="Relation_8" directorySegmentName="seg_0" id="C49E26C7-74BD-E858-E17E-68004052A186">
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="CUENTA REFERENCIA DIVISA FK" directorySegmentName="seg_0" id="C49E26C7-74BD-E858-E17E-68004052A186">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:55:19 UTC</createdTime>
 <ownerDesignName>modelo</ownerDesignName>

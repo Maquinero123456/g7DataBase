@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="36D6249E-130B-AAAA-A9DA-3247109D587B" containerWithKeyObject="EAF31339-C416-C5CC-2190-571F0BC00833" localFKIndex="5A692F73-0837-4CD1-571A-1EA2273F5874" name="TRANSACCION_DIVISA_FKv1">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 17:48:32 UTC</createdTime>
+<generatorID>EE8F35AD-010C-7A95-B2ED-8DB023C1F0C5</generatorID>
+<ownerDesignName>modelo</ownerDesignName>
+<referredTableLongName>DIVISA</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>EDE10CEB-0827-4E42-A350-2DD17D6ED870</referredTableID>
+<keyObject>FECC38E0-2178-4EA1-C173-5982F2E85B80</keyObject>
+<referredKeyID>FECC38E0-2178-4EA1-C173-5982F2E85B80</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>Abreviatura</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

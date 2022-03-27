@@ -25,10 +25,10 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>40 CHAR</dataTypeSize>
-<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+<dataTypeSize>30 CHAR</dataTypeSize>
+<ownDataTypeParameters>30 CHAR,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="ID" id="AD70C902-11EE-48A1-6A6E-9AA3203076E6">
+<Attribute name="PERSONA AUTORIZADA ID" id="AD70C902-11EE-48A1-6A6E-9AA3203076E6">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:44:27 UTC</createdTime>
 <generatorID>B0DC85A6-1B4B-7A88-B8C0-DC9739DD8FC5</generatorID>
@@ -40,10 +40,10 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>40 CHAR</dataTypeSize>
-<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+<dataTypeSize>30 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="ID1" id="06BF9082-275F-8A21-E140-5E727D33948D">
+<Attribute name="EMPRESA ID" id="06BF9082-275F-8A21-E140-5E727D33948D">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:44:37 UTC</createdTime>
 <generatorID>06E15B16-335D-E8AF-9A61-DEDD033B31EE</generatorID>
@@ -55,8 +55,8 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>40 CHAR</dataTypeSize>
-<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+<dataTypeSize>30 CHAR</dataTypeSize>
+<ownDataTypeParameters>30 CHAR,,</ownDataTypeParameters>
 </Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
@@ -64,8 +64,9 @@
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:44:27 UTC</createdTime>
 <ownerDesignName>modelo</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="false"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>

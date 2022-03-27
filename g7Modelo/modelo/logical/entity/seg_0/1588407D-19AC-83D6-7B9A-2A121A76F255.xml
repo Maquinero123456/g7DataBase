@@ -15,7 +15,7 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
-<Attribute name="ID_Unico" id="2749FA8F-FB8B-56AE-5DD2-30B5AA12C13F">
+<Attribute name="ID Unico" id="2749FA8F-FB8B-56AE-5DD2-30B5AA12C13F">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:53:23 UTC</createdTime>
 <ownerDesignName>modelo</ownerDesignName>
@@ -105,7 +105,7 @@
 <dataTypeSize>1 BYTE</dataTypeSize>
 <ownDataTypeParameters>1 BYTE,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="Abreviatura" id="59C87D5B-00D7-8958-EAF8-DB446349FD9D">
+<Attribute name="DIVISA Abreviatura" id="59C87D5B-00D7-8958-EAF8-DB446349FD9D">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:55:08 UTC</createdTime>
 <generatorID>369131A6-A946-F9E7-540C-A4F8FD22C5E8</generatorID>
@@ -120,7 +120,7 @@
 <dataTypeSize>20 CHAR</dataTypeSize>
 <ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="Abreviatura1" id="C181AE24-A869-793F-F897-60FBA1F83BDA">
+<Attribute name="DIVISA Abreviatura2" id="C181AE24-A869-793F-F897-60FBA1F83BDA">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:55:13 UTC</createdTime>
 <generatorID>EE8F35AD-010C-7A95-B2ED-8DB023C1F0C5</generatorID>
@@ -135,7 +135,7 @@
 <dataTypeSize>20 CHAR</dataTypeSize>
 <ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="IBAN1" id="4110B4F7-3589-247D-C2D3-17586AA36F86">
+<Attribute name="CUENTA IBAN" id="4110B4F7-3589-247D-C2D3-17586AA36F86">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:55:33 UTC</createdTime>
 <generatorID>88DD26C3-BB00-9567-B3C5-63CA2F7380B1</generatorID>
@@ -150,7 +150,7 @@
 <dataTypeSize>30 CHAR</dataTypeSize>
 <ownDataTypeParameters>30 CHAR,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="IBAN" id="D537E205-069C-8FDA-BAEF-29A95A27B5A6">
+<Attribute name="CUENTA IBAN2" id="D537E205-069C-8FDA-BAEF-29A95A27B5A6">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:55:43 UTC</createdTime>
 <generatorID>71B6C45A-3F30-D704-3D50-868B577E48FF</generatorID>
@@ -171,8 +171,9 @@
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:53:43 UTC</createdTime>
 <ownerDesignName>modelo</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="false"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>

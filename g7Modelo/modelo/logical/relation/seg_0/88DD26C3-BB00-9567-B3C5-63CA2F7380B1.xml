@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="Relation_10" directorySegmentName="seg_0" id="88DD26C3-BB00-9567-B3C5-63CA2F7380B1">
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="TRANSACCION CUENTA FK" directorySegmentName="seg_0" id="88DD26C3-BB00-9567-B3C5-63CA2F7380B1">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:55:33 UTC</createdTime>
 <ownerDesignName>modelo</ownerDesignName>
@@ -7,6 +7,7 @@
 <item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
 <sourcePk>78774FD8-BA1F-F454-5689-6926D60B0BE2</sourcePk>
+<targetPk>A138985A-AF2C-F5AC-3898-B0A217BADF5C</targetPk>
 <identifying>false</identifying>
 <optionalSource>true</optionalSource>
 <optionalTarget>false</optionalTarget>

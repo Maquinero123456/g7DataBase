@@ -25,8 +25,8 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>40 CHAR</dataTypeSize>
-<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+<dataTypeSize>30 CHAR</dataTypeSize>
+<ownDataTypeParameters>30 CHAR,,</ownDataTypeParameters>
 </Attribute>
 <Attribute name="Identificacion" id="8F90D743-420F-39B4-B7C9-7368011878D8">
 <createdBy>david</createdBy>
@@ -38,10 +38,10 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>40 CHAR</dataTypeSize>
-<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+<dataTypeSize>30 CHAR</dataTypeSize>
+<ownDataTypeParameters>30 CHAR,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="Tipo_Cliente" id="2D7C4315-C4BB-0F98-0B10-DF5CEB99BE67">
+<Attribute name="Tipo Cliente" id="2D7C4315-C4BB-0F98-0B10-DF5CEB99BE67">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:38:42 UTC</createdTime>
 <ownerDesignName>modelo</ownerDesignName>
@@ -67,7 +67,7 @@
 <dataTypeSize>1 BYTE</dataTypeSize>
 <ownDataTypeParameters>1 BYTE,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="Fecha_Alta" id="F15EFE3D-0E76-E750-489B-76BDEEC4BE01">
+<Attribute name="Fecha Alta" id="F15EFE3D-0E76-E750-489B-76BDEEC4BE01">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:39:27 UTC</createdTime>
 <ownerDesignName>modelo</ownerDesignName>
@@ -79,7 +79,7 @@
 <logicalDatatype>LOGDT007</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="Fecha_Baja" id="858ACDA4-7CB1-B3B2-B67D-448A0CB2961C">
+<Attribute name="Fecha Baja" id="858ACDA4-7CB1-B3B2-B67D-448A0CB2961C">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:39:45 UTC</createdTime>
 <ownerDesignName>modelo</ownerDesignName>
@@ -102,8 +102,8 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>40 CHAR</dataTypeSize>
-<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+<dataTypeSize>30 CHAR</dataTypeSize>
+<ownDataTypeParameters>30 CHAR,,</ownDataTypeParameters>
 </Attribute>
 <Attribute name="Ciudad" id="537DF63C-73B2-A865-E211-36CDB2E427BE">
 <createdBy>david</createdBy>
@@ -115,8 +115,8 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>40 CHAR</dataTypeSize>
-<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+<dataTypeSize>30 CHAR</dataTypeSize>
+<ownDataTypeParameters>30 CHAR,,</ownDataTypeParameters>
 </Attribute>
 <Attribute name="CodigoPostal" id="CED8A64A-879F-6D44-8956-2580146E8F84">
 <createdBy>david</createdBy>
@@ -140,8 +140,8 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>40 CHAR</dataTypeSize>
-<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+<dataTypeSize>30 CHAR</dataTypeSize>
+<ownDataTypeParameters>30 CHAR,,</ownDataTypeParameters>
 </Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
@@ -149,20 +149,22 @@
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:38:20 UTC</createdTime>
 <ownerDesignName>modelo</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="false"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
 <attributeRef>413A118A-DAC6-9FE1-0E14-10C41B93DB0F</attributeRef>
 </usedAttributes>
 </identifier>
-<identifier id="D19811D1-C8AA-50B0-4DF2-177A2B6C3DE4" name="IDENTIFICACION_U">
+<identifier id="D19811D1-C8AA-50B0-4DF2-177A2B6C3DE4" name="CLIENTE_Identificacion_UN">
 <createdBy>Usuario</createdBy>
 <createdTime>2022-03-21 11:54:17 UTC</createdTime>
 <ownerDesignName>modelo</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="false"/>
 </engineerTo>
 <newElementsIDs>8F90D743-420F-39B4-B7C9-7368011878D8</newElementsIDs>
 <usedAttributes>

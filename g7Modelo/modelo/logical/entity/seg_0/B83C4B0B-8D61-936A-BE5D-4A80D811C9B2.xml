@@ -16,7 +16,7 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
-<Attribute name="Razon_Social" id="BFC8D4D8-C893-0F36-1A32-BB11C5AE00E0">
+<Attribute name="Razon Social" id="BFC8D4D8-C893-0F36-1A32-BB11C5AE00E0">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:41:54 UTC</createdTime>
 <ownerDesignName>modelo</ownerDesignName>

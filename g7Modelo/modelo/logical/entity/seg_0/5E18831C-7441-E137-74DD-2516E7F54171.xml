@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="5E18831C-7441-E137-74DD-2516E7F54171" name="DEPOSITADA_EN">
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="5E18831C-7441-E137-74DD-2516E7F54171" name="DEPOSITADA EN">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:51:19 UTC</createdTime>
 <ownerDesignName>modelo</ownerDesignName>
@@ -27,7 +27,7 @@
 <logicalDatatype>LOGDT026</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="IBAN" id="0889D601-4228-752D-1E94-900CA2074E8C">
+<Attribute name="CUENTA REFERENCIA IBAN" id="0889D601-4228-752D-1E94-900CA2074E8C">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:56:17 UTC</createdTime>
 <generatorID>4F399B3C-D466-0050-FE4F-7417F94EDDD8</generatorID>
@@ -42,7 +42,7 @@
 <dataTypeSize>30 CHAR</dataTypeSize>
 <ownDataTypeParameters>30 CHAR,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="IBAN1" id="C36A51B9-7942-A08B-6ADA-ADFEE2FBDDF2">
+<Attribute name="POOLED ACCOUNT IBAN" id="C36A51B9-7942-A08B-6ADA-ADFEE2FBDDF2">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:56:25 UTC</createdTime>
 <generatorID>A45B24E8-2755-B750-F8BA-851F491C5954</generatorID>
@@ -59,12 +59,13 @@
 </Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
-<identifier id="B3265951-BE6D-5ED5-3E20-E69F1FB00989" name="DEPOSITADA_EN PK">
+<identifier id="B3265951-BE6D-5ED5-3E20-E69F1FB00989" name="DEPOSITADA_EN_PK">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:56:17 UTC</createdTime>
 <ownerDesignName>modelo</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="false"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>

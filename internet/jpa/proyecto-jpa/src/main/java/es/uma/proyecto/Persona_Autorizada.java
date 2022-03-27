@@ -11,7 +11,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class Persona_Autorizada {
+public class PERSONA_AUTORIZADA {
     
     @Id @GeneratedValue
     private String ID;
@@ -31,7 +31,7 @@ public class Persona_Autorizada {
     @Temporal(TemporalType.DATE)
     private Date FechaFin;
 
-    public Persona_Autorizada(){
+    public PERSONA_AUTORIZADA(){
 
     }
 
@@ -116,10 +116,10 @@ public class Persona_Autorizada {
     public boolean equals(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof Persona_Autorizada)) {
+        if (!(o instanceof PERSONA_AUTORIZADA)) {
             return false;
         }
-        Persona_Autorizada persona_Autorizada = (Persona_Autorizada) o;
+        PERSONA_AUTORIZADA persona_Autorizada = (PERSONA_AUTORIZADA) o;
         return Objects.equals(ID, persona_Autorizada.ID) && Objects.equals(Identificacion, persona_Autorizada.Identificacion) && Objects.equals(Nombre, persona_Autorizada.Nombre) && Objects.equals(Apellidos, persona_Autorizada.Apellidos) && Objects.equals(Direccion, persona_Autorizada.Direccion) && Objects.equals(Fecha_Nacimiento, persona_Autorizada.Fecha_Nacimiento) && Objects.equals(Estado, persona_Autorizada.Estado) && Objects.equals(Fecha_Inicio, persona_Autorizada.Fecha_Inicio) && Objects.equals(FechaFin, persona_Autorizada.FechaFin);
     }
 

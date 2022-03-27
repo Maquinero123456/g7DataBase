@@ -42,7 +42,7 @@
 <dataTypeSize>20 CHAR</dataTypeSize>
 <ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="Fecha_Nacimiento" id="15C9DDCB-0028-F21F-BFB8-28C10E71D482">
+<Attribute name="Fecha Nacimiento" id="15C9DDCB-0028-F21F-BFB8-28C10E71D482">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:43:08 UTC</createdTime>
 <ownerDesignName>modelo</ownerDesignName>
