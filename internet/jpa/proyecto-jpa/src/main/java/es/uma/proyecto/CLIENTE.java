@@ -3,14 +3,13 @@ package es.uma.proyecto;
 import java.sql.Date;
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="Tipo_Cliente",
+        discriminatorType = DiscriminatorType.CHAR)
+@DiscriminatorValue("CLIENTE")
 public class CLIENTE {
     
     @Id @GeneratedValue
@@ -103,21 +102,17 @@ public class CLIENTE {
         this.Pais = pais;
     }
 
-    
+
     @Override
     public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof CLIENTE)) {
-            return false;
-        }
+        if (this == o) return true;
+        if (!(o instanceof CLIENTE)) return false;
         CLIENTE cliente = (CLIENTE) o;
-        return Objects.equals(ID, cliente.ID) && Objects.equals(Identificacion, cliente.Identificacion) && Objects.equals(Tipo_Cliente, cliente.Tipo_Cliente) && Objects.equals(Estado, cliente.Estado) && Objects.equals(Fecha_Alta, cliente.Fecha_Alta) && Objects.equals(Fecha_Baja, cliente.Fecha_Baja) && Objects.equals(Direccion, cliente.Direccion) && Objects.equals(Ciudad, cliente.Ciudad) && Objects.equals(CodigoPostal, cliente.CodigoPostal) && Objects.equals(Pais, cliente.Pais);
+        return Objects.equals(getID(), cliente.getID());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ID, Identificacion, Tipo_Cliente, Estado, Fecha_Alta, Fecha_Baja, Direccion, Ciudad, CodigoPostal, Pais);
+        return Objects.hash(getID());
     }
-
 }

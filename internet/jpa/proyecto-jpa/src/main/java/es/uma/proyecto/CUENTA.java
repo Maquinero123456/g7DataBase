@@ -1,13 +1,14 @@
 package es.uma.proyecto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "CUENTA")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="Tipo_Cuenta",
+        discriminatorType = DiscriminatorType.CHAR)
+@DiscriminatorValue("CUENTA")
 public class CUENTA {
     @Id
     @Column(nullable = false)

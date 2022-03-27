@@ -29,7 +29,7 @@
 <dataTypeSize>1 CHAR</dataTypeSize>
 <ownDataTypeParameters>1 CHAR,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="Fecha Apertura" id="4226C785-752A-CCDC-9CEC-AB7AB7DA13E2">
+<Attribute name="Fecha_Apertura" id="4226C785-752A-CCDC-9CEC-AB7AB7DA13E2">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:47:28 UTC</createdTime>
 <ownerDesignName>modelo</ownerDesignName>
@@ -41,7 +41,7 @@
 <logicalDatatype>LOGDT007</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="Fecha Cierre" id="F73391CC-A4A2-A29F-0D76-5FBA7A4B7A50">
+<Attribute name="Fecha_Cierre" id="F73391CC-A4A2-A29F-0D76-5FBA7A4B7A50">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:47:39 UTC</createdTime>
 <ownerDesignName>modelo</ownerDesignName>

@@ -1,12 +1,10 @@
 package es.uma.proyecto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
+@DiscriminatorValue("INDIVIDUAL")
 public class INDIVIDUAL extends CLIENTE{
     //Atributos
     @Column(nullable = false)

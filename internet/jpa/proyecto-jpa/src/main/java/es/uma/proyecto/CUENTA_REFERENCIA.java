@@ -1,11 +1,13 @@
 package es.uma.proyecto;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.sql.Date;
 import java.util.Objects;
 
 @Entity
+@DiscriminatorValue("POOLED_ACCOUNT")
 public class CUENTA_REFERENCIA extends CUENTA {
 
     @Column(nullable = false)
@@ -65,16 +67,4 @@ public class CUENTA_REFERENCIA extends CUENTA {
         Estado = estado;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CUENTA_REFERENCIA that = (CUENTA_REFERENCIA) o;
-        return getIBAN() != null && Objects.equals(getIBAN(), that.getIBAN());
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }

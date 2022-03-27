@@ -1,12 +1,11 @@
 package es.uma.proyecto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
 
 @Entity
+@DiscriminatorValue("CUENTA_FINTECH")
 public class CUENTA_FINTECH extends CUENTA {
     @Column(nullable = false)
     private Boolean Estado = false;
@@ -46,6 +45,7 @@ public class CUENTA_FINTECH extends CUENTA {
     public void setClasificacion(String clasificacion) {
         Clasificacion = clasificacion;
     }
+
 
 
 }
