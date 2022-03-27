@@ -11,6 +11,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
+@Table(name="CLIENTE")
 public class CLIENTE {
     
     @Id @GeneratedValue
