@@ -10,6 +10,7 @@ import javax.persistence.*;
 @DiscriminatorColumn(name="Tipo_Cliente",
         discriminatorType = DiscriminatorType.CHAR)
 @DiscriminatorValue("CLIENTE")
+@Table(name="CLIENTE")
 public class CLIENTE {
     
     @Id @GeneratedValue

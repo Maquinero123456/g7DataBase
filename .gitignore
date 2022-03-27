@@ -1,6 +1,7 @@
 **/*.localz
 **/*.local
 **/*.git
+**/.project
 **/*.DS_Store
 **/.idea
 *.iml
