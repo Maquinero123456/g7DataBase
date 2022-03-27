@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="67624072-D958-39E6-AB82-F9F2C4494CD4" containerWithKeyObject="EE948F40-99F0-E072-EBC6-34330E3388A0" localFKIndex="B192F1BA-5995-4C87-6F50-4068384D96C0" name="TRANSACCION_CUENTA_FK">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<generatorID>88DD26C3-BB00-9567-B3C5-63CA2F7380B1</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<referredTableLongName>CUENTA</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>40693EDF-9DCB-26A1-3EB3-1E7113DE2F82</referredTableID>
+<keyObject>D8025435-2FE7-F83B-801F-DB60C4AF7370</keyObject>
+<referredKeyID>D8025435-2FE7-F83B-801F-DB60C4AF7370</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>IBAN</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

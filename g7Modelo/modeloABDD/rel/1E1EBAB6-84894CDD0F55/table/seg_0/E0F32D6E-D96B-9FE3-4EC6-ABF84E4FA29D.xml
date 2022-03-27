@@ -1,0 +1,146 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="E0F32D6E-D96B-9FE3-4EC6-ABF84E4FA29D" name="PERSONA_AUTORIZADA">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<generatorID>C38A5D5E-80B6-2171-6C0C-25318E421794</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID" id="DF65ADD9-A63E-F08C-F944-75B2D95646BF">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<generatorID>2381D03A-32DB-726B-1D89-98887444E511</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Identificacion" id="32040AC6-54A5-FF50-FA70-CF2E2B6338F9">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<generatorID>A006E0AB-2EAA-BD3C-EC14-EADF871E618C</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Nombre" id="59108B39-9283-30A1-6370-F317D235E7E7">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<generatorID>C214CA9F-25A6-C28F-9270-91AC2844F26D</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Apellidos" id="88156C7B-F894-15A4-1A1F-5EEDC6AC20B6">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<generatorID>30C4DA78-9E58-8AC6-B2A1-B4C482D20976</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Direccion" id="1126E8C7-72D7-D8BC-9A42-4A9DFBB744D8">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<generatorID>B3AE1CFD-EBF6-F85E-8A1D-240C49A60ABC</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Fecha_Nacimiento" id="88CEF781-E08D-C659-9FC6-1B294DD30D5D">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<generatorID>2EF8DB05-9D35-003E-2C38-20ABA867F99E</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Estado" id="F04C7EDF-B420-C46E-4F20-43D1FF979173">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<generatorID>47C5F9D7-089D-34C4-D995-FFEE3AA2E4C2</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1 BYTE</dataTypeSize>
+<ownDataTypeParameters>1 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="FechaInicio" id="F404739F-098A-56B4-C803-1F91B6A57845">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<generatorID>6FA6AC33-918B-65F9-CC30-CE76EEDF465A</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="FechaFin" id="9F93A74A-D6B2-D7BB-C5AB-03433E9F2CE7">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<generatorID>B485C505-1EEE-B3F5-D0D4-2835B4F3BB4B</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="0BEFE522-5E84-E569-1A98-F1513DDF889B" name="PERSONA_AUTORIZADA_PK">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<generatorID>0A480C7E-0A2B-B173-4685-BC8F51B96EF6</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="DF65ADD9-A63E-F08C-F944-75B2D95646BF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="1FFEE4A0-8884-90A4-EC93-3A01FD1A08DD" name="PERSONA_Identificacion_UN">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<generatorID>F8574A8A-D1EE-D52A-B3AB-CD7F0D4FB4C7</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<indexState>Unique Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="32040AC6-54A5-FF50-FA70-CF2E2B6338F9"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

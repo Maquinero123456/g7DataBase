@@ -1,0 +1,102 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="F2D4496C-AB9E-E254-C41A-82B073CF3FE1" name="SEGREGADA">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<generatorID>CEC5345A-C708-298A-3D3B-5933F25E62D2</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="IBAN" id="BD769A31-A414-FC09-6425-2D13BD6E30A0">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<generatorID>36A3E848-ECAE-4CA0-9F88-ECFB760D7C08</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="B45B5CCD-91CA-391B-3CD2-14C47C97A042" referredColumn="DF224EAD-2BDB-2811-402A-1205F2CC0CDF"/>
+</associations>
+</Column>
+<Column name="Comision" id="3AC6B11B-874F-D37B-8776-03AFF285A594">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<generatorID>FDDD33B2-581B-8200-C71D-2E8886207000</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT026</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="CUENTA_REFERENCIA_IBAN" id="5C7B0DD8-4A05-9545-C9C6-3432A5AB2DB7">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<generatorID>6FF386AA-9480-6CA0-746B-4DE673873186</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="F51FA4FE-43C0-A9CF-F590-2A45018DEBB6" referredColumn="624E10FB-9DBD-2DEC-D6BA-ED5F468630D5"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="C573F084-1D4E-BF16-F382-4D30662CCED7" name="SEGREGADA_PK">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<generatorID>78774FD8-BA1F-F454-5689-6926D60B0BE2</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="BD769A31-A414-FC09-6425-2D13BD6E30A0"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="02456AC3-2179-F985-2FE3-4958FE49346C" name="SEGREGADA__IDX">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<relationGeneratorID>4005F740-FFD7-4DCC-D844-C569A2614C6C</relationGeneratorID>
+<indexColumnUsage>
+<colUsage columnID="5C7B0DD8-4A05-9545-C9C6-3432A5AB2DB7"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="BCB222F4-A145-F9A7-6249-33B8ADA63F52" name="SEGREGADA_CUENTA_FINTECH_FK">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<generatorID>6C5D61FA-9664-27AC-259D-79362BA036D6</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="BD769A31-A414-FC09-6425-2D13BD6E30A0"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="9B2604BB-9F12-7E4F-4775-6A39281ABBAF" name="SEGREGADA_CUENTA_REFERENCIA_FK">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<generatorID>4005F740-FFD7-4DCC-D844-C569A2614C6C</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5C7B0DD8-4A05-9545-C9C6-3432A5AB2DB7"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="CBB5D3B6-7BD6-C1BB-7C4D-F75A68EFC87B" containerWithKeyObject="6DCFA140-2F58-0338-8413-87775E6B7309" localFKIndex="94D8B984-CBEE-09C0-181D-EFA4ED880B54" name="MOVIMIENTOS_TARJETA_FK">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<generatorID>1E52EBC8-1A80-36B7-A501-9D3309DA0E0F</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<referredTableLongName>TARJETA</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>4311BFA0-4C2C-5952-A403-F2D9757F8FC4</referredTableID>
+<keyObject>944D0746-FEC7-2750-CDA1-2D32580AC020</keyObject>
+<referredKeyID>944D0746-FEC7-2750-CDA1-2D32580AC020</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>Numero</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>
