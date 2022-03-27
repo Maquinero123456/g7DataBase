@@ -26,6 +26,8 @@ public class CLIENTE {
     @Temporal(TemporalType.DATE)
     private Date Fecha_Baja;
     @Column(nullable=false)
+    private String Direccion;
+    @Column(nullable=false)
     private String Ciudad;
     @Column(nullable=false)
     private String CodigoPostal;
@@ -49,11 +51,11 @@ public class CLIENTE {
         return this.Identificacion;
     }
 
-    public void setIdentificacion(String ID) {
-        this.Identificacion = ID;
+    public void setIdentificacion(String ident) {
+        this.Identificacion = ident;
     }
     
-    public String tipoCliente() {
+    public String getTipoCliente() {
         return this.Tipo_Cliente;
     }
 
@@ -61,21 +63,61 @@ public class CLIENTE {
         this.Tipo_Cliente = cliente;
     }
 
+    public Boolean isEstado() {
+        return this.Estado;
+    }
 
+    public Boolean getEstado() {
+        return this.Estado;
+    }
+    
+    public String getDireccion() {
+        return this.Direccion;
+    }
+
+    public void setDireccion(String dir) {
+        this.Direccion = dir;
+    }
+
+    public String getCiudad() {
+        return this.Ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.Ciudad = ciudad;
+    }
+
+    public String getCodigoPostal() {
+        return this.CodigoPostal;
+    }
+
+    public void setCodigoPostal(String cp) {
+        this.CodigoPostal = cp;
+    }
+
+    public String getPais() {
+        return this.Pais;
+    }
+
+    public void setPais(String pais) {
+        this.Pais = pais;
+    }
+
+    
     @Override
     public boolean equals(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof PERSONA_AUTORIZADA)) {
+        if (!(o instanceof CLIENTE)) {
             return false;
         }
-        PERSONA_AUTORIZADA persona_Autorizada = (PERSONA_AUTORIZADA) o;
-        return Objects.equals(ID, persona_Autorizada.ID) && Objects.equals(Identificacion, persona_Autorizada.Identificacion) && Objects.equals(Nombre, persona_Autorizada.Nombre) && Objects.equals(Apellidos, persona_Autorizada.Apellidos) && Objects.equals(Direccion, persona_Autorizada.Direccion) && Objects.equals(Fecha_Nacimiento, persona_Autorizada.Fecha_Nacimiento) && Objects.equals(Estado, persona_Autorizada.Estado) && Objects.equals(Fecha_Inicio, persona_Autorizada.Fecha_Inicio) && Objects.equals(FechaFin, persona_Autorizada.FechaFin);
+        CLIENTE cliente = (CLIENTE) o;
+        return Objects.equals(ID, cliente.ID) && Objects.equals(Identificacion, cliente.Identificacion) && Objects.equals(Tipo_Cliente, cliente.Tipo_Cliente) && Objects.equals(Estado, cliente.Estado) && Objects.equals(Fecha_Alta, cliente.Fecha_Alta) && Objects.equals(Fecha_Baja, cliente.Fecha_Baja) && Objects.equals(Direccion, cliente.Direccion) && Objects.equals(Ciudad, cliente.Ciudad) && Objects.equals(CodigoPostal, cliente.CodigoPostal) && Objects.equals(Pais, cliente.Pais);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ID, Identificacion, Nombre, Apellidos, Direccion, Fecha_Nacimiento, Estado, Fecha_Inicio, FechaFin);
+        return Objects.hash(ID, Identificacion, Tipo_Cliente, Estado, Fecha_Alta, Fecha_Baja, Direccion, Ciudad, CodigoPostal, Pais);
     }
 
 }
