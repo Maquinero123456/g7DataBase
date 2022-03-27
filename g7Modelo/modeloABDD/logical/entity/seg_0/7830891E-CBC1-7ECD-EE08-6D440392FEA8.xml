@@ -116,19 +116,9 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT026</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="Divisa" id="5440C391-3876-22CF-7545-7A12E35523FA">
-<createdBy>Usuario</createdBy>
-<createdTime>2022-03-21 12:35:02 UTC</createdTime>
-<ownerDesignName>modeloABDD</ownerDesignName>
-<engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
-</engineerTo>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT011</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
+<dataTypePrecision>10</dataTypePrecision>
+<dataTypeScale>3</dataTypeScale>
+<ownDataTypeParameters>,10,3</ownDataTypeParameters>
 </Attribute>
 <Attribute name="LimiteFisicoMensual" id="C03320E9-F70D-83F2-84C5-FA268395DFC6">
 <createdBy>Usuario</createdBy>
@@ -140,7 +130,9 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT026</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
+<dataTypePrecision>5</dataTypePrecision>
+<dataTypeScale>3</dataTypeScale>
+<ownDataTypeParameters>,5,3</ownDataTypeParameters>
 </Attribute>
 <Attribute name="LimiteCajero" id="2D81FE6C-BE58-0425-E034-BB82A332D905">
 <createdBy>Usuario</createdBy>
@@ -153,7 +145,9 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT026</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
+<dataTypePrecision>5</dataTypePrecision>
+<dataTypeScale>3</dataTypeScale>
+<ownDataTypeParameters>,5,3</ownDataTypeParameters>
 </Attribute>
 <Attribute name="LimiteOnlineMensual" id="190DA279-5031-4715-EF75-5D0474AAB9F1">
 <createdBy>Usuario</createdBy>
@@ -166,7 +160,9 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT026</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
+<dataTypePrecision>5</dataTypePrecision>
+<dataTypeScale>3</dataTypeScale>
+<ownDataTypeParameters>,5,3</ownDataTypeParameters>
 </Attribute>
 <Attribute name="Numero" id="4346950A-C13D-23B1-BF0A-284435B4FB8A">
 <createdBy>Usuario</createdBy>
@@ -181,6 +177,22 @@
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
 <dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Abreviatura" id="BE35267C-61D8-9084-9FCF-5D40588C7547">
+<createdBy>david</createdBy>
+<createdTime>2022-03-25 21:35:29 UTC</createdTime>
+<generatorID>F6283544-1FE4-B6BA-240B-016A334DDFF3</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<referedAttribute>8565745B-B5F9-FE1D-2FAA-4186A0AE6513</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>3 CHAR</dataTypeSize>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
 </attributes>
