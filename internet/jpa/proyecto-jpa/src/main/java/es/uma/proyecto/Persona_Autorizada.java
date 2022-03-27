@@ -1,4 +1,4 @@
-package es;
+package es.uma.proyecto;
 
 import java.sql.Date;
 import java.util.Objects;
