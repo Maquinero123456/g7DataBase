@@ -2,7 +2,6 @@ package es.uma.proyecto;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Entity
 @DiscriminatorValue("POOLED_ACCOUNT")

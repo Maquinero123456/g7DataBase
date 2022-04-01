@@ -4,7 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.sql.Date;
-import java.util.Objects;
 
 @Entity
 @DiscriminatorValue("POOLED_ACCOUNT")
