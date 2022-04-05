@@ -9,7 +9,7 @@ import java.util.Objects;
 public class DIVISA {
 	
     @Id
-    @Column(nullable = false, unique = true, length = 3)
+    @Column(nullable = false, length = 3)
     private String Abreviatura;
     @Column(nullable = false)
     private String Nombre;
