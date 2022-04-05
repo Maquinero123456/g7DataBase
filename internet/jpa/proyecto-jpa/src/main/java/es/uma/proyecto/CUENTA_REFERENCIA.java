@@ -3,10 +3,12 @@ package es.uma.proyecto;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.sql.Date;
 
 @Entity
-@DiscriminatorValue("POOLED_ACCOUNT")
+@DiscriminatorValue("CUENTA_REFERENCIA")
 public class CUENTA_REFERENCIA extends CUENTA {
 
     @Column(nullable = false)
@@ -15,6 +17,7 @@ public class CUENTA_REFERENCIA extends CUENTA {
     private String Pais;
     @Column(nullable = false)
     private String Saldo;
+    @Temporal(TemporalType.DATE)
     private Date Fecha_Apertura;
     private Boolean Estado;
 

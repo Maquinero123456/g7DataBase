@@ -1,9 +1,8 @@
 package es.uma.proyecto;
 
-import java.sql.Date;
 import java.util.Objects;
-
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
