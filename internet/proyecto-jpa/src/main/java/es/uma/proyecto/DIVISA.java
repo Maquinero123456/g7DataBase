@@ -17,9 +17,6 @@ public class DIVISA {
     @Column(nullable = false)
     private Double CambioEuro;
 
-    @OneToMany (mappedBy = "divisa")
-    private List<TRANSACCION> transacciones;
-
     public List<CUENTA_REFERENCIA> getCuentas_referencias() {
         return cuentas_referencias;
     }
@@ -31,14 +28,6 @@ public class DIVISA {
     @OneToMany (mappedBy = "divisa")
     private List<CUENTA_REFERENCIA> cuentas_referencias;
 
-    public List<TRANSACCION> getTransacciones() {
-        return transacciones;
-    }
-
-    public void setTransacciones(List<TRANSACCION> transacciones) {
-        this.transacciones = transacciones;
-    }
-    
     public DIVISA() {
     	
     }

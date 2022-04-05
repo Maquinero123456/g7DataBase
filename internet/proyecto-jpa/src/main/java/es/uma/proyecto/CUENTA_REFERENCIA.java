@@ -18,14 +18,15 @@ public class CUENTA_REFERENCIA extends CUENTA {
     private Boolean Estado;
 
     @ManyToOne
-    private DIVISA divisa;
+    @Column(nullable = false)
+    private DIVISA Divisa;
 
     public DIVISA getDivisa() {
-        return divisa;
+        return Divisa;
     }
 
     public void setDivisa(DIVISA divisa) {
-        this.divisa = divisa;
+        this.Divisa = divisa;
     }
 
     public String getSaldo() {

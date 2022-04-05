@@ -2,7 +2,6 @@ package es.uma.proyecto;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Objects;
 
 @Entity
 public class TRANSACCION {
@@ -20,15 +19,19 @@ public class TRANSACCION {
     private boolean Internacional;
 
     @ManyToOne
-    private CUENTA cuenta;
+    @Column(nullable=false)
+    private CUENTA Destino;
+    @ManyToOne
+    @Column(nullable=false)
+    private CUENTA Origen;
 
-    public CUENTA getCuenta() {
-        return cuenta;
-    }
+    @ManyToMany
+    @Column(nullable = false)
+    private DIVISA Receptor;
 
-    public void setCuenta(CUENTA cuenta) {
-        this.cuenta = cuenta;
-    }
+    @ManyToMany
+    @Column(nullable = false)
+    private DIVISA Emisor;
 
     @ManyToOne
     private DIVISA divisa;

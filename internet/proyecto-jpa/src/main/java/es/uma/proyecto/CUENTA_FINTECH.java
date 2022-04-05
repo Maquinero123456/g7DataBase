@@ -21,6 +21,7 @@ public class CUENTA_FINTECH extends CUENTA {
     private String Clasificacion;
 
     @ManyToOne
+    @Column(nullable = false)
     private CLIENTE cliente;
 
     public Date getFecha_Apertura() {
