@@ -1,10 +1,6 @@
 package es.uma.proyecto;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -20,6 +16,17 @@ public class CUENTA_REFERENCIA extends CUENTA {
     @Temporal(TemporalType.DATE)
     private Date Fecha_Apertura;
     private Boolean Estado;
+
+    @ManyToOne
+    private DIVISA divisa;
+
+    public DIVISA getDivisa() {
+        return divisa;
+    }
+
+    public void setDivisa(DIVISA divisa) {
+        this.divisa = divisa;
+    }
 
     public String getSaldo() {
         return Saldo;
