@@ -120,36 +120,6 @@
 <dataTypeSize>20 CHAR</dataTypeSize>
 <ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="Abreviatura1" id="C181AE24-A869-793F-F897-60FBA1F83BDA">
-<createdBy>david</createdBy>
-<createdTime>2022-03-14 21:55:13 UTC</createdTime>
-<generatorID>EE8F35AD-010C-7A95-B2ED-8DB023C1F0C5</generatorID>
-<ownerDesignName>modeloABDD</ownerDesignName>
-<engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
-</engineerTo>
-<referedAttribute>8565745B-B5F9-FE1D-2FAA-4186A0AE6513</referedAttribute>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>20 CHAR</dataTypeSize>
-<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="IBAN1" id="4110B4F7-3589-247D-C2D3-17586AA36F86">
-<createdBy>david</createdBy>
-<createdTime>2022-03-14 21:55:33 UTC</createdTime>
-<generatorID>88DD26C3-BB00-9567-B3C5-63CA2F7380B1</generatorID>
-<ownerDesignName>modeloABDD</ownerDesignName>
-<engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
-</engineerTo>
-<referedAttribute>36A3E848-ECAE-4CA0-9F88-ECFB760D7C08</referedAttribute>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>30 CHAR</dataTypeSize>
-<ownDataTypeParameters>30 CHAR,,</ownDataTypeParameters>
-</Attribute>
 <Attribute name="IBAN" id="D537E205-069C-8FDA-BAEF-29A95A27B5A6">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:55:43 UTC</createdTime>
