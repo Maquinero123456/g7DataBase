@@ -9,7 +9,7 @@ import java.util.Objects;
 public class DIVISA {
 	
     @Id
-    @Column(nullable = false, unique = true, length = 3)
+    @Column(nullable = false, length = 3)
     private String Abreviatura;
     @Column(nullable = false)
     private String Nombre;
@@ -19,6 +19,17 @@ public class DIVISA {
 
     @OneToMany (mappedBy = "divisa")
     private List<TRANSACCION> transacciones;
+
+    public List<CUENTA_REFERENCIA> getCuentas_referencias() {
+        return cuentas_referencias;
+    }
+
+    public void setCuentas_referencias(List<CUENTA_REFERENCIA> cuentas_referencias) {
+        this.cuentas_referencias = cuentas_referencias;
+    }
+
+    @OneToMany (mappedBy = "divisa")
+    private List<CUENTA_REFERENCIA> cuentas_referencias;
 
     public List<TRANSACCION> getTransacciones() {
         return transacciones;
