@@ -9,7 +9,9 @@ public class CUENTA_FINTECH extends CUENTA {
     @Column(nullable = false)
     private Boolean Estado = false;
     @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date Fecha_Apertura;
+    @Temporal(TemporalType.DATE)
     private Date Fecha_Cierre;
     private String Clasificacion;
 
