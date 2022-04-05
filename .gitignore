@@ -2,7 +2,7 @@
 **/*.local
 **/*.git
 **/*.DS_Store
-**/.idea
+**/*.idea
 *.iml
 
 */target/*
@@ -13,7 +13,7 @@ pom.xml.next
 release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
-.mvn/timing.properties
-.mvn/wrapper/maven-wrapper.jar
-.project
-.classpath
+**/*.mvn/timing.properties
+**/*.mvn/wrapper/maven-wrapper.jar
+**/*.project
+**/*.classpath
