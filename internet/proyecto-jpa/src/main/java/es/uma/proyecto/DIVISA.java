@@ -1,6 +1,7 @@
 package es.uma.proyecto;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -15,6 +16,17 @@ public class DIVISA {
     private String Simbolo;
     @Column(nullable = false)
     private Double CambioEuro;
+
+    @OneToMany (mappedBy = "divisa")
+    private List<TRANSACCION> transacciones;
+
+    public List<TRANSACCION> getTransacciones() {
+        return transacciones;
+    }
+
+    public void setTransacciones(List<TRANSACCION> transacciones) {
+        this.transacciones = transacciones;
+    }
     
     public DIVISA() {
     	

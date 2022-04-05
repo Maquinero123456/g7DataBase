@@ -1,6 +1,7 @@
 package es.uma.proyecto;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -13,6 +14,17 @@ public class CUENTA {
     @Column(nullable = false)
     private String IBAN;
     private String SWIFT;
+
+    @OneToMany (mappedBy = "cuenta")
+    private List<TRANSACCION> transacciones;
+
+    public List<TRANSACCION> getTransacciones() {
+        return transacciones;
+    }
+
+    public void setTransacciones(List<TRANSACCION> transacciones) {
+        this.transacciones = transacciones;
+    }
 
     public CUENTA(){
 

@@ -19,6 +19,27 @@ public class TRANSACCION {
     private double Comision;
     private boolean Internacional;
 
+    @ManyToOne
+    private CUENTA cuenta;
+
+    public CUENTA getCuenta() {
+        return cuenta;
+    }
+
+    public void setCuenta(CUENTA cuenta) {
+        this.cuenta = cuenta;
+    }
+
+    @ManyToOne
+    private DIVISA divisa;
+
+    public DIVISA getDivisa() {
+        return divisa;
+    }
+
+    public void setDivisa(DIVISA divisa) {
+        this.divisa = divisa;
+    }
 
     public TRANSACCION() {
     }
@@ -70,16 +91,18 @@ public class TRANSACCION {
         return Cantidad;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-    public boolean equals(TRANSACCION t) {
-        if (this == t) return true;
-        if (t == null || getClass() != t.getClass()) return false;
-        TRANSACCION that = (TRANSACCION) t;
+        TRANSACCION that = (TRANSACCION) o;
+
         return ID_Unico.equals(that.ID_Unico);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ID_Unico);
+        return ID_Unico.hashCode();
     }
 }
