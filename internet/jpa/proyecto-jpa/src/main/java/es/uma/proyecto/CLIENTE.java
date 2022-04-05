@@ -7,8 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="Tipo_Cliente",
-        discriminatorType = DiscriminatorType.CHAR)
+@DiscriminatorColumn(name="Tipo_Cliente", discriminatorType = DiscriminatorType.CHAR)
 @DiscriminatorValue("CLIENTE")
 @Table(name="CLIENTE")
 public class CLIENTE {
@@ -21,6 +20,7 @@ public class CLIENTE {
     private String Tipo_Cliente;
     @Column(nullable=false)
     private Boolean Estado;
+    @Column(nullable=false)
     @Temporal(TemporalType.DATE)
     private Date Fecha_Alta;
     @Temporal(TemporalType.DATE)
@@ -109,7 +109,7 @@ public class CLIENTE {
         if (this == o) return true;
         if (!(o instanceof CLIENTE)) return false;
         CLIENTE cliente = (CLIENTE) o;
-        return Objects.equals(getID(), cliente.getID());
+        return Objects.equals(getID(), cliente.getID()) && Objects.equals(getIdentificacion(), cliente.Identificacion);
     }
 
     @Override

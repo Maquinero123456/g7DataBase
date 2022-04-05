@@ -6,8 +6,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "CUENTA")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="Tipo_Cuenta",
-        discriminatorType = DiscriminatorType.CHAR)
+@DiscriminatorColumn(name="Tipo_Cuenta", discriminatorType = DiscriminatorType.CHAR)
 @DiscriminatorValue("CUENTA")
 public class CUENTA {
     @Id
