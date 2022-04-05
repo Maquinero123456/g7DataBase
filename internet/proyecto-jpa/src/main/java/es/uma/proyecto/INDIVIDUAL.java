@@ -1,7 +1,7 @@
 package es.uma.proyecto;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
 @DiscriminatorValue("INDIVIDUAL")

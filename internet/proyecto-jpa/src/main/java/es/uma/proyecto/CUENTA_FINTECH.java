@@ -5,7 +5,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
 @DiscriminatorValue("CUENTA_FINTECH")
