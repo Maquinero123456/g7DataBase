@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@IdClass(PERSONA_CLIENTE_FK.class)
+@IdClass(PERSONA_EMPRESA_FK.class)
 @Table(name="AUTORIZACION")
 public class AUTORIZACION {
     
@@ -17,7 +17,7 @@ public class AUTORIZACION {
     private PERSONA_AUTORIZADA persona;
 
     @Id
-    private CLIENTE cliente;
+    private EMPRESA empresa;
 
 	@Column(nullable=false)
     private String Tipo;
@@ -29,6 +29,14 @@ public class AUTORIZACION {
 
 	public void setTipo(String tipo) {
 		this.Tipo = tipo;
+	}
+	
+	public PERSONA_AUTORIZADA getPersona() {
+		return persona;
+	}
+
+	public EMPRESA getEmpresa() {
+		return empresa;
 	}
 	
 	@Override
@@ -46,4 +54,6 @@ public class AUTORIZACION {
     public int hashCode() {
         return Objects.hash(Tipo);
     }
+
+	
 }

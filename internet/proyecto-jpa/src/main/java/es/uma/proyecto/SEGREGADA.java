@@ -1,6 +1,5 @@
 package es.uma.proyecto;
 
-import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -13,7 +12,7 @@ public class SEGREGADA extends CUENTA_FINTECH {
 	private Double Comision;
 
     @OneToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = false, unique = true)
     private CUENTA_REFERENCIA cuenta_referencia;
 
     public SEGREGADA(){

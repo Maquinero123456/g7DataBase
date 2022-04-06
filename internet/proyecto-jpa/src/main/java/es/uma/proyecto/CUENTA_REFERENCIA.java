@@ -17,7 +17,7 @@ public class CUENTA_REFERENCIA extends CUENTA {
     private Date Fecha_Apertura;
     private Boolean Estado;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(nullable = false)
     private DIVISA Divisa;
 
