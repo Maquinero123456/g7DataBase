@@ -25,6 +25,18 @@ public class CUENTA_FINTECH extends CUENTA {
     @JoinColumn(nullable = false)
     private CLIENTE cliente;
 
+    public CUENTA_FINTECH(String iban, String swift, Boolean est, Date alta, Date baja, String clasic) {
+    	super(iban, swift);
+    	this.Estado = est;
+    	this.Fecha_Apertura = alta;
+    	this.Fecha_Cierre = baja;
+    	this.Clasificacion = clasic;
+    }
+    
+    public CUENTA_FINTECH(String iban, String swift) {
+    	super(iban, swift);
+    }
+
     public Date getFecha_Apertura() {
         return Fecha_Apertura;
     }
@@ -57,6 +69,15 @@ public class CUENTA_FINTECH extends CUENTA {
         Clasificacion = clasificacion;
     }
 
+	public CLIENTE getCliente() {
+		return cliente;
+	}
+
+	@Override
+	public String toString() {
+		return "CUENTA_FINTECH [Estado=" + Estado + ", Fecha_Apertura=" + Fecha_Apertura + ", Fecha_Cierre="
+				+ Fecha_Cierre + ", Clasificacion=" + Clasificacion + ", cliente=" + cliente + "]";
+	}
 
 
 }

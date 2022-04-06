@@ -33,11 +33,11 @@ public class CUENTA_REFERENCIA extends CUENTA {
         return Saldo;
     }
 
-    public String getNombreBanco() {
+    public String getNombre_Banco() {
         return Nombre_Banco;
     }
 
-    public void setNombreBanco(String nombreBanco) {
+    public void setNombre_Banco(String nombreBanco) {
         Nombre_Banco = nombreBanco;
     }
 
@@ -76,5 +76,12 @@ public class CUENTA_REFERENCIA extends CUENTA {
     public void setEstado(Boolean estado) {
         Estado = estado;
     }
+
+	@Override
+	public String toString() {
+		return "CUENTA_REFERENCIA [Nombre_Banco=" + Nombre_Banco + ", Sucursal=" + Sucursal + ", Pais=" + Pais
+				+ ", Saldo=" + Saldo + ", Fecha_Apertura=" + Fecha_Apertura + ", Estado=" + Estado + ", Divisa="
+				+ Divisa + "]";
+	}
 
 }

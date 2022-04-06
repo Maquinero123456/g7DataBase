@@ -6,8 +6,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "DIVISA")
 public class DIVISA {
-	
-    @Id
+	@Id
     @Column(nullable = false, length = 3)
     private String Abreviatura;
     @Column(nullable = false)
@@ -16,7 +15,15 @@ public class DIVISA {
     @Column(nullable = false)
     private Double CambioEuro;
 
-
+    
+    public DIVISA(String abreviatura, String nombre, String simbolo, Double cambioEuro) {
+		super();
+		Abreviatura = abreviatura;
+		Nombre = nombre;
+		Simbolo = simbolo;
+		CambioEuro = cambioEuro;
+	}
+    
     public DIVISA() {
     	
     }
@@ -65,5 +72,11 @@ public class DIVISA {
     public int hashCode() {
         return Objects.hash(getAbreviatura());
     }
+
+	@Override
+	public String toString() {
+		return "DIVISA [Abreviatura=" + Abreviatura + ", Nombre=" + Nombre + ", Simbolo=" + Simbolo + ", CambioEuro="
+				+ CambioEuro + "]";
+	}
 
 }

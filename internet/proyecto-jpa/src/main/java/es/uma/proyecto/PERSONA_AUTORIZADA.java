@@ -25,12 +25,24 @@ public class PERSONA_AUTORIZADA {
     private String Direccion;
     @Temporal(TemporalType.DATE)
     private Date Fecha_Nacimiento;
-    private Boolean Estado;
+    private String Estado;
     @Temporal(TemporalType.DATE)
     private Date Fecha_Inicio;
     @Temporal(TemporalType.DATE)
     private Date FechaFin;
 
+    public PERSONA_AUTORIZADA(String id, String ident, String nom, String ape, String dir, Date nac, String est, Date alta, Date baja){
+    	this.ID = id;
+    	this.Identificacion = ident;
+    	this.Nombre = nom;
+    	this.Apellidos = ape;
+    	this.Direccion = dir;
+    	this.Fecha_Nacimiento = nac;
+    	this.Estado = est;
+    	this.Fecha_Inicio = alta;
+    	this.FechaFin = baja;
+    }
+    
     public PERSONA_AUTORIZADA(){
 
     }
@@ -83,15 +95,12 @@ public class PERSONA_AUTORIZADA {
         this.Fecha_Nacimiento = Fecha_Nacimiento;
     }
 
-    public Boolean isEstado() {
+
+    public String getEstado() {
         return this.Estado;
     }
 
-    public Boolean getEstado() {
-        return this.Estado;
-    }
-
-    public void setEstado(Boolean Estado) {
+    public void setEstado(String Estado) {
         this.Estado = Estado;
     }
 
@@ -127,5 +136,12 @@ public class PERSONA_AUTORIZADA {
     public int hashCode() {
         return Objects.hash(ID, Identificacion, Nombre, Apellidos, Direccion, Fecha_Nacimiento, Estado, Fecha_Inicio, FechaFin);
     }
+
+	@Override
+	public String toString() {
+		return "PERSONA_AUTORIZADA [ID=" + ID + ", Identificacion=" + Identificacion + ", Nombre=" + Nombre
+				+ ", Apellidos=" + Apellidos + ", Direccion=" + Direccion + ", Fecha_Nacimiento=" + Fecha_Nacimiento
+				+ ", Estado=" + Estado + ", Fecha_Inicio=" + Fecha_Inicio + ", FechaFin=" + FechaFin + "]";
+	}
 
 }

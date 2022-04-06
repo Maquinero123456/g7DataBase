@@ -26,4 +26,10 @@ public class DEPOSITADA_EN {
     public void setSaldo(Double saldo) {
         Saldo = saldo;
     }
+
+	@Override
+	public String toString() {
+		return "DEPOSITADA_EN [cuenta_referencia=" + cuenta_referencia + ", pooled_account=" + pooled_account
+				+ ", Saldo=" + Saldo + "]";
+	}
 }

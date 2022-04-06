@@ -17,6 +17,11 @@ public class CUENTA {
     public CUENTA(){
 
     }
+    
+    public CUENTA(String ib, String sw){
+    	this.IBAN = ib;
+    	this.SWIFT = sw;
+    }
 
     public String getIBAN() {
         return IBAN;
@@ -46,4 +51,9 @@ public class CUENTA {
     public int hashCode() {
         return Objects.hash(getIBAN());
     }
+
+	@Override
+	public String toString() {
+		return "CUENTA [IBAN=" + IBAN + ", SWIFT=" + SWIFT + "]";
+	}
 }

@@ -97,4 +97,12 @@ public class TRANSACCION {
     public int hashCode() {
         return ID_Unico.hashCode();
     }
+
+	@Override
+	public String toString() {
+		return "TRANSACCION [ID_Unico=" + ID_Unico + ", fechaInstruccion=" + fechaInstruccion + ", Cantidad=" + Cantidad
+				+ ", fechaEjecucion=" + fechaEjecucion + ", Tipo=" + Tipo + ", Comision=" + Comision
+				+ ", Internacional=" + Internacional + ", Destino=" + Destino + ", Origen=" + Origen + ", Receptor="
+				+ Receptor + ", Emisor=" + Emisor + "]";
+	}
 }

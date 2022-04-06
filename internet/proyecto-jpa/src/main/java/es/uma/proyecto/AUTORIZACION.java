@@ -22,6 +22,12 @@ public class AUTORIZACION {
 	@Column(nullable=false)
     private String Tipo;
 
+	
+	public AUTORIZACION(String tipo, PERSONA_AUTORIZADA per, EMPRESA emp) {
+		Tipo = tipo;
+		empresa = emp;
+		persona = per;
+	}
     
 	public String getTipo() {
 		return this.Tipo;
@@ -54,6 +60,11 @@ public class AUTORIZACION {
     public int hashCode() {
         return Objects.hash(Tipo);
     }
+
+	@Override
+	public String toString() {
+		return "AUTORIZACION [persona=" + persona + ", empresa=" + empresa + ", Tipo=" + Tipo + "]";
+	}
 
 	
 }
