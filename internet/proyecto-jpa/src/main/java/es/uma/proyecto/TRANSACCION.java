@@ -36,11 +36,15 @@ public class TRANSACCION {
     public TRANSACCION() {
     }
 
-    public TRANSACCION(String ID_Unico, Date fechaInstruccion, double cantidad, String tipo) {
+    public TRANSACCION(String ID_Unico, Date fechaInstruccion, double cantidad, String tipo, CUENTA destino, CUENTA origen, DIVISA receptor, DIVISA emisor) {
         this.ID_Unico = ID_Unico;
         this.fechaInstruccion = fechaInstruccion;
-        Cantidad = cantidad;
-        Tipo = tipo;
+        this.Cantidad = cantidad;
+        this.Tipo = tipo;
+        this.Destino = destino;
+        this.Origen = origen;
+        this.Receptor = receptor;
+        this.Emisor = emisor;
     }
 
     public String getID_Unico() {

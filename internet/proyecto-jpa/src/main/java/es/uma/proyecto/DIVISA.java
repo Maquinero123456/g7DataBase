@@ -17,10 +17,15 @@ public class DIVISA {
 
     
     public DIVISA(String abreviatura, String nombre, String simbolo, Double cambioEuro) {
-		super();
 		Abreviatura = abreviatura;
 		Nombre = nombre;
 		Simbolo = simbolo;
+		CambioEuro = cambioEuro;
+	}
+
+    public DIVISA(String abreviatura, String nombre, Double cambioEuro) {
+		Abreviatura = abreviatura;
+		Nombre = nombre;
 		CambioEuro = cambioEuro;
 	}
     

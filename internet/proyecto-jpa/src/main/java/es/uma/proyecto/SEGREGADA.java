@@ -13,6 +13,20 @@ public class SEGREGADA extends CUENTA_FINTECH {
 
 	private Double Comision;
 
+	public SEGREGADA(){
+		super();
+	}
+
+	public SEGREGADA(String iban, String swift, Boolean est, Date alta, Date baja, String clasic, Double comision){
+		super(iban, swift, est, alta, baja, clasic);
+		this.Comision= comision;
+	}
+
+	public SEGREGADA(String iban, Boolean est, Date alta, Date baja, String clasic, Double comision){
+		super(iban, est, alta, baja, clasic);
+		this.Comision = comision;
+	}
+
     @OneToOne
     @JoinColumn(nullable = false, unique = true)
     private CUENTA_REFERENCIA cuenta_referencia;

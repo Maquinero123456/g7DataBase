@@ -12,7 +12,7 @@ public class CUENTA_REFERENCIA extends CUENTA {
     private String Sucursal;
     private String Pais;
     @Column(nullable = false)
-    private String Saldo;
+    private Double Saldo;
     @Temporal(TemporalType.DATE)
     private Date Fecha_Apertura;
     private Boolean Estado;
@@ -21,7 +21,24 @@ public class CUENTA_REFERENCIA extends CUENTA {
     @JoinColumn(nullable = false)
     private DIVISA Divisa;
 
-    
+    public CUENTA_REFERENCIA(String IBAN, String nombre, Double saldo){
+        super(IBAN);
+        this.Nombre_Banco = nombre;
+        this.Saldo = saldo;
+    }
+
+    public CUENTA_REFERENCIA(String IBAN, String swift, String nombre, Double saldo){
+        super(IBAN, swift);
+        this.Nombre_Banco = nombre;
+        this.Saldo = saldo;
+    }
+
+
+    public CUENTA_REFERENCIA() {
+        super();
+    }
+
+
     public DIVISA getDivisa() {
         return Divisa;
     }
@@ -30,7 +47,7 @@ public class CUENTA_REFERENCIA extends CUENTA {
         this.Divisa = divisa;
     }
 
-    public String getSaldo() {
+    public Double getSaldo() {
         return Saldo;
     }
 
@@ -58,7 +75,7 @@ public class CUENTA_REFERENCIA extends CUENTA {
         Pais = pais;
     }
 
-    public void setSaldo(String saldo) {
+    public void setSaldo(Double saldo) {
         Saldo = saldo;
     }
 

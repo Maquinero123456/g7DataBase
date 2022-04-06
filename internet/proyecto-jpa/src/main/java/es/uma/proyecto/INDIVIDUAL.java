@@ -21,10 +21,16 @@ public class INDIVIDUAL extends CLIENTE{
     	this.Fecha_Nacimiento = nac;
     }
     
-    public INDIVIDUAL(String id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais) {
+    public INDIVIDUAL(String id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais, String nombre, String apellido) {
     	super(id, ident, tp, est, alta, baja, direc, ciudad, cp, pais);
+        this.Nombre = nombre;
+        this.Apellidos = apellido;
     }
     
+    public INDIVIDUAL(){
+        super();
+    }
+
     //Setters y Getters
     public String getNombre() {
         return Nombre;

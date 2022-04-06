@@ -12,5 +12,10 @@ public class POOLED_ACCOUNT extends CUENTA_FINTECH {
     	super(iban, swift, est, alta, baja, clasic);
     }
 
+
+    public POOLED_ACCOUNT() {
+        super();
+    }
+
 	
 }

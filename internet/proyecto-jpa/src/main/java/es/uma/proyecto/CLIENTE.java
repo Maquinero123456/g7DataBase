@@ -33,6 +33,20 @@ public class CLIENTE {
     @Column(nullable=false)
     private String Pais;
     
+    public CLIENTE(String id, String ident, String tp, String est, Date alta, String direc, String ciudad, String cp, String pais){
+    	this.ID = id;
+    	this.Identificacion = ident;
+    	this.Tipo_Cliente = tp;
+    	this.Estado = est;
+    	this.Fecha_Alta = alta;
+    	this.Direccion = direc;
+    	this.Ciudad = ciudad;
+    	this.CodigoPostal = cp;
+    	this.Pais = pais;
+    }
+    
+
+
     public CLIENTE(String id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais){
     	this.ID = id;
     	this.Identificacion = ident;

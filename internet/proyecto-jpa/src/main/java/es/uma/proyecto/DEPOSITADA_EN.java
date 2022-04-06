@@ -1,5 +1,6 @@
 package es.uma.proyecto;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
@@ -15,9 +16,18 @@ public class DEPOSITADA_EN {
 
     @Id
     private POOLED_ACCOUNT pooled_account;
-
+    @Column(nullable = false)
     private Double Saldo;
 
+
+    public DEPOSITADA_EN() {
+    }
+
+    public DEPOSITADA_EN(CUENTA_REFERENCIA cr, POOLED_ACCOUNT pa, Double saldo){
+        this.cuenta_referencia = cr;
+        this.pooled_account = pa;
+        this.Saldo = saldo;
+    }
 
     public Double getSaldo() {
         return Saldo;

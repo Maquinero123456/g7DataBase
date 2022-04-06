@@ -17,7 +17,9 @@ public class CUENTA {
     public CUENTA(){
 
     }
-    
+    public CUENTA(String iban){
+        this.IBAN = iban;
+    }
     public CUENTA(String ib, String sw){
     	this.IBAN = ib;
     	this.SWIFT = sw;

@@ -32,13 +32,21 @@ public class CUENTA_FINTECH extends CUENTA {
     	this.Fecha_Cierre = baja;
     	this.Clasificacion = clasic;
     }
+
+    public CUENTA_FINTECH(String iban, Boolean est, Date alta, Date baja, String clasic) {
+    	super(iban);
+    	this.Estado = est;
+    	this.Fecha_Apertura = alta;
+    	this.Fecha_Cierre = baja;
+    	this.Clasificacion = clasic;
+    }
     
     public CUENTA_FINTECH(String iban, String swift) {
     	super(iban, swift);
     }
     
     public CUENTA_FINTECH() {
-    	
+    	super();
     }
 
     public Date getFecha_Apertura() {

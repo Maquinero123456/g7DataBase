@@ -24,9 +24,9 @@ public class AUTORIZACION {
 
 	
 	public AUTORIZACION(String tipo, PERSONA_AUTORIZADA per, EMPRESA emp) {
-		Tipo = tipo;
-		empresa = emp;
-		persona = per;
+		this.Tipo = tipo;
+		this.empresa = emp;
+		this.persona = per;
 	}
 	
 	public AUTORIZACION() {
