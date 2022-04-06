@@ -21,6 +21,7 @@ public class CUENTA_REFERENCIA extends CUENTA {
     @JoinColumn(nullable = false)
     private DIVISA Divisa;
 
+    
     public DIVISA getDivisa() {
         return Divisa;
     }

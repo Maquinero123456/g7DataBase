@@ -28,6 +28,10 @@ public class AUTORIZACION {
 		empresa = emp;
 		persona = per;
 	}
+	
+	public AUTORIZACION() {
+		
+	}
     
 	public String getTipo() {
 		return this.Tipo;

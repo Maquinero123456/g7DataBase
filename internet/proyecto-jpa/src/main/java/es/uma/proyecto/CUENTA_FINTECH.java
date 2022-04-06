@@ -36,6 +36,10 @@ public class CUENTA_FINTECH extends CUENTA {
     public CUENTA_FINTECH(String iban, String swift) {
     	super(iban, swift);
     }
+    
+    public CUENTA_FINTECH() {
+    	
+    }
 
     public Date getFecha_Apertura() {
         return Fecha_Apertura;
