@@ -8,7 +8,7 @@ import java.util.Date;
 public class CUENTA_REFERENCIA extends CUENTA {
 
     @Column(nullable = false)
-    private String NombreBanco;
+    private String Nombre_Banco;
     private String Sucursal;
     private String Pais;
     @Column(nullable = false)
@@ -17,7 +17,7 @@ public class CUENTA_REFERENCIA extends CUENTA {
     private Date Fecha_Apertura;
     private Boolean Estado;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @Column(nullable = false)
     private DIVISA Divisa;
 
@@ -34,11 +34,11 @@ public class CUENTA_REFERENCIA extends CUENTA {
     }
 
     public String getNombreBanco() {
-        return NombreBanco;
+        return Nombre_Banco;
     }
 
     public void setNombreBanco(String nombreBanco) {
-        NombreBanco = nombreBanco;
+        Nombre_Banco = nombreBanco;
     }
 
     public String getSucursal() {
