@@ -15,17 +15,6 @@ public class CUENTA {
     private String IBAN;
     private String SWIFT;
 
-    @OneToMany (mappedBy = "cuenta")
-    private List<TRANSACCION> transacciones;
-
-    public List<TRANSACCION> getTransacciones() {
-        return transacciones;
-    }
-
-    public void setTransacciones(List<TRANSACCION> transacciones) {
-        this.transacciones = transacciones;
-    }
-
     public CUENTA(){
 
     }

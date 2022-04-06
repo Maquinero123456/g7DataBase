@@ -19,30 +19,19 @@ public class TRANSACCION {
     private boolean Internacional;
 
     @ManyToOne
-    @Column(nullable=false)
+    @JoinColumn(nullable=false)
     private CUENTA Destino;
     @ManyToOne
-    @Column(nullable=false)
+    @JoinColumn(nullable=false)
     private CUENTA Origen;
 
-    @ManyToMany
-    @Column(nullable = false)
+    @ManyToOne
+    @JoinColumn(nullable = false)
     private DIVISA Receptor;
 
-    @ManyToMany
-    @Column(nullable = false)
-    private DIVISA Emisor;
-
     @ManyToOne
-    private DIVISA divisa;
-
-    public DIVISA getDivisa() {
-        return divisa;
-    }
-
-    public void setDivisa(DIVISA divisa) {
-        this.divisa = divisa;
-    }
+    @JoinColumn(nullable = false)
+    private DIVISA Emisor;
 
     public TRANSACCION() {
     }

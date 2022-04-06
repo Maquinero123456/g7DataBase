@@ -17,16 +17,6 @@ public class DIVISA {
     @Column(nullable = false)
     private Double CambioEuro;
 
-    public List<CUENTA_REFERENCIA> getCuentas_referencias() {
-        return cuentas_referencias;
-    }
-
-    public void setCuentas_referencias(List<CUENTA_REFERENCIA> cuentas_referencias) {
-        this.cuentas_referencias = cuentas_referencias;
-    }
-
-    @OneToMany (mappedBy = "divisa")
-    private List<CUENTA_REFERENCIA> cuentas_referencias;
 
     public DIVISA() {
     	

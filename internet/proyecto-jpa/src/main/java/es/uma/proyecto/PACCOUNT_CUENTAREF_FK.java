@@ -10,5 +10,5 @@ public class PACCOUNT_CUENTAREF_FK {
 
     @ManyToOne
     @JoinColumn(name = "POLLED_ACCOUNT_FK", nullable = false)
-    private String polled_account;
+    private String pooled_account;
 }

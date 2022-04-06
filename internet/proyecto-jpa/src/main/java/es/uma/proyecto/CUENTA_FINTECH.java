@@ -3,6 +3,7 @@ package es.uma.proyecto;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -21,7 +22,7 @@ public class CUENTA_FINTECH extends CUENTA {
     private String Clasificacion;
 
     @ManyToOne
-    @Column(nullable = false)
+    @JoinColumn(nullable = false)
     private CLIENTE cliente;
 
     public Date getFecha_Apertura() {

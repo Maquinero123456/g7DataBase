@@ -18,7 +18,7 @@ public class CUENTA_REFERENCIA extends CUENTA {
     private Boolean Estado;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @Column(nullable = false)
+    @JoinColumn(nullable = false)
     private DIVISA Divisa;
 
     public DIVISA getDivisa() {
