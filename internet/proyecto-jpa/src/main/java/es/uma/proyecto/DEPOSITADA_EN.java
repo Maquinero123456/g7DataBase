@@ -1,5 +1,7 @@
 package es.uma.proyecto;
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -37,6 +39,31 @@ public class DEPOSITADA_EN {
         Saldo = saldo;
     }
 
+
+    public CUENTA_REFERENCIA getCuenta_referencia() {
+		return cuenta_referencia;
+	}
+
+	public POOLED_ACCOUNT getPooled_account() {
+		return pooled_account;
+	}
+
+	@Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof DEPOSITADA_EN)) {
+            return false;
+        }
+        DEPOSITADA_EN dep = (DEPOSITADA_EN) o;
+        return Objects.equals(this.pooled_account, dep.getPooled_account()) && Objects.equals(this.cuenta_referencia, dep.getCuenta_referencia());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCuenta_referencia(), getPooled_account());
+    }
+    
 	@Override
 	public String toString() {
 		return "DEPOSITADA_EN [cuenta_referencia=" + cuenta_referencia + ", pooled_account=" + pooled_account

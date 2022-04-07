@@ -128,13 +128,13 @@ public class PERSONA_AUTORIZADA {
         if (!(o instanceof PERSONA_AUTORIZADA)) {
             return false;
         }
-        PERSONA_AUTORIZADA persona_Autorizada = (PERSONA_AUTORIZADA) o;
-        return Objects.equals(ID, persona_Autorizada.ID) && Objects.equals(Identificacion, persona_Autorizada.Identificacion) && Objects.equals(Nombre, persona_Autorizada.Nombre) && Objects.equals(Apellidos, persona_Autorizada.Apellidos) && Objects.equals(Direccion, persona_Autorizada.Direccion) && Objects.equals(Fecha_Nacimiento, persona_Autorizada.Fecha_Nacimiento) && Objects.equals(Estado, persona_Autorizada.Estado) && Objects.equals(Fecha_Inicio, persona_Autorizada.Fecha_Inicio) && Objects.equals(FechaFin, persona_Autorizada.FechaFin);
+        PERSONA_AUTORIZADA pA = (PERSONA_AUTORIZADA) o;
+        return Identificacion.equalsIgnoreCase(pA.Identificacion);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ID, Identificacion, Nombre, Apellidos, Direccion, Fecha_Nacimiento, Estado, Fecha_Inicio, FechaFin);
+        return Objects.hash(ID, Identificacion);
     }
 
 	@Override

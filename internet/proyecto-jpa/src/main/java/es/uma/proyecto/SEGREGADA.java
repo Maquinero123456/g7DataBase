@@ -58,36 +58,6 @@ public class SEGREGADA extends CUENTA_FINTECH {
 		this.cuenta_referencia = cuenta_referencia;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((Comision == null) ? 0 : Comision.hashCode());
-		result = prime * result + ((cuenta_referencia == null) ? 0 : cuenta_referencia.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SEGREGADA other = (SEGREGADA) obj;
-		if (Comision == null) {
-			if (other.Comision != null)
-				return false;
-		} else if (!Comision.equals(other.Comision))
-			return false;
-		if (cuenta_referencia == null) {
-			if (other.cuenta_referencia != null)
-				return false;
-		} else if (!cuenta_referencia.equals(other.cuenta_referencia))
-			return false;
-		return true;
-	}
 
 	@Override
 	public String toString() {

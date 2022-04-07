@@ -57,12 +57,12 @@ public class AUTORIZACION {
             return false;
         }
         AUTORIZACION aut = (AUTORIZACION) o;
-        return Objects.equals(Tipo, aut.Tipo);
+        return Objects.equals(persona, aut.persona) && Objects.equals(empresa, aut.empresa);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Tipo);
+        return Objects.hash(persona, empresa);
     }
 
 	@Override

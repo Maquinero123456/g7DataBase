@@ -68,10 +68,6 @@ public class CLIENTE {
         return this.ID;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
-    }
-    
     public String getIdentificacion() {
         return this.Identificacion;
     }
@@ -158,12 +154,12 @@ public class CLIENTE {
         if (this == o) return true;
         if (!(o instanceof CLIENTE)) return false;
         CLIENTE cliente = (CLIENTE) o;
-        return Objects.equals(getID(), cliente.getID()) && Objects.equals(getIdentificacion(), cliente.Identificacion);
+        return Objects.equals(getIdentificacion(), cliente.Identificacion);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getID());
+        return Objects.hash(getIdentificacion());
     }
 
 	@Override

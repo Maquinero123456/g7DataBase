@@ -17,5 +17,15 @@ public class POOLED_ACCOUNT extends CUENTA_FINTECH {
         super();
     }
 
+
+	@Override
+	public String toString() {
+		return "POOLED_ACCOUNT [getFecha_Apertura()=" + getFecha_Apertura() + ", getEstado()=" + getEstado()
+				+ ", getFecha_Cierre()=" + getFecha_Cierre() + ", getClasificacion()=" + getClasificacion()
+				+ ", getCliente()=" + getCliente() + ", toString()=" + super.toString() + ", getIBAN()=" + getIBAN()
+				+ ", getSWIFT()=" + getSWIFT() + ", hashCode()=" + hashCode() + ", getClass()=" + getClass() + "]";
+	}
+
+    
 	
 }

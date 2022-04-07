@@ -1,7 +1,17 @@
 package es.uma.proyecto;
 
-import javax.persistence.*;
+
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.Table;
+import javax.persistence.InheritanceType;
+import javax.persistence.DiscriminatorType;
+
 
 @Entity
 @Table(name = "CUENTA")

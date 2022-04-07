@@ -22,6 +22,7 @@ public class EMPRESA extends CLIENTE {
 	public EMPRESA(){
 		super();
 	}
+	
     public void setRazon_Social(String razon_Social) {
         Razon_Social = razon_Social;
     }

@@ -2,6 +2,7 @@ package es.uma.proyecto;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 public class TRANSACCION {
@@ -89,17 +90,18 @@ public class TRANSACCION {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        TRANSACCION that = (TRANSACCION) o;
-
-        return ID_Unico.equals(that.ID_Unico);
+        if (o == this)
+            return true;
+        if (!(o instanceof TRANSACCION)) {
+            return false;
+        }
+        TRANSACCION tran = (TRANSACCION) o;
+        return ID_Unico.equalsIgnoreCase(tran.ID_Unico) && Objects.equals(fechaInstruccion, tran.fechaInstruccion) && Objects.equals(Cantidad, tran.Cantidad) && Tipo.equalsIgnoreCase(tran.Tipo);
     }
 
     @Override
     public int hashCode() {
-        return ID_Unico.hashCode();
+        return Objects.hash(ID_Unico, fechaInstruccion, Cantidad, Tipo);
     }
 
 	@Override
