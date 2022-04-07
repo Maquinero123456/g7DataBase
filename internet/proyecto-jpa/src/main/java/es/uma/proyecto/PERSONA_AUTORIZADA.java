@@ -31,6 +31,7 @@ public class PERSONA_AUTORIZADA {
     @Temporal(TemporalType.DATE)
     private Date FechaFin;
 
+
     public PERSONA_AUTORIZADA(String id, String ident, String nom, String ape, String dir, Date nac, String est, Date alta, Date baja){
     	this.ID = id;
     	this.Identificacion = ident;

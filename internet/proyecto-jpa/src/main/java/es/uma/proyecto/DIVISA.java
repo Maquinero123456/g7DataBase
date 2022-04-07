@@ -1,6 +1,8 @@
 package es.uma.proyecto;
 
 import javax.persistence.*;
+
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -15,7 +17,17 @@ public class DIVISA {
     @Column(nullable = false)
     private Double CambioEuro;
 
-    
+
+    @OneToMany(mappedBy = "Divisa")
+    private List<CUENTA_REFERENCIA> divisas;
+
+    @OneToMany(mappedBy = "Receptor")
+    private List<TRANSACCION> Receptor;
+
+
+    @OneToMany(mappedBy = "Emisor")
+    private List<TRANSACCION> Emisor;
+
     public DIVISA(String abreviatura, String nombre, String simbolo, Double cambioEuro) {
 		Abreviatura = abreviatura;
 		Nombre = nombre;
@@ -33,6 +45,32 @@ public class DIVISA {
     	
     }
 
+
+    public List<CUENTA_REFERENCIA> getDivisas() {
+        return this.divisas;
+    }
+
+    public void setDivisas(List<CUENTA_REFERENCIA> divisas) {
+        this.divisas = divisas;
+    }
+
+
+    public List<TRANSACCION> getReceptor() {
+        return this.Receptor;
+    }
+
+    public void setReceptor(List<TRANSACCION> Receptor) {
+        this.Receptor = Receptor;
+    }
+
+    public List<TRANSACCION> getEmisor() {
+        return this.Emisor;
+    }
+
+    public void setEmisor(List<TRANSACCION> Emisor) {
+        this.Emisor = Emisor;
+    }
+    
     public void setAbreviatura(String Abreviatura) {
         this.Abreviatura = Abreviatura;
     }

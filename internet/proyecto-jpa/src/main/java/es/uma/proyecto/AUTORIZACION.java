@@ -32,6 +32,13 @@ public class AUTORIZACION {
 	public AUTORIZACION() {
 		
 	}
+	
+	public void setPersona(PERSONA_AUTORIZADA persona) {
+		this.persona = persona;
+	}
+	public void setEmpresa(EMPRESA empresa) {
+		this.empresa = empresa;
+	}
     
 	public String getTipo() {
 		return this.Tipo;

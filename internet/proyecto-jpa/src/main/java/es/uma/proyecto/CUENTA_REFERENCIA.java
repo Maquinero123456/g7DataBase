@@ -4,9 +4,8 @@ package es.uma.proyecto;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Temporal;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
 
@@ -24,7 +23,6 @@ public class CUENTA_REFERENCIA extends CUENTA {
     private Date Fecha_Apertura;
     private Boolean Estado;
 
-    @ManyToOne
     @JoinColumn(nullable = false)
     private DIVISA Divisa;
 
@@ -43,6 +41,11 @@ public class CUENTA_REFERENCIA extends CUENTA {
 
     public CUENTA_REFERENCIA() {
         super();
+    }
+
+
+    public Boolean isEstado() {
+        return this.Estado;
     }
 
 

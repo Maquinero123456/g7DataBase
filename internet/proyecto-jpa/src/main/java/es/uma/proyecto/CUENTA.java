@@ -1,6 +1,7 @@
 package es.uma.proyecto;
 
 
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -10,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.Table;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 import javax.persistence.DiscriminatorType;
 
 
@@ -24,6 +26,12 @@ public class CUENTA {
     private String IBAN;
     private String SWIFT;
 
+    @OneToMany(mappedBy = "Destino")
+    private List<TRANSACCION> Destino;
+
+    @OneToMany(mappedBy = "Origen")
+    private List<TRANSACCION> Origen;
+
     public CUENTA(){
 
     }
@@ -34,6 +42,24 @@ public class CUENTA {
     	this.IBAN = ib;
     	this.SWIFT = sw;
     }
+
+
+    public List<TRANSACCION> getDestino() {
+        return this.Destino;
+    }
+
+    public void setDestino(List<TRANSACCION> Destino) {
+        this.Destino = Destino;
+    }
+
+    public List<TRANSACCION> getOrigen() {
+        return this.Origen;
+    }
+
+    public void setOrigen(List<TRANSACCION> Origen) {
+        this.Origen = Origen;
+    }
+
 
     public String getIBAN() {
         return IBAN;

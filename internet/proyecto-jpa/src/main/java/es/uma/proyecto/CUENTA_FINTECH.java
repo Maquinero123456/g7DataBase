@@ -4,7 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
@@ -21,7 +20,6 @@ public class CUENTA_FINTECH extends CUENTA {
     private Date Fecha_Cierre;
     private String Clasificacion;
 
-    @ManyToOne
     @JoinColumn(nullable = false)
     private CLIENTE cliente;
 
@@ -48,6 +46,16 @@ public class CUENTA_FINTECH extends CUENTA {
     public CUENTA_FINTECH() {
     	super();
     }
+
+    
+
+    public Boolean isEstado() {
+        return this.Estado;
+    }
+    public void setCliente(CLIENTE cliente) {
+        this.cliente = cliente;
+    }
+
 
     public Date getFecha_Apertura() {
         return Fecha_Apertura;

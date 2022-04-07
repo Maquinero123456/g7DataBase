@@ -19,18 +19,14 @@ public class TRANSACCION {
     private double Comision;
     private boolean Internacional;
 
-    @ManyToOne
     @JoinColumn(nullable=false)
     private CUENTA Destino;
-    @ManyToOne
     @JoinColumn(nullable=false)
     private CUENTA Origen;
 
-    @ManyToOne
     @JoinColumn(nullable = false)
     private DIVISA Receptor;
 
-    @ManyToOne
     @JoinColumn(nullable = false)
     private DIVISA Emisor;
 
@@ -46,6 +42,53 @@ public class TRANSACCION {
         this.Origen = origen;
         this.Receptor = receptor;
         this.Emisor = emisor;
+    }
+
+    public void setFechaInstruccion(Date fechaInstruccion) {
+        this.fechaInstruccion = fechaInstruccion;
+    }
+    public void setCantidad(double Cantidad) {
+        this.Cantidad = Cantidad;
+    }
+    public void setTipo(String Tipo) {
+        this.Tipo = Tipo;
+    }
+
+    public boolean getInternacional() {
+        return this.Internacional;
+    }
+
+
+    public CUENTA getDestino() {
+        return this.Destino;
+    }
+
+    public void setDestino(CUENTA Destino) {
+        this.Destino = Destino;
+    }
+
+    public CUENTA getOrigen() {
+        return this.Origen;
+    }
+
+    public void setOrigen(CUENTA Origen) {
+        this.Origen = Origen;
+    }
+
+    public DIVISA getReceptor() {
+        return this.Receptor;
+    }
+
+    public void setReceptor(DIVISA Receptor) {
+        this.Receptor = Receptor;
+    }
+
+    public DIVISA getEmisor() {
+        return this.Emisor;
+    }
+
+    public void setEmisor(DIVISA Emisor) {
+        this.Emisor = Emisor;
     }
 
     public String getID_Unico() {

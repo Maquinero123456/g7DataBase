@@ -3,6 +3,7 @@ package es.uma.proyecto;
 import java.util.Objects;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -32,6 +33,9 @@ public class CLIENTE {
     private String CodigoPostal;
     @Column(nullable=false)
     private String Pais;
+
+    @OneToMany(mappedBy = "cliente")
+    private List<CUENTA_FINTECH> cuentas;
     
     public CLIENTE(String id, String ident, String tp, String est, Date alta, String direc, String ciudad, String cp, String pais){
     	this.ID = id;
@@ -59,7 +63,17 @@ public class CLIENTE {
     	this.CodigoPostal = cp;
     	this.Pais = pais;
     }
-    
+
+
+    public List<CUENTA_FINTECH> getCuentas() {
+        return this.cuentas;
+    }
+
+    public void setCuentas(List<CUENTA_FINTECH> cuentas) {
+        this.cuentas = cuentas;
+    }
+
+
     public CLIENTE(){
 
     }

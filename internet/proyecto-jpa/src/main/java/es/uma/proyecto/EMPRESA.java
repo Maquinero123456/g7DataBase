@@ -1,6 +1,7 @@
 package es.uma.proyecto;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -9,7 +10,8 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue("EMPRESA")
 public class EMPRESA extends CLIENTE {
-	
+
+
 	@Column(nullable = false)
     private String Razon_Social;
 
