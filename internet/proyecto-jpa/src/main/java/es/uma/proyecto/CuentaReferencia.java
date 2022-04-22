@@ -5,6 +5,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
@@ -27,6 +28,7 @@ public class CuentaReferencia extends Cuenta {
     @ManyToOne
     private Divisa divisa;
 
+    @OneToOne(mappedBy = "cuentaReferencia")
     private Segredada segredada;
 
     @OneToMany(mappedBy = "cuentaReferencia")
