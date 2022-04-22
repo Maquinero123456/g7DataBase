@@ -61,11 +61,11 @@ public class CUENTA_REFERENCIA extends CUENTA {
         return saldo;
     }
 
-    public String getNombre_Banco() {
+    public String getNombreBanco() {
         return nombreBanco;
     }
 
-    public void setNombre_Banco(String nBanco) {
+    public void setNombreBanco(String nBanco) {
         nombreBanco = nBanco;
     }
 
@@ -89,11 +89,11 @@ public class CUENTA_REFERENCIA extends CUENTA {
         saldo = sld;
     }
 
-    public Date getFecha_Apertura() {
+    public Date getFechaApertura() {
         return fechaApertura;
     }
 
-    public void setFecha_Apertura(Date fApertura) {
+    public void setFechaApertura(Date fApertura) {
         fechaApertura = fApertura;
     }
 

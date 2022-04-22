@@ -69,7 +69,7 @@ public class CUENTA_FINTECH extends CUENTA {
         this.estado = estado;
     }
 
-    public void setFecha_Apertura(Date fechaApertura) {
+    public void setFechaApertura(Date fechaApertura) {
         this.fechaApertura = fechaApertura;
     }
 

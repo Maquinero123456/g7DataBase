@@ -146,7 +146,7 @@ public class CLIENTE {
 		return fechaAlta;
 	}
 
-	public void setFecha_Alta(Date fAlta) {
+	public void setFechaAlta(Date fAlta) {
 		fechaAlta = fAlta;
 	}
 

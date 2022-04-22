@@ -91,7 +91,7 @@ public class TRANSACCION {
         this.emisor = emisor;
     }
 
-    public String getID_Unico() {
+    public String getIDUnico() {
         return idUnico;
     }
 

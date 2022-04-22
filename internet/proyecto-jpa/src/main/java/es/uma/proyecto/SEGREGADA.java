@@ -50,11 +50,11 @@ public class SEGREGADA extends CUENTA_FINTECH {
 		this.comision = comision;
 	}
 
-	public CUENTA_REFERENCIA getCuenta_referencia() {
+	public CUENTA_REFERENCIA getCuentaReferencia() {
 		return cuentaReferencia;
 	}
 
-	public void setCuenta_referencia(CUENTA_REFERENCIA cuentaReferencia) {
+	public void setCuentaReferencia(CUENTA_REFERENCIA cuentaReferencia) {
 		this.cuentaReferencia = cuentaReferencia;
 	}
 
