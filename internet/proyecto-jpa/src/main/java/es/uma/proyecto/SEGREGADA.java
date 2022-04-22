@@ -10,6 +10,7 @@ import javax.persistence.OneToOne;
 @DiscriminatorValue("POOLED_ACCOUNT")
 public class SEGREGADA extends CUENTA_FINTECH {
 
+	@OneToOne
 	private Double comision;
 
 	public SEGREGADA(){
