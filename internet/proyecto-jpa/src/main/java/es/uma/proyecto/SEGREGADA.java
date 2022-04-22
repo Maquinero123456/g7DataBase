@@ -1,8 +1,6 @@
 package es.uma.proyecto;
 
 import java.util.Date;
-
-import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
@@ -11,7 +9,6 @@ import javax.persistence.OneToOne;
 @DiscriminatorValue("POOLED_ACCOUNT")
 public class SEGREGADA extends CUENTA_FINTECH {
 
-	@OneToOne
 	private Double comision;
 
 	@OneToOne
