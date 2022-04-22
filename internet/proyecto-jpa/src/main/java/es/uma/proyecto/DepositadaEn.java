@@ -7,21 +7,21 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "DEPOSITADA_EN")
-public class DEPOSITADA_EN {
+@Table(name = "DepositadaEn")
+public class DepositadaEn {
     
     @Id
     @ManyToOne
-    private CUENTA_REFERENCIA cuentaReferencia;
+    private CuentaReferencia cuentaReferencia;
 
     @Id
     @ManyToOne
-    private POOLED_ACCOUNT pooledAccount;
+    private PooledAccount pooledAccount;
     @Column(nullable = false)
     private Double saldo;
 
 
-    public DEPOSITADA_EN() {
+    public DepositadaEn() {
     }
 
     public Double getSaldo() {
@@ -36,7 +36,7 @@ public class DEPOSITADA_EN {
     
 	@Override
 	public String toString() {
-		return "DEPOSITADA_EN [cuentaReferencia=" + cuentaReferencia + ", pooledAccount=" + pooledAccount
+		return "DepositadaEn [cuentaReferencia=" + cuentaReferencia + ", pooledAccount=" + pooledAccount
 				+ ", saldo=" + saldo + "]";
 	}
 }

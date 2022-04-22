@@ -1,20 +1,18 @@
 package es.uma.proyecto;
 
-
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@DiscriminatorValue("CUENTA_REFERENCIA")
-public class CUENTA_REFERENCIA extends CUENTA {
+@DiscriminatorValue("CuentaReferencia")
+public class CuentaReferencia extends Cuenta {
 
     @Column(nullable = false)
     private String nombreBanco;
@@ -27,27 +25,27 @@ public class CUENTA_REFERENCIA extends CUENTA {
     private Boolean estado;
 
     @ManyToOne
-    private DIVISA divisa;
+    private Divisa divisa;
 
-    private SEGREGADA segregada;
+    private Segredada segredada;
 
     @OneToMany(mappedBy = "cuentaReferencia")
-    private List<DEPOSITADA_EN> depositadaEn;
+    private List<DepositadaEn> depositadaEn;
 
-    public CUENTA_REFERENCIA(String iban, String nombre, Double saldo){
+    public CuentaReferencia(String iban, String nombre, Double saldo){
         super(iban);
         this.nombreBanco = nombre;
         this.saldo = saldo;
     }
 
-    public CUENTA_REFERENCIA(String iban, String swift, String nombre, Double saldo){
+    public CuentaReferencia(String iban, String swift, String nombre, Double saldo){
         super(iban, swift);
         this.nombreBanco = nombre;
         this.saldo = saldo;
     }
 
 
-    public CUENTA_REFERENCIA() {
+    public CuentaReferencia() {
         super();
     }
 
@@ -57,11 +55,11 @@ public class CUENTA_REFERENCIA extends CUENTA {
     }
 
 
-    public DIVISA getDivisa() {
+    public Divisa getDivisa() {
         return divisa;
     }
 
-    public void setDivisa(DIVISA divisa) {
+    public void setDivisa(Divisa divisa) {
         this.divisa = divisa;
     }
 
@@ -115,7 +113,7 @@ public class CUENTA_REFERENCIA extends CUENTA {
 
 	@Override
 	public String toString() {
-		return "CUENTA_REFERENCIA [nombreBanco=" + nombreBanco + ", sucursal=" + sucursal + ", pais=" + pais
+		return "CuentaReferencia [nombreBanco=" + nombreBanco + ", sucursal=" + sucursal + ", pais=" + pais
 				+ ", saldo=" + saldo + ", fechaApertura=" + fechaApertura + ", estado=" + estado + ", divisa="
 				+ divisa + "]";
 	}

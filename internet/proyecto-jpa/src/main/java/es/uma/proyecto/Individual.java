@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@DiscriminatorValue("INDIVIDUAL")
-public class INDIVIDUAL extends CLIENTE{
+@DiscriminatorValue("Individual")
+public class Individual extends Cliente{
     //Atributos
     @Column(nullable = false)
     private String nombre;
@@ -14,20 +14,20 @@ public class INDIVIDUAL extends CLIENTE{
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
 
-    public INDIVIDUAL(String id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais, String nom, String ape, Date nac) {
+    public Individual(String id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais, String nom, String ape, Date nac) {
     	super(id, ident, tp, est, alta, baja, direc, ciudad, cp, pais);
     	this.nombre = nom;
     	this.apellidos = ape;
     	this.fechaNacimiento = nac;
     }
     
-    public INDIVIDUAL(String id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais, String nombre, String apellido) {
+    public Individual(String id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais, String nombre, String apellido) {
     	super(id, ident, tp, est, alta, baja, direc, ciudad, cp, pais);
         this.nombre = nombre;
         this.apellidos = apellido;
     }
     
-    public INDIVIDUAL(){
+    public Individual(){
         super();
     }
 
@@ -58,7 +58,7 @@ public class INDIVIDUAL extends CLIENTE{
 
 	@Override
 	public String toString() {
-		return "INDIVIDUAL [nombre=" + nombre + ", apellidos=" + apellidos + ", fechaNacimiento=" + fechaNacimiento
+		return "Individual [nombre=" + nombre + ", apellidos=" + apellidos + ", fechaNacimiento=" + fechaNacimiento
 				+ "]";
 	}
 

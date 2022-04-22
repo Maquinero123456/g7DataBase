@@ -8,9 +8,9 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="tipoCliente", discriminatorType = DiscriminatorType.CHAR)
-@DiscriminatorValue("CLIENTE")
+@DiscriminatorValue("Cliente")
 @Table(name="CLIENTE")
-public class CLIENTE {
+public class Cliente {
     
     @Id @GeneratedValue
     private String id;
@@ -35,10 +35,10 @@ public class CLIENTE {
     private String pais;
 
     @OneToMany(mappedBy = "cliente")
-    private List<CUENTA_FINTECH> cuentas;
+    private List<CuentaFintech> cuentas;
     
     
-    public CLIENTE(String id, String ident, String tp, String est, Date alta, String direc, String ciudad, String cp, String pais){
+    public Cliente(String id, String ident, String tp, String est, Date alta, String direc, String ciudad, String cp, String pais){
     	this.id = id;
     	this.identificacion = ident;
     	this.tipoCliente = tp;
@@ -52,7 +52,7 @@ public class CLIENTE {
     
 
 
-    public CLIENTE(String id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais){
+    public Cliente(String id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais){
     	this.id = id;
     	this.identificacion = ident;
     	this.tipoCliente = tp;
@@ -66,16 +66,16 @@ public class CLIENTE {
     }
 
 
-    public List<CUENTA_FINTECH> getCuentas() {
+    public List<CuentaFintech> getCuentas() {
         return this.cuentas;
     }
 
-    public void setCuentas(List<CUENTA_FINTECH> cuentas) {
+    public void setCuentas(List<CuentaFintech> cuentas) {
         this.cuentas = cuentas;
     }
 
 
-    public CLIENTE(){
+    public Cliente(){
 
     }
 
@@ -163,8 +163,8 @@ public class CLIENTE {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof CLIENTE)) return false;
-        CLIENTE cliente = (CLIENTE) o;
+        if (!(o instanceof Cliente)) return false;
+        Cliente cliente = (Cliente) o;
         return Objects.equals(getIdentificacion(), cliente.identificacion);
     }
 
@@ -175,7 +175,7 @@ public class CLIENTE {
 
 	@Override
 	public String toString() {
-		return "CLIENTE [id=" + id + ", identificacion=" + identificacion + ", tipoCliente=" + tipoCliente
+		return "Cliente [id=" + id + ", identificacion=" + identificacion + ", tipoCliente=" + tipoCliente
 				+ ", estado=" + estado + ", fechaAlta=" + fechaAlta + ", fechaBaja=" + fechaBaja + ", direccion="
 				+ direccion + ", ciudad=" + ciudad + ", codigoPostal=" + codigoPostal + ", pais=" + pais + "]";
 	}

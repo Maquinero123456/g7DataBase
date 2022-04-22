@@ -6,36 +6,36 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
 @Entity
-@DiscriminatorValue("POOLED_ACCOUNT")
-public class SEGREGADA extends CUENTA_FINTECH {
+@DiscriminatorValue("PooledAccount")
+public class Segredada extends CuentaFintech {
 
 	private Double comision;
 
 	@OneToOne(mappedBy = "segregada")
-    private CUENTA_REFERENCIA cuentaReferencia;
+    private CuentaReferencia cuentaReferencia;
 
-	public SEGREGADA(){
+	public Segredada(){
 		super();
 	}
 
-	public SEGREGADA(String iban, String swift, Boolean est, Date alta, Date baja, String clasic, Double comision){
+	public Segredada(String iban, String swift, Boolean est, Date alta, Date baja, String clasic, Double comision){
 		super(iban, swift, est, alta, baja, clasic);
 		this.comision = comision;
 	}
 
-	public SEGREGADA(String iban, Boolean est, Date alta, Date baja, String clasic, Double comision){
+	public Segredada(String iban, Boolean est, Date alta, Date baja, String clasic, Double comision){
 		super(iban, est, alta, baja, clasic);
 		this.comision = comision;
 	}
 
-    public SEGREGADA(String iban, String swift, Boolean est, Date alta, Date baja, String clasic, Double comision,
-			CUENTA_REFERENCIA cuentaReferencia) {
+    public Segredada(String iban, String swift, Boolean est, Date alta, Date baja, String clasic, Double comision,
+			CuentaReferencia cuentaReferencia) {
 		super(iban, swift, est, alta, baja, clasic);
 		this.comision = comision;
 		this.cuentaReferencia = cuentaReferencia;
 	}
     
-    public SEGREGADA(String iban, String swift, Boolean est, Date alta, Date baja, String clasic) {
+    public Segredada(String iban, String swift, Boolean est, Date alta, Date baja, String clasic) {
     	super(iban, swift, est, alta, baja, clasic);
     }
     
@@ -47,18 +47,18 @@ public class SEGREGADA extends CUENTA_FINTECH {
 		this.comision = comision;
 	}
 
-	public CUENTA_REFERENCIA getCuentaReferencia() {
+	public CuentaReferencia getCuentaReferencia() {
 		return cuentaReferencia;
 	}
 
-	public void setCuentaReferencia(CUENTA_REFERENCIA cuentaReferencia) {
+	public void setCuentaReferencia(CuentaReferencia cuentaReferencia) {
 		this.cuentaReferencia = cuentaReferencia;
 	}
 
 
 	@Override
 	public String toString() {
-		return "SEGREGADA [comision=" + comision + ", cuentaReferencia=" + cuentaReferencia + "]";
+		return "Segredada [comision=" + comision + ", cuentaReferencia=" + cuentaReferencia + "]";
 	}
 
 }

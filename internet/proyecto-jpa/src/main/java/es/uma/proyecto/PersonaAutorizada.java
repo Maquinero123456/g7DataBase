@@ -13,7 +13,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class PERSONA_AUTORIZADA {
+public class PersonaAutorizada {
     
     @Id @GeneratedValue
     private String id;
@@ -34,9 +34,9 @@ public class PERSONA_AUTORIZADA {
     private Date fechaFin;
 
     @OneToMany(mappedBy = "persona")
-    private List<AUTORIZACION> autorizacion;
+    private List<Autorizacion> autorizacion;
 
-    public PERSONA_AUTORIZADA(String id, String ident, String nom, String ape, String dir, Date nac, String est, Date alta, Date baja){
+    public PersonaAutorizada(String id, String ident, String nom, String ape, String dir, Date nac, String est, Date alta, Date baja){
     	this.id = id;
     	this.identificacion = ident;
     	this.nombre = nom;
@@ -48,7 +48,7 @@ public class PERSONA_AUTORIZADA {
     	this.fechaFin = baja;
     }
     
-    public PERSONA_AUTORIZADA(){
+    public PersonaAutorizada(){
 
     }
 
@@ -130,10 +130,10 @@ public class PERSONA_AUTORIZADA {
     public boolean equals(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof PERSONA_AUTORIZADA)) {
+        if (!(o instanceof PersonaAutorizada)) {
             return false;
         }
-        PERSONA_AUTORIZADA pA = (PERSONA_AUTORIZADA) o;
+        PersonaAutorizada pA = (PersonaAutorizada) o;
         return identificacion.equalsIgnoreCase(pA.identificacion);
     }
 
@@ -144,7 +144,7 @@ public class PERSONA_AUTORIZADA {
 
 	@Override
 	public String toString() {
-		return "PERSONA_AUTORIZADA [id=" + id + ", identificacion=" + identificacion + ", nombre=" + nombre
+		return "PersonaAutorizada [id=" + id + ", identificacion=" + identificacion + ", nombre=" + nombre
 				+ ", apellidos=" + apellidos + ", direccion=" + direccion + ", fechaNacimiento=" + fechaNacimiento
 				+ ", estado=" + estado + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin + "]";
 	}
