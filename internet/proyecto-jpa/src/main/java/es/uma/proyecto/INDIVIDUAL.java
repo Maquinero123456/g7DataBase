@@ -13,6 +13,8 @@ public class INDIVIDUAL extends CLIENTE{
     private String apellidos;
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
+    @OneToOne
+    private Usuario usuario;
 
     public INDIVIDUAL(String id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais, String nom, String ape, Date nac) {
     	super(id, ident, tp, est, alta, baja, direc, ciudad, cp, pais);

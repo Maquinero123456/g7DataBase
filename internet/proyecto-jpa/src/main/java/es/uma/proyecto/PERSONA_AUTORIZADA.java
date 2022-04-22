@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -16,7 +17,7 @@ import javax.persistence.TemporalType;
 public class PERSONA_AUTORIZADA {
     
     @Id @GeneratedValue
-    private String id;
+    private Long id;
     @Column(unique=true, nullable=false)
     private String identificacion;
     @Column(nullable=false)
@@ -35,6 +36,9 @@ public class PERSONA_AUTORIZADA {
 
     @OneToMany(mappedBy = "persona")
     private List<AUTORIZACION> autorizacion;
+
+    @OneToOne
+    private Usuario usuario;
 
     public PERSONA_AUTORIZADA(String id, String ident, String nom, String ape, String dir, Date nac, String est, Date alta, Date baja){
     	this.id = id;
