@@ -4,7 +4,6 @@ import java.util.Date;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -28,7 +27,6 @@ public class SEGREGADA extends CUENTA_FINTECH {
 	}
 
     @OneToOne
-    @JoinColumn(nullable = false, unique = true)
     private CUENTA_REFERENCIA cuentaReferencia;
 
     public SEGREGADA(String iban, String swift, Boolean est, Date alta, Date baja, String clasic, Double comision,

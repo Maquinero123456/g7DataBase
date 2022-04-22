@@ -19,15 +19,12 @@ public class TRANSACCION {
     private double comision;
     private boolean internacional;
 
-    @JoinColumn(nullable=false)
     private CUENTA destino;
-    @JoinColumn(nullable=false)
+
     private CUENTA origen;
 
-    @JoinColumn(nullable = false)
     private DIVISA receptor;
 
-    @JoinColumn(nullable = false)
     private DIVISA emisor;
 
     public TRANSACCION() {
