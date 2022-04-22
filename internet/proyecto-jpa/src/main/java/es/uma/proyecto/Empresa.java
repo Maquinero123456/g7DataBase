@@ -9,23 +9,23 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
 @Entity
-@DiscriminatorValue("EMPRESA")
-public class EMPRESA extends CLIENTE {
+@DiscriminatorValue("Empresa")
+public class Empresa extends Cliente {
 
 
 	@Column(nullable = false)
     private String razonSocial;
 
 	@OneToMany(mappedBy = "empresa")
-    private List<AUTORIZACION> autorizacion;
+    private List<Autorizacion> autorizacion;
 
-	public EMPRESA(String id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad,
+	public Empresa(String id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad,
 				String cp, String pais, String razonSocial) {
 			super(id, ident, tp, est, alta, baja, direc, ciudad, cp, pais);
 			this.razonSocial = razonSocial;
 		}
 	
-	public EMPRESA(){
+	public Empresa(){
 		super();
 	}
 	
@@ -39,7 +39,7 @@ public class EMPRESA extends CLIENTE {
 
 	@Override
 	public String toString() {
-		return "EMPRESA [razonSocial=" + razonSocial + "]";
+		return "Empresa [razonSocial=" + razonSocial + "]";
 	}
 
 

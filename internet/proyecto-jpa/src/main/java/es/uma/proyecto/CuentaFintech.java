@@ -9,8 +9,8 @@ import javax.persistence.TemporalType;
 import java.util.Date;
 
 @Entity
-@DiscriminatorValue("CUENTA_FINTECH")
-public class CUENTA_FINTECH extends CUENTA {
+@DiscriminatorValue("CuentaFintech")
+public class CuentaFintech extends Cuenta {
     @Column(nullable = false)
     private Boolean estado = false;
     @Column(nullable = false)
@@ -21,9 +21,9 @@ public class CUENTA_FINTECH extends CUENTA {
     private String clasificacion;
 
     @ManyToOne
-    private CLIENTE cliente;
+    private Cliente cliente;
 
-    public CUENTA_FINTECH(String iban, String swift, Boolean est, Date alta, Date baja, String clasic) {
+    public CuentaFintech(String iban, String swift, Boolean est, Date alta, Date baja, String clasic) {
     	super(iban, swift);
     	this.estado = est;
     	this.fechaApertura = alta;
@@ -31,7 +31,7 @@ public class CUENTA_FINTECH extends CUENTA {
     	this.clasificacion = clasic;
     }
 
-    public CUENTA_FINTECH(String iban, Boolean est, Date alta, Date baja, String clasic) {
+    public CuentaFintech(String iban, Boolean est, Date alta, Date baja, String clasic) {
     	super(iban);
     	this.estado = est;
     	this.fechaApertura = alta;
@@ -39,11 +39,11 @@ public class CUENTA_FINTECH extends CUENTA {
     	this.clasificacion = clasic;
     }
     
-    public CUENTA_FINTECH(String iban, String swift) {
+    public CuentaFintech(String iban, String swift) {
     	super(iban, swift);
     }
     
-    public CUENTA_FINTECH() {
+    public CuentaFintech() {
     	super();
     }
 
@@ -52,7 +52,7 @@ public class CUENTA_FINTECH extends CUENTA {
     public Boolean isEstado() {
         return this.estado;
     }
-    public void setCliente(CLIENTE cliente) {
+    public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
 
@@ -89,13 +89,13 @@ public class CUENTA_FINTECH extends CUENTA {
         clasificacion = clas;
     }
 
-	public CLIENTE getCliente() {
+	public Cliente getCliente() {
 		return cliente;
 	}
 
 	@Override
 	public String toString() {
-		return "CUENTA_FINTECH [estado=" + estado + ", fechaApertura=" + fechaApertura + ", fechaCierre="
+		return "CuentaFintech [estado=" + estado + ", fechaApertura=" + fechaApertura + ", fechaCierre="
 				+ fechaCierre + ", clasificacion=" + clasificacion + ", cliente=" + cliente + "]";
 	}
 

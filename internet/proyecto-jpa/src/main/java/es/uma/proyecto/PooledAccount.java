@@ -8,25 +8,25 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
 @Entity
-@DiscriminatorValue("POOLED_ACCOUNT")
-public class POOLED_ACCOUNT extends CUENTA_FINTECH {
+@DiscriminatorValue("PooledAccount")
+public class PooledAccount extends CuentaFintech {
 
 	@OneToMany(mappedBy = "pooledAccount")
-    private List<DEPOSITADA_EN> depositadaEn;
+    private List<DepositadaEn> depositadaEn;
 
-    public POOLED_ACCOUNT(String iban, String swift, Boolean est, Date alta, Date baja, String clasic){
+    public PooledAccount(String iban, String swift, Boolean est, Date alta, Date baja, String clasic){
     	super(iban, swift, est, alta, baja, clasic);
     }
 
 
-    public POOLED_ACCOUNT() {
+    public PooledAccount() {
         super();
     }
 
 
 	@Override
 	public String toString() {
-		return "POOLED_ACCOUNT [getFecha_Apertura()=" + getFechaApertura() + ", getEstado()=" + getEstado()
+		return "PooledAccount [getFecha_Apertura()=" + getFechaApertura() + ", getEstado()=" + getEstado()
 				+ ", getFecha_Cierre()=" + getFechaCierre() + ", getClasificacion()=" + getClasificacion()
 				+ ", getCliente()=" + getCliente() + ", toString()=" + super.toString() + ", getIBAN()=" + getIBAN()
 				+ ", getSWIFT()=" + getSWIFT() + ", hashCode()=" + hashCode() + ", getClass()=" + getClass() + "]";

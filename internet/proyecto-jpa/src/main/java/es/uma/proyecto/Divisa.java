@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "DIVISA")
-public class DIVISA {
+@Table(name = "Divisa")
+public class Divisa {
 	@Id
     @Column(nullable = false, length = 3)
     private String abreviatura;
@@ -19,55 +19,55 @@ public class DIVISA {
 
 
     @OneToMany(mappedBy = "divisa")
-    private List<CUENTA_REFERENCIA> divisas;
+    private List<CuentaReferencia> divisas;
 
     @OneToMany(mappedBy = "receptor")
-    private List<TRANSACCION> receptor;
+    private List<Transaccion> receptor;
 
 
     @OneToMany(mappedBy = "emisor")
-    private List<TRANSACCION> emisor;
+    private List<Transaccion> emisor;
 
-    public DIVISA(String abreviatura, String nombre, String simbolo, Double cambioEuro) {
+    public Divisa(String abreviatura, String nombre, String simbolo, Double cambioEuro) {
 		this.abreviatura = abreviatura;
 		this.nombre = nombre;
 		this.simbolo = simbolo;
 		this.cambioEuro = cambioEuro;
 	}
 
-    public DIVISA(String abreviatura, String nombre, Double cambioEuro) {
+    public Divisa(String abreviatura, String nombre, Double cambioEuro) {
     	this.abreviatura = abreviatura;
     	this.nombre = nombre;
     	this.cambioEuro = cambioEuro;
 	}
     
-    public DIVISA() {
+    public Divisa() {
     	
     }
 
 
-    public List<CUENTA_REFERENCIA> getDivisas() {
+    public List<CuentaReferencia> getDivisas() {
         return this.divisas;
     }
 
-    public void setDivisas(List<CUENTA_REFERENCIA> divisas) {
+    public void setDivisas(List<CuentaReferencia> divisas) {
         this.divisas = divisas;
     }
 
 
-    public List<TRANSACCION> getReceptor() {
+    public List<Transaccion> getReceptor() {
         return this.receptor;
     }
 
-    public void setReceptor(List<TRANSACCION> receptor) {
+    public void setReceptor(List<Transaccion> receptor) {
         this.receptor = receptor;
     }
 
-    public List<TRANSACCION> getEmisor() {
+    public List<Transaccion> getEmisor() {
         return this.emisor;
     }
 
-    public void setEmisor(List<TRANSACCION> emisor) {
+    public void setEmisor(List<Transaccion> emisor) {
         this.emisor = emisor;
     }
     
@@ -106,8 +106,8 @@ public class DIVISA {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DIVISA)) return false;
-        DIVISA divisa = (DIVISA) o;
+        if (!(o instanceof Divisa)) return false;
+        Divisa divisa = (Divisa) o;
         return Objects.equals(getAbreviatura(), divisa.getAbreviatura()) && divisa.nombre.equalsIgnoreCase(this.nombre);
     }
 
@@ -118,7 +118,7 @@ public class DIVISA {
 
 	@Override
 	public String toString() {
-		return "DIVISA [abreviatura=" + abreviatura + ", nombre=" + nombre + ", simbolo=" + simbolo + ", cambioEuro="
+		return "Divisa [abreviatura=" + abreviatura + ", nombre=" + nombre + ", simbolo=" + simbolo + ", cambioEuro="
 				+ cambioEuro + "]";
 	}
 

@@ -14,47 +14,47 @@ import javax.persistence.OneToMany;
 import javax.persistence.DiscriminatorType;
 
 @Entity
-@Table(name = "CUENTA")
+@Table(name = "Cuenta")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="Tipo_Cuenta", discriminatorType = DiscriminatorType.CHAR)
-@DiscriminatorValue("CUENTA")
-public class CUENTA {
+@DiscriminatorValue("Cuenta")
+public class Cuenta {
     @Id
     @Column(nullable = false)
     private String iban;
     private String swift;
 
     @OneToMany(mappedBy = "destino")
-    private List<TRANSACCION> destino;
+    private List<Transaccion> destino;
 
     @OneToMany(mappedBy = "origen")
-    private List<TRANSACCION> origen;
+    private List<Transaccion> origen;
 
-    public CUENTA(){
+    public Cuenta(){
 
     }
-    public CUENTA(String iban){
+    public Cuenta(String iban){
         this.iban = iban;
     }
-    public CUENTA(String ib, String sw){
+    public Cuenta(String ib, String sw){
     	this.iban = ib;
     	this.swift = sw;
     }
 
 
-    public List<TRANSACCION> getDestino() {
+    public List<Transaccion> getDestino() {
         return this.destino;
     }
 
-    public void setDestino(List<TRANSACCION> destino) {
+    public void setDestino(List<Transaccion> destino) {
         this.destino = destino;
     }
 
-    public List<TRANSACCION> getOrigen() {
+    public List<Transaccion> getOrigen() {
         return this.origen;
     }
 
-    public void setOrigen(List<TRANSACCION> origen) {
+    public void setOrigen(List<Transaccion> origen) {
         this.origen = origen;
     }
 
@@ -78,8 +78,8 @@ public class CUENTA {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof CUENTA)) return false;
-        CUENTA cuenta = (CUENTA) o;
+        if (!(o instanceof Cuenta)) return false;
+        Cuenta cuenta = (Cuenta) o;
         return Objects.equals(getIBAN(), cuenta.getIBAN());
     }
 
@@ -90,6 +90,6 @@ public class CUENTA {
 
 	@Override
 	public String toString() {
-		return "CUENTA [iban=" + iban + ", swift=" + swift + "]";
+		return "Cuenta [iban=" + iban + ", swift=" + swift + "]";
 	}
 }

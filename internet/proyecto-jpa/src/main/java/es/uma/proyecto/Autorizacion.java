@@ -10,34 +10,34 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="AUTORIZACION")
-public class AUTORIZACION {
+public class Autorizacion {
     
     @Id
 	@ManyToOne
-    private PERSONA_AUTORIZADA persona;
+    private PersonaAutorizada persona;
 
     @Id
 	@ManyToOne
-    private EMPRESA empresa;
+    private Empresa empresa;
 
 	@Column(nullable=false)
     private String tipo;
 
 	
-	public AUTORIZACION(String tipo, PERSONA_AUTORIZADA per, EMPRESA emp) {
+	public Autorizacion(String tipo, PersonaAutorizada per, Empresa emp) {
 		this.tipo = tipo;
 		this.empresa = emp;
 		this.persona = per;
 	}
 	
-	public AUTORIZACION() {
+	public Autorizacion() {
 		
 	}
 	
-	public void setPersona(PERSONA_AUTORIZADA persona) {
+	public void setPersona(PersonaAutorizada persona) {
 		this.persona = persona;
 	}
-	public void setEmpresa(EMPRESA empresa) {
+	public void setEmpresa(Empresa empresa) {
 		this.empresa = empresa;
 	}
     
@@ -49,11 +49,11 @@ public class AUTORIZACION {
 		this.tipo = tipo;
 	}
 	
-	public PERSONA_AUTORIZADA getPersona() {
+	public PersonaAutorizada getPersona() {
 		return persona;
 	}
 
-	public EMPRESA getEmpresa() {
+	public Empresa getEmpresa() {
 		return empresa;
 	}
 	
@@ -61,10 +61,10 @@ public class AUTORIZACION {
     public boolean equals(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof AUTORIZACION)) {
+        if (!(o instanceof Autorizacion)) {
             return false;
         }
-        AUTORIZACION aut = (AUTORIZACION) o;
+        Autorizacion aut = (Autorizacion) o;
         return Objects.equals(persona, aut.persona) && Objects.equals(empresa, aut.empresa);
     }
 
@@ -75,7 +75,7 @@ public class AUTORIZACION {
 
 	@Override
 	public String toString() {
-		return "AUTORIZACION [persona=" + persona + ", empresa=" + empresa + ", tipo=" + tipo + "]";
+		return "Autorizacion [persona=" + persona + ", empresa=" + empresa + ", tipo=" + tipo + "]";
 	}
 
 	

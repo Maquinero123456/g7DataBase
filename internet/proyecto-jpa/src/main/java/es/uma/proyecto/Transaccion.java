@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-public class TRANSACCION {
+public class Transaccion {
     @Id @GeneratedValue
     private String idUnico;
     @Column(nullable = false) @Temporal(TemporalType.DATE)
@@ -20,20 +20,20 @@ public class TRANSACCION {
     private boolean internacional;
 
     @ManyToOne
-    private CUENTA destino;
+    private Cuenta destino;
     @ManyToOne
-    private CUENTA origen;
+    private Cuenta origen;
 
     @ManyToOne
-    private DIVISA receptor;
+    private Divisa receptor;
 
     @ManyToOne
-    private DIVISA emisor;
+    private Divisa emisor;
 
-    public TRANSACCION() {
+    public Transaccion() {
     }
 
-    public TRANSACCION(String idUnico, Date fechaInstruccion, double cantidad, String tipo, CUENTA destino, CUENTA origen, DIVISA receptor, DIVISA emisor) {
+    public Transaccion(String idUnico, Date fechaInstruccion, double cantidad, String tipo, Cuenta destino, Cuenta origen, Divisa receptor, Divisa emisor) {
         this.idUnico = idUnico;
         this.fechaInstruccion = fechaInstruccion;
         this.cantidad = cantidad;
@@ -59,35 +59,35 @@ public class TRANSACCION {
     }
 
 
-    public CUENTA getDestino() {
+    public Cuenta getDestino() {
         return this.destino;
     }
 
-    public void setDestino(CUENTA destino) {
+    public void setDestino(Cuenta destino) {
         this.destino = destino;
     }
 
-    public CUENTA getOrigen() {
+    public Cuenta getOrigen() {
         return this.origen;
     }
 
-    public void setOrigen(CUENTA origen) {
+    public void setOrigen(Cuenta origen) {
         this.origen = origen;
     }
 
-    public DIVISA getReceptor() {
+    public Divisa getReceptor() {
         return this.receptor;
     }
 
-    public void setReceptor(DIVISA receptor) {
+    public void setReceptor(Divisa receptor) {
         this.receptor = receptor;
     }
 
-    public DIVISA getEmisor() {
+    public Divisa getEmisor() {
         return this.emisor;
     }
 
-    public void setEmisor(DIVISA emisor) {
+    public void setEmisor(Divisa emisor) {
         this.emisor = emisor;
     }
 
@@ -135,10 +135,10 @@ public class TRANSACCION {
     public boolean equals(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof TRANSACCION)) {
+        if (!(o instanceof Transaccion)) {
             return false;
         }
-        TRANSACCION tran = (TRANSACCION) o;
+        Transaccion tran = (Transaccion) o;
         return idUnico.equalsIgnoreCase(tran.idUnico) && Objects.equals(fechaInstruccion, tran.fechaInstruccion) && Objects.equals(cantidad, tran.cantidad) && tipo.equalsIgnoreCase(tran.tipo);
     }
 
@@ -149,7 +149,7 @@ public class TRANSACCION {
 
 	@Override
 	public String toString() {
-		return "TRANSACCION [idUnico=" + idUnico + ", fechaInstruccion=" + fechaInstruccion + ", cantidad=" + cantidad
+		return "Transaccion [idUnico=" + idUnico + ", fechaInstruccion=" + fechaInstruccion + ", cantidad=" + cantidad
 				+ ", fechaEjecucion=" + fechaEjecucion + ", tipo=" + tipo + ", comision=" + comision
 				+ ", internacional=" + internacional + ", destino=" + destino + ", origen=" + origen + ", receptor="
 				+ receptor + ", emisor=" + emisor + "]";
