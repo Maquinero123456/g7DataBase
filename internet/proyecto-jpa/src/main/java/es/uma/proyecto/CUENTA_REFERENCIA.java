@@ -5,9 +5,13 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @DiscriminatorValue("CUENTA_REFERENCIA")
@@ -23,8 +27,14 @@ public class CUENTA_REFERENCIA extends CUENTA {
     private Date fechaApertura;
     private Boolean estado;
 
-    @JoinColumn(nullable = false)
+    @ManyToOne
     private DIVISA divisa;
+
+    @OneToOne
+    private SEGREGADA segregada;
+
+    @OneToMany(mappedBy = "cuentaReferencia")
+    private List<DEPOSITADA_EN> depositadaEn;
 
     public CUENTA_REFERENCIA(String iban, String nombre, Double saldo){
         super(iban);

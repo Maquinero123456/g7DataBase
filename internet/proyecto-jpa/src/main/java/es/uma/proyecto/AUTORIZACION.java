@@ -5,18 +5,20 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
 @Entity
-@IdClass(PERSONA_EMPRESA_FK.class)
 @Table(name="AUTORIZACION")
 public class AUTORIZACION {
     
     @Id
+	@ManyToOne
     private PERSONA_AUTORIZADA persona;
 
     @Id
+	@ManyToOne
     private EMPRESA empresa;
 
 	@Column(nullable=false)

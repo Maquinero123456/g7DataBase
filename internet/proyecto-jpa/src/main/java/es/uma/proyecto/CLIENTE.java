@@ -37,6 +37,7 @@ public class CLIENTE {
     @OneToMany(mappedBy = "cliente")
     private List<CUENTA_FINTECH> cuentas;
     
+    
     public CLIENTE(String id, String ident, String tp, String est, Date alta, String direc, String ciudad, String cp, String pais){
     	this.id = id;
     	this.identificacion = ident;

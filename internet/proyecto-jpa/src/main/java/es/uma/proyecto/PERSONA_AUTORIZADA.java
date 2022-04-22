@@ -1,12 +1,14 @@
 package es.uma.proyecto;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -31,6 +33,8 @@ public class PERSONA_AUTORIZADA {
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
 
+    @OneToMany(mappedBy = "persona")
+    private List<AUTORIZACION> autorizacion;
 
     public PERSONA_AUTORIZADA(String id, String ident, String nom, String ape, String dir, Date nac, String est, Date alta, Date baja){
     	this.id = id;

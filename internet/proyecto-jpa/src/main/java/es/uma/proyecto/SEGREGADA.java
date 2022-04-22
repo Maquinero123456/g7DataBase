@@ -2,6 +2,7 @@ package es.uma.proyecto;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -12,6 +13,9 @@ import javax.persistence.OneToOne;
 public class SEGREGADA extends CUENTA_FINTECH {
 
 	private Double comision;
+
+	@OneToOne
+    private CUENTA_REFERENCIA cuentaReferencia;
 
 	public SEGREGADA(){
 		super();
@@ -26,10 +30,6 @@ public class SEGREGADA extends CUENTA_FINTECH {
 		super(iban, est, alta, baja, clasic);
 		this.comision = comision;
 	}
-
-    @OneToOne
-    @JoinColumn(nullable = false, unique = true)
-    private CUENTA_REFERENCIA cuentaReferencia;
 
     public SEGREGADA(String iban, String swift, Boolean est, Date alta, Date baja, String clasic, Double comision,
 			CUENTA_REFERENCIA cuentaReferencia) {

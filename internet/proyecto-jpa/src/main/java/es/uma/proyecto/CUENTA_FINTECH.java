@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
@@ -20,7 +21,7 @@ public class CUENTA_FINTECH extends CUENTA {
     private Date fechaCierre;
     private String clasificacion;
 
-    @JoinColumn(nullable = false)
+    @ManyToOne
     private CLIENTE cliente;
 
     public CUENTA_FINTECH(String iban, String swift, Boolean est, Date alta, Date baja, String clasic) {
