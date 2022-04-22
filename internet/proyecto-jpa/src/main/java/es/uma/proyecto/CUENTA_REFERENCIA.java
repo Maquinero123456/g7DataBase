@@ -29,7 +29,6 @@ public class CUENTA_REFERENCIA extends CUENTA {
     @ManyToOne
     private DIVISA divisa;
 
-    @OneToOne
     private SEGREGADA segregada;
 
     @OneToMany(mappedBy = "cuentaReferencia")

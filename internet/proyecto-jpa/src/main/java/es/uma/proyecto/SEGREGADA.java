@@ -11,7 +11,7 @@ public class SEGREGADA extends CUENTA_FINTECH {
 
 	private Double comision;
 
-	@OneToOne
+	@OneToOne(mappedBy = "segregada")
     private CUENTA_REFERENCIA cuentaReferencia;
 
 	public SEGREGADA(){
