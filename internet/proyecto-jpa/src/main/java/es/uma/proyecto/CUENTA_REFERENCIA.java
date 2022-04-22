@@ -14,28 +14,28 @@ import java.util.Date;
 public class CUENTA_REFERENCIA extends CUENTA {
 
     @Column(nullable = false)
-    private String Nombre_Banco;
-    private String Sucursal;
-    private String Pais;
+    private String nombreBanco;
+    private String sucursal;
+    private String pais;
     @Column(nullable = false)
-    private Double Saldo;
+    private Double saldo;
     @Temporal(TemporalType.DATE)
-    private Date Fecha_Apertura;
-    private Boolean Estado;
+    private Date fechaApertura;
+    private Boolean estado;
 
     @JoinColumn(nullable = false)
-    private DIVISA Divisa;
+    private DIVISA divisa;
 
-    public CUENTA_REFERENCIA(String IBAN, String nombre, Double saldo){
-        super(IBAN);
-        this.Nombre_Banco = nombre;
-        this.Saldo = saldo;
+    public CUENTA_REFERENCIA(String iban, String nombre, Double saldo){
+        super(iban);
+        this.nombreBanco = nombre;
+        this.saldo = saldo;
     }
 
-    public CUENTA_REFERENCIA(String IBAN, String swift, String nombre, Double saldo){
-        super(IBAN, swift);
-        this.Nombre_Banco = nombre;
-        this.Saldo = saldo;
+    public CUENTA_REFERENCIA(String iban, String swift, String nombre, Double saldo){
+        super(iban, swift);
+        this.nombreBanco = nombre;
+        this.saldo = saldo;
     }
 
 
@@ -45,71 +45,71 @@ public class CUENTA_REFERENCIA extends CUENTA {
 
 
     public Boolean isEstado() {
-        return this.Estado;
+        return this.estado;
     }
 
 
     public DIVISA getDivisa() {
-        return Divisa;
+        return divisa;
     }
 
     public void setDivisa(DIVISA divisa) {
-        this.Divisa = divisa;
+        this.divisa = divisa;
     }
 
     public Double getSaldo() {
-        return Saldo;
+        return saldo;
     }
 
     public String getNombre_Banco() {
-        return Nombre_Banco;
+        return nombreBanco;
     }
 
-    public void setNombre_Banco(String nombreBanco) {
-        Nombre_Banco = nombreBanco;
+    public void setNombre_Banco(String nBanco) {
+        nombreBanco = nBanco;
     }
 
     public String getSucursal() {
-        return Sucursal;
+        return sucursal;
     }
 
-    public void setSucursal(String sucursal) {
-        Sucursal = sucursal;
+    public void setSucursal(String suc) {
+        sucursal = suc;
     }
 
     public String getPais() {
-        return Pais;
+        return pais;
     }
 
-    public void setPais(String pais) {
-        Pais = pais;
+    public void setPais(String ps) {
+        pais = ps;
     }
 
-    public void setSaldo(Double saldo) {
-        Saldo = saldo;
+    public void setSaldo(Double sld) {
+        saldo = sld;
     }
 
     public Date getFecha_Apertura() {
-        return Fecha_Apertura;
+        return fechaApertura;
     }
 
-    public void setFecha_Apertura(Date fecha_Apertura) {
-        Fecha_Apertura = fecha_Apertura;
+    public void setFecha_Apertura(Date fApertura) {
+        fechaApertura = fApertura;
     }
 
     public Boolean getEstado() {
-        return Estado;
+        return estado;
     }
 
-    public void setEstado(Boolean estado) {
-        Estado = estado;
+    public void setEstado(Boolean est) {
+        estado = est;
     }
 
 	@Override
 	public String toString() {
-		return "CUENTA_REFERENCIA [Nombre_Banco=" + Nombre_Banco + ", Sucursal=" + Sucursal + ", Pais=" + Pais
-				+ ", Saldo=" + Saldo + ", Fecha_Apertura=" + Fecha_Apertura + ", Estado=" + Estado + ", Divisa="
-				+ Divisa + "]";
+		return "CUENTA_REFERENCIA [nombreBanco=" + nombreBanco + ", sucursal=" + sucursal + ", pais=" + pais
+				+ ", saldo=" + saldo + ", fechaApertura=" + fechaApertura + ", estado=" + estado + ", divisa="
+				+ divisa + "]";
 	}
 
 }

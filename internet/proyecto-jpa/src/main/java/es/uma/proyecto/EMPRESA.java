@@ -1,8 +1,6 @@
 package es.uma.proyecto;
 
 import java.util.Date;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -13,29 +11,29 @@ public class EMPRESA extends CLIENTE {
 
 
 	@Column(nullable = false)
-    private String Razon_Social;
+    private String razonSocial;
 
 	public EMPRESA(String id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad,
-				String cp, String pais, String razon_Social) {
+				String cp, String pais, String razonSocial) {
 			super(id, ident, tp, est, alta, baja, direc, ciudad, cp, pais);
-			Razon_Social = razon_Social;
+			this.razonSocial = razonSocial;
 		}
 	
 	public EMPRESA(){
 		super();
 	}
 	
-    public void setRazon_Social(String razon_Social) {
-        Razon_Social = razon_Social;
+    public void setRazonSocial(String razonSocial) {
+        this.razonSocial = razonSocial;
     }
 
-    public String getRazon_Social() {
-        return Razon_Social;
+    public String getRazonSocial() {
+        return razonSocial;
     }
 
 	@Override
 	public String toString() {
-		return "EMPRESA [Razon_Social=" + Razon_Social + "]";
+		return "EMPRESA [razonSocial=" + razonSocial + "]";
 	}
 
 

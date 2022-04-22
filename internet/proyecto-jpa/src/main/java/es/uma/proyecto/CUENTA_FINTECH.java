@@ -12,31 +12,31 @@ import java.util.Date;
 @DiscriminatorValue("CUENTA_FINTECH")
 public class CUENTA_FINTECH extends CUENTA {
     @Column(nullable = false)
-    private Boolean Estado = false;
+    private Boolean estado = false;
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date Fecha_Apertura;
+    private Date fechaApertura;
     @Temporal(TemporalType.DATE)
-    private Date Fecha_Cierre;
-    private String Clasificacion;
+    private Date fechaCierre;
+    private String clasificacion;
 
     @JoinColumn(nullable = false)
     private CLIENTE cliente;
 
     public CUENTA_FINTECH(String iban, String swift, Boolean est, Date alta, Date baja, String clasic) {
     	super(iban, swift);
-    	this.Estado = est;
-    	this.Fecha_Apertura = alta;
-    	this.Fecha_Cierre = baja;
-    	this.Clasificacion = clasic;
+    	this.estado = est;
+    	this.fechaApertura = alta;
+    	this.fechaCierre = baja;
+    	this.clasificacion = clasic;
     }
 
     public CUENTA_FINTECH(String iban, Boolean est, Date alta, Date baja, String clasic) {
     	super(iban);
-    	this.Estado = est;
-    	this.Fecha_Apertura = alta;
-    	this.Fecha_Cierre = baja;
-    	this.Clasificacion = clasic;
+    	this.estado = est;
+    	this.fechaApertura = alta;
+    	this.fechaCierre = baja;
+    	this.clasificacion = clasic;
     }
     
     public CUENTA_FINTECH(String iban, String swift) {
@@ -50,43 +50,43 @@ public class CUENTA_FINTECH extends CUENTA {
     
 
     public Boolean isEstado() {
-        return this.Estado;
+        return this.estado;
     }
     public void setCliente(CLIENTE cliente) {
         this.cliente = cliente;
     }
 
 
-    public Date getFecha_Apertura() {
-        return Fecha_Apertura;
+    public Date getFechaApertura() {
+        return fechaApertura;
     }
 
     public Boolean getEstado() {
-        return Estado;
+        return estado;
     }
 
     public void setEstado(Boolean estado) {
-        Estado = estado;
+        this.estado = estado;
     }
 
-    public void setFecha_Apertura(Date fecha_Apertura) {
-        Fecha_Apertura = fecha_Apertura;
+    public void setFecha_Apertura(Date fechaApertura) {
+        this.fechaApertura = fechaApertura;
     }
 
-    public Date getFecha_Cierre() {
-        return Fecha_Cierre;
+    public Date getFechaCierre() {
+        return fechaCierre;
     }
 
-    public void setFecha_Cierre(Date fecha_Cierre) {
-        Fecha_Cierre = fecha_Cierre;
+    public void setFechaCierre(Date fCierre) {
+        fechaCierre = fCierre;
     }
 
     public String getClasificacion() {
-        return Clasificacion;
+        return clasificacion;
     }
 
-    public void setClasificacion(String clasificacion) {
-        Clasificacion = clasificacion;
+    public void setClasificacion(String clas) {
+        clasificacion = clas;
     }
 
 	public CLIENTE getCliente() {
@@ -95,8 +95,8 @@ public class CUENTA_FINTECH extends CUENTA {
 
 	@Override
 	public String toString() {
-		return "CUENTA_FINTECH [Estado=" + Estado + ", Fecha_Apertura=" + Fecha_Apertura + ", Fecha_Cierre="
-				+ Fecha_Cierre + ", Clasificacion=" + Clasificacion + ", cliente=" + cliente + "]";
+		return "CUENTA_FINTECH [estado=" + estado + ", fechaApertura=" + fechaApertura + ", fechaCierre="
+				+ fechaCierre + ", clasificacion=" + clasificacion + ", cliente=" + cliente + "]";
 	}
 
 

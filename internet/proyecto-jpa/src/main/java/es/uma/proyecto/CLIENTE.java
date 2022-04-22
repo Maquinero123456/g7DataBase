@@ -7,61 +7,61 @@ import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="Tipo_Cliente", discriminatorType = DiscriminatorType.CHAR)
+@DiscriminatorColumn(name="tipoCliente", discriminatorType = DiscriminatorType.CHAR)
 @DiscriminatorValue("CLIENTE")
 @Table(name="CLIENTE")
 public class CLIENTE {
     
     @Id @GeneratedValue
-    private String ID;
+    private String id;
     @Column(unique=true, nullable=false)
-    private String Identificacion;
+    private String identificacion;
     @Column(nullable=false)
-    private String Tipo_Cliente;
+    private String tipoCliente;
     @Column(nullable=false)
-    private String Estado;
+    private String estado;
     @Column(nullable=false)
     @Temporal(TemporalType.DATE)
-    private Date Fecha_Alta;
+    private Date fechaAlta;
     @Temporal(TemporalType.DATE)
-    private Date Fecha_Baja;
+    private Date fechaBaja;
     @Column(nullable=false)
-    private String Direccion;
+    private String direccion;
     @Column(nullable=false)
-    private String Ciudad;
+    private String ciudad;
     @Column(nullable=false)
-    private String CodigoPostal;
+    private String codigoPostal;
     @Column(nullable=false)
-    private String Pais;
+    private String pais;
 
     @OneToMany(mappedBy = "cliente")
     private List<CUENTA_FINTECH> cuentas;
     
     public CLIENTE(String id, String ident, String tp, String est, Date alta, String direc, String ciudad, String cp, String pais){
-    	this.ID = id;
-    	this.Identificacion = ident;
-    	this.Tipo_Cliente = tp;
-    	this.Estado = est;
-    	this.Fecha_Alta = alta;
-    	this.Direccion = direc;
-    	this.Ciudad = ciudad;
-    	this.CodigoPostal = cp;
-    	this.Pais = pais;
+    	this.id = id;
+    	this.identificacion = ident;
+    	this.tipoCliente = tp;
+    	this.estado = est;
+    	this.fechaAlta = alta;
+    	this.direccion = direc;
+    	this.ciudad = ciudad;
+    	this.codigoPostal = cp;
+    	this.pais = pais;
     }
     
 
 
     public CLIENTE(String id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais){
-    	this.ID = id;
-    	this.Identificacion = ident;
-    	this.Tipo_Cliente = tp;
-    	this.Estado = est;
-    	this.Fecha_Alta = alta;
-    	this.Fecha_Baja = baja;
-    	this.Direccion = direc;
-    	this.Ciudad = ciudad;
-    	this.CodigoPostal = cp;
-    	this.Pais = pais;
+    	this.id = id;
+    	this.identificacion = ident;
+    	this.tipoCliente = tp;
+    	this.estado = est;
+    	this.fechaAlta = alta;
+    	this.fechaBaja = baja;
+    	this.direccion = direc;
+    	this.ciudad = ciudad;
+    	this.codigoPostal = cp;
+    	this.pais = pais;
     }
 
 
@@ -79,87 +79,83 @@ public class CLIENTE {
     }
 
     public String getID() {
-        return this.ID;
+        return this.id;
     }
 
     public String getIdentificacion() {
-        return this.Identificacion;
+        return this.identificacion;
     }
 
     public void setIdentificacion(String ident) {
-        this.Identificacion = ident;
+        this.identificacion = ident;
     }
     
     public String getTipoCliente() {
-        return this.Tipo_Cliente;
+        return this.tipoCliente;
     }
 
     public void setCliente(String cliente) {
-        this.Tipo_Cliente = cliente;
+        this.tipoCliente = cliente;
     }
 
     public String getEstado() {
-        return this.Estado;
+        return this.estado;
     }
 
     public void setEstado(String estado) {
-        this.Estado = estado;
+        this.estado = estado;
     }
     
     public String getDireccion() {
-        return this.Direccion;
+        return this.direccion;
     }
 
     public void setDireccion(String dir) {
-        this.Direccion = dir;
+        this.direccion = dir;
     }
 
     public String getCiudad() {
-        return this.Ciudad;
+        return this.ciudad;
     }
 
     public void setCiudad(String ciudad) {
-        this.Ciudad = ciudad;
+        this.ciudad = ciudad;
     }
 
     public String getCodigoPostal() {
-        return this.CodigoPostal;
+        return this.codigoPostal;
     }
 
     public void setCodigoPostal(String cp) {
-        this.CodigoPostal = cp;
+        this.codigoPostal = cp;
     }
 
     public String getPais() {
-        return this.Pais;
+        return this.pais;
     }
 
     public void setPais(String pais) {
-        this.Pais = pais;
+        this.pais = pais;
     }
 
-    public String getTipo_Cliente() {
-		return Tipo_Cliente;
+	public void setTipoCliente(String tCliente) {
+		tipoCliente = tCliente;
 	}
 
-	public void setTipo_Cliente(String tipo_Cliente) {
-		Tipo_Cliente = tipo_Cliente;
+	public Date getFechaAlta() {
+		return fechaAlta;
 	}
 
-	public Date getFecha_Alta() {
-		return Fecha_Alta;
+	public void setFecha_Alta(Date fAlta) {
+		fechaAlta = fAlta;
 	}
 
-	public void setFecha_Alta(Date fecha_Alta) {
-		Fecha_Alta = fecha_Alta;
+	public Date getFechaBaja() {
+		return fechaBaja;
 	}
 
-	public Date getFecha_Baja() {
-		return Fecha_Baja;
-	}
-
-	public void setFecha_Baja(Date fecha_Baja) {
-		Fecha_Baja = fecha_Baja;
+	public void setFechaBaja(Date fBaja) {
+		fechaBaja = fBaja;
 	}
 
 
@@ -168,7 +164,7 @@ public class CLIENTE {
         if (this == o) return true;
         if (!(o instanceof CLIENTE)) return false;
         CLIENTE cliente = (CLIENTE) o;
-        return Objects.equals(getIdentificacion(), cliente.Identificacion);
+        return Objects.equals(getIdentificacion(), cliente.identificacion);
     }
 
     @Override
@@ -178,9 +174,9 @@ public class CLIENTE {
 
 	@Override
 	public String toString() {
-		return "CLIENTE [ID=" + ID + ", Identificacion=" + Identificacion + ", Tipo_Cliente=" + Tipo_Cliente
-				+ ", Estado=" + Estado + ", Fecha_Alta=" + Fecha_Alta + ", Fecha_Baja=" + Fecha_Baja + ", Direccion="
-				+ Direccion + ", Ciudad=" + Ciudad + ", CodigoPostal=" + CodigoPostal + ", Pais=" + Pais + "]";
+		return "CLIENTE [id=" + id + ", identificacion=" + identificacion + ", tipoCliente=" + tipoCliente
+				+ ", estado=" + estado + ", fechaAlta=" + fechaAlta + ", fechaBaja=" + fechaBaja + ", direccion="
+				+ direccion + ", ciudad=" + ciudad + ", codigoPostal=" + codigoPostal + ", pais=" + pais + "]";
 	}
 
 }

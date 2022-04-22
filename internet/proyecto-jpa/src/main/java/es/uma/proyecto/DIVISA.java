@@ -10,35 +10,35 @@ import java.util.Objects;
 public class DIVISA {
 	@Id
     @Column(nullable = false, length = 3)
-    private String Abreviatura;
+    private String abreviatura;
     @Column(nullable = false)
-    private String Nombre;
-    private String Simbolo;
+    private String nombre;
+    private String simbolo;
     @Column(nullable = false)
-    private Double CambioEuro;
+    private Double cambioEuro;
 
 
-    @OneToMany(mappedBy = "Divisa")
+    @OneToMany(mappedBy = "divisa")
     private List<CUENTA_REFERENCIA> divisas;
 
-    @OneToMany(mappedBy = "Receptor")
-    private List<TRANSACCION> Receptor;
+    @OneToMany(mappedBy = "receptor")
+    private List<TRANSACCION> receptor;
 
 
-    @OneToMany(mappedBy = "Emisor")
-    private List<TRANSACCION> Emisor;
+    @OneToMany(mappedBy = "emisor")
+    private List<TRANSACCION> emisor;
 
     public DIVISA(String abreviatura, String nombre, String simbolo, Double cambioEuro) {
-		Abreviatura = abreviatura;
-		Nombre = nombre;
-		Simbolo = simbolo;
-		CambioEuro = cambioEuro;
+		this.abreviatura = abreviatura;
+		this.nombre = nombre;
+		this.simbolo = simbolo;
+		this.cambioEuro = cambioEuro;
 	}
 
     public DIVISA(String abreviatura, String nombre, Double cambioEuro) {
-		Abreviatura = abreviatura;
-		Nombre = nombre;
-		CambioEuro = cambioEuro;
+    	this.abreviatura = abreviatura;
+    	this.nombre = nombre;
+    	this.cambioEuro = cambioEuro;
 	}
     
     public DIVISA() {
@@ -56,51 +56,51 @@ public class DIVISA {
 
 
     public List<TRANSACCION> getReceptor() {
-        return this.Receptor;
+        return this.receptor;
     }
 
-    public void setReceptor(List<TRANSACCION> Receptor) {
-        this.Receptor = Receptor;
+    public void setReceptor(List<TRANSACCION> receptor) {
+        this.receptor = receptor;
     }
 
     public List<TRANSACCION> getEmisor() {
-        return this.Emisor;
+        return this.emisor;
     }
 
-    public void setEmisor(List<TRANSACCION> Emisor) {
-        this.Emisor = Emisor;
+    public void setEmisor(List<TRANSACCION> emisor) {
+        this.emisor = emisor;
     }
     
-    public void setAbreviatura(String Abreviatura) {
-        this.Abreviatura = Abreviatura;
+    public void setAbreviatura(String abreviatura) {
+        this.abreviatura = abreviatura;
     }
 
     public String getAbreviatura() {
-        return Abreviatura;
+        return abreviatura;
     }
 
     public void setNombre(String nombre) {
-        Nombre = nombre;
+        this.nombre = nombre;
     }
     
     public String getNombre() {
-        return Nombre;
+        return nombre;
     }
 
     public String getSimbolo() {
-        return Simbolo;
+        return simbolo;
     }
 
     public void setSimbolo(String simbolo) {
-        Simbolo = simbolo;
+        this.simbolo = simbolo;
     }
 
     public void setCambioEuro(Double cambioEuro) {
-        CambioEuro = cambioEuro;
+        this.cambioEuro = cambioEuro;
     }
     
     public Double getCambioEuro() {
-        return CambioEuro;
+        return cambioEuro;
     }
 
     @Override
@@ -108,7 +108,7 @@ public class DIVISA {
         if (this == o) return true;
         if (!(o instanceof DIVISA)) return false;
         DIVISA divisa = (DIVISA) o;
-        return Objects.equals(getAbreviatura(), divisa.getAbreviatura()) && divisa.Nombre.equalsIgnoreCase(this.Nombre);
+        return Objects.equals(getAbreviatura(), divisa.getAbreviatura()) && divisa.nombre.equalsIgnoreCase(this.nombre);
     }
 
     @Override
@@ -118,8 +118,8 @@ public class DIVISA {
 
 	@Override
 	public String toString() {
-		return "DIVISA [Abreviatura=" + Abreviatura + ", Nombre=" + Nombre + ", Simbolo=" + Simbolo + ", CambioEuro="
-				+ CambioEuro + "]";
+		return "DIVISA [abreviatura=" + abreviatura + ", nombre=" + nombre + ", simbolo=" + simbolo + ", cambioEuro="
+				+ cambioEuro + "]";
 	}
 
 }

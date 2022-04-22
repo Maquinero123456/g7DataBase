@@ -14,34 +14,34 @@ import javax.persistence.TemporalType;
 public class PERSONA_AUTORIZADA {
     
     @Id @GeneratedValue
-    private String ID;
+    private String id;
     @Column(unique=true, nullable=false)
-    private String Identificacion;
+    private String identificacion;
     @Column(nullable=false)
-    private String Nombre;
+    private String nombre;
     @Column(nullable=false)
-    private String Apellidos;
+    private String apellidos;
     @Column(nullable=false)
-    private String Direccion;
+    private String direccion;
     @Temporal(TemporalType.DATE)
-    private Date Fecha_Nacimiento;
-    private String Estado;
+    private Date fechaNacimiento;
+    private String estado;
     @Temporal(TemporalType.DATE)
-    private Date Fecha_Inicio;
+    private Date fechaInicio;
     @Temporal(TemporalType.DATE)
-    private Date FechaFin;
+    private Date fechaFin;
 
 
     public PERSONA_AUTORIZADA(String id, String ident, String nom, String ape, String dir, Date nac, String est, Date alta, Date baja){
-    	this.ID = id;
-    	this.Identificacion = ident;
-    	this.Nombre = nom;
-    	this.Apellidos = ape;
-    	this.Direccion = dir;
-    	this.Fecha_Nacimiento = nac;
-    	this.Estado = est;
-    	this.Fecha_Inicio = alta;
-    	this.FechaFin = baja;
+    	this.id = id;
+    	this.identificacion = ident;
+    	this.nombre = nom;
+    	this.apellidos = ape;
+    	this.direccion = dir;
+    	this.fechaNacimiento = nac;
+    	this.estado = est;
+    	this.fechaInicio = alta;
+    	this.fechaFin = baja;
     }
     
     public PERSONA_AUTORIZADA(){
@@ -49,76 +49,76 @@ public class PERSONA_AUTORIZADA {
     }
 
     public String getID() {
-        return this.ID;
+        return this.id;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
+    public void setID(String id) {
+        this.id = id;
     }
 
     public String getIdentificacion() {
-        return this.Identificacion;
+        return this.identificacion;
     }
 
-    public void setIdentificacion(String Identificacion) {
-        this.Identificacion = Identificacion;
+    public void setIdentificacion(String identificacion) {
+        this.identificacion = identificacion;
     }
 
     public String getNombre() {
-        return this.Nombre;
+        return this.nombre;
     }
 
-    public void setNombre(String Nombre) {
-        this.Nombre = Nombre;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getApellidos() {
-        return this.Apellidos;
+        return this.apellidos;
     }
 
-    public void setApellidos(String Apellidos) {
-        this.Apellidos = Apellidos;
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
     }
 
     public String getDireccion() {
-        return this.Direccion;
+        return this.direccion;
     }
 
-    public void setDireccion(String Direccion) {
-        this.Direccion = Direccion;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
     public Date getFecha_Nacimiento() {
-        return this.Fecha_Nacimiento;
+        return this.fechaNacimiento;
     }
 
-    public void setFecha_Nacimiento(Date Fecha_Nacimiento) {
-        this.Fecha_Nacimiento = Fecha_Nacimiento;
+    public void setFecha_Nacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 
 
     public String getEstado() {
-        return this.Estado;
+        return this.estado;
     }
 
-    public void setEstado(String Estado) {
-        this.Estado = Estado;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public Date getFecha_Inicio() {
-        return this.Fecha_Inicio;
+        return this.fechaInicio;
     }
 
-    public void setFecha_Inicio(Date Fecha_Inicio) {
-        this.Fecha_Inicio = Fecha_Inicio;
+    public void setFecha_Inicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
     }
 
     public Date getFechaFin() {
-        return this.FechaFin;
+        return this.fechaFin;
     }
 
-    public void setFechaFin(Date FechaFin) {
-        this.FechaFin = FechaFin;
+    public void setFechaFin(Date fechaFin) {
+        this.fechaFin = fechaFin;
     }
 
 
@@ -130,19 +130,19 @@ public class PERSONA_AUTORIZADA {
             return false;
         }
         PERSONA_AUTORIZADA pA = (PERSONA_AUTORIZADA) o;
-        return Identificacion.equalsIgnoreCase(pA.Identificacion);
+        return identificacion.equalsIgnoreCase(pA.identificacion);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ID, Identificacion);
+        return Objects.hash(id, identificacion);
     }
 
 	@Override
 	public String toString() {
-		return "PERSONA_AUTORIZADA [ID=" + ID + ", Identificacion=" + Identificacion + ", Nombre=" + Nombre
-				+ ", Apellidos=" + Apellidos + ", Direccion=" + Direccion + ", Fecha_Nacimiento=" + Fecha_Nacimiento
-				+ ", Estado=" + Estado + ", Fecha_Inicio=" + Fecha_Inicio + ", FechaFin=" + FechaFin + "]";
+		return "PERSONA_AUTORIZADA [id=" + id + ", identificacion=" + identificacion + ", nombre=" + nombre
+				+ ", apellidos=" + apellidos + ", direccion=" + direccion + ", fechaNacimiento=" + fechaNacimiento
+				+ ", estado=" + estado + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin + "]";
 	}
 
 }

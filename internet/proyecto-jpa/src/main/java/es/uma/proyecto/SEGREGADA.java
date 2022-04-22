@@ -11,7 +11,7 @@ import javax.persistence.OneToOne;
 @DiscriminatorValue("POOLED_ACCOUNT")
 public class SEGREGADA extends CUENTA_FINTECH {
 
-	private Double Comision;
+	private Double comision;
 
 	public SEGREGADA(){
 		super();
@@ -19,23 +19,23 @@ public class SEGREGADA extends CUENTA_FINTECH {
 
 	public SEGREGADA(String iban, String swift, Boolean est, Date alta, Date baja, String clasic, Double comision){
 		super(iban, swift, est, alta, baja, clasic);
-		this.Comision= comision;
+		this.comision = comision;
 	}
 
 	public SEGREGADA(String iban, Boolean est, Date alta, Date baja, String clasic, Double comision){
 		super(iban, est, alta, baja, clasic);
-		this.Comision = comision;
+		this.comision = comision;
 	}
 
     @OneToOne
     @JoinColumn(nullable = false, unique = true)
-    private CUENTA_REFERENCIA cuenta_referencia;
+    private CUENTA_REFERENCIA cuentaReferencia;
 
     public SEGREGADA(String iban, String swift, Boolean est, Date alta, Date baja, String clasic, Double comision,
-			CUENTA_REFERENCIA cuenta_referencia) {
+			CUENTA_REFERENCIA cuentaReferencia) {
 		super(iban, swift, est, alta, baja, clasic);
-		Comision = comision;
-		this.cuenta_referencia = cuenta_referencia;
+		this.comision = comision;
+		this.cuentaReferencia = cuentaReferencia;
 	}
     
     public SEGREGADA(String iban, String swift, Boolean est, Date alta, Date baja, String clasic) {
@@ -43,25 +43,25 @@ public class SEGREGADA extends CUENTA_FINTECH {
     }
     
 	public Double getComision() {
-		return Comision;
+		return comision;
 	}
 
 	public void setComision(Double comision) {
-		Comision = comision;
+		this.comision = comision;
 	}
 
 	public CUENTA_REFERENCIA getCuenta_referencia() {
-		return cuenta_referencia;
+		return cuentaReferencia;
 	}
 
-	public void setCuenta_referencia(CUENTA_REFERENCIA cuenta_referencia) {
-		this.cuenta_referencia = cuenta_referencia;
+	public void setCuenta_referencia(CUENTA_REFERENCIA cuentaReferencia) {
+		this.cuentaReferencia = cuentaReferencia;
 	}
 
 
 	@Override
 	public String toString() {
-		return "SEGREGADA [Comision=" + Comision + ", cuenta_referencia=" + cuenta_referencia + "]";
+		return "SEGREGADA [comision=" + comision + ", cuentaReferencia=" + cuentaReferencia + "]";
 	}
 
 }

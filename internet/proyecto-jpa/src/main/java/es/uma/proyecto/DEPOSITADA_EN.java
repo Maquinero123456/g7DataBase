@@ -14,38 +14,38 @@ import javax.persistence.Table;
 public class DEPOSITADA_EN {
     
     @Id
-    private CUENTA_REFERENCIA cuenta_referencia;
+    private CUENTA_REFERENCIA cuentaReferencia;
 
     @Id
-    private POOLED_ACCOUNT pooled_account;
+    private POOLED_ACCOUNT pooledAccount;
     @Column(nullable = false)
-    private Double Saldo;
+    private Double saldo;
 
 
     public DEPOSITADA_EN() {
     }
 
     public DEPOSITADA_EN(CUENTA_REFERENCIA cr, POOLED_ACCOUNT pa, Double saldo){
-        this.cuenta_referencia = cr;
-        this.pooled_account = pa;
-        this.Saldo = saldo;
+        this.cuentaReferencia = cr;
+        this.pooledAccount = pa;
+        this.saldo = saldo;
     }
 
     public Double getSaldo() {
-        return Saldo;
+        return saldo;
     }
 
-    public void setSaldo(Double saldo) {
-        Saldo = saldo;
+    public void setSaldo(Double sld) {
+        saldo = sld;
     }
 
 
-    public CUENTA_REFERENCIA getCuenta_referencia() {
-		return cuenta_referencia;
+    public CUENTA_REFERENCIA getCuentaReferencia() {
+		return cuentaReferencia;
 	}
 
-	public POOLED_ACCOUNT getPooled_account() {
-		return pooled_account;
+	public POOLED_ACCOUNT getPooledAccount() {
+		return pooledAccount;
 	}
 
 	@Override
@@ -56,17 +56,17 @@ public class DEPOSITADA_EN {
             return false;
         }
         DEPOSITADA_EN dep = (DEPOSITADA_EN) o;
-        return Objects.equals(this.pooled_account, dep.getPooled_account()) && Objects.equals(this.cuenta_referencia, dep.getCuenta_referencia());
+        return Objects.equals(this.pooledAccount, dep.getPooledAccount()) && Objects.equals(this.cuentaReferencia, dep.getCuentaReferencia());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getCuenta_referencia(), getPooled_account());
+        return Objects.hash(getCuentaReferencia(), getPooledAccount());
     }
     
 	@Override
 	public String toString() {
-		return "DEPOSITADA_EN [cuenta_referencia=" + cuenta_referencia + ", pooled_account=" + pooled_account
-				+ ", Saldo=" + Saldo + "]";
+		return "DEPOSITADA_EN [cuentaReferencia=" + cuentaReferencia + ", pooledAccount=" + pooledAccount
+				+ ", saldo=" + saldo + "]";
 	}
 }

@@ -20,11 +20,11 @@ public class AUTORIZACION {
     private EMPRESA empresa;
 
 	@Column(nullable=false)
-    private String Tipo;
+    private String tipo;
 
 	
 	public AUTORIZACION(String tipo, PERSONA_AUTORIZADA per, EMPRESA emp) {
-		this.Tipo = tipo;
+		this.tipo = tipo;
 		this.empresa = emp;
 		this.persona = per;
 	}
@@ -41,11 +41,11 @@ public class AUTORIZACION {
 	}
     
 	public String getTipo() {
-		return this.Tipo;
+		return this.tipo;
 	}
 
 	public void setTipo(String tipo) {
-		this.Tipo = tipo;
+		this.tipo = tipo;
 	}
 	
 	public PERSONA_AUTORIZADA getPersona() {
@@ -74,7 +74,7 @@ public class AUTORIZACION {
 
 	@Override
 	public String toString() {
-		return "AUTORIZACION [persona=" + persona + ", empresa=" + empresa + ", Tipo=" + Tipo + "]";
+		return "AUTORIZACION [persona=" + persona + ", empresa=" + empresa + ", tipo=" + tipo + "]";
 	}
 
 	

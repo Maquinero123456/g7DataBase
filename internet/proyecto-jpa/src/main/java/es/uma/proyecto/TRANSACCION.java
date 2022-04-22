@@ -7,92 +7,92 @@ import java.util.Objects;
 @Entity
 public class TRANSACCION {
     @Id @GeneratedValue
-    private String ID_Unico;
+    private String idUnico;
     @Column(nullable = false) @Temporal(TemporalType.DATE)
     private Date fechaInstruccion;
     @Column(nullable = false)
-    private double Cantidad;
+    private double cantidad;
     @Temporal(TemporalType.DATE)
     private Date fechaEjecucion;
     @Column(nullable = false)
-    private String Tipo;
-    private double Comision;
-    private boolean Internacional;
+    private String tipo;
+    private double comision;
+    private boolean internacional;
 
     @JoinColumn(nullable=false)
-    private CUENTA Destino;
+    private CUENTA destino;
     @JoinColumn(nullable=false)
-    private CUENTA Origen;
+    private CUENTA origen;
 
     @JoinColumn(nullable = false)
-    private DIVISA Receptor;
+    private DIVISA receptor;
 
     @JoinColumn(nullable = false)
-    private DIVISA Emisor;
+    private DIVISA emisor;
 
     public TRANSACCION() {
     }
 
-    public TRANSACCION(String ID_Unico, Date fechaInstruccion, double cantidad, String tipo, CUENTA destino, CUENTA origen, DIVISA receptor, DIVISA emisor) {
-        this.ID_Unico = ID_Unico;
+    public TRANSACCION(String idUnico, Date fechaInstruccion, double cantidad, String tipo, CUENTA destino, CUENTA origen, DIVISA receptor, DIVISA emisor) {
+        this.idUnico = idUnico;
         this.fechaInstruccion = fechaInstruccion;
-        this.Cantidad = cantidad;
-        this.Tipo = tipo;
-        this.Destino = destino;
-        this.Origen = origen;
-        this.Receptor = receptor;
-        this.Emisor = emisor;
+        this.cantidad = cantidad;
+        this.tipo = tipo;
+        this.destino = destino;
+        this.origen = origen;
+        this.receptor = receptor;
+        this.emisor = emisor;
     }
 
     public void setFechaInstruccion(Date fechaInstruccion) {
         this.fechaInstruccion = fechaInstruccion;
     }
-    public void setCantidad(double Cantidad) {
-        this.Cantidad = Cantidad;
+    public void setCantidad(double cantidad) {
+        this.cantidad = cantidad;
     }
-    public void setTipo(String Tipo) {
-        this.Tipo = Tipo;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public boolean getInternacional() {
-        return this.Internacional;
+        return this.internacional;
     }
 
 
     public CUENTA getDestino() {
-        return this.Destino;
+        return this.destino;
     }
 
-    public void setDestino(CUENTA Destino) {
-        this.Destino = Destino;
+    public void setDestino(CUENTA destino) {
+        this.destino = destino;
     }
 
     public CUENTA getOrigen() {
-        return this.Origen;
+        return this.origen;
     }
 
-    public void setOrigen(CUENTA Origen) {
-        this.Origen = Origen;
+    public void setOrigen(CUENTA origen) {
+        this.origen = origen;
     }
 
     public DIVISA getReceptor() {
-        return this.Receptor;
+        return this.receptor;
     }
 
-    public void setReceptor(DIVISA Receptor) {
-        this.Receptor = Receptor;
+    public void setReceptor(DIVISA receptor) {
+        this.receptor = receptor;
     }
 
     public DIVISA getEmisor() {
-        return this.Emisor;
+        return this.emisor;
     }
 
-    public void setEmisor(DIVISA Emisor) {
-        this.Emisor = Emisor;
+    public void setEmisor(DIVISA emisor) {
+        this.emisor = emisor;
     }
 
     public String getID_Unico() {
-        return ID_Unico;
+        return idUnico;
     }
 
     public Date getFechaEjecucion() {
@@ -104,23 +104,23 @@ public class TRANSACCION {
     }
 
     public double getComision() {
-        return Comision;
+        return comision;
     }
 
     public void setComision(double comision) {
-        Comision = comision;
+        this.comision = comision;
     }
 
     public boolean isInternacional() {
-        return Internacional;
+        return internacional;
     }
 
     public void setInternacional(boolean internacional) {
-        Internacional = internacional;
+        this.internacional = internacional;
     }
 
     public String getTipo() {
-        return Tipo;
+        return tipo;
     }
 
     public Date getFechaInstruccion() {
@@ -128,7 +128,7 @@ public class TRANSACCION {
     }
 
     public double getCantidad() {
-        return Cantidad;
+        return cantidad;
     }
 
     @Override
@@ -139,19 +139,19 @@ public class TRANSACCION {
             return false;
         }
         TRANSACCION tran = (TRANSACCION) o;
-        return ID_Unico.equalsIgnoreCase(tran.ID_Unico) && Objects.equals(fechaInstruccion, tran.fechaInstruccion) && Objects.equals(Cantidad, tran.Cantidad) && Tipo.equalsIgnoreCase(tran.Tipo);
+        return idUnico.equalsIgnoreCase(tran.idUnico) && Objects.equals(fechaInstruccion, tran.fechaInstruccion) && Objects.equals(cantidad, tran.cantidad) && tipo.equalsIgnoreCase(tran.tipo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ID_Unico, fechaInstruccion, Cantidad, Tipo);
+        return Objects.hash(idUnico, fechaInstruccion, cantidad, tipo);
     }
 
 	@Override
 	public String toString() {
-		return "TRANSACCION [ID_Unico=" + ID_Unico + ", fechaInstruccion=" + fechaInstruccion + ", Cantidad=" + Cantidad
-				+ ", fechaEjecucion=" + fechaEjecucion + ", Tipo=" + Tipo + ", Comision=" + Comision
-				+ ", Internacional=" + Internacional + ", Destino=" + Destino + ", Origen=" + Origen + ", Receptor="
-				+ Receptor + ", Emisor=" + Emisor + "]";
+		return "TRANSACCION [idUnico=" + idUnico + ", fechaInstruccion=" + fechaInstruccion + ", cantidad=" + cantidad
+				+ ", fechaEjecucion=" + fechaEjecucion + ", tipo=" + tipo + ", comision=" + comision
+				+ ", internacional=" + internacional + ", destino=" + destino + ", origen=" + origen + ", receptor="
+				+ receptor + ", emisor=" + emisor + "]";
 	}
 }

@@ -8,23 +8,23 @@ import java.util.Date;
 public class INDIVIDUAL extends CLIENTE{
     //Atributos
     @Column(nullable = false)
-    private String Nombre;
+    private String nombre;
     @Column(nullable = false)
-    private String Apellidos;
+    private String apellidos;
     @Temporal(TemporalType.DATE)
-    private Date Fecha_Nacimiento;
+    private Date fechaNacimiento;
 
     public INDIVIDUAL(String id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais, String nom, String ape, Date nac) {
     	super(id, ident, tp, est, alta, baja, direc, ciudad, cp, pais);
-    	this.Nombre = nom;
-    	this.Apellidos = ape;
-    	this.Fecha_Nacimiento = nac;
+    	this.nombre = nom;
+    	this.apellidos = ape;
+    	this.fechaNacimiento = nac;
     }
     
     public INDIVIDUAL(String id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais, String nombre, String apellido) {
     	super(id, ident, tp, est, alta, baja, direc, ciudad, cp, pais);
-        this.Nombre = nombre;
-        this.Apellidos = apellido;
+        this.nombre = nombre;
+        this.apellidos = apellido;
     }
     
     public INDIVIDUAL(){
@@ -33,32 +33,32 @@ public class INDIVIDUAL extends CLIENTE{
 
     //Setters y Getters
     public String getNombre() {
-        return Nombre;
+        return nombre;
     }
 
     public void setNombre(String nombre) {
-        Nombre = nombre;
+        this.nombre = nombre;
     }
 
     public String getApellidos() {
-        return Apellidos;
+        return apellidos;
     }
 
     public void setApellidos(String apellidos) {
-        Apellidos = apellidos;
+        this.apellidos = apellidos;
     }
 
-    public Date getFecha_Nacimiento() {
-        return Fecha_Nacimiento;
+    public Date getFechaNacimiento() {
+        return fechaNacimiento;
     }
 
-    public void setFecha_Nacimiento(Date fecha_Nacimiento) {
-        Fecha_Nacimiento = fecha_Nacimiento;
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 
 	@Override
 	public String toString() {
-		return "INDIVIDUAL [Nombre=" + Nombre + ", Apellidos=" + Apellidos + ", Fecha_Nacimiento=" + Fecha_Nacimiento
+		return "INDIVIDUAL [nombre=" + nombre + ", apellidos=" + apellidos + ", fechaNacimiento=" + fechaNacimiento
 				+ "]";
 	}
 
