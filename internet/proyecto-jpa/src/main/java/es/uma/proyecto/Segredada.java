@@ -3,7 +3,6 @@ package es.uma.proyecto;
 import java.util.Date;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 
 @Entity
 @DiscriminatorValue("PooledAccount")
