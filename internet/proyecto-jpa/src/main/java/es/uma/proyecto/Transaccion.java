@@ -19,15 +19,16 @@ public class Transaccion {
     private double comision;
     private boolean internacional;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Cuenta destino;
-    @ManyToOne
+    
+    @ManyToOne(optional = false)
     private Cuenta origen;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Divisa receptor;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Divisa emisor;
 
     public Transaccion() {

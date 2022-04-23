@@ -24,7 +24,7 @@ public class Usuario {
     private Boolean esAdministrativo;
 
     @OneToOne
-    private Individual Individual;
+    private Individual individual;
 
     @OneToOne
     private PersonaAutorizada personaAutorizada;
@@ -67,11 +67,11 @@ public class Usuario {
     }
 
     public Individual getIndividual() {
-        return this.Individual;
+        return this.individual;
     }
 
-    public void setIndividual(Individual Individual) {
-        this.Individual = Individual;
+    public void setIndividual(Individual indv) {
+        this.individual = indv;
     }
 
     public PersonaAutorizada getPersonaAutorizada() {

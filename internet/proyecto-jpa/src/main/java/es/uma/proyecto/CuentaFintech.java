@@ -20,7 +20,7 @@ public class CuentaFintech extends Cuenta {
     private Date fechaCierre;
     private String clasificacion;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Cliente cliente;
 
     public CuentaFintech(String iban, String swift, Boolean est, Date alta, Date baja, String clasic) {
