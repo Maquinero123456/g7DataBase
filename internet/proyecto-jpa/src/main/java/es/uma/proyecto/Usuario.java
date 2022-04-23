@@ -99,4 +99,11 @@ public class Usuario {
         return Objects.hash(nombre);
     }
 
+
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", nombre=" + nombre + ", password=" + password + ", esAdministrativo="
+				+ esAdministrativo + ", individual=" + individual + ", personaAutorizada=" + personaAutorizada + "]";
+	}
+
 }
