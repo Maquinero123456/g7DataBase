@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.DiscriminatorType;
 
 @Entity
-@Table(name = "Cuenta")
+@Table(name = "CUENTA")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="Tipo_Cuenta", discriminatorType = DiscriminatorType.CHAR)
 @DiscriminatorValue("Cuenta")

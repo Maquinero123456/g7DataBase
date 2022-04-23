@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
+@Table(name = "TRANSACCION")
 public class Transaccion {
     @Id @GeneratedValue
     private String idUnico;
