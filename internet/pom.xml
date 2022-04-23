@@ -41,7 +41,8 @@
   
   <modules>
       
-    <module>proyecto-jpa</module>
+    	<module>proyecto-jpa</module>
+	<module>proyecto-ejb</module>
       
   </modules>
 </project>
