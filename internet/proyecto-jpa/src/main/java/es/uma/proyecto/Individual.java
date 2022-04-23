@@ -13,7 +13,7 @@ public class Individual extends Cliente{
     private String apellidos;
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
-    @OneToOne
+	@OneToOne
     private Usuario usuario;
 
     public Individual(String id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais, String nom, String ape, Date nac) {
