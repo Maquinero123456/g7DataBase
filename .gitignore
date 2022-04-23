@@ -19,3 +19,4 @@ buildNumber.properties
 **/*.settings
 **/*.classpath
 /proyecto-jpa/esquema.ddl
+*.bat

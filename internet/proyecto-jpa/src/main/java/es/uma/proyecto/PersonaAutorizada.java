@@ -36,6 +36,7 @@ public class PersonaAutorizada {
 
     @OneToMany(mappedBy = "persona")
     private List<Autorizacion> autorizacion;
+    
     @OneToOne
     private Usuario usuario;
 

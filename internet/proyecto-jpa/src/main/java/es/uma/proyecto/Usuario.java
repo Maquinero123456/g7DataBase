@@ -23,10 +23,10 @@ public class Usuario {
     @Column(nullable = false)
     private Boolean esAdministrativo;
 
-    @OneToOne(optional = false, mappedBy = "usuario")
+    @OneToOne
     private Individual individual;
 
-    @OneToOne(optional = false, mappedBy = "usuario")
+    @OneToOne
     private PersonaAutorizada personaAutorizada;
 
 

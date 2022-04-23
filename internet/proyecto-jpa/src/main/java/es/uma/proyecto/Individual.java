@@ -13,6 +13,7 @@ public class Individual extends Cliente{
     private String apellidos;
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
+    
 	@OneToOne
     private Usuario usuario;
 
