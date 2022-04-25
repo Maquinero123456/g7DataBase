@@ -37,7 +37,10 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente")
     private List<CuentaFintech> cuentas;
     
-    
+    @OneToOne
+    @JoinColumn(unique = true)
+    private Usuario usuario;
+
     public Cliente(String id, String ident, String tp, String est, Date alta, String direc, String ciudad, String cp, String pais){
     	this.id = id;
     	this.identificacion = ident;

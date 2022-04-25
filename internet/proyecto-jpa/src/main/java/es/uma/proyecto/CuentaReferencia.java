@@ -3,13 +3,15 @@ package es.uma.proyecto;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @DiscriminatorValue("CuentaReferencia")
@@ -26,13 +28,15 @@ public class CuentaReferencia extends Cuenta {
     private Boolean estado;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Divisa divisa;
 
-    @OneToOne(mappedBy = "cuentaReferencia")
-    private Segredada segredada;
-
     @OneToMany(mappedBy = "cuentaReferencia")
-    private List<DepositadaEn> depositadaEn;
+    private Set<DepositadaEn> depositadaEn = new HashSet<DepositadaEn>();
+
+    @OneToOne(mappedBy = "cuentaReferencia")
+    @JoinColumn(unique = true)
+    private Segredada segregada;
 
     public CuentaReferencia(String iban, String nombre, Double saldo){
         super(iban);

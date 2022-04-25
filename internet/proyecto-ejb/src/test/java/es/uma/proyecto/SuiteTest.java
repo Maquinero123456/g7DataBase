@@ -1,4 +1,4 @@
-package es.uma.informatica.sii.ejb.practica;
+package es.uma.proyecto;
 
 import java.util.Properties;
 import java.util.logging.Logger;

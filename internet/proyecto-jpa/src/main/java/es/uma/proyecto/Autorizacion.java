@@ -2,9 +2,10 @@ package es.uma.proyecto;
 
 import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 
@@ -12,12 +13,15 @@ import javax.persistence.Table;
 @Table(name="AUTORIZACION")
 public class Autorizacion {
     
-    @Id
+	@EmbeddedId
+	private EmpresaPersAutoPK fk;
+
 	@ManyToOne
+	@MapsId("personaAutorizada")
     private PersonaAutorizada persona;
 
-    @Id
 	@ManyToOne
+	@MapsId("empresa")
     private Empresa empresa;
 
 	@Column(nullable=false)

@@ -3,6 +3,8 @@ package es.uma.proyecto;
 import java.util.Date;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity
 @DiscriminatorValue("PooledAccount")
@@ -10,7 +12,8 @@ public class Segredada extends CuentaFintech {
 
 	private Double comision;
 
-	
+	@OneToOne
+	@JoinColumn(nullable = false, unique = true)
     private CuentaReferencia cuentaReferencia;
 
 	public Segredada(){

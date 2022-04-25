@@ -1,4 +1,4 @@
-package es.uma.informatica.sii.ejb.practica;
+package es.uma.proyecto;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -10,9 +10,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import es.uma.informatica.sii.ejb.practica.entidades.Ingrediente;
+/*import es.uma.informatica.sii.ejb.practica.entidades.Ingrediente;
 import es.uma.informatica.sii.ejb.practica.entidades.Lote;
-import es.uma.informatica.sii.ejb.practica.entidades.Producto;
+import es.uma.informatica.sii.ejb.practica.entidades.Producto;*/
 
 public class BaseDatos {
 	public static void inicializaBaseDatos(String nombreUnidadPersistencia) {

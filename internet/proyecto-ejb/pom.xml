@@ -39,7 +39,7 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-    			<groupId>es.uma.proyecto</groupId>
+    			<groupId>es.uma.informatica.sii</groupId>
     			<artifactId>anotaciones</artifactId>
     			<version>1.0.0</version>
 		</dependency>

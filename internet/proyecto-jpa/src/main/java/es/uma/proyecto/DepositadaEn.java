@@ -1,22 +1,27 @@
 package es.uma.proyecto;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "DEPOSITADAEN")
-public class DepositadaEn {
+public class DepositadaEn{
     
-    @Id
+    @EmbeddedId
+    private CuentaRefPoolAccPK fk;
+
     @ManyToOne
+    @MapsId("cuentaReferencia")
     private CuentaReferencia cuentaReferencia;
 
-    @Id
     @ManyToOne
+    @MapsId("pooledAccount")
     private PooledAccount pooledAccount;
+
     @Column(nullable = false)
     private Double saldo;
 

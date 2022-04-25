@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="proyecto" transaction-type="RESOURCE_LOCAL">
-		<class>java.es.uma.proyecto.Autorizacion</class>
-		<class>java.es.uma.proyecto.Cliente</class>
-		<class>java.es.uma.proyecto.CuentaFintech</class>
-		<class>java.es.uma.proyecto.CuentaReferencia</class>
-		<class>java.es.uma.proyecto.Cuenta</class>
-		<class>java.es.uma.proyecto.DepositadaEn</class>
-		<class>java.es.uma.proyecto.Divisa</class>
-		<class>java.es.uma.proyecto.Empresa</class>
-		<class>java.es.uma.proyecto.Individual</class>
-		<class>java.es.uma.proyecto.Main</class>
-		<class>java.es.uma.proyecto.PersonaAutorizada</class>
-		<class>java.es.uma.proyecto.PooledAccount</class>
-		<class>java.es.uma.proyecto.Segregada</class>
-		<class>java.es.uma.proyecto.Transaccion</class>
-		<class>java.es.uma.proyecto.Usuario</class>
+		<class>es.uma.proyecto.Autorizacion</class>
+		<class>es.uma.proyecto.Cliente</class>
+		<class>es.uma.proyecto.CuentaFintech</class>
+		<class>es.uma.proyecto.CuentaReferencia</class>
+		<class>es.uma.proyecto.Cuenta</class>
+		<class>es.uma.proyecto.DepositadaEn</class>
+		<class>es.uma.proyecto.Divisa</class>
+		<class>es.uma.proyecto.Empresa</class>
+		<class>es.uma.proyecto.Individual</class>
+		<class>es.uma.proyecto.Main</class>
+		<class>es.uma.proyecto.PersonaAutorizada</class>
+		<class>es.uma.proyecto.PooledAccount</class>
+		<class>es.uma.proyecto.Segregada</class>
+		<class>es.uma.proyecto.Transaccion</class>
+		<class>es.uma.proyecto.Usuario</class>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 
 		<properties>

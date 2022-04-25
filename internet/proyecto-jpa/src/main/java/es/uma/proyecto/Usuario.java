@@ -23,12 +23,11 @@ public class Usuario {
     @Column(nullable = false)
     private Boolean esAdministrativo;
 
-    @OneToOne
-    private Individual individual;
+    @OneToOne(mappedBy = "usuario")
+    private Cliente cliente;
 
-    @OneToOne
+    @OneToOne(mappedBy = "usuario")
     private PersonaAutorizada personaAutorizada;
-
 
     public Usuario() {
     }
@@ -66,12 +65,12 @@ public class Usuario {
         this.esAdministrativo = esAdministrativo;
     }
 
-    public Individual getIndividual() {
-        return this.individual;
+    public Cliente getCliente() {
+        return this.cliente;
     }
 
-    public void setIndividual(Individual indv) {
-        this.individual = indv;
+    public void setCliente(Cliente indv) {
+        this.cliente = indv;
     }
 
     public PersonaAutorizada getPersonaAutorizada() {
@@ -103,7 +102,7 @@ public class Usuario {
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", nombre=" + nombre + ", password=" + password + ", esAdministrativo="
-				+ esAdministrativo + ", individual=" + individual + ", personaAutorizada=" + personaAutorizada + "]";
+				+ esAdministrativo + ", individual=" + cliente + ", personaAutorizada=" + personaAutorizada + "]";
 	}
 
 }

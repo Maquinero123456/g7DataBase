@@ -21,15 +21,19 @@ public class Transaccion {
     private boolean internacional;
 
     @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
     private Cuenta destino;
     
     @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
     private Cuenta origen;
 
     @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
     private Divisa receptor;
 
     @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
     private Divisa emisor;
 
     public Transaccion() {
