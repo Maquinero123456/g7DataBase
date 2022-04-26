@@ -4,7 +4,6 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -96,7 +95,7 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", nombre=" + nombre + ", password=" + password + ", esAdministrativo="
+		return "Usuario [nombre=" + nombre + ", password=" + password + ", esAdministrativo="
 				+ esAdministrativo + ", individual=" + cliente + ", personaAutorizada=" + personaAutorizada + "]";
 	}
 

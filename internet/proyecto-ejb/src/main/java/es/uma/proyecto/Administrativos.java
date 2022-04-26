@@ -27,5 +27,23 @@ public class Administrativos implements GestionAdministratitivos{
         }
         return user;
     }
+
+	@Override
+	public boolean darAltaCliente(Cliente cliente, boolean individual) throws AdministrativoException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean darBajaCliente(Cliente cliente) throws AdministrativoException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Cliente modificarCliente(Cliente cliente) {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 }

@@ -17,5 +17,29 @@ public interface GestionAdministratitivos {
      *  no coincide 
      */
     
-    public Usuario iniciarSesion(String usuario, String password) throws AdministrativoException, UsuarioException;
+    public Usuario iniciarSesion(String usuario, String password) throws AdministrativoException;
+    
+    
+    /**
+     * Metodo para dar de alta a un cliente (Individual o PersonaAutorizada)
+     * Devuelve si el usuario se ha dado correctamente de alta 
+     */
+    public boolean darAltaCliente(Cliente cliente, boolean individual) throws AdministrativoException;
+    
+    
+    
+    /**
+     * Metodo para dar de Baja al cliente
+     * Elimina la posibilidad del usuario de conectarse (no será ni individual ni persona autorizada)
+     */
+    public boolean darBajaCliente(Cliente cliente) throws AdministrativoException;
+    
+    
+    /**
+     * Metodo para que el administrativo modifique los datos de un cliente
+     * @param es el objeto del cliente a modificar
+     * Devuelve el cliente modificado
+     */
+    public Cliente modificarCliente(Cliente cliente);
+    
 }
