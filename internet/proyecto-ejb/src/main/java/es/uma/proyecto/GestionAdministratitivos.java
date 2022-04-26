@@ -1,6 +1,7 @@
 package es.uma.proyecto;
 
 import javax.ejb.Local;
+import javax.ws.rs.client.Client;
 
 import es.uma.proyecto.exceptions.AdministrativoException;
 import es.uma.proyecto.exceptions.ClienteException;
@@ -41,7 +42,7 @@ public interface GestionAdministratitivos {
      * @param es el objeto del cliente a modificar
      * Devuelve el cliente modificado
      */
-    public Cliente modificarCliente(Cliente cliente);
+    public Cliente modificarCliente(Cliente cliente) throws ClienteException;
  
     
     

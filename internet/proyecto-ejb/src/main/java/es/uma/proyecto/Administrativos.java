@@ -40,12 +40,11 @@ public class Administrativos implements GestionAdministratitivos{
 		}else{
 			cliente.setTipoCliente("PersonaAutorizada");
 		}
-		return true;
 	}
 
 	@Override
 	public boolean darBajaCliente(Cliente cliente) throws ClienteException {
-		Usuario user = em.find(Usuario.class, usuario);
+		Usuario user = em.find(Usuario.class, cliente);
         if(user == null){
             throw new ClienteException("Usuario no encontrado");
         }
@@ -56,9 +55,22 @@ public class Administrativos implements GestionAdministratitivos{
 	}
 
 	@Override
-	public Cliente modificarCliente(Cliente cliente) {
-		// TODO Auto-generated method stub
-		return null;
+	public Cliente modificarCliente(Cliente cliente) throws ClienteException {
+		Cliente client = em.find(Cliente.class, cliente);
+		if(client == null){
+			throw new ClienteException("Cliente no encontrado");
+		}
+		client.setCiudad(cliente.getCiudad());
+		client.setCodigoPostal(client.getCodigoPostal());
+		client.setDireccion(client.getDireccion());
+		client.setDireccion(client.getDireccion());
+		client.setEstado(client.getEstado());
+		client.setPais(client.getPais());
+		client.setFechaBaja(client.getFechaBaja());
+		client.setTipoCliente(client.getTipoCliente());
+		client.setCuentas(client.getCuentas());
+		client.setIdentificacion(client.getIdentificacion());
+		return client;
 	}
 
 	@Override
