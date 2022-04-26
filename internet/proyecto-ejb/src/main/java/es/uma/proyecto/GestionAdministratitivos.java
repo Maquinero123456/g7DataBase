@@ -25,7 +25,7 @@ public interface GestionAdministratitivos {
      * Metodo para dar de alta a un cliente (Individual o PersonaAutorizada)
      * Devuelve si el usuario se ha dado correctamente de alta 
      */
-    public boolean darAltaCliente(Cliente cliente, boolean individual) throws ClienteException;
+    public void darAltaCliente(Cliente cliente, boolean individual) throws ClienteException;
     
     
     
@@ -42,5 +42,47 @@ public interface GestionAdministratitivos {
      * Devuelve el cliente modificado
      */
     public Cliente modificarCliente(Cliente cliente);
+ 
     
+    
+    /**
+     *La aplicación permitirá a un administrativo la apertura de una cuenta. 
+     *La cuenta podrá ser agrupada (pooled) o segregada (segregated). En ambos casos la(s) cuenta(s) 
+     *externa(s) asociada(s) se añade(n) como información, no se hace nada más. 
+     *Será necesario que haya más de una cuenta externa en el caso de una cuenta agrupada con varias divisas.
+     */
+    public void aperturaCuenta();
+    
+    /*
+     La aplicación permitirá a un administrativo añadir personas autorizadas a las cuentas que pertenezcan a cliente que son personas
+     jurídicas. Las personas autorizadas serán las que podrán entrar en la aplicación para realizar
+     operaciones con la cuenta.
+     */
+    public void anadirAutorizados();
+    
+    
+    /*
+     La aplicación permitirá a un administrativo modificar los datos de las personas autorizadas 
+     a operar con cuentas de clientes que son personas jurídicas.
+     */
+    public void modificarAutorizado();
+    
+    
+    /*
+     * La aplicación permitirá a un administrativo dar de baja a personas autorizadas 
+     * a operar con cuentas cuyos clientes sean personas jurídicas. 
+     * Estas personas no se eliminan del sistema, ya que podría ser necesario que la información 
+     * conste para alguna auditoría o informe. 
+     * Una persona autorizada que esté de baja no puede acceder a la cuenta en la que se encontraba
+     * autorizada.
+     */
+    public void eliminarAutorizado();
+    
+    
+    /* 
+     * La aplicación permitirá a un administrativo cerrar una cuenta bancaria. 
+     * Solo se puede cerrar una cuenta que tenga saldo 0 (en todas sus divisas). 
+     * Una cuenta cerrada no se elimina, por si es necesario reportarla en algún informe.
+    */
+    public void cerrarCuenta();
 }

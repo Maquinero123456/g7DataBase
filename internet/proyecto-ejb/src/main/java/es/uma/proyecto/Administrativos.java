@@ -30,7 +30,7 @@ public class Administrativos implements GestionAdministratitivos{
     }
 
 	@Override
-	public boolean darAltaCliente(Cliente cliente, boolean individual) throws ClienteException {
+	public void darAltaCliente(Cliente cliente, boolean individual) throws ClienteException {
 		Cliente client = em.find(Cliente.class, cliente.getID());
 		if(client == null){
 			throw new ClienteException("Cliente no encontrado");
@@ -41,7 +41,6 @@ public class Administrativos implements GestionAdministratitivos{
 			cliente.setTipoCliente("PersonaAutorizada");
 		}
 		return true;
-
 	}
 
 	@Override
@@ -60,6 +59,36 @@ public class Administrativos implements GestionAdministratitivos{
 	public Cliente modificarCliente(Cliente cliente) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void aperturaCuenta() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void anadirAutorizados() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void modificarAutorizado() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void eliminarAutorizado() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cerrarCuenta() {
+		// TODO Auto-generated method stub
+		
 	}
     
 }
