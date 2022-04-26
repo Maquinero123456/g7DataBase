@@ -66,11 +66,9 @@ public class Administrativos implements GestionAdministratitivos{
 		client.setCiudad(cliente.getCiudad());
 		client.setCodigoPostal(client.getCodigoPostal());
 		client.setDireccion(client.getDireccion());
-		client.setDireccion(client.getDireccion());
 		client.setEstado(client.getEstado());
 		client.setPais(client.getPais());
 		client.setFechaBaja(client.getFechaBaja());
-		client.setTipoCliente(client.getTipoCliente());
 		client.setCuentas(client.getCuentas());
 		client.setIdentificacion(client.getIdentificacion());
 		return client;
@@ -86,7 +84,7 @@ public class Administrativos implements GestionAdministratitivos{
 	public void addAutorizados(Empresa empresa, PersonaAutorizada persona, String tipo) throws ClienteException, PersonaAutorizadaException, AutorizacionException{
 		Empresa emp = em.find(Empresa.class, empresa.getID());
 		if(emp == null){
-			throw new ClienteException("Empresa no encontrado");
+			throw new ClienteException("Empresa no encontrada");
 		}
 		PersonaAutorizada pers = em.find(PersonaAutorizada.class, persona.getID());
 		if(pers == null){
