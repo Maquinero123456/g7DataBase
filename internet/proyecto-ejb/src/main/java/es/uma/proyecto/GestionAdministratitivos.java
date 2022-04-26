@@ -33,7 +33,7 @@ public interface GestionAdministratitivos {
      * Metodo para dar de Baja al cliente
      * Elimina la posibilidad del usuario de conectarse (no será ni individual ni persona autorizada)
      */
-    public boolean darBajaCliente(Cliente cliente) throws AdministrativoException;
+    public boolean darBajaCliente(Cliente cliente) throws ClienteException;
     
     
     /**
