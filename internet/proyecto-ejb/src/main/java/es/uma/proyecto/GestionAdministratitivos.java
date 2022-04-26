@@ -3,6 +3,7 @@ package es.uma.proyecto;
 import javax.ejb.Local;
 
 import es.uma.proyecto.exceptions.AdministrativoException;
+import es.uma.proyecto.exceptions.ClienteException;
 import es.uma.proyecto.exceptions.UsuarioException;
 
 @Local
@@ -24,7 +25,7 @@ public interface GestionAdministratitivos {
      * Metodo para dar de alta a un cliente (Individual o PersonaAutorizada)
      * Devuelve si el usuario se ha dado correctamente de alta 
      */
-    public boolean darAltaCliente(Cliente cliente, boolean individual) throws AdministrativoException;
+    public boolean darAltaCliente(Cliente cliente, boolean individual) throws ClienteException;
     
     
     
