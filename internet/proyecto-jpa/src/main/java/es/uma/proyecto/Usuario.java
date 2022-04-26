@@ -13,9 +13,7 @@ import javax.persistence.Table;
 @Table(name = "USUARIO")
 public class Usuario {
     
-    @Id @GeneratedValue
-    private Long id;
-
+    @Id
     @Column(nullable = false, unique = true)
     private String nombre;
     @Column(nullable = false)
@@ -32,17 +30,14 @@ public class Usuario {
     public Usuario() {
     }
     
-
-    public Long getId() {
-        return this.id;
+    public Usuario(String user, String password, Boolean esAdministrativo){
+        this.nombre = user;
+        this.password = password;
+        this.esAdministrativo = esAdministrativo;
     }
 
     public String getNombre() {
         return this.nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     public String getPassword() {
