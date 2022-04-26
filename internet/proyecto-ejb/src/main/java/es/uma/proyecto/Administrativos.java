@@ -30,19 +30,20 @@ public class Administrativos implements GestionAdministratitivos{
 
 	@Override
 	public boolean darAltaCliente(Cliente cliente, boolean individual) throws AdministrativoException {
-		Usuario user = em.find(Usuario.class, usuario);
-        if(user == null){
-            throw new AdministrativoException("Usuario no encontrado");
-        }else {
-        	cliente.
-        }
+		
 		return false;
 	}
 
 	@Override
 	public boolean darBajaCliente(Cliente cliente) throws AdministrativoException {
-		// TODO Auto-generated method stub
-		return false;
+		Usuario user = em.find(Usuario.class, usuario);
+        if(user == null){
+            throw new AdministrativoException("Usuario no encontrado");
+        }
+        
+        cliente.setTipoCliente("Baja");
+        
+		return true;
 	}
 
 	@Override
