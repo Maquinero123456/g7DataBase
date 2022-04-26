@@ -3,6 +3,7 @@ package es.uma.proyecto;
 import javax.ejb.Local;
 
 import es.uma.proyecto.exceptions.AdministrativoException;
+import es.uma.proyecto.exceptions.UsuarioException;
 
 @Local
 public interface GestionAdministratitivos {
@@ -16,6 +17,5 @@ public interface GestionAdministratitivos {
      *  no coincide 
      */
     
-    
-    public Usuario iniciarSesion(String usuario, String password) throws AdministrativoException;
+    public Usuario iniciarSesion(String usuario, String password) throws AdministrativoException, UsuarioException;
 }

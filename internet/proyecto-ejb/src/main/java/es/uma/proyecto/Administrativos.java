@@ -11,7 +11,7 @@ import es.uma.proyecto.exceptions.AdministrativoException;
 @Stateless
 public class Administrativos implements GestionAdministratitivos{
 
-    private static final Logger LOG = Logger.getLogger(Administrativos.class.getCanonicalName())
+    private static final Logger LOG = Logger.getLogger(Administrativos.class.getCanonicalName());
 
     @PersistenceContext(name="Cache")
     private EntityManager em;

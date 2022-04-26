@@ -11,7 +11,7 @@ import es.uma.proyecto.exceptions.UsuarioException;
 @Stateless
 public class CuentasUsuarios implements GestionCuentasUsuarios{
 
-    private static final Logger LOG = Logger.getLogger(CuentasUsuarios.class.getCanonicalName())
+    private static final Logger LOG = Logger.getLogger(CuentasUsuarios.class.getCanonicalName());
 
     @PersistenceContext(name="Cache")
     private EntityManager em;
