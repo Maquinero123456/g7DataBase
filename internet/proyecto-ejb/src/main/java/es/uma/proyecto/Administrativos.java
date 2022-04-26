@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import es.uma.proyecto.exceptions.AdministrativoException;
+import es.uma.proyecto.exceptions.ClienteException;
 
 @Stateless
 public class Administrativos implements GestionAdministratitivos{
@@ -29,9 +30,17 @@ public class Administrativos implements GestionAdministratitivos{
     }
 
 	@Override
-	public boolean darAltaCliente(Cliente cliente, boolean individual) throws AdministrativoException {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean darAltaCliente(Cliente cliente, boolean individual) throws ClienteException {
+		Cliente client = em.find(Cliente.class, cliente.getID());
+		if(client == null){
+			throw new ClienteException("Cliente no encontrado");
+		}
+		if(individual){
+			client.setTipoCliente("Individual");
+		}else{
+			cliente.setTipoCliente("PersonaAutorizada");
+		}
+		return true;
 	}
 
 	@Override
