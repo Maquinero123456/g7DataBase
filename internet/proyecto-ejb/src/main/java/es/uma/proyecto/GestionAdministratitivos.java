@@ -4,7 +4,10 @@ import javax.ejb.Local;
 import javax.ws.rs.client.Client;
 
 import es.uma.proyecto.exceptions.AdministrativoException;
+import es.uma.proyecto.exceptions.AutorizacionException;
 import es.uma.proyecto.exceptions.ClienteException;
+import es.uma.proyecto.exceptions.CuentaException;
+import es.uma.proyecto.exceptions.PersonaAutorizadaException;
 import es.uma.proyecto.exceptions.UsuarioException;
 
 @Local
@@ -39,7 +42,7 @@ public interface GestionAdministratitivos {
     
     /**
      * Metodo para que el administrativo modifique los datos de un cliente
-     * @param es el objeto del cliente a modificar
+     * @param cliente es el objeto del cliente a modificar
      * Devuelve el cliente modificado
      */
     public Cliente modificarCliente(Cliente cliente) throws ClienteException;
@@ -54,36 +57,38 @@ public interface GestionAdministratitivos {
      */
     public void aperturaCuenta();
     
-    /*
-     La aplicación permitirá a un administrativo añadir personas autorizadas a las cuentas que pertenezcan a cliente que son personas
-     jurídicas. Las personas autorizadas serán las que podrán entrar en la aplicación para realizar
+    /**
+     La aplicación permitirá a un administrativo añadir personas autorizadas a las cuentas que pertenezcan a cliente 
+     que son personas jurídicas. Las personas autorizadas serán las que podrán entrar en la aplicación para realizar
      operaciones con la cuenta.
+     * @throws AutorizacionException
      */
-    public void anadirAutorizados();
+    public void addAutorizados(Empresa empresa, PersonaAutorizada persona, String tipo) throws ClienteException, PersonaAutorizadaException, AutorizacionException;
     
     
-    /*
+    /** 
      La aplicación permitirá a un administrativo modificar los datos de las personas autorizadas 
      a operar con cuentas de clientes que son personas jurídicas.
      */
-    public void modificarAutorizado();
+    public void modificarAutorizado(PersonaAutorizada persona) throws PersonaAutorizadaException;
     
     
-    /*
+    /**
      * La aplicación permitirá a un administrativo dar de baja a personas autorizadas 
      * a operar con cuentas cuyos clientes sean personas jurídicas. 
      * Estas personas no se eliminan del sistema, ya que podría ser necesario que la información 
      * conste para alguna auditoría o informe. 
      * Una persona autorizada que esté de baja no puede acceder a la cuenta en la que se encontraba
      * autorizada.
+     * @throws AutorizacionException
      */
-    public void eliminarAutorizado();
+    public void eliminarAutorizado(Empresa empresa, PersonaAutorizada persona) throws ClienteException, PersonaAutorizadaException, AutorizacionException;
     
     
-    /* 
+    /**
      * La aplicación permitirá a un administrativo cerrar una cuenta bancaria. 
      * Solo se puede cerrar una cuenta que tenga saldo 0 (en todas sus divisas). 
      * Una cuenta cerrada no se elimina, por si es necesario reportarla en algún informe.
     */
-    public void cerrarCuenta();
+    public void cerrarCuenta() throws CuentaException;
 }

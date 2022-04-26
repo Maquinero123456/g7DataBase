@@ -15,6 +15,10 @@ public class EmpresaPersAutoPK implements Serializable{
     public EmpresaPersAutoPK() {
     }
 
+    public EmpresaPersAutoPK(String empresa, String personaAutorizada){
+        this.empresa = empresa;
+        this.personaAutorizada = personaAutorizada;
+    }
 
     public String getEmpresa() {
         return this.empresa;

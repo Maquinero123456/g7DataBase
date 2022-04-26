@@ -8,12 +8,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
+import org.eclipse.persistence.annotations.CascadeOnDelete;
+
 
 @Entity
 @Table(name="AUTORIZACION")
 public class Autorizacion {
     
-	@EmbeddedId
+	@EmbeddedId @CascadeOnDelete
 	private EmpresaPersAutoPK fk;
 
 	@ManyToOne
@@ -34,6 +36,17 @@ public class Autorizacion {
 		this.persona = per;
 	}
 	
+	public Autorizacion(EmpresaPersAutoPK fk){
+		this.fk = fk;
+	}
+
+	public Autorizacion(EmpresaPersAutoPK fk, String tipo, PersonaAutorizada per, Empresa emp){
+		this.tipo = tipo;
+		this.empresa = emp;
+		this.persona = per;
+		this.fk = fk;
+	}
+
 	public Autorizacion() {
 		
 	}
