@@ -1,9 +1,5 @@
 package es.uma.proyecto;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -58,13 +54,12 @@ public class CambioDivisa implements GestionCambioDivisa{
         referenciaOriginal.setSaldo(saldo);
         //Actualiza el saldo en las cuentas con la divisa a la que quiero cambiar
         depositadaCambio.setSaldo(depositadaCambio.getSaldo()+cantidad);
-        referenciaCambio.setSaldo(referenciaCambio.getSaldo()+cantidad);
+        referenciaCambio.setSaldo(referenciaCambio.getSaldo()-cantidad);
         //Consigo la fecha de hoy
-        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        Calendar cal = Calendar.getInstance();
-        Date date = cal.getTime();
+        java.util.Date utilDate = new java.util.Date();
+		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());;
         //Creo una nueva transaccion y la meto en la base de datos
-        Transaccion transaccion = new Transaccion(date, cantidad, "Cambio divisa", pooled, pooled, original, divisa);
+        Transaccion transaccion = new Transaccion(sqlDate, cantidad, "Cambio divisa", pooled, pooled, original, divisa);
         em.persist(transaccion);
     }
     
