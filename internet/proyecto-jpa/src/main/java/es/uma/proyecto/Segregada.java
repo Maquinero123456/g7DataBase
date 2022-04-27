@@ -8,7 +8,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 @DiscriminatorValue("PooledAccount")
-public class Segredada extends CuentaFintech {
+public class Segregada extends CuentaFintech {
 
 	private Double comision;
 
@@ -16,28 +16,28 @@ public class Segredada extends CuentaFintech {
 	@JoinColumn(nullable = false, unique = true)
     private CuentaReferencia cuentaReferencia;
 
-	public Segredada(){
+	public Segregada(){
 		super();
 	}
 
-	public Segredada(String iban, String swift, Boolean est, Date alta, Date baja, String clasic, Double comision){
+	public Segregada(String iban, String swift, Boolean est, Date alta, Date baja, String clasic, Double comision){
 		super(iban, swift, est, alta, baja, clasic);
 		this.comision = comision;
 	}
 
-	public Segredada(String iban, Boolean est, Date alta, Date baja, String clasic, Double comision){
+	public Segregada(String iban, Boolean est, Date alta, Date baja, String clasic, Double comision){
 		super(iban, est, alta, baja, clasic);
 		this.comision = comision;
 	}
 
-    public Segredada(String iban, String swift, Boolean est, Date alta, Date baja, String clasic, Double comision,
+    public Segregada(String iban, String swift, Boolean est, Date alta, Date baja, String clasic, Double comision,
 			CuentaReferencia cuentaReferencia) {
 		super(iban, swift, est, alta, baja, clasic);
 		this.comision = comision;
 		this.cuentaReferencia = cuentaReferencia;
 	}
     
-    public Segredada(String iban, String swift, Boolean est, Date alta, Date baja, String clasic) {
+    public Segregada(String iban, String swift, Boolean est, Date alta, Date baja, String clasic) {
     	super(iban, swift, est, alta, baja, clasic);
     }
     
@@ -60,7 +60,7 @@ public class Segredada extends CuentaFintech {
 
 	@Override
 	public String toString() {
-		return "Segredada [comision=" + comision + ", cuentaReferencia=" + cuentaReferencia + "]";
+		return "Segregada [comision=" + comision + ", cuentaReferencia=" + cuentaReferencia + "]";
 	}
 
 }

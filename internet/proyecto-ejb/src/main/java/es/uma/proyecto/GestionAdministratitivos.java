@@ -53,7 +53,7 @@ public interface GestionAdministratitivos {
      *externa(s) asociada(s) se añade(n) como información, no se hace nada más. 
      *Será necesario que haya más de una cuenta externa en el caso de una cuenta agrupada con varias divisas.
      */
-    public void aperturaCuenta();
+    public void aperturaCuenta(String iban) throws CuentaException;
     
     /**
      La aplicación permitirá a un administrativo añadir personas autorizadas a las cuentas que pertenezcan a cliente 
@@ -88,5 +88,5 @@ public interface GestionAdministratitivos {
      * Solo se puede cerrar una cuenta que tenga saldo 0 (en todas sus divisas). 
      * Una cuenta cerrada no se elimina, por si es necesario reportarla en algún informe.
     */
-    public void cerrarCuenta() throws CuentaException;
+    public void cerrarCuenta(String iban) throws CuentaException;
 }

@@ -36,7 +36,7 @@ public class CuentaReferencia extends Cuenta {
 
     @OneToOne(mappedBy = "cuentaReferencia")
     @JoinColumn(unique = true)
-    private Segredada segregada;
+    private Segregada segregada;
 
     public CuentaReferencia(String iban, String nombre, Double saldo){
         super(iban);
