@@ -11,9 +11,9 @@ import es.uma.proyecto.exceptions.ClienteException;
 import es.uma.proyecto.exceptions.CuentaException;
 
 @Stateless
-public class Transaccion implements GestionTransaccion{
+public class GenerarTransaccion implements GestionTransaccion{
 
-	    private static final Logger LOG = Logger.getLogger(Transaccion.class.getCanonicalName());
+	    private static final Logger LOG = Logger.getLogger(GenerarTransaccion.class.getCanonicalName());
 
 	    @PersistenceContext(name="Cache")
 	    private EntityManager em;
@@ -49,9 +49,6 @@ public class Transaccion implements GestionTransaccion{
 			
 			destino.setSaldo(trans+destino.getSaldo());
 			origen.setSaldo(origen.getSaldo()-trans);
-			
-			em.persist(origen);
-			em.persist(destino);
 		}
 		
 	    

@@ -38,6 +38,26 @@ public class DepositadaEn{
     }
 
 
+    public CuentaRefPoolAccPK getFk() {
+        return this.fk;
+    }
+
+    public CuentaReferencia getCuentaReferencia() {
+        return this.cuentaReferencia;
+    }
+
+    public void setCuentaReferencia(CuentaReferencia cuentaReferencia) {
+        this.cuentaReferencia = cuentaReferencia;
+    }
+
+    public PooledAccount getPooledAccount() {
+        return this.pooledAccount;
+    }
+
+    public void setPooledAccount(PooledAccount pooledAccount) {
+        this.pooledAccount = pooledAccount;
+    }
+
     
 	@Override
 	public String toString() {

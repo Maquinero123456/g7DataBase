@@ -39,8 +39,7 @@ public class Transaccion {
     public Transaccion() {
     }
 
-    public Transaccion(String idUnico, Date fechaInstruccion, double cantidad, String tipo, Cuenta destino, Cuenta origen, Divisa receptor, Divisa emisor) {
-        this.idUnico = idUnico;
+    public Transaccion(Date fechaInstruccion, double cantidad, String tipo, Cuenta destino, Cuenta origen, Divisa receptor, Divisa emisor) {
         this.fechaInstruccion = fechaInstruccion;
         this.cantidad = cantidad;
         this.tipo = tipo;
