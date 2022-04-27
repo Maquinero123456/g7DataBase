@@ -110,7 +110,7 @@ public class Administrativos implements GestionAdministratitivos{
 		if(pers == null){
 			throw new PersonaAutorizadaException("Persona no encontrada");
 		}
-		EmpresaPersAutoPK fk = new EmpresaPersAutoPK(emp.getID(), pers.getID().toString());
+		EmpresaPersAutoPK fk = new EmpresaPersAutoPK(emp.getID(), pers.getID());
 		Autorizacion aut = new Autorizacion(fk, tipo, pers, emp);
 		Autorizacion aut2 = em.find(Autorizacion.class, fk);
 		if(aut2!=null){
@@ -149,7 +149,7 @@ public class Administrativos implements GestionAdministratitivos{
 		if(pers == null){
 			throw new PersonaAutorizadaException("Persona no encontrada");
 		}
-		Autorizacion aut = em.find(Autorizacion.class, new Autorizacion(new EmpresaPersAutoPK(empresa.getID(), persona.getID().toString())));
+		Autorizacion aut = em.find(Autorizacion.class, new Autorizacion(new EmpresaPersAutoPK(empresa.getID(), persona.getID())));
 		if(aut == null){
 			throw new AutorizacionException("Autorizacion no encontrada");
 		}

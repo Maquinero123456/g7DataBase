@@ -10,7 +10,6 @@
 		<class>es.uma.proyecto.Divisa</class>
 		<class>es.uma.proyecto.Empresa</class>
 		<class>es.uma.proyecto.Individual</class>
-		<class>es.uma.proyecto.Main</class>
 		<class>es.uma.proyecto.PersonaAutorizada</class>
 		<class>es.uma.proyecto.PooledAccount</class>
 		<class>es.uma.proyecto.Segregada</class>

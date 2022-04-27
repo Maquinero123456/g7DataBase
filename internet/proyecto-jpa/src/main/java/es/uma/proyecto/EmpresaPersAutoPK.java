@@ -9,13 +9,13 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class EmpresaPersAutoPK implements Serializable{
     private String empresa;
-    private String personaAutorizada;
+    private long personaAutorizada;
 
 
     public EmpresaPersAutoPK() {
     }
 
-    public EmpresaPersAutoPK(String empresa, String personaAutorizada){
+    public EmpresaPersAutoPK(String empresa, long personaAutorizada){
         this.empresa = empresa;
         this.personaAutorizada = personaAutorizada;
     }
@@ -28,11 +28,11 @@ public class EmpresaPersAutoPK implements Serializable{
         this.empresa = empresa;
     }
 
-    public String getPersonaAutorizada() {
+    public long getPersonaAutorizada() {
         return this.personaAutorizada;
     }
 
-    public void setPersonaAutorizada(String personaAutorizada) {
+    public void setPersonaAutorizada(long personaAutorizada) {
         this.personaAutorizada = personaAutorizada;
     }
 
