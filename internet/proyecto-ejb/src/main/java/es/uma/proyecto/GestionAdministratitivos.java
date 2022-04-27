@@ -29,7 +29,7 @@ public interface GestionAdministratitivos {
      * Metodo para dar de alta a un cliente (Individual o PersonaAutorizada)
      * Devuelve si el usuario se ha dado correctamente de alta 
      */
-    public void darAltaCliente(Cliente cliente, boolean individual) throws ClienteException;
+    public void darAltaCliente(Cliente cliente) throws ClienteException;
     
     
     
@@ -37,7 +37,7 @@ public interface GestionAdministratitivos {
      * Metodo para dar de Baja al cliente
      * Elimina la posibilidad del usuario de conectarse (no será ni individual ni persona autorizada)
      */
-    public boolean darBajaCliente(Cliente cliente) throws ClienteException;
+    public void darBajaCliente(Cliente cliente) throws ClienteException;
     
     
     /**

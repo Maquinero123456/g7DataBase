@@ -33,29 +33,26 @@ public class Administrativos implements GestionAdministratitivos{
     }
 
 	@Override
-	public void darAltaCliente(Cliente cliente, boolean individual) throws ClienteException {
+	public void darAltaCliente(Cliente cliente) throws ClienteException {
 		Cliente client = em.find(Cliente.class, cliente.getID());
 		if(client == null){
 			throw new ClienteException("Cliente no encontrado");
 		}
-		if(individual){
-			client.setTipoCliente("Individual");
-		}else{
-			cliente.setTipoCliente("PersonaAutorizada");
-		}
+		
+		cliente.setEstado("Alta");
 	}
 
+	
 	@Override
-	public boolean darBajaCliente(Cliente cliente) throws ClienteException {
+	public void darBajaCliente(Cliente cliente) throws ClienteException {
 		Cliente client = em.find(Cliente.class, cliente.getID());
 		if(client == null){
 			throw new ClienteException("Cliente no encontrado");
 		}
         
-        client.setTipoCliente("Baja");
-        
-		return true;
+        client.setEstado("Alta");
 	}
+	
 
 	@Override
 	public Cliente modificarCliente(Cliente cliente) throws ClienteException {
@@ -64,13 +61,13 @@ public class Administrativos implements GestionAdministratitivos{
 			throw new ClienteException("Cliente no encontrado");
 		}
 		client.setCiudad(cliente.getCiudad());
-		client.setCodigoPostal(client.getCodigoPostal());
-		client.setDireccion(client.getDireccion());
-		client.setEstado(client.getEstado());
-		client.setPais(client.getPais());
-		client.setFechaBaja(client.getFechaBaja());
-		client.setCuentas(client.getCuentas());
-		client.setIdentificacion(client.getIdentificacion());
+		client.setCodigoPostal(cliente.getCodigoPostal());
+		client.setDireccion(cliente.getDireccion());
+		client.setDireccion(cliente.getDireccion());
+		client.setPais(cliente.getPais());
+		client.setFechaBaja(cliente.getFechaBaja());
+		client.setCuentas(cliente.getCuentas());
+		client.setIdentificacion(cliente.getIdentificacion());
 		return client;
 	}
 
