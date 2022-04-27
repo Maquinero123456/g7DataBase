@@ -33,6 +33,7 @@ public class PooledAccount extends CuentaFintech {
 				+ ", getSWIFT()=" + getSWIFT() + ", hashCode()=" + hashCode() + ", getClass()=" + getClass() + "]";
 	}
 
-    
-	
+	public Set<DepositadaEn> getDepositadaEn() {
+		return depositadaEn;
+	}
 }

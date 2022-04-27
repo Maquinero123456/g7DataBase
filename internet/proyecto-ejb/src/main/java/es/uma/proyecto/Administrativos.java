@@ -78,9 +78,12 @@ public class Administrativos implements GestionAdministratitivos{
 	}
 
 	@Override
-	public void aperturaCuenta() {
-		// TODO Auto-generated method stub
-		
+	public void aperturaCuenta(String iban) {
+		CuentaFintech account = em.find(CuentaFintech.class, iban);
+		if(account != null){
+			throw new CuentaException("Ya existe una cuenta asociada a ese IBAN");
+		}
+		em.persist(new CuentaFintech(iban));
 	}
 
 	@Override
@@ -140,8 +143,31 @@ public class Administrativos implements GestionAdministratitivos{
 
 	@Override
 	public void cerrarCuenta() throws CuentaException{
-		
-		
+		CuentaFintech account = em.find(CuentaFintech.class, iban);
+		if(account == null){
+			throw new CuentaException("No existe ninguna cuenta asociada a este IBAN");
+		}
+		Segregada saccount = em.find(Segregada.class, iban);
+		if(saccount != null){
+			if(saccount.getSaldo() == 0){
+				saccount.setEstado(false);
+			}
+		}
+
+		PooledAccount paccount = em.find(PooledAccount.class, iban);
+		if(paccount != null){
+			boolean sinSaldo = true;
+			if(!paccount.getDepositadaEn().isEmpty()) {
+				for (DepositadaEn d : paccount.getDepositadaEn()) {
+					if (d.getSaldo() > 0.0) {
+						sinSaldo = false;
+					}
+				}
+			}
+			if(sinSaldo){
+				paccount.setEstado(false);
+			}
+		}
 	}
     
 }
