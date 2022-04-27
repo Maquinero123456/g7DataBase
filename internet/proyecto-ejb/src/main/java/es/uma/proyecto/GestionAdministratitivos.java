@@ -1,14 +1,12 @@
 package es.uma.proyecto;
 
 import javax.ejb.Local;
-import javax.ws.rs.client.Client;
 
 import es.uma.proyecto.exceptions.AdministrativoException;
 import es.uma.proyecto.exceptions.AutorizacionException;
 import es.uma.proyecto.exceptions.ClienteException;
 import es.uma.proyecto.exceptions.CuentaException;
 import es.uma.proyecto.exceptions.PersonaAutorizadaException;
-import es.uma.proyecto.exceptions.UsuarioException;
 
 @Local
 public interface GestionAdministratitivos {

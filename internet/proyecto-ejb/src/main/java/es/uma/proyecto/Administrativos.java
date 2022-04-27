@@ -6,6 +6,12 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import es.uma.proyecto.Autorizacion;
+import es.uma.proyecto.Cliente;
+import es.uma.proyecto.Empresa;
+import es.uma.proyecto.EmpresaPersAutoPK;
+import es.uma.proyecto.PersonaAutorizada;
+import es.uma.proyecto.Usuario;
 import es.uma.proyecto.exceptions.AdministrativoException;
 import es.uma.proyecto.exceptions.AutorizacionException;
 import es.uma.proyecto.exceptions.ClienteException;

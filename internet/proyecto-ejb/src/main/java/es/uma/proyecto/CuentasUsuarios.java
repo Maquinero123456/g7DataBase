@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import es.uma.proyecto.Usuario;
 import es.uma.proyecto.exceptions.UsuarioException;
 
 @Stateless
@@ -13,17 +14,25 @@ public class CuentasUsuarios implements GestionCuentasUsuarios{
 
     private static final Logger LOG = Logger.getLogger(CuentasUsuarios.class.getCanonicalName());
 
-    @PersistenceContext(name="Cache")
+    @PersistenceContext(name="Proyecto")
     private EntityManager em;
 
     @Override
-    public Usuario CrearUsuario(String usuario, String password, Boolean esAdministrativo) throws UsuarioException {
-        Usuario user = em.find(Usuario.class, usuario);
-        if(user != null){
+    public Usuario CrearUsuario(Usuario user) throws UsuarioException {
+        Usuario usuario = em.find(Usuario.class, user.getNombre());
+        if(usuario != null){
             throw new UsuarioException("Usuario ya existe");
         }
-        user = new Usuario(usuario, password, esAdministrativo);
         em.persist(user);
+        return user;
+    }
+
+    @Override
+    public Usuario getUsuario(String nombre) throws UsuarioException {
+        Usuario user = em.find(Usuario.class, nombre);
+        if(user == null){
+            throw new UsuarioException("Usuario no existe");
+        }
         return user;
     }
     

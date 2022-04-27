@@ -14,6 +14,8 @@ public interface GestionCuentasUsuarios {
      * @return Devuelve el usuario si se crea
      * @throws UsuarioException Se lanzara si el usuario ya existe
      */
-    public Usuario CrearUsuario(String usuario, String password, Boolean esAdministrativo) throws UsuarioException;
+    public Usuario CrearUsuario(Usuario user) throws UsuarioException;
+
+    public Usuario getUsuario(String nombre) throws UsuarioException;
     
 }
