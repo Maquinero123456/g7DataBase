@@ -10,50 +10,55 @@ import es.uma.proyecto.exceptions.PersonaAutorizadaException;
 
 @Local
 public interface GestionAdministratitivos {
-    /**
+   
+	
+	/**
      * Metodo para iniciar sesion
      * Si el usuario y la contraseña coinciden con la de la base de datos
      * Devuelve el usuario
      * @param usuario Usuario del administrativo
      * @param password Contraseña del administrativo
-     * @throws AdministrativoException Se lanza si no se encuentra el usuario o la contraseña
-     *  no coincide 
+     * @throws AdministrativoException Se lanza si no se encuentra el usuario o la contraseña no coincide 
      */
-    
     public Usuario iniciarSesion(String usuario, String password) throws AdministrativoException;
     
     
     /**
-     * Metodo para dar de alta a un cliente (Individual o PersonaAutorizada)
-     * Devuelve si el usuario se ha dado correctamente de alta 
+     * Metodo para dar de Alta al cliente
+     * @param le pasamos el ID del cliente para buscarlo en la base de datos
+     * @throws ClienteException en que caso de que el cliente en cuestion no exista)
      */
-    public void darAltaCliente(Cliente cliente) throws ClienteException;
+    public void darAltaCliente(String id) throws ClienteException;
     
     
     
     /**
      * Metodo para dar de Baja al cliente
-     * Elimina la posibilidad del usuario de conectarse (no será ni individual ni persona autorizada)
+     * @param le pasamos el ID del cliente para buscarlo en la base de datos
+     * @throws ClienteException en que caso de que el cliente en cuestion no exista)
      */
-    public void darBajaCliente(Cliente cliente) throws ClienteException;
+    public void darBajaCliente(String id) throws ClienteException;
     
     
     /**
      * Metodo para que el administrativo modifique los datos de un cliente
      * @param cliente es el objeto del cliente a modificar
-     * Devuelve el cliente modificado
+     * @return el cliente modificado
      */
     public Cliente modificarCliente(Cliente cliente) throws ClienteException;
  
     
     
     /**
-     *La aplicación permitirá a un administrativo la apertura de una cuenta. 
-     *La cuenta podrá ser agrupada (pooled) o segregada (segregated). En ambos casos la(s) cuenta(s) 
-     *externa(s) asociada(s) se añade(n) como información, no se hace nada más. 
-     *Será necesario que haya más de una cuenta externa en el caso de una cuenta agrupada con varias divisas.
+     * La aplicación permitirá a un administrativo la apertura de una cuenta.
+     * Será necesario que haya más de una cuenta externa en el caso de una cuenta agrupada con varias divisas.
+     * @param le pasamos el iban
+     * @param y el tipo de cuenta agrupado o segregada
+     * @throws CuentaException en caso de que ya existe una cuenta con ese iban
      */
-    public void aperturaCuenta(String iban) throws CuentaException;
+    public void aperturaCuenta(String iban, String tipo) throws CuentaException, AdministrativoException;
+    
+    
     
     /**
      La aplicación permitirá a un administrativo añadir personas autorizadas a las cuentas que pertenezcan a cliente 

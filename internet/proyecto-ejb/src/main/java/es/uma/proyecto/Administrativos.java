@@ -32,11 +32,12 @@ public class Administrativos implements GestionAdministratitivos{
         return user;
     }
 
+    
 	@Override
-	public void darAltaCliente(Cliente cliente) throws ClienteException {
-		Cliente client = em.find(Cliente.class, cliente.getID());
-		if(client == null){
-			throw new ClienteException("Cliente no encontrado");
+	public void darAltaCliente(String id) throws ClienteException {
+		Cliente cliente = em.find(Cliente.class, id);
+		if(cliente == null){
+			throw new ClienteException("Cliente no encontrado.");
 		}
 		
 		cliente.setEstado("Alta");
@@ -44,13 +45,13 @@ public class Administrativos implements GestionAdministratitivos{
 
 	
 	@Override
-	public void darBajaCliente(Cliente cliente) throws ClienteException {
-		Cliente client = em.find(Cliente.class, cliente.getID());
-		if(client == null){
-			throw new ClienteException("Cliente no encontrado");
+	public void darBajaCliente(String id) throws ClienteException {
+		Cliente cliente = em.find(Cliente.class, id);
+		if(cliente == null){
+			throw new ClienteException("Cliente no encontrado.");
 		}
         
-        client.setEstado("Alta");
+        cliente.setEstado("Baja");
 	}
 	
 
@@ -68,11 +69,13 @@ public class Administrativos implements GestionAdministratitivos{
 		client.setFechaBaja(cliente.getFechaBaja());
 		client.setCuentas(cliente.getCuentas());
 		client.setIdentificacion(cliente.getIdentificacion());
+		
 		return client;
 	}
 
+	
 	@Override
-	public void aperturaCuenta(String iban) throws CuentaException {
+	public void aperturaCuenta(String iban, String tipo) throws CuentaException, AdministrativoException {
 		CuentaFintech account = em.find(CuentaFintech.class, iban);
 		if(account != null){
 			throw new CuentaException("Ya existe una cuenta asociada a ese IBAN.");
@@ -80,7 +83,19 @@ public class Administrativos implements GestionAdministratitivos{
 		
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		em.persist(new CuentaFintech(iban, "alta", null, sqlDate, null, null));
+		
+		if(tipo.equalsIgnoreCase("segregada")){
+			em.persist(new CuentaFintech(iban, null, true, sqlDate, null, tipo));
+		}
+		
+		else if(tipo.equalsIgnoreCase("agrupada")){
+			em.persist(new CuentaFintech(iban, null, true, sqlDate, null, tipo));
+		}
+		
+		else {
+			throw new AdministrativoException("No se reconoce la clasificacion de cuenta. Debe ser 'agrupada' o 'segregada'.");
+		}
+		
 	
 	}
 
@@ -105,6 +120,7 @@ public class Administrativos implements GestionAdministratitivos{
 		em.persist(aut);
 	}
 
+	
 	@Override
 	public void modificarAutorizado(PersonaAutorizada persona) throws PersonaAutorizadaException{
 		PersonaAutorizada per = em.find(PersonaAutorizada.class, persona.getID());
@@ -140,33 +156,46 @@ public class Administrativos implements GestionAdministratitivos{
 		em.remove(aut);
 	}
 
+	
 	@Override
 	public void cerrarCuenta(String iban) throws CuentaException{
 		CuentaFintech account = em.find(CuentaFintech.class, iban);
 		if(account == null){
-			throw new CuentaException("No existe ninguna cuenta asociada a este IBAN");
+			throw new CuentaException("No existe ninguna cuenta asociada a este IBAN.");
 		}
-		Segregada saccount = em.find(Segregada.class, iban);
-		if(saccount != null){
-			if(saccount.getCuentaReferencia().getSaldo() == 0.0){
-				saccount.setEstado(false);
-			}
-		}
-
-		PooledAccount paccount = em.find(PooledAccount.class, iban);
-		if(paccount != null){
-			boolean sinSaldo = true;
-			if(!paccount.getDepositadaEn().isEmpty()) {
-				for (DepositadaEn d : paccount.getDepositadaEn()) {
-					if (d.getSaldo() > 0.0) {
-						sinSaldo = false;
-					}
+		
+		if(account.getClasificacion().equalsIgnoreCase("segregada")) {
+			Segregada saccount = em.find(Segregada.class, iban);
+			if(saccount != null){
+				if(saccount.getCuentaReferencia().getSaldo() == 0.0){
+					saccount.setEstado(false);
+				}
+				else {
+					throw new CuentaException("No se pudo dar de baja la cuenta, el saldo no es 0.");
 				}
 			}
-			if(sinSaldo){
-				paccount.setEstado(false);
+		}
+		
+		else if(account.getClasificacion().equalsIgnoreCase("agrupada")) {
+			PooledAccount paccount = em.find(PooledAccount.class, iban);
+			if(paccount != null){
+				boolean sinSaldo = true;
+				if(!paccount.getDepositadaEn().isEmpty()) {
+					for (DepositadaEn d : paccount.getDepositadaEn()) {
+						if (d.getSaldo() > 0.0) {
+							sinSaldo = false;
+						}
+					}
+				}
+				if(sinSaldo){
+					paccount.setEstado(false);
+				}
+				else {
+					throw new CuentaException("No se pudo dar de baja la cuenta, el saldo no es 0.");
+				}
 			}
 		}
+		
 	}
     
 }
