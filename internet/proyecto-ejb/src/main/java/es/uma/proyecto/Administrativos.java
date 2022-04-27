@@ -6,12 +6,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import es.uma.proyecto.Autorizacion;
-import es.uma.proyecto.Cliente;
-import es.uma.proyecto.Empresa;
-import es.uma.proyecto.EmpresaPersAutoPK;
-import es.uma.proyecto.PersonaAutorizada;
-import es.uma.proyecto.Usuario;
 import es.uma.proyecto.exceptions.AdministrativoException;
 import es.uma.proyecto.exceptions.AutorizacionException;
 import es.uma.proyecto.exceptions.ClienteException;
@@ -81,9 +75,13 @@ public class Administrativos implements GestionAdministratitivos{
 	public void aperturaCuenta(String iban) throws CuentaException {
 		CuentaFintech account = em.find(CuentaFintech.class, iban);
 		if(account != null){
-			throw new CuentaException("Ya existe una cuenta asociada a ese IBAN");
+			throw new CuentaException("Ya existe una cuenta asociada a ese IBAN.");
 		}
-		//em.persist(new CuentaFintech(iban));
+		
+		java.util.Date utilDate = new java.util.Date();
+		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+		em.persist(new CuentaFintech(iban, "alta", null, sqlDate, null, null));
+	
 	}
 
 	
