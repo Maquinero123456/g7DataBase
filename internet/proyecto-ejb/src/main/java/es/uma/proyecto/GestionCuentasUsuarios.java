@@ -16,10 +16,11 @@ public interface GestionCuentasUsuarios {
      * @throws UsuarioException Se lanzara si el usuario ya existe
      */
 	
-    public Usuario CrearUsuario(Usuario user) throws UsuarioException;
+    public void CrearUsuario(Usuario user) throws UsuarioException;
 
     
     /* REQUISITO 10 */
     public Usuario getUsuario(String nombre) throws UsuarioException;
     
+    public Usuario iniciarSesion(String nombre, String password) throws UsuarioException;
 }

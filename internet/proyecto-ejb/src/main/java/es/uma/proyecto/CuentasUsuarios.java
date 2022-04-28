@@ -18,13 +18,12 @@ public class CuentasUsuarios implements GestionCuentasUsuarios{
     private EntityManager em;
 
     @Override
-    public Usuario CrearUsuario(Usuario user) throws UsuarioException {
+    public void CrearUsuario(Usuario user) throws UsuarioException {
         Usuario usuario = em.find(Usuario.class, user.getNombre());
         if(usuario != null){
             throw new UsuarioException("El usuario ya existe.");
         }
         em.persist(user);
-        return user;
     }
 
     @Override
@@ -32,6 +31,21 @@ public class CuentasUsuarios implements GestionCuentasUsuarios{
         Usuario user = em.find(Usuario.class, nombre);
         if(user == null){
             throw new UsuarioException("El usuario no existe.");
+        }
+        return user;
+    }
+
+    @Override
+    public Usuario iniciarSesion(String nombre, String password) throws UsuarioException {
+        Usuario user = em.find(Usuario.class, nombre);
+        if(user == null){
+            throw new UsuarioException("El usuario no existe.");
+        }
+        if(!user.getPassword().equals(password)){
+            throw new UsuarioException("Password incorrecta");
+        }
+        if(user.getEsAdministrativo()){
+            throw new UsuarioException("No puedes iniciar sesion como administrativo aqui");
         }
         return user;
     }
