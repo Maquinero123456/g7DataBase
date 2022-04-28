@@ -94,7 +94,7 @@ public class Administrativos implements GestionAdministratitivos{
 	public void aperturaCuenta(String iban, String tipo) throws CuentaException, AdministrativoException {
 		CuentaFintech account = em.find(CuentaFintech.class, iban);
 		if(account != null){
-			throw new CuentaException("Ya existe una cuenta asociada a ese IBAN.");
+			throw new CuentaException("Ya existe una cuenta asociada al IBAN: " + iban+ ".");
 		}
 		
 		java.util.Date utilDate = new java.util.Date();
@@ -185,7 +185,7 @@ public class Administrativos implements GestionAdministratitivos{
 	public void cerrarCuenta(String iban) throws CuentaException{
 		CuentaFintech account = em.find(CuentaFintech.class, iban);
 		if(account == null){
-			throw new CuentaException("No existe ninguna cuenta asociada a este IBAN.");
+			throw new CuentaException("No existe ninguna cuenta asociada al IBAN: "+ iban +".");
 		}
 		
 		if(account.getClasificacion().equalsIgnoreCase("segregada")) {
