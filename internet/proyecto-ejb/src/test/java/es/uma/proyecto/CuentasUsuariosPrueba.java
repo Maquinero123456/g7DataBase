@@ -114,8 +114,14 @@ public class CuentasUsuariosPrueba {
 
     @Test
     public void testIniciarSesionPasswordIncorrecta(){
+        Usuario user = new Usuario("Tremendo", "Metodo", true);
+        try {
+            gestionCuentasUsuarios.CrearUsuario(user);
+        } catch (UsuarioException e) {
+            fail("Usuario no deberia existir");
+        }
         Exception exception = assertThrows(UsuarioException.class, () -> {
-            gestionCuentasUsuarios.iniciarSesion("Juanito", "Anda");
+            gestionCuentasUsuarios.iniciarSesion("Tremendo", "Anda");
         });
     
         String expectedMessage = "Password incorrecta";
