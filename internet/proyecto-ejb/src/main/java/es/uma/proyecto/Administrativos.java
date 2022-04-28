@@ -34,10 +34,13 @@ public class Administrativos implements GestionAdministratitivos{
     public Usuario iniciarSesion(String usuario, String password) throws AdministrativoException {
         Usuario user = em.find(Usuario.class, usuario);
         if(user == null){
-            throw new AdministrativoException("Usuario no encontrado");
+            throw new AdministrativoException("Usuario no encontrado.");
         }
         if(!user.getPassword().equals(password)){
-            throw new AdministrativoException("Contraseña erronea");
+            throw new AdministrativoException("La contraseña no corresponde al usuario.");
+        }
+        if(!user.getEsAdministrativo()) {
+        	throw new AdministrativoException("El usuario NO es administrativo.");
         }
         
         return user;
@@ -67,11 +70,14 @@ public class Administrativos implements GestionAdministratitivos{
 	
 
 	@Override
-	public Cliente modificarCliente(Cliente cliente) throws ClienteException {
+	public void modificarCliente(Cliente cliente) throws ClienteException {
 		Cliente client = em.find(Cliente.class, cliente);
 		if(client == null){
 			throw new ClienteException("Cliente no encontrado");
 		}
+		
+		em.merge(client);
+		/*
 		client.setCiudad(cliente.getCiudad());
 		client.setCodigoPostal(cliente.getCodigoPostal());
 		client.setDireccion(cliente.getDireccion());
@@ -80,8 +86,7 @@ public class Administrativos implements GestionAdministratitivos{
 		client.setFechaBaja(cliente.getFechaBaja());
 		client.setCuentas(cliente.getCuentas());
 		client.setIdentificacion(cliente.getIdentificacion());
-		
-		return client;
+		*/
 	}
 
 	
@@ -139,6 +144,8 @@ public class Administrativos implements GestionAdministratitivos{
 			throw new PersonaAutorizadaException("PersonaAutorizada no encontrada");
 		}
 
+		em.merge(per);
+		/*
 		per.setApellidos(persona.getApellidos());
 		per.setDireccion(persona.getDireccion());
 		per.setEstado(persona.getEstado());
@@ -147,26 +154,27 @@ public class Administrativos implements GestionAdministratitivos{
 		per.setFecha_Nacimiento(persona.getFecha_Nacimiento());
 		per.setIdentificacion(persona.getIdentificacion());
 		per.setNombre(persona.getNombre());
-		
+		*/
 	}
 
 	@Override
-	public void eliminarAutorizado(Empresa empresa, PersonaAutorizada persona) throws ClienteException, PersonaAutorizadaException, AutorizacionException{
-		Empresa emp = em.find(Empresa.class, empresa.getID());
+	public void eliminarAutorizado(long idEmpresa, long idAutorizado) throws ClienteException, PersonaAutorizadaException, AutorizacionException{
+		Empresa emp = em.find(Empresa.class, idEmpresa);
 		if(emp == null){
 			throw new ClienteException("Empresa no encontrado");
 		}
-		PersonaAutorizada pers = em.find(PersonaAutorizada.class, persona.getID());
+		PersonaAutorizada pers = em.find(PersonaAutorizada.class, idAutorizado);
 		if(pers == null){
 			throw new PersonaAutorizadaException("Persona no encontrada");
 		}
-		Autorizacion aut = em.find(Autorizacion.class, new Autorizacion(new EmpresaPersAutoPK(empresa.getID(), persona.getID())));
+		Autorizacion aut = em.find(Autorizacion.class, new Autorizacion(new EmpresaPersAutoPK(idEmpresa, idAutorizado)));
 		if(aut == null){
 			throw new AutorizacionException("Autorizacion no encontrada");
 		}
 		em.remove(aut);
 	}
 
+	
 	
 	@Override
 	public void cerrarCuenta(String iban) throws CuentaException{

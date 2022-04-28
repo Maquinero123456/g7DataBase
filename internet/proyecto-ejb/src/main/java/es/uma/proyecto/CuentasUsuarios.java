@@ -21,7 +21,7 @@ public class CuentasUsuarios implements GestionCuentasUsuarios{
     public Usuario CrearUsuario(Usuario user) throws UsuarioException {
         Usuario usuario = em.find(Usuario.class, user.getNombre());
         if(usuario != null){
-            throw new UsuarioException("Usuario ya existe");
+            throw new UsuarioException("El usuario ya existe.");
         }
         em.persist(user);
         return user;
@@ -31,7 +31,7 @@ public class CuentasUsuarios implements GestionCuentasUsuarios{
     public Usuario getUsuario(String nombre) throws UsuarioException {
         Usuario user = em.find(Usuario.class, nombre);
         if(user == null){
-            throw new UsuarioException("Usuario no existe");
+            throw new UsuarioException("El usuario no existe.");
         }
         return user;
     }

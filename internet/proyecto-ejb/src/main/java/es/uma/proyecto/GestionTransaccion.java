@@ -8,7 +8,8 @@ import es.uma.proyecto.exceptions.CuentaException;
 @Local
 public interface GestionTransaccion {
 
-	/* La aplicación permitirá a un cliente que sea persona física 
+	/* REQUISITO 14
+	 * La aplicación permitirá a un cliente que sea persona física 
 	 * y un autorizado a una cuenta cuyo cliente sea persona jurídica 
 	 * realizar transacciones entre cuentas bancarias. 
 	 * El usuario necesita escoger una cuenta de origen (de aquellas a las que tiene acceso) 
