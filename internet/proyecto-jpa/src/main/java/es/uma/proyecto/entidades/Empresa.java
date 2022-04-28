@@ -18,9 +18,9 @@ public class Empresa extends Cliente {
 	@OneToMany(mappedBy = "empresa")
     private List<Autorizacion> autorizacion;
 
-	public Empresa(long id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad,
+	public Empresa(String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad,
 				String cp, String pais, String razonSocial) {
-			super(id, ident, tp, est, alta, baja, direc, ciudad, cp, pais);
+			super(ident, tp, est, alta, baja, direc, ciudad, cp, pais);
 			this.razonSocial = razonSocial;
 		}
 	
