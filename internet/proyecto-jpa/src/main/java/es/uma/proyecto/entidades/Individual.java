@@ -1,4 +1,4 @@
-package es.uma.proyecto;
+package es.uma.proyecto.entidades;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -13,18 +13,15 @@ public class Individual extends Cliente{
     private String apellidos;
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
-    
-	@OneToOne
-    private Usuario usuario;
 
-    public Individual(String id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais, String nom, String ape, Date nac) {
+    public Individual(long id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais, String nom, String ape, Date nac) {
     	super(id, ident, tp, est, alta, baja, direc, ciudad, cp, pais);
     	this.nombre = nom;
     	this.apellidos = ape;
     	this.fechaNacimiento = nac;
     }
     
-    public Individual(String id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais, String nombre, String apellido) {
+    public Individual(long id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais, String nombre, String apellido) {
     	super(id, ident, tp, est, alta, baja, direc, ciudad, cp, pais);
         this.nombre = nombre;
         this.apellidos = apellido;
@@ -71,7 +68,6 @@ public class Individual extends Cliente{
 		int result = super.hashCode();
 		result = prime * result + ((apellidos == null) ? 0 : apellidos.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
 		return result;
 	}
 
@@ -94,11 +90,7 @@ public class Individual extends Cliente{
 				return false;
 		} else if (!nombre.equals(other.nombre))
 			return false;
-		if (usuario == null) {
-			if (other.usuario != null)
-				return false;
-		} else if (!usuario.equals(other.usuario))
-			return false;
+		
 		return true;
 	}
 

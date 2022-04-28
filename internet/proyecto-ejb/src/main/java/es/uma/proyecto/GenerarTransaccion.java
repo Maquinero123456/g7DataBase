@@ -7,6 +7,9 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import es.uma.proyecto.entidades.Cliente;
+import es.uma.proyecto.entidades.CuentaFintech;
+import es.uma.proyecto.entidades.CuentaReferencia;
 import es.uma.proyecto.exceptions.ClienteException;
 import es.uma.proyecto.exceptions.CuentaException;
 

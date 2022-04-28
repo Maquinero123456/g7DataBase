@@ -6,7 +6,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import es.uma.proyecto.Usuario;
+import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.exceptions.UsuarioException;
 
 @Stateless

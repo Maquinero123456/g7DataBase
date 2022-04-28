@@ -1,4 +1,4 @@
-package es.uma.proyecto;
+package es.uma.proyecto.entidades;
 
 import java.util.Date;
 import java.util.List;
@@ -18,7 +18,7 @@ public class Empresa extends Cliente {
 	@OneToMany(mappedBy = "empresa")
     private List<Autorizacion> autorizacion;
 
-	public Empresa(String id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad,
+	public Empresa(long id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad,
 				String cp, String pais, String razonSocial) {
 			super(id, ident, tp, est, alta, baja, direc, ciudad, cp, pais);
 			this.razonSocial = razonSocial;

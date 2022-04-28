@@ -10,6 +10,9 @@ import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import es.uma.proyecto.entidades.Cliente;
+import es.uma.proyecto.entidades.CuentaFintech;
+
 @Stateless
 public class Informes implements GestionInformes{
 

@@ -6,6 +6,16 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import es.uma.proyecto.entidades.Autorizacion;
+import es.uma.proyecto.entidades.Cliente;
+import es.uma.proyecto.entidades.CuentaFintech;
+import es.uma.proyecto.entidades.DepositadaEn;
+import es.uma.proyecto.entidades.Empresa;
+import es.uma.proyecto.entidades.EmpresaPersAutoPK;
+import es.uma.proyecto.entidades.PersonaAutorizada;
+import es.uma.proyecto.entidades.PooledAccount;
+import es.uma.proyecto.entidades.Segregada;
+import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.exceptions.AdministrativoException;
 import es.uma.proyecto.exceptions.AutorizacionException;
 import es.uma.proyecto.exceptions.ClienteException;
@@ -29,6 +39,7 @@ public class Administrativos implements GestionAdministratitivos{
         if(!user.getPassword().equals(password)){
             throw new AdministrativoException("Contraseña erronea");
         }
+        
         return user;
     }
 
