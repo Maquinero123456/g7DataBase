@@ -41,8 +41,7 @@ public class Cliente {
     @JoinColumn(unique = true)
     private Usuario usuario;
 
-    public Cliente(long id, String ident, String tp, String est, Date alta, String direc, String ciudad, String cp, String pais){
-    	this.id = id;
+    public Cliente(String ident, String tp, String est, Date alta, String direc, String ciudad, String cp, String pais){
     	this.identificacion = ident;
     	this.tipoCliente = tp;
     	this.estado = est;
@@ -55,8 +54,7 @@ public class Cliente {
     
 
 
-    public Cliente(long id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais){
-    	this.id = id;
+    public Cliente(String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais){
     	this.identificacion = ident;
     	this.tipoCliente = tp;
     	this.estado = est;

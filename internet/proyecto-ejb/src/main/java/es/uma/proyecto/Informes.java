@@ -25,7 +25,7 @@ public class Informes implements GestionInformes{
 	@Override
 	public void informePaisesBajos() {
 		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("JPA");
-	   em = emfactory.createEntityManager();
+		em = emfactory.createEntityManager();
 	      
 	    Query query = em.createQuery("select * from CuentaFintech c");
 	    List<CuentaFintech> list = query.getResultList();
