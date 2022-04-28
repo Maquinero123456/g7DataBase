@@ -1,4 +1,4 @@
-package es.uma.proyecto;
+package es.uma.proyecto.entidades;
 
 import javax.persistence.*;
 import java.util.Date;

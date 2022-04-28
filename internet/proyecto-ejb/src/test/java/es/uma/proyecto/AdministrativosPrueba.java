@@ -17,11 +17,11 @@ import org.junit.Test;
 
 import es.uma.proyecto.GestionAdministratitivos;
 
-public class AdministrativosTest {
-    private static final Logger LOG = Logger.getLogger(AdministrativosTest.class.getCanonicalName());
+public class AdministrativosPrueba {
+    private static final Logger LOG = Logger.getLogger(Administrativos.class.getCanonicalName());
 
 	private static final String ADMINISTRATIVOS_EJB = "java:global/classes/Administrativos";
-	private static final String UNIDAD_PERSITENCIA_PRUEBAS = "AdministrativosTest";
+	private static final String UNIDAD_PERSITENCIA_PRUEBAS = "AdministrativosPrueba";
 	
 	private GestionAdministratitivos gestionAdministratitivos;
 

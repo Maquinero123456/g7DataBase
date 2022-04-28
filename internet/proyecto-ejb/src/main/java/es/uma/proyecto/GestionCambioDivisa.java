@@ -4,6 +4,8 @@ import es.uma.proyecto.exceptions.SaldoException;
 
 import javax.ejb.Local;
 
+import es.uma.proyecto.entidades.Divisa;
+import es.uma.proyecto.entidades.PooledAccount;
 import es.uma.proyecto.exceptions.CuentaReferenciaException;
 import es.uma.proyecto.exceptions.DivisaException;
 import es.uma.proyecto.exceptions.PooledAccountException;

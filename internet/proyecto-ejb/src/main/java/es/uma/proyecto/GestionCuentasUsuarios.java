@@ -2,6 +2,7 @@ package es.uma.proyecto;
 
 import javax.ejb.Local;
 
+import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.exceptions.UsuarioException;
 
 @Local

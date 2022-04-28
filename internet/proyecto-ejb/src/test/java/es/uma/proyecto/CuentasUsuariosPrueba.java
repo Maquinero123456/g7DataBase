@@ -15,13 +15,14 @@ import javax.naming.NamingException;
 import org.junit.Before;
 import org.junit.Test;
 
+import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.exceptions.UsuarioException;
 
-public class CuentasUsuariosTest {
+public class CuentasUsuariosPrueba {
     
-    private static final Logger LOG = Logger.getLogger(CuentasUsuariosTest.class.getCanonicalName());
+    private static final Logger LOG = Logger.getLogger(CuentasUsuarios.class.getCanonicalName());
 
-	private static final String CUENTASUSUARIOS_EJB = "java:global/classes/es/uma/proyectos/CuentasUsuarios";
+	private static final String CUENTASUSUARIOS_EJB = "java:global/classes/CuentasUsuarios";
 	private static final String UNIDAD_PERSITENCIA_PRUEBAS = "proyectoTest";
 	
 	private GestionCuentasUsuarios gestionCuentasUsuarios;

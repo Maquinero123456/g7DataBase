@@ -1,4 +1,4 @@
-package es.uma.proyecto;
+package es.uma.proyecto.entidades;
 
 import java.util.List;
 import java.util.Objects;

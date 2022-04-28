@@ -1,4 +1,4 @@
-package es.uma.proyecto;
+package es.uma.proyecto.entidades;
 
 import java.util.Objects;
 import javax.persistence.*;
@@ -13,7 +13,7 @@ import java.util.List;
 public class Cliente {
     
     @Id @GeneratedValue
-    private String id;
+    private long id;
     @Column(unique=true, nullable=false)
     private String identificacion;
     @Column(nullable=false)
@@ -41,7 +41,7 @@ public class Cliente {
     @JoinColumn(unique = true)
     private Usuario usuario;
 
-    public Cliente(String id, String ident, String tp, String est, Date alta, String direc, String ciudad, String cp, String pais){
+    public Cliente(long id, String ident, String tp, String est, Date alta, String direc, String ciudad, String cp, String pais){
     	this.id = id;
     	this.identificacion = ident;
     	this.tipoCliente = tp;
@@ -55,7 +55,7 @@ public class Cliente {
     
 
 
-    public Cliente(String id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais){
+    public Cliente(long id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais){
     	this.id = id;
     	this.identificacion = ident;
     	this.tipoCliente = tp;
@@ -82,7 +82,7 @@ public class Cliente {
 
     }
 
-    public String getID() {
+    public long getID() {
         return this.id;
     }
 

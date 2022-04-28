@@ -6,6 +6,11 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import es.uma.proyecto.entidades.CuentaReferencia;
+import es.uma.proyecto.entidades.DepositadaEn;
+import es.uma.proyecto.entidades.Divisa;
+import es.uma.proyecto.entidades.PooledAccount;
+import es.uma.proyecto.entidades.Transaccion;
 import es.uma.proyecto.exceptions.CuentaReferenciaException;
 import es.uma.proyecto.exceptions.DivisaException;
 import es.uma.proyecto.exceptions.PooledAccountException;
