@@ -1,6 +1,10 @@
 package es.uma.proyecto;
 
+import java.util.List;
+
 import javax.ejb.Local;
+
+import es.uma.proyecto.entidades.Cliente;
 
 @Local
 public interface GestionInformes {
@@ -14,7 +18,7 @@ public interface GestionInformes {
 	 * hay que devolverlas todas indicando que su propietario es la FINTECH 
 	 * (no el cliente, puesto que esa cuenta no es suya).
 	 */
-	public void informePaisesBajos();
+	public List<Cliente> informePaisesBajos();
 	
 	
 	

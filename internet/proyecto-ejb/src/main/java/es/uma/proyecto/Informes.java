@@ -23,7 +23,7 @@ public class Informes implements GestionInformes{
     
     
 	@Override
-	public void informePaisesBajos() {
+	public List<Cliente> informePaisesBajos() {
 		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("JPA");
 		em = emfactory.createEntityManager();
 	      
@@ -37,9 +37,10 @@ public class Informes implements GestionInformes{
 	    //Aggregate function
 	    Query queryCl = em.createQuery("select * from Cliente c");
 	    List<Cliente> listCl = queryCl.getResultList();
-	    for(Cliente c:listCl){
+	    /*for(Cliente c:listCl){
 	    	System.out.println("Cliente :"+ c.toString());
-	    }	
+	    }	*/
+		return listCl;
 	}
 
 	
