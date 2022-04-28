@@ -38,7 +38,6 @@ public class CuentasUsuariosPrueba {
     public void testCrearUsuario(){
 
         Usuario user = new Usuario("Pepito", "Juanito", true);
-
         try{
             gestionCuentasUsuarios.CrearUsuario(user);
         }catch (UsuarioException e){

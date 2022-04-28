@@ -47,6 +47,7 @@ public class CuentasUsuarios implements GestionCuentasUsuarios{
         if(user.getEsAdministrativo()){
             throw new UsuarioException("No puedes iniciar sesion como administrativo aqui");
         }
+        System.out.println(user);
         return user;
     }
     
