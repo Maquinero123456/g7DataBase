@@ -69,7 +69,7 @@ public interface GestionAdministratitivos {
      operaciones con la cuenta.
      * @throws AutorizacionException
      */
-    public void addAutorizados(Empresa empresa, PersonaAutorizada persona, String tipo) throws ClienteException, PersonaAutorizadaException, AutorizacionException;
+    public void addAutorizados(long idEmp, long idPer, String tipo) throws ClienteException, PersonaAutorizadaException, AutorizacionException;
     
     
     /** REQUISITO 7

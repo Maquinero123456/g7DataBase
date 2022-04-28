@@ -94,7 +94,7 @@ public class Administrativos implements GestionAdministratitivos{
 	public void aperturaCuenta(String iban, String tipo) throws CuentaException, AdministrativoException {
 		CuentaFintech account = em.find(CuentaFintech.class, iban);
 		if(account != null){
-			throw new CuentaException("Ya existe una cuenta asociada a ese IBAN.");
+			throw new CuentaException("Ya existe una cuenta asociada al IBAN: " + iban+ ".");
 		}
 		
 		java.util.Date utilDate = new java.util.Date();
@@ -117,25 +117,29 @@ public class Administrativos implements GestionAdministratitivos{
 
 	
 	@Override
-	public void addAutorizados(Empresa empresa, PersonaAutorizada persona, String tipo) throws ClienteException, PersonaAutorizadaException, AutorizacionException{
-		Empresa emp = em.find(Empresa.class, empresa.getID());
+	public void addAutorizados(long idEmp, long idPer, String tipo) throws ClienteException, PersonaAutorizadaException, AutorizacionException{
+		Empresa emp = em.find(Empresa.class, idEmp);
 		if(emp == null){
-			throw new ClienteException("Empresa no encontrada");
+			throw new ClienteException("Empresa no encontrada.");
 		}
-		PersonaAutorizada pers = em.find(PersonaAutorizada.class, persona.getID());
+		PersonaAutorizada pers = em.find(PersonaAutorizada.class, idPer);
 		if(pers == null){
-			throw new PersonaAutorizadaException("Persona no encontrada");
+			throw new PersonaAutorizadaException("Persona no encontrada.");
 		}
-		EmpresaPersAutoPK fk = new EmpresaPersAutoPK(emp.getID(), pers.getID());
+		
+		EmpresaPersAutoPK fk = new EmpresaPersAutoPK(idEmp, idPer);
+		Autorizacion autAux = em.find(Autorizacion.class, fk);
+		if(autAux!=null){
+			throw new AutorizacionException(pers.getApellidos() + " ya tiene autorización en " + emp.getRazonSocial() + ".");
+		}
+		
 		Autorizacion aut = new Autorizacion(fk, tipo, pers, emp);
-		Autorizacion aut2 = em.find(Autorizacion.class, fk);
-		if(aut2!=null){
-			throw new AutorizacionException("Autorizacion ya existente");
-		}
+		
 		em.persist(fk);
 		em.persist(aut);
 	}
 
+	
 	
 	@Override
 	public void modificarAutorizado(PersonaAutorizada persona) throws PersonaAutorizadaException{
@@ -157,19 +161,20 @@ public class Administrativos implements GestionAdministratitivos{
 		*/
 	}
 
+	
 	@Override
 	public void eliminarAutorizado(long idEmpresa, long idAutorizado) throws ClienteException, PersonaAutorizadaException, AutorizacionException{
 		Empresa emp = em.find(Empresa.class, idEmpresa);
 		if(emp == null){
-			throw new ClienteException("Empresa no encontrado");
+			throw new ClienteException("Empresa no encontrada.");
 		}
 		PersonaAutorizada pers = em.find(PersonaAutorizada.class, idAutorizado);
 		if(pers == null){
-			throw new PersonaAutorizadaException("Persona no encontrada");
+			throw new PersonaAutorizadaException("Persona no encontrada.");
 		}
 		Autorizacion aut = em.find(Autorizacion.class, new Autorizacion(new EmpresaPersAutoPK(idEmpresa, idAutorizado)));
 		if(aut == null){
-			throw new AutorizacionException("Autorizacion no encontrada");
+			throw new AutorizacionException("La persona indicada no cuenta con autorización en la empresa: "+ emp.getRazonSocial()+".");
 		}
 		em.remove(aut);
 	}
@@ -180,7 +185,7 @@ public class Administrativos implements GestionAdministratitivos{
 	public void cerrarCuenta(String iban) throws CuentaException{
 		CuentaFintech account = em.find(CuentaFintech.class, iban);
 		if(account == null){
-			throw new CuentaException("No existe ninguna cuenta asociada a este IBAN.");
+			throw new CuentaException("No existe ninguna cuenta asociada al IBAN: "+ iban +".");
 		}
 		
 		if(account.getClasificacion().equalsIgnoreCase("segregada")) {
