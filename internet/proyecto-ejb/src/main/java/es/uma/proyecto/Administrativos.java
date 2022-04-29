@@ -61,7 +61,8 @@ public class Administrativos implements GestionAdministratitivos{
 	
 	@Override
 	public void darBajaCliente(String id) throws ClienteException {
-		Cliente cliente = em.find(Cliente.class, id);
+		Clientes client = new Clientes();
+		Cliente cliente = client.getCliente(id);
 		if(cliente == null){
 			throw new ClienteException("Cliente no encontrado");
 		}
@@ -72,7 +73,8 @@ public class Administrativos implements GestionAdministratitivos{
 
 	@Override
 	public void modificarCliente(Cliente cliente) throws ClienteException {
-		Cliente client = em.find(Cliente.class, cliente);
+		Clientes clientes = new Clientes();
+		Cliente client = clientes.getCliente(cliente.getIdentificacion());
 		if(client == null){
 			throw new ClienteException("Cliente no encontrado");
 		}
