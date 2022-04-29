@@ -5,7 +5,6 @@ import java.util.List;
 import javax.ejb.Local;
 
 import es.uma.proyecto.entidades.Cliente;
-import es.uma.proyecto.exceptions.ClienteException;
 
 @Local
 public interface GestionInformes {

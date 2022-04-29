@@ -23,22 +23,11 @@ public class Informes implements GestionInformes{
     
 	@Override
 	public List<Cliente> informePaisesBajos() {
-		Query query = em.createQuery("SELECT c FROM CuentaFintech c");
-	    
-	    List<CuentaFintech> list = query.getResultList();
-
-	    for(CuentaFintech c:list){
-	    	System.out.println("Cuenta :"+ c.toString());
-	    }
-	      
-	    //Aggregate function
-	    Query queryCl = em.createQuery("SELECT c from Cliente c");
+		Query queryCl = em.createQuery(getClientesPais("PaisesBajos"));
 	    List<Cliente> listCl = queryCl.getResultList();
-	    /*for(Cliente c:listCl){
-	    	System.out.println("Cliente :"+ c.toString());
-	    }	*/
 		return listCl;
 	}
+	
 		
 	@Override
 	public void informeAlemania() {
@@ -46,5 +35,13 @@ public class Informes implements GestionInformes{
 		
 	}
  
+    private String getClientesPais(String pais) {
+    	String sent = "SELECT cl from Cliente cl WHERE cl.pais LIKE '"+pais+"'";
+    	return sent;
+    }
     
+    private String getCuentasPais(String pais) {
+    	String sent = "SELECT cu from CuentaFintech cu, Cliente cl WHERE cl.pais LIKE '"+pais+"'";
+    	return sent;
+    }
 }

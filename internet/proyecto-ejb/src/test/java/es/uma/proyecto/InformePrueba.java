@@ -32,9 +32,6 @@ public class InformePrueba {
     	java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 		
-    	/*Cliente c1 = new Cliente("diez", "fisica", "activa", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
-    	gestionInformes.crearCliente(c1);*/
-
         List<Cliente> cliente = gestionInformes.informePaisesBajos();
         System.out.println("/************************************************************************************/");
         if(cliente.isEmpty()){
