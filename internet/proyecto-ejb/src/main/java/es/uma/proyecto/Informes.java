@@ -24,10 +24,7 @@ public class Informes implements GestionInformes{
     
 	@Override
 	public List<Cliente> informePaisesBajos() {
-		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("JPA");
-		em = emfactory.createEntityManager();
-	      
-	    Query query = em.createQuery("select * from CuentaFintech c");
+	    Query query = em.createQuery("select c from CuentaFintech c");
 	    List<CuentaFintech> list = query.getResultList();
 
 	    for(CuentaFintech c:list){
@@ -35,7 +32,7 @@ public class Informes implements GestionInformes{
 	    }
 	      
 	    //Aggregate function
-	    Query queryCl = em.createQuery("select * from Cliente c");
+	    Query queryCl = em.createQuery("select c from Cliente c");
 	    List<Cliente> listCl = queryCl.getResultList();
 	    /*for(Cliente c:listCl){
 	    	System.out.println("Cliente :"+ c.toString());

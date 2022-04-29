@@ -33,6 +33,9 @@ public class InformePrueba {
         for(Cliente e : cliente){
             System.out.println(e);
         }
+        if(cliente.isEmpty()){
+            System.out.println("Esta vacio");
+        }
         System.out.println("/************************************************************************************/");
     }
 }
