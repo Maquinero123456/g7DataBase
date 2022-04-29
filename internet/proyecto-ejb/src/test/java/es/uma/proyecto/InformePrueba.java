@@ -28,18 +28,18 @@ public class InformePrueba {
 
 
     @Test
-    public void informeHolanda() throws ClienteException{
+    public void informePaisesBajos() throws ClienteException{
     	java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 		
-        List<Cliente> cliente = gestionInformes.informePaisesBajos();
+        List<String> cliente = gestionInformes.informeCuentasPaisesBajos(true, "1");
         System.out.println("/************************************************************************************/");
         if(cliente.isEmpty()){
             System.out.println("Esta vacio");
         }
         else{
-        	for(Cliente e : cliente){
-        		System.out.println(e);
+        	for(String s : cliente){
+        		System.out.println(s);
         	}
         }
         
