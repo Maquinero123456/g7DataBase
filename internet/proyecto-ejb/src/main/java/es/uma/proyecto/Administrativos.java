@@ -77,8 +77,6 @@ public class Administrativos implements GestionAdministratitivos{
 			throw new ClienteException("Cliente no encontrado");
 		}
 		
-		em.merge(client);
-		/*
 		client.setCiudad(cliente.getCiudad());
 		client.setCodigoPostal(cliente.getCodigoPostal());
 		client.setDireccion(cliente.getDireccion());
@@ -87,7 +85,7 @@ public class Administrativos implements GestionAdministratitivos{
 		client.setFechaBaja(cliente.getFechaBaja());
 		client.setCuentas(cliente.getCuentas());
 		client.setIdentificacion(cliente.getIdentificacion());
-		*/
+		em.merge(client);
 	}
 
 	

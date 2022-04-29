@@ -142,4 +142,60 @@ public class AdministrativosPrueba {
 		assertEquals("Alta", c1.getEstado());
 
 	}
+
+	@Test
+	public void testDarBajaCliente(){
+		java.util.Date utilDate = new java.util.Date();
+		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+		Cliente c1 = new Cliente("testAlta", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		
+		try{
+			gestionClientes.crearCliente(c1);
+		}catch(ClienteException e){
+			fail("Deberia poder crear el cliente");
+		}
+		try{
+			gestionAdministratitivos.darBajaCliente("testAlta");
+		}catch(ClienteException e){
+			fail("Deberia encontrar al cliente al darlo de alta");
+		}
+		try{
+			c1 = gestionClientes.getCliente("testAlta");
+		}catch(ClienteException e){
+			fail("Deberia encontrar el cliente");
+		}
+
+		assertEquals("Baja", c1.getEstado());
+
+	}
+
+	@Test
+	public void testModificarCliente(){
+		java.util.Date utilDate = new java.util.Date();
+		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+		Cliente c1 = new Cliente("testAlta", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		
+		try{
+			gestionClientes.crearCliente(c1);
+		}catch(ClienteException e){
+			fail("Deberia poder crear el cliente");
+		}
+
+		Cliente c2 = new Cliente("testAlta", "fisica", "Alta", sqlDate, "Avenida Falsa", "Guacamayo", "231", "PaisesAltos");
+
+		try{
+			gestionAdministratitivos.modificarCliente(c2);
+		}catch(ClienteException e){
+			fail("Deberia encontrar cliente");
+		}
+		
+		try {
+			c1 = gestionClientes.getCliente("testAlta");
+		} catch (ClienteException e) {
+			fail("Deberia encontrar el cliente");
+		}
+
+		assertTrue("Deberia haber cambiado direccion, ciudad, codigo postal y pais", 
+		c1.getDireccion().equals(c2.getDireccion()) && c1.getCiudad().equals(c2.getCiudad()) && c1.getCodigoPostal().equals(c2.getCodigoPostal()) && c1.getPais().equals(c2.getPais()) );
+	}
 }
