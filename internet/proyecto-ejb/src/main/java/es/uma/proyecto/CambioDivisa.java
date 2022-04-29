@@ -20,7 +20,7 @@ public class CambioDivisa implements GestionCambioDivisa{
 
     private static final Logger LOG = Logger.getLogger(CambioDivisa.class.getCanonicalName());
 
-    @PersistenceContext(name="Cache")
+    @PersistenceContext(name="Proyecto")
     private EntityManager em;
 
     @Override

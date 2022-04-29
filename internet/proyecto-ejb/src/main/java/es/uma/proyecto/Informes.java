@@ -18,7 +18,7 @@ public class Informes implements GestionInformes{
 
     private static final Logger LOG = Logger.getLogger(Informes.class.getCanonicalName());
 
-    @PersistenceContext(name="Cache")
+    @PersistenceContext(name="Proyecto")
     private EntityManager em;
     
     

@@ -4,9 +4,20 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
   <persistence-unit name="proyectoTest" transaction-type="RESOURCE_LOCAL">
-    <class>es.uma.proyecto.Usuario</class>
-	<class>es.uma.proyecto.PersonaAutorizada</class>
-	<class>es.uma.proyecto.Individual</class>
+    <class>es.uma.proyecto.entidades.Autorizacion</class>
+		<class>es.uma.proyecto.entidades.Cliente</class>
+		<class>es.uma.proyecto.entidades.CuentaFintech</class>
+		<class>es.uma.proyecto.entidades.CuentaReferencia</class>
+		<class>es.uma.proyecto.entidades.Cuenta</class>
+		<class>es.uma.proyecto.entidades.DepositadaEn</class>
+		<class>es.uma.proyecto.entidades.Divisa</class>
+		<class>es.uma.proyecto.entidades.Empresa</class>
+		<class>es.uma.proyecto.entidades.Individual</class>
+		<class>es.uma.proyecto.entidades.PersonaAutorizada</class>
+		<class>es.uma.proyecto.entidades.PooledAccount</class>
+		<class>es.uma.proyecto.entidades.Segregada</class>
+		<class>es.uma.proyecto.entidades.Transaccion</class>
+		<class>es.uma.proyecto.entidades.Usuario</class>
 	<shared-cache-mode>NONE</shared-cache-mode>
     <properties>
     	<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>

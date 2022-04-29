@@ -7,10 +7,6 @@ import javax.persistence.Persistence;
 import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.entidades.CuentaFintech;
 
-/*import es.uma.informatica.sii.ejb.practica.entidades.Ingrediente;
-import es.uma.informatica.sii.ejb.practica.entidades.Lote;
-import es.uma.informatica.sii.ejb.practica.entidades.Producto;*/
-
 public class BaseDatos {
 	public static void inicializaBaseDatos(String nombreUnidadPersistencia) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory(nombreUnidadPersistencia);

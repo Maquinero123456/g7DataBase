@@ -36,7 +36,6 @@ public class CuentasUsuariosPrueba {
 
     @Test
     public void testCrearUsuario(){
-
         Usuario user = new Usuario("Pepito", "Juanito", true);
         try{
             gestionCuentasUsuarios.CrearUsuario(user);
@@ -55,6 +54,11 @@ public class CuentasUsuariosPrueba {
     @Test
     public void testUsuarioRepetido(){
         Usuario user = new Usuario("Pepito", "Juanito", true);
+        try{
+            gestionCuentasUsuarios.CrearUsuario(user);
+        }catch (UsuarioException e){
+            fail("El usuario no deberia existir");
+        }
         
         Exception exception = assertThrows(UsuarioException.class, () -> {
             gestionCuentasUsuarios.CrearUsuario(user);

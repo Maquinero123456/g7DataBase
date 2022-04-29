@@ -27,7 +27,7 @@ public class Administrativos implements GestionAdministratitivos{
 
     private static final Logger LOG = Logger.getLogger(Administrativos.class.getCanonicalName());
 
-    @PersistenceContext(name="Cache")
+    @PersistenceContext(name="Proyecto")
     private EntityManager em;
 
     @Override
