@@ -132,4 +132,16 @@ public class CuentasUsuariosPrueba {
     
         assertTrue(actualMessage.contains(expectedMessage));
     }
+
+    @Test
+    public void testIniciarSesionUsuarioNoExiste(){
+        Exception exception = assertThrows(UsuarioException.class, () -> {
+            gestionCuentasUsuarios.iniciarSesion("NoTremendo", "Anda");
+        });
+    
+        String expectedMessage = "El usuario no existe.";
+        String actualMessage = exception.getMessage();
+    
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
 }

@@ -23,8 +23,7 @@ public class Informes implements GestionInformes{
     
 	@Override
 	public List<Cliente> informePaisesBajos() {
-		Query queryCl = em.createQuery(getClientesPais("PaisesBajos"));
-	    List<Cliente> listCl = queryCl.getResultList();
+	    List<Cliente> listCl = getClientesPais("PaisesBajos");
 		return listCl;
 	}
 	
@@ -34,14 +33,18 @@ public class Informes implements GestionInformes{
 		// TODO Auto-generated method stub
 		
 	}
- 
-    private String getClientesPais(String pais) {
-    	String sent = "SELECT cl from Cliente cl WHERE cl.pais LIKE '"+pais+"'";
-    	return sent;
+	
+	@Override
+    public List<Cliente> getClientesPais(String pais) {
+		Query query = em.createQuery("SELECT cl from Cliente cl WHERE cl.pais = :fpais");
+		query.setParameter("fpais", pais);
+    	return query.getResultList();
     }
     
-    private String getCuentasPais(String pais) {
-    	String sent = "SELECT cu from CuentaFintech cu, Cliente cl WHERE cl.pais LIKE '"+pais+"'";
-    	return sent;
+	@Override
+    public List<Cliente> getCuentasPais(String pais) {
+    	Query query = em.createQuery("SELECT cu from CuentaFintech cu, Cliente cl WHERE cl.pais = :fpais");
+		query.setParameter("fpais", pais);
+    	return query.getResultList();
     }
 }

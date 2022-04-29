@@ -34,13 +34,13 @@ public class Administrativos implements GestionAdministratitivos{
     public Usuario iniciarSesion(String usuario, String password) throws AdministrativoException {
         Usuario user = em.find(Usuario.class, usuario);
         if(user == null){
-            throw new AdministrativoException("Usuario no encontrado.");
+            throw new AdministrativoException("Usuario no encontrado");
         }
         if(!user.getPassword().equals(password)){
-            throw new AdministrativoException("La contraseña no corresponde al usuario.");
+            throw new AdministrativoException("Password incorrecta");
         }
         if(!user.getEsAdministrativo()) {
-        	throw new AdministrativoException("El usuario NO es administrativo.");
+        	throw new AdministrativoException("El usuario NO es administrativo");
         }
         
         return user;
@@ -49,9 +49,10 @@ public class Administrativos implements GestionAdministratitivos{
     
 	@Override
 	public void darAltaCliente(String id) throws ClienteException {
-		Cliente cliente = em.find(Cliente.class, id);
+		Clientes client = new Clientes();
+		Cliente cliente = client.getCliente(id);
 		if(cliente == null){
-			throw new ClienteException("Cliente no encontrado.");
+			throw new ClienteException("Cliente no encontrado");
 		}
 		
 		cliente.setEstado("Alta");
@@ -62,7 +63,7 @@ public class Administrativos implements GestionAdministratitivos{
 	public void darBajaCliente(String id) throws ClienteException {
 		Cliente cliente = em.find(Cliente.class, id);
 		if(cliente == null){
-			throw new ClienteException("Cliente no encontrado.");
+			throw new ClienteException("Cliente no encontrado");
 		}
         
         cliente.setEstado("Baja");

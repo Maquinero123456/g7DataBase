@@ -35,4 +35,8 @@ public interface GestionInformes {
 	
 	public void informeAlemania();
 	
+
+	public List<Cliente> getClientesPais(String pais);
+	public List<Cliente> getCuentasPais(String pais);
+
 }
