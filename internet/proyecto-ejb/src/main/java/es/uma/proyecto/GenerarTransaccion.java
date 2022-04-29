@@ -18,7 +18,7 @@ public class GenerarTransaccion implements GestionTransaccion{
 
 	    private static final Logger LOG = Logger.getLogger(GenerarTransaccion.class.getCanonicalName());
 
-	    @PersistenceContext(name="Cache")
+	    @PersistenceContext(name="proyectoEJB")
 	    private EntityManager em;
 
 		@Override

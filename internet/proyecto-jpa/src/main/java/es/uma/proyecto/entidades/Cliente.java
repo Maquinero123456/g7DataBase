@@ -6,9 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="tipoCliente", discriminatorType = DiscriminatorType.CHAR)
-@DiscriminatorValue("Cliente")
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name="CLIENTE")
 public class Cliente {
     

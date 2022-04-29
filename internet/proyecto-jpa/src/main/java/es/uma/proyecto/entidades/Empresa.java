@@ -3,12 +3,12 @@ package es.uma.proyecto.entidades;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
-@DiscriminatorValue("Empresa")
+@Table(name="EMPRESA")
 public class Empresa extends Cliente {
 
 

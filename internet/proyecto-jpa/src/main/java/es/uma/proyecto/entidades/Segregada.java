@@ -1,13 +1,13 @@
 package es.uma.proyecto.entidades;
 
 import java.util.Date;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
-@DiscriminatorValue("PooledAccount")
+@Table(name="SEGREDADA")
 public class Segregada extends CuentaFintech {
 
 	private Double comision;

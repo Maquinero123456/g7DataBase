@@ -15,9 +15,7 @@ import javax.persistence.DiscriminatorType;
 
 @Entity
 @Table(name = "CUENTA")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="Tipo_Cuenta", discriminatorType = DiscriminatorType.CHAR)
-@DiscriminatorValue("Cuenta")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Cuenta {
     @Id
     @Column(nullable = false)

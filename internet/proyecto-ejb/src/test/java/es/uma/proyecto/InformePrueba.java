@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import es.uma.proyecto.entidades.Cliente;
+import es.uma.proyecto.exceptions.ClienteException;
 
 public class InformePrueba {
     
@@ -27,15 +28,24 @@ public class InformePrueba {
 
 
     @Test
-    public void informeHolanda(){
+    public void informeHolanda() throws ClienteException{
+    	java.util.Date utilDate = new java.util.Date();
+		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+		
+    	/*Cliente c1 = new Cliente("diez", "fisica", "activa", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+    	gestionInformes.crearCliente(c1);*/
+
         List<Cliente> cliente = gestionInformes.informePaisesBajos();
         System.out.println("/************************************************************************************/");
-        for(Cliente e : cliente){
-            System.out.println(e);
-        }
         if(cliente.isEmpty()){
             System.out.println("Esta vacio");
         }
+        else{
+        	for(Cliente e : cliente){
+        		System.out.println(e);
+        	}
+        }
+        
         System.out.println("/************************************************************************************/");
     }
 }

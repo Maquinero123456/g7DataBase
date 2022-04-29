@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@DiscriminatorValue("Individual")
+@Table(name="INDIVIDUAL")
 public class Individual extends Cliente{
     //Atributos
     @Column(nullable = false)

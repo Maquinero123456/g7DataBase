@@ -55,7 +55,9 @@ public class BaseDatos {
 		cf7.setCliente(c7);
 		em.persist(cf7);
 		
+		
 		//No tocar abajo
+		em.getTransaction().commit();
 		em.close();
 		emf.close();
 	}
