@@ -15,6 +15,7 @@ import es.uma.proyecto.entidades.EmpresaPersAutoPK;
 import es.uma.proyecto.entidades.Individual;
 import es.uma.proyecto.entidades.PersonaAutorizada;
 import es.uma.proyecto.entidades.Segregada;
+import es.uma.proyecto.exceptions.PersonaAutorizadaException;
 
 public class BaseDatos {
 	public static void inicializaBaseDatos(String nombreUnidadPersistencia) {
@@ -80,33 +81,32 @@ public class BaseDatos {
 		em.persist(seg);
 
 		CuentaReferencia cref = new CuentaReferencia("8", "Cuenta Prueba", 0.00);
+		cref.setDivisa(divisa);
 		em.persist(cref);
 		
-		Divisa divisa2 = new Divisa("fe", "falsoEuro", 1.0);
-		em.persist(divisa2);
-		CuentaReferencia cr3 = new CuentaReferencia("autoOrigen", "LaCuentaDeNoPaco", 1000.0);
-		cr3.setDivisa(divisa);
-		em.persist(cr3);
-		CuentaReferencia cr4 = new CuentaReferencia("autoDestino", "LaCuentaDeNoJuan", 100.0);
-		cr4.setDivisa(divisa);
-		em.persist(cr4);
-		PersonaAutorizada ind2 = new PersonaAutorizada("testTransaccionPer", "Pablo", "Vazques", "Una calle", sqlDate, "Quien sabe", sqlDate, sqlDate);
-		em.persist(ind2);
-		Empresa emp = new Empresa("LaDePablo", "aa", "aaa", sqlDate, sqlDate, "Falso", "No existe", "Quien sabe", "Venezuela", "Tesla");
-		em.persist(emp);
-		Query query = em.createQuery("Select c from PersonaAutorizada c where c.identificacion LIKE :fident");
-		query.setParameter("fident", ind2.getIdentificacion());
-		ind2 = (PersonaAutorizada) query.getSingleResult();
-		query = em.createQuery("Select c from Empresa c where c.identificacion LIKE :fident");
-		query.setParameter("fident", ind2.getIdentificacion());
-		emp = (Empresa) query.getSingleResult();
-		Autorizacion aut = new Autorizacion(new EmpresaPersAutoPK(emp.getID(), ind2.getID()), "Algundo", ind2, emp);
-		em.persist(aut);
-		Segregada seg2 = new Segregada("Dos Aleatorio", "No", true, sqlDate, sqlDate, "No hay", 0.0);
-		seg2.setCliente(emp);
-		seg2.setCuentaReferencia(cr3);
-		em.persist(seg2);
 
+		Divisa falsoEuro = new Divisa("fe", "falsoEuro", 1.0);
+		em.persist(falsoEuro);
+		PersonaAutorizada persAuto = new PersonaAutorizada("Pablo", "Pablo", "Vazques", "Calle falsa", sqlDate, "Baja", sqlDate, sqlDate);
+		em.persist(persAuto);
+		Empresa emp = new Empresa("empTrans", "aa", "aaa", sqlDate, sqlDate, "Calle falsa", "Cuidad falsa", "falso", "Uno", "tesla");
+		em.persist(emp);
+		Query query = em.createQuery("SELECT c FROM PersonaAutorizada c WHERE c.identificacion LIKE :fident");
+		query.setParameter("fident", "Pablo");
+		persAuto= (PersonaAutorizada) query.getSingleResult();
+		query = em.createQuery("SELECT c FROM PersonaAutorizada c WHERE c.identificacion LIKE :fident");
+		query.setParameter("fident", "Pablo");
+		persAuto= (PersonaAutorizada) query.getSingleResult();
+		CuentaReferencia cuenta2 = new CuentaReferencia("autorizadoOrigen", "No lo sabe nadie", 1000.0);
+		cuenta2.setDivisa(falsoEuro);
+		em.persist(cuenta2);
+		CuentaReferencia cuenta3 = new CuentaReferencia("autorizadoDestino", "Alguien lo sabra", 100.0);
+		cuenta3.setDivisa(falsoEuro);
+		em.persist(cuenta3);
+		Segregada unaSegregada = new Segregada("segregadaFalsisima", "No", true, sqlDate, sqlDate, "AAAAAAAAAAAAA", 0.0);
+		unaSegregada.setCliente(emp);
+		unaSegregada.setCuentaReferencia(cuenta2);
+		em.persist(unaSegregada);
 
 		//No tocar abajo
 		em.getTransaction().commit();

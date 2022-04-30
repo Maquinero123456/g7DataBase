@@ -61,10 +61,10 @@ public class TransaccionPrueba {
 
     @Test
     public void testTransaccionAutorizada() throws ClienteException, CuentaException, IndividualException, SaldoException{
-        generarTransaccion.transaccionIndividual("testTransaccion", "autoOrigen", "autoDestino", 100.0, "Quien sabe");
+        generarTransaccion.transaccionIndividual("Pablo", "autorizadoOrigen", "autorizadoDestino", 100.0, "Quien sabe");
         CuentaReferencia ref = null;
         try{
-            ref = gestionCuentas.getCuentaReferencia("autoDestino");
+            ref = gestionCuentas.getCuentaReferencia("autorizadoDestino");
         }catch(CuentaException e){
             fail("La cuenta deberia existir");
         }
