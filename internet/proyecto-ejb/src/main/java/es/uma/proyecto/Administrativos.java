@@ -147,7 +147,9 @@ public class Administrativos implements GestionAdministratitivos{
 	
 	@Override
 	public void modificarAutorizado(PersonaAutorizada persona) throws PersonaAutorizadaException{
-		PersonaAutorizada per = em.find(PersonaAutorizada.class, persona.getID());
+		Query query = em.createQuery("Select c from PersonaAutorizada c where c.identificacion like :fident");
+		query.setParameter("fident", persona.getIdentificacion());
+		PersonaAutorizada per = (PersonaAutorizada) query.getSingleResult();
 		if(per == null){
 			throw new PersonaAutorizadaException("PersonaAutorizada no encontrada");
 		}
@@ -159,7 +161,6 @@ public class Administrativos implements GestionAdministratitivos{
 		per.setFechaFin(persona.getFechaFin());
 		per.setFecha_Inicio(persona.getFecha_Inicio());
 		per.setFecha_Nacimiento(persona.getFecha_Nacimiento());
-		per.setIdentificacion(persona.getIdentificacion());
 		per.setNombre(persona.getNombre());
 		em.merge(per);
 	}
@@ -175,7 +176,7 @@ public class Administrativos implements GestionAdministratitivos{
 		if(pers == null){
 			throw new PersonaAutorizadaException("Persona no encontrada.");
 		}
-		Autorizacion aut = em.find(Autorizacion.class, new Autorizacion(new EmpresaPersAutoPK(idEmpresa, idAutorizado)));
+		Autorizacion aut = em.find(Autorizacion.class, new EmpresaPersAutoPK(idEmpresa, idAutorizado));
 		if(aut == null){
 			throw new AutorizacionException("La persona indicada no cuenta con autorización en la empresa: "+ emp.getRazonSocial()+".");
 		}

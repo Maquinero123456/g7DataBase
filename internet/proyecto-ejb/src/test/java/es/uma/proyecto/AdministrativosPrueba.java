@@ -220,7 +220,7 @@ public class AdministrativosPrueba {
 	public void testAddAutorizados() {
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		Empresa emp = new Empresa("empreTestAddAutot", "fisica", "alta", sqlDate, sqlDate, "Avenida prueba", "Malaga","29010", "PaisesBajos", "prueba");
+		Empresa emp = new Empresa("empreTestAddAutot", "fisica", "Alta", sqlDate, sqlDate, "Avenida prueba", "Malaga","29010", "PaisesBajos", "prueba");
 		PersonaAutorizada pA = new PersonaAutorizada("perAutTestAddAutot", "Persona", "Autorizado", "Avenida 123", sqlDate, "Mara cay", sqlDate, sqlDate);
 		
 		try {
@@ -315,7 +315,7 @@ public class AdministrativosPrueba {
 			fail ("La persona autorizada deberia exisitir");
 		}
 
-		assertEquals("modPersona", comprobar.getID());
+		assertEquals("modPersona", comprobar.getNombre());
     }
 
 	@Test
@@ -368,7 +368,16 @@ public class AdministrativosPrueba {
 		} catch (PersonaAutorizadaException e)  {
 			fail ("Persona no encontrada");
 		}
-		
+		String identificacionPersona = pA.getIdentificacion();
+		String identificacionEmpresa = emp.getIdentificacion();
+		Exception exception = assertThrows(AutorizacionException.class, () -> {
+            gestionAutorizados.getAutorizacion(identificacionPersona, identificacionEmpresa);
+        });
+    
+        String expectedMessage = "Autorizacion no existe";
+        String actualMessage = exception.getMessage();
+    
+        assertTrue(actualMessage.contains(expectedMessage));
 
 	}
 
