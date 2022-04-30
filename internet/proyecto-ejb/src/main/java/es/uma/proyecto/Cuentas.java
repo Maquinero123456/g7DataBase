@@ -25,13 +25,9 @@ public class Cuentas implements GestionCuentas{
 
     @Override
     public Cuenta getCuenta(String iban) throws CuentaException {
-        Query query = em.createQuery("SELECT ac from Cuenta ac WHERE ac.identificacion = :fiban");
-        query.setParameter("fiban", iban);
-        Cuenta ac = null;
-        try{
-            ac = (Cuenta) query.getSingleResult();
-        }catch(NoResultException e){
-            throw new CuentaException("Cuenta no existe");
+        Cuenta ac = em.find(Cuenta.class, iban);
+        if(ac == null){
+            throw new CuentaException("No existe la cuenta");
         }
         return ac;
     }
