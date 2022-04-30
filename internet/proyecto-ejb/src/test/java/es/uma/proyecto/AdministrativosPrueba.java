@@ -261,7 +261,61 @@ public class AdministrativosPrueba {
 
 	@Test
 	public void testModificarAutorizado () {
+		java.util.Date utilDate = new java.util.Date();
+		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+		Empresa emp = new Empresa("empreTestAddAutot", "fisica", "alta", sqlDate, sqlDate, "Avenida prueba", "Malaga","29010", "PaisesBajos", "prueba");
+		PersonaAutorizada pA = new PersonaAutorizada("perAutTestAddAutot", "Persona", "Autorizado", "Avenida 123", sqlDate, "Mara cay", sqlDate, sqlDate);
+		
+		try {
+			gestionAutorizados.addPersonaAutorizada(pA);
+		} catch (PersonaAutorizadaException e) {
+			fail ("La persona autorizada ya exisiste");
+		}
 
+		try {
+			pA = gestionAutorizados.getPersonaAutorizada("perAutTestAddAutot");
+		} catch (PersonaAutorizadaException e) {
+			fail ("La persona autorizada deberia exisitir");
+		}
+
+		try {
+			gestionClientes.crearEmpresa(emp);
+		} catch (EmpresaException e) {
+			fail ("La empresa ya exisiste");
+		}
+
+		try {
+			emp = gestionClientes.getEmpresa("empreTestAddAutot");
+		} catch (EmpresaException e) { 
+			fail ("La empresa deberia exisitir");
+		}
+
+		try {
+			gestionAdministratitivos.addAutorizados(emp.getID(), pA.getID(), "tipo");
+		} catch (ClienteException e) {
+			fail ("La empresa deberia existir");
+		} catch (AutorizacionException e) {
+			fail ("La persona no tiene autorización de la empresa");
+		} catch (PersonaAutorizadaException e)  {
+			fail ("Persona no encontrada");
+		}
+
+		try {
+			PersonaAutorizada mod = new PersonaAutorizada("perAutTestAddAutot", "modPersona", "Autorizado", "Avenida 123", sqlDate, "Mara cay", sqlDate, sqlDate);
+			gestionAdministratitivos.modificarAutorizado(mod);
+		} catch (PersonaAutorizadaException e)  {
+			fail ("Persona no encontrada");
+		}
+
+		PersonaAutorizada comprobar = null;
+
+		try {
+			comprobar = gestionAutorizados.getPersonaAutorizada("perAutTestAddAutot");
+		} catch  (PersonaAutorizadaException e) {
+			fail ("La persona autorizada deberia exisitir");
+		}
+
+		assertEquals("modPersona", comprobar.getID());
     }
 
 	@Test
