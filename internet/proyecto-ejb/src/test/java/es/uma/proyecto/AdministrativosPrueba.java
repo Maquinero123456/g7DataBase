@@ -210,7 +210,7 @@ public class AdministrativosPrueba {
 	}
 
 
-	/*@Test
+	@Test
 	public void testAperturaCuentaAgrupada() throws CuentaException, ClienteException {
 
 		java.util.Date utilDate = new java.util.Date();
@@ -236,7 +236,7 @@ public class AdministrativosPrueba {
 		PooledAccount cf = (PooledAccount) gestionCuentas.getCuenta("ES45450545054505");
 
 		assertEquals(prueba, cf);
-	}*/
+	}
 
 	@Test
 	public void testAperturaCuentaSegregada() throws CuentaException, ClienteException {
@@ -316,12 +316,6 @@ public class AdministrativosPrueba {
 		}
 
 		CuentaReferencia cuentaRef = new CuentaReferencia();
-
-		try {
-			cuentaRef = (CuentaReferencia) gestionCuentas.getCuenta("8");
-		}catch (CuentaException e) {
-			fail ("No se ha encontrado la cuenta referencia");
-		}
 
 		try {
 			gestionAdministratitivos.aperturaCuentaSegregada("ES45450545054505", "testApCuentAgrup",cuentaRef);
