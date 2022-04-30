@@ -37,7 +37,7 @@ public interface GestionInformes {
 	 * (no el cliente, puesto que esa cuenta no es suya).
 	 */
 	
-	public List<CuentaFintech> informeAlemania();
+	public List<String> informeAlemania();
 	
 
 	public int getFecha(Date date);

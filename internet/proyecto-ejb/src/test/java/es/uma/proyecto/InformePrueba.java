@@ -58,6 +58,9 @@ public class InformePrueba {
         
         List<String> reporte3 = gestionInformes.informeClientePaisesBajos(null, null, null);
         System.out.println(reporte3.toString());
+        
+        List<String> reporteAlemania = gestionInformes.informeAlemania();
+        System.out.println(reporteAlemania.toString());
     }
 
     /*@Test
