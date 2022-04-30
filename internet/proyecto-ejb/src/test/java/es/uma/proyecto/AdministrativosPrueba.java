@@ -83,7 +83,6 @@ public class AdministrativosPrueba {
         assertTrue(actualMessage.contains(expectedMessage));
     }
 
-
 	@Test
     public void testIniciarSesionAdministrativoPasswordIncorrecta(){
         Usuario user = new Usuario("Paco", "Paco", true);
@@ -142,13 +141,11 @@ public class AdministrativosPrueba {
 		assertEquals("Alta", c1.getEstado());
 	}
 
-
-
 	@Test
 	public void testDarDeBajaCliente () {
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		Cliente c1 = new Cliente("testAlta", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		Cliente c1 = new Cliente("testBaja", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
 		
 		try{
 			gestionClientes.crearCliente(c1);
@@ -156,12 +153,12 @@ public class AdministrativosPrueba {
 			fail("Deberia poder crear el cliente");
 		}
 		try{
-			gestionAdministratitivos.darBajaCliente("testAlta");
+			gestionAdministratitivos.darBajaCliente("testBaja");
 		}catch(ClienteException e){
-			fail("Deberia encontrar al cliente al darlo de alta");
+			fail("Deberia encontrar al cliente al darlo de baja");
 		}
 		try{
-			c1 = gestionClientes.getCliente("testAlta");
+			c1 = gestionClientes.getCliente("testBaja");
 		}catch(ClienteException e){
 			fail("Deberia encontrar el cliente");
 		}
