@@ -209,22 +209,7 @@ public class AdministrativosPrueba {
 
 	@Test
 	public void testModificarAutorizado () {
-        Usuario user = new Usuario("Paco", "Paco", true);
-
-		try{
-			gestionCuentasUsuarios.CrearUsuario(user);
-		}catch(UsuarioException e){
-			fail("Usuario no deberia existir");
-		}
-
-		Usuario admin = null;
-		try{
-			admin = gestionAdministratitivos.iniciarSesion(user.getNombre(), user.getPassword());
-		}catch(AdministrativoException e){
-			fail("No deberia saltar excepcion");
-		}
-
-		assertEquals(admin, user);
+        
     }
 
 	@Test
