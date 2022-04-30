@@ -1,5 +1,6 @@
 package es.uma.proyecto;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -10,6 +11,7 @@ import javax.persistence.Query;
 
 import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.entidades.CuentaFintech;
+import es.uma.proyecto.entidades.Empresa;
 import es.uma.proyecto.entidades.Individual;
 import es.uma.proyecto.exceptions.ClienteException;
 
@@ -33,19 +35,83 @@ public class Informes implements GestionInformes{
 		
 		List<CuentaFintech> listCl = query.getResultList();
 	    
-		
 	    for(CuentaFintech cf: listCl) {
 	    	Cliente cl = cf.getCliente();
-	    	Individual ind = em.find(Individual.class, cl.getID());
-	    	informe.add("ACCOUNTHOLDER:[ activeCustomer: "+cl.getEstado()+" accountType: " +cl.getTipoCliente() + "]"
-	    			+"\n'name':[ First Name: " +ind.getNombre()+", Last Name: "+ind.getApellidos() + "] " 
-	    			+"\n 'adresses':[ city: "+ cl.getCiudad() + ", street: "+ cl.getDireccion() +", postalCode: "+cl.getCodigoPostal() + ", country: " + cl.getPais() + "]"
-	    			+"\n CUENTA:[ productType: "+ cf.getClasificacion() + " productNumber: "+ cf.getIBAN()+ " status: " +status+ " startDate: "+ cl.getFechaAlta() + " endDate: "+ cl.getFechaBaja());
-	    }
+	    	
+	    		if(cl.getTipoCliente().equalsIgnoreCase("individual") || cl.getTipoCliente().equalsIgnoreCase("fisico")) {
+	    			Individual ind = em.find(Individual.class, cl.getID());
+	    			informe.add("ACCOUNTHOLDER:[ activeCustomer: "+cl.getEstado()+" accountType: " +cl.getTipoCliente() + "]"
+	    	    	+"\n'name':[ First Name: " +ind.getNombre()+", Last Name: "+ind.getApellidos() + "] " 
+	    	    	+"\n 'adresses':[ city: "+ cl.getCiudad() + ", street: "+ cl.getDireccion() +", postalCode: "+cl.getCodigoPostal() + ", country: " + cl.getPais() + "]"
+	    	    	+"\n CUENTA:[ productType: "+ cf.getClasificacion() + " productNumber: "+ cf.getIBAN()+ " status: " +status+ " startDate: "+ cl.getFechaAlta() + " endDate: "+ cl.getFechaBaja());
+	    	    
+	    		}
+	    		
+	    		else{
+	    			Empresa emp = em.find(Empresa.class, cl.getID());
+	    			informe.add("ACCOUNTHOLDER:[ activeCustomer: "+cl.getEstado()+" accountType: " +cl.getTipoCliente() + "]"
+	    	    	+"\n'name':[ business name: "+ emp.getRazonSocial() +" ] "  
+	    	    	+"\n 'adresses':[ city: "+ cl.getCiudad() + ", street: "+ cl.getDireccion() +", postalCode: "+cl.getCodigoPostal() + ", country: " + cl.getPais() + "]"
+	    	    	+"\n CUENTA:[ productType: "+ cf.getClasificacion() + " productNumber: "+ cf.getIBAN()+ " status: " +status+ " startDate: "+ cl.getFechaAlta() + " endDate: "+ cl.getFechaBaja());
+	    	    
+	    		}
+	    		
+	    		
+	    	}
 		
 		return informe;
 	}
 	
+	
+	@Override
+	public List<String> informeClientePaisesBajos(Date alta, Date baja, String nom, String ape, String dir, String cp) {
+		List<String> informe = null;
+		informe.add("{'PERSONAS':[");
+		String sentencia = "SELECT cl Cliente cl WHERE cl.pais = :fpais";
+		
+		if(alta != null) {
+			sentencia.concat(" AND cl.fechaAlta = :falta");
+		}
+		
+		if(baja != null) {
+			sentencia.concat(" AND cl.fechaBaja = :fbaja");
+		}
+		
+		if(nom != null) {
+			sentencia.concat(" AND cl.fechaAlta = :falta");
+		}
+		
+		if(ape != null) {
+			sentencia.concat(" AND cl.fechaAlta = :falta");
+		}
+		
+		if(dir != null) {
+			sentencia.concat(" AND cl.fechaAlta = :falta");
+		}
+		
+		if(cp != null) {
+			sentencia.concat(" AND cl.fechaAlta = :falta");
+		}
+		
+	    Query query = em.createQuery(sentencia);
+		query.setParameter("fpais", "PaisesBajos");
+		query.setParameter("fpais", "PaisesBajos");
+		query.setParameter("fpais", "PaisesBajos");
+		query.setParameter("fpais", "PaisesBajos");
+		query.setParameter("fpais", "PaisesBajos");
+		query.setParameter("fpais", "PaisesBajos");
+		query.setParameter("fpais", "PaisesBajos");
+		
+		
+		List<CuentaFintech> listCl = query.getResultList();
+	    
+	    for(CuentaFintech cf: listCl) {
+	    	Cliente cl = cf.getCliente();
+	    		
+	    	}
+		
+		return informe;
+	}
 	
 		
 	@Override

@@ -1,5 +1,6 @@
 package es.uma.proyecto;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -20,6 +21,7 @@ public interface GestionInformes {
 	 * (no el cliente, puesto que esa cuenta no es suya).
 	 */
 	public List<String> informeCuentasPaisesBajos(boolean status, String productNumber);
+	public List<String> informeClientePaisesBajos(Date alta, Date baja, String name, String apellidos, String direccion, String cp);
 	
 	
 	
