@@ -209,8 +209,10 @@ public class AdministrativosPrueba {
 	
 	}
 
-	@Test
+
+	/*@Test
 	public void testAperturaCuentaAgrupada() throws CuentaException, ClienteException {
+
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 		Cliente c1 = new Cliente("testApCuentAgrup", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
@@ -234,7 +236,7 @@ public class AdministrativosPrueba {
 		PooledAccount cf = (PooledAccount) gestionCuentas.getCuenta("ES45450545054505");
 
 		assertEquals(prueba, cf);
-	}
+	}*/
 
 	@Test
 	public void testAperturaCuentaSegregada() throws CuentaException, ClienteException {
@@ -448,7 +450,7 @@ public class AdministrativosPrueba {
 		assertEquals("modPersona", comprobar.getNombre());
     }
 
-	@Test
+	/*@Test
 	public void testEliminarAutorizado() {
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
@@ -498,7 +500,7 @@ public class AdministrativosPrueba {
 		} catch (PersonaAutorizadaException e)  {
 			fail ("Persona no encontrada");
 		}
-	}
+	}*/
 
 }
    

@@ -1,5 +1,7 @@
 package es.uma.proyecto;
 
+import java.util.Date;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -15,52 +17,53 @@ import es.uma.proyecto.entidades.EmpresaPersAutoPK;
 import es.uma.proyecto.entidades.Individual;
 import es.uma.proyecto.entidades.PersonaAutorizada;
 import es.uma.proyecto.entidades.Segregada;
+import es.uma.proyecto.exceptions.PersonaAutorizadaException;
 
 public class BaseDatos {
 	public static void inicializaBaseDatos(String nombreUnidadPersistencia) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory(nombreUnidadPersistencia);
 		EntityManager em = emf.createEntityManager();
+	
 		
 		em.getTransaction().begin();
 		//No tocar arriba
 		
-		java.util.Date utilDate = new java.util.Date();
-		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+		Date utilDate = new Date(System.currentTimeMillis());
 		
-		Cliente c1 = new Cliente("uno", "fisica", "activa", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		Individual c1 = new Individual("uno", "fisica", "activa", utilDate, utilDate, "Avenida 123", "Maracay", "0", "PaisesBajos", "Juan", "Perez Castillo");	
 		em.persist(c1);
-		Cliente c2 = new Cliente("dos", "fisica", "activa", sqlDate, "Avenida 123", "Maracay", "123", "Francia");
+		Individual c2 = new Individual("dos", "fisica", "activa", utilDate, utilDate, "Avenida 123", "Maracay", "1", "Francia", "Juan", "Elsa Capunta");
 		em.persist(c2);
-		Cliente c3 = new Cliente("tres", "fisica", "activa", sqlDate, "Avenida 123", "Maracay", "123", "Alemania");
+		Individual c3 = new Individual("tres", "fisica", "activa", utilDate, utilDate, "Avenida 123", "Maracay", "2", "Alemania", "Juan", "Benito Camela");
 		em.persist(c3);
-		Cliente c4 = new Cliente("cuatro", "fisica", "activa", sqlDate, "Avenida 123", "Maracay", "123", "Espana");
+		Individual c4 = new Individual("cuatro", "fisica", "activa", utilDate, utilDate, "Avenida 123", "Maracay", "3", "Espana", "Juana", "Gomez Vazquez");
 		em.persist(c4);
-		Cliente c5 = new Cliente("cinco", "fisica", "activa", sqlDate, "Avenida 123", "Maracay", "123", "Alemania");
+		Individual c5 = new Individual("cinco", "fisica", "activa", utilDate, utilDate, "Avenida 123", "Maracay", "4", "Alemania", "Tractor", "Navarro Jimena");
 		em.persist(c5);
-		Cliente c6 = new Cliente("seis", "fisica", "activa", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		Individual c6 = new Individual("seis", "fisica", "bloqueada", utilDate, utilDate, "Avenida 123", "Maracay", "4", "PaisesBajos", "Juan", "Vazquez Vera");
 		em.persist(c6);
-		Cliente c7 = new Cliente("siete", "fisica", "activa", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		Empresa c7 = new Empresa("siete", "juridica", "activa", utilDate, utilDate, "Avenida 123", "Maracay", "2", "PaisesBajos", "Activision Blizzard");
 		em.persist(c7);
 		
-		CuentaFintech cf1 = new CuentaFintech("1", true, sqlDate, null, "segregada");
+		CuentaFintech cf1 = new CuentaFintech("15", true, utilDate, utilDate, "segregada");
 		cf1.setCliente(c1);
-		em.persist(c1);
-		CuentaFintech cf2 = new CuentaFintech("2", true, sqlDate, null, "segregada");
+		em.persist(cf1);
+		CuentaFintech cf2 = new CuentaFintech("2", true, utilDate, utilDate, "segregada");
 		cf2.setCliente(c2);
 		em.persist(cf2);
-		CuentaFintech cf3 = new CuentaFintech("3", true, sqlDate, null, "segregada");
+		CuentaFintech cf3 = new CuentaFintech("3", true, utilDate, utilDate, "segregada");
 		cf3.setCliente(c3);
 		em.persist(cf3);
-		CuentaFintech cf4 = new CuentaFintech("4", true, sqlDate, null, "segregada");
+		CuentaFintech cf4 = new CuentaFintech("4", true, utilDate, utilDate, "segregada");
 		cf4.setCliente(c4);
 		em.persist(cf4);
-		CuentaFintech cf5 = new CuentaFintech("5", true, sqlDate, null, "segregada");
+		CuentaFintech cf5 = new CuentaFintech("5", true, utilDate,utilDate, "segregada");
 		cf5.setCliente(c5);
 		em.persist(cf5);
-		CuentaFintech cf6 = new CuentaFintech("6", true, sqlDate, null, "segregada");
+		CuentaFintech cf6 = new CuentaFintech("6", false, utilDate, utilDate, "segregada");
 		cf6.setCliente(c6);
 		em.persist(cf6);
-		CuentaFintech cf7 = new CuentaFintech("7", true, sqlDate, null, "segregada");
+		CuentaFintech cf7 = new CuentaFintech("7", true, utilDate, utilDate, "segregada");
 		cf7.setCliente(c7);
 		em.persist(cf7);
 		
@@ -72,9 +75,9 @@ public class BaseDatos {
 		CuentaReferencia cr2 = new CuentaReferencia("cuentaDestino", "LaCuentaDeJuan", 100.0);
 		cr2.setDivisa(divisa);
 		em.persist(cr2);
-		Individual ind = new Individual("Paco", "Individual", "Alta", sqlDate, sqlDate, "Una calle", "Alguna", "No", "No existe", "Juanito", "Perez", sqlDate);
+		Individual ind = new Individual("Paco", "Individual", "Alta", utilDate, utilDate, "Una calle", "Alguna", "No", "No existe", "Juanito", "Perez", utilDate);
 		em.persist(ind);
-		Segregada seg = new Segregada("Uno aleatorio", "No", true, sqlDate, sqlDate, "No hay", 0.0);
+		Segregada seg = new Segregada("Uno aleatorio", "No", true, utilDate, utilDate, "No hay", 0.0);
 		seg.setCliente(ind);
 		seg.setCuentaReferencia(cr);
 		em.persist(seg);
@@ -83,32 +86,29 @@ public class BaseDatos {
 		cref.setDivisa(divisa);
 		em.persist(cref);
 		
-		/*
-		Divisa divisa2 = new Divisa("fe", "falsoEuro", 1.0);
-		em.persist(divisa2);
-		CuentaReferencia cr3 = new CuentaReferencia("autoOrigen", "LaCuentaDeNoPaco", 1000.0);
-		cr3.setDivisa(divisa);
-		em.persist(cr3);
-		CuentaReferencia cr4 = new CuentaReferencia("autoDestino", "LaCuentaDeNoJuan", 100.0);
-		cr4.setDivisa(divisa);
-		em.persist(cr4);
-		PersonaAutorizada ind2 = new PersonaAutorizada("testTransaccionPer", "Pablo", "Vazquez", "Una calle", sqlDate, "Quien sabe", sqlDate, sqlDate);
-		em.persist(ind2);
-		Empresa emp = new Empresa("LaDePablo", "aa", "aaa", sqlDate, sqlDate, "Falso", "No existe", "Quien sabe", "Venezuela", "Tesla");
+
+		Divisa falsoEuro = new Divisa("fe", "falsoEuro", 1.0);
+		em.persist(falsoEuro);
+		PersonaAutorizada persAuto = new PersonaAutorizada("Pablo", "Pablo", "Vazques", "Calle falsa", sqlDate, "Baja", sqlDate, sqlDate);
+		em.persist(persAuto);
+		Empresa emp = new Empresa("empTrans", "aa", "aaa", sqlDate, sqlDate, "Calle falsa", "Cuidad falsa", "falso", "Uno", "tesla");
 		em.persist(emp);
-		Query query = em.createQuery("Select c from PersonaAutorizada c where c.identificacion LIKE :fident");
-		query.setParameter("fident", ind2.getIdentificacion());
-		ind2 = (PersonaAutorizada) query.getSingleResult();
-		query = em.createQuery("Select c from Empresa c where c.identificacion LIKE :fident");
-		query.setParameter("fident", ind2.getIdentificacion());
-		emp = (Empresa) query.getSingleResult();
-		Autorizacion aut = new Autorizacion(new EmpresaPersAutoPK(emp.getID(), ind2.getID()), "Algundo", ind2, emp);
-		em.persist(aut);
-		Segregada seg2 = new Segregada("Dos Aleatorio", "No", true, sqlDate, sqlDate, "No hay", 0.0);
-		seg2.setCliente(emp);
-		seg2.setCuentaReferencia(cr3);
-		em.persist(seg2);
-		*/
+		Query query = em.createQuery("SELECT c FROM PersonaAutorizada c WHERE c.identificacion LIKE :fident");
+		query.setParameter("fident", "Pablo");
+		persAuto= (PersonaAutorizada) query.getSingleResult();
+		query = em.createQuery("SELECT c FROM PersonaAutorizada c WHERE c.identificacion LIKE :fident");
+		query.setParameter("fident", "Pablo");
+		persAuto= (PersonaAutorizada) query.getSingleResult();
+		CuentaReferencia cuenta2 = new CuentaReferencia("autorizadoOrigen", "No lo sabe nadie", 1000.0);
+		cuenta2.setDivisa(falsoEuro);
+		em.persist(cuenta2);
+		CuentaReferencia cuenta3 = new CuentaReferencia("autorizadoDestino", "Alguien lo sabra", 100.0);
+		cuenta3.setDivisa(falsoEuro);
+		em.persist(cuenta3);
+		Segregada unaSegregada = new Segregada("segregadaFalsisima", "No", true, sqlDate, sqlDate, "AAAAAAAAAAAAA", 0.0);
+		unaSegregada.setCliente(emp);
+		unaSegregada.setCuentaReferencia(cuenta2);
+		em.persist(unaSegregada);
 
 		//No tocar abajo
 		em.getTransaction().commit();
