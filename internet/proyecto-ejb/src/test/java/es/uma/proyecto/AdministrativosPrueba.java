@@ -221,7 +221,7 @@ public class AdministrativosPrueba {
 			fail("Deberia poder crear el cliente");
 		}
 
-			PooledAccount prueba =  new PooledAccount("ES45450545054505","swift", true, sqlDate, sqlDate, "Clasic");
+		PooledAccount prueba =  new PooledAccount("ES45450545054505","swift", true, sqlDate, sqlDate, "Clasic");
 
 		try {
 			gestionAdministratitivos.aperturaCuentaAgrupada("ES45450545054505", "testApCuentAgrup");
@@ -423,14 +423,29 @@ public class AdministrativosPrueba {
 		} catch (PersonaAutorizadaException e)  {
 			fail ("Persona no encontrada");
 		}
-
-
-
 	}
 
 	@Test
-	public void testCerrarCuenta() {
+	public void testCerrarCuentaAgrupada() {
+		java.util.Date utilDate = new java.util.Date();
+		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+		Cliente c1 = new Cliente("testApCuentAgrup", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		
+		try{
+			gestionClientes.crearCliente(c1);
+		}catch(ClienteException e){
+			fail("Deberia poder crear el cliente");
+		}
 
+		try {
+			gestionAdministratitivos.aperturaCuentaAgrupada("ES45450545054505", "testApCuentAgrup");
+		}catch (CuentaException e) {
+			fail ("No se ha podido crear la cuenta");
+		}catch (ClienteException e) {
+			fail ("El usuario no existe");
+		}
+
+		
 	}
 
 }
