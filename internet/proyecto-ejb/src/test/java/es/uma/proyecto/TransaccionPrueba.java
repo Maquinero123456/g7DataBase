@@ -58,4 +58,17 @@ public class TransaccionPrueba {
 
         assertTrue(200.0 == ref.getSaldo());
     }
+
+    @Test
+    public void testTransaccionAutorizada() throws ClienteException, CuentaException, IndividualException, SaldoException{
+        generarTransaccion.transaccionIndividual("testTransaccion", "autoOrigen", "autoDestino", 100.0, "Quien sabe");
+        CuentaReferencia ref = null;
+        try{
+            ref = gestionCuentas.getCuentaReferencia("autoDestino");
+        }catch(CuentaException e){
+            fail("La cuenta deberia existir");
+        }
+
+        assertTrue(200.0 == ref.getSaldo());
+    }
 }

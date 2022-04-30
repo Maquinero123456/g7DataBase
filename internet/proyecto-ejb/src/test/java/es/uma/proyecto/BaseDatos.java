@@ -3,12 +3,17 @@ package es.uma.proyecto;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
+import es.uma.proyecto.entidades.Autorizacion;
 import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.entidades.CuentaFintech;
 import es.uma.proyecto.entidades.CuentaReferencia;
 import es.uma.proyecto.entidades.Divisa;
+import es.uma.proyecto.entidades.Empresa;
+import es.uma.proyecto.entidades.EmpresaPersAutoPK;
 import es.uma.proyecto.entidades.Individual;
+import es.uma.proyecto.entidades.PersonaAutorizada;
 import es.uma.proyecto.entidades.Segregada;
 
 public class BaseDatos {
@@ -77,6 +82,32 @@ public class BaseDatos {
 		CuentaReferencia cref = new CuentaReferencia("8", "Cuenta Prueba", 1.00);
 		em.persist(cref);
 		
+		Divisa divisa2 = new Divisa("fe", "falsoEuro", 1.0);
+		em.persist(divisa2);
+		CuentaReferencia cr3 = new CuentaReferencia("autoOrigen", "LaCuentaDeNoPaco", 1000.0);
+		cr3.setDivisa(divisa);
+		em.persist(cr3);
+		CuentaReferencia cr4 = new CuentaReferencia("autoDestino", "LaCuentaDeNoJuan", 100.0);
+		cr4.setDivisa(divisa);
+		em.persist(cr4);
+		PersonaAutorizada ind2 = new PersonaAutorizada("testTransaccionPer", "Pablo", "Vazques", "Una calle", sqlDate, "Quien sabe", sqlDate, sqlDate);
+		em.persist(ind2);
+		Empresa emp = new Empresa("LaDePablo", "aa", "aaa", sqlDate, sqlDate, "Falso", "No existe", "Quien sabe", "Venezuela", "Tesla");
+		em.persist(emp);
+		Query query = em.createQuery("Select c from PersonaAutorizada c where c.identificacion LIKE :fident");
+		query.setParameter("fident", ind2.getIdentificacion());
+		ind2 = (PersonaAutorizada) query.getSingleResult();
+		query = em.createQuery("Select c from Empresa c where c.identificacion LIKE :fident");
+		query.setParameter("fident", ind2.getIdentificacion());
+		emp = (Empresa) query.getSingleResult();
+		Autorizacion aut = new Autorizacion(new EmpresaPersAutoPK(emp.getID(), ind2.getID()), "Algundo", ind2, emp);
+		em.persist(aut);
+		Segregada seg2 = new Segregada("Dos Aleatorio", "No", true, sqlDate, sqlDate, "No hay", 0.0);
+		seg2.setCliente(emp);
+		seg2.setCuentaReferencia(cr3);
+		em.persist(seg2);
+
+
 		//No tocar abajo
 		em.getTransaction().commit();
 		em.close();

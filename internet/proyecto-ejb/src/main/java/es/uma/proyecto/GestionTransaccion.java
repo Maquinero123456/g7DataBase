@@ -19,4 +19,6 @@ public interface GestionTransaccion {
 	 * adecuadamente en las cuentas de eBury y en las cuentas asociadas a las de eBury.
 	 */
 	public void transaccionIndividual(String identificacion, String ibanOrigen, String ibanDestino, Double cantidad, String tipo) throws ClienteException, CuentaException, IndividualException, SaldoException;
+
+	public void transaccionAutorizado(String identificacion, String ibanOrigen, String ibanDestino, Double cantidad, String tipo) throws ClienteException, CuentaException, IndividualException, SaldoException;
 }
