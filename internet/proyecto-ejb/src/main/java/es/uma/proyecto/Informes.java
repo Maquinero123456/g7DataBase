@@ -51,7 +51,7 @@ public class Informes implements GestionInformes{
 		
 	@Override
 	public List<Cuenta> informeAlemania() {
-		Query query = em.createQuery("Select c from Cuenta c, PersonaAutorizada p");
+		Query query = em.createQuery("Select c from Cuenta c, Cliente c where c.pais LIKE :fpais");
 		query.setParameter("fpais", "Alemania");
 		List<Cuenta> clientes = query.getResultList();
 		return clientes;
