@@ -15,6 +15,8 @@ import javax.naming.NamingException;
 
 import es.uma.proyecto.entidades.CuentaFintech;
 import es.uma.proyecto.exceptions.*;
+
+import org.glassfish.appclient.client.CLIBootstrap;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,6 +26,7 @@ import es.uma.proyecto.Administrativos;
 
 import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.entidades.Empresa;
+import es.uma.proyecto.entidades.PersonaAutorizada;
 import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.exceptions.AdministrativoException;
 
@@ -34,17 +37,20 @@ public class AdministrativosPrueba {
 	private static final String CUENTASUSUARIOS_EJB = "java:global/classes/CuentasUsuarios";
 	private static final String CLIENTES_EJB = "java:global/classes/Clientes";
 	private static final String UNIDAD_PERSITENCIA_PRUEBAS = "proyectoTest";
+	private static final String PERSONA_AUTORIZADA = "java:global/classes/Autorizados";
 
 	private GestionAdministratitivos gestionAdministratitivos;
 	private GestionCuentasUsuarios gestionCuentasUsuarios;
 	private GestionClientes gestionClientes;
 	private GestionCuentas gestionCuentas;
+	private GestionAutorizados gestionAutorizados;
 
     @Before
 	public void setup() throws NamingException  {
 		gestionAdministratitivos = (GestionAdministratitivos) SuiteTest.ctx.lookup(ADMINISTRATIVOS_EJB);
 		gestionCuentasUsuarios = (GestionCuentasUsuarios) SuiteTest.ctx.lookup(CUENTASUSUARIOS_EJB);
 		gestionClientes = (GestionClientes) SuiteTest.ctx.lookup(CLIENTES_EJB);
+		gestionAutorizados  = (GestionAutorizados) SuiteTest.ctx.lookup(PERSONA_AUTORIZADA);
 		BaseDatos.inicializaBaseDatos(UNIDAD_PERSITENCIA_PRUEBAS);
 	}
 
@@ -235,10 +241,51 @@ public class AdministrativosPrueba {
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 		Empresa emp = new Empresa("empreTestAddAutot", "fisica", "alta", sqlDate, sqlDate, "Avenida prueba", "Malaga","29010", "PaisesBajos", "prueba");
-		Cliente c1 = new Cliente("clienTestAddAutot", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		PersonaAutorizada pA = new PersonaAutorizada("perAutTestAddAutot", "Persona", "Autorizado", "Avenida 123", sqlDate, "Mara cay", sqlDate, sqlDate);
 		
-		//c1 = gestionClientes.getCliente("clienTestAddAutot");
+		try {
+			gestionAutorizados.addPersonaAutorizada(pA);
+		} catch (PersonaAutorizadaException e) {
+			fail ("La persona autorizada ya exisiste");
+		}
 
+		try {
+			pA = gestionAutorizados.getPersonaAutorizada("perAutTestAddAutot");
+		} catch (PersonaAutorizadaException e) {
+			fail ("La persona autorizada deberia exisitir");
+		}
+
+		try {
+			gestionClientes.crearEmpresa(emp);
+		} catch (EmpresaException e) {
+			fail ("La empresa ya exisiste");
+		}
+
+		try {
+			emp = gestionClientes.getEmpresa("empreTestAddAutot");
+		} catch (EmpresaException e) {
+			fail ("La empresa deberia exisitir");
+		}
+
+		try {
+			gestionAdministratitivos.addAutorizados(emp.getID(), pA.getID(), "tipo");
+		} catch (ClienteException e) {
+			fail ("La empresa deberia existir");
+		} catch (AutorizacionException e) {
+			fail ("La persona no tiene autorización de la empresa");
+		} catch (PersonaAutorizadaException e)  {
+			fail ("Persona no encontrada");
+		}
+		
+		try {
+			gestionAdministratitivos.eliminarAutorizado(emp.getID(), pA.getID());
+		} catch (ClienteException e) {
+			fail ("La empresa deberia existir");
+		} catch (AutorizacionException e) {
+			fail ("La persona no tiene autorización de la empresa");
+		} catch (PersonaAutorizadaException e)  {
+			fail ("Persona no encontrada");
+		}
 	}
 
 	@Test

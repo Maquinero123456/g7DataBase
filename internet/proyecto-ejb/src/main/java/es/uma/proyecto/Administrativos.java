@@ -116,8 +116,7 @@ public class Administrativos implements GestionAdministratitivos{
 		
 		else {
 			throw new AdministrativoException("No se reconoce la clasificacion de cuenta. Debe ser 'agrupada' o 'segregada'.");
-		}
-		
+		}	
 	
 	}
 

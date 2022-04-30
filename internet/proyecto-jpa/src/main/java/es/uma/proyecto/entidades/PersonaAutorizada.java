@@ -44,8 +44,7 @@ public class PersonaAutorizada {
     @JoinColumn(unique = true)
     private Usuario usuario;
 
-    public PersonaAutorizada(Long id, String ident, String nom, String ape, String dir, Date nac, String est, Date alta, Date baja){
-    	this.id = id;
+    public PersonaAutorizada( String ident, String nom, String ape, String dir, Date nac, String est, Date alta, Date baja){
     	this.identificacion = ident;
     	this.nombre = nom;
     	this.apellidos = ape;
