@@ -3,6 +3,7 @@ package es.uma.proyecto;
 import javax.ejb.Local;
 
 import es.uma.proyecto.entidades.Cliente;
+import es.uma.proyecto.entidades.CuentaReferencia;
 import es.uma.proyecto.entidades.Empresa;
 import es.uma.proyecto.entidades.PersonaAutorizada;
 import es.uma.proyecto.entidades.Usuario;
@@ -56,10 +57,17 @@ public interface GestionAdministratitivos {
      * La aplicación permitirá a un administrativo la apertura de una cuenta.
      * Será necesario que haya más de una cuenta externa en el caso de una cuenta agrupada con varias divisas.
      * @param le pasamos el iban
-     * @param y el tipo de cuenta agrupado o segregada
      * @throws CuentaException en caso de que ya existe una cuenta con ese iban
      */
-    public void aperturaCuenta(String iban, String tipo) throws CuentaException, AdministrativoException;
+    public void aperturaCuentaAgrupada(String iban, String id) throws CuentaException,ClienteException;
+
+    /*
+     * La aplicación permitirá a un administrativo la apertura de una cuenta.
+     * Será necesario que haya más de una cuenta externa en el caso de una cuenta agrupada con varias divisas.
+     * @param le pasamos el iban
+     * @throws CuentaException en caso de que ya existe una cuenta con ese iban
+     */
+    public void aperturaCuentaSegregada(String iban, String id, CuentaReferencia cuantaRef) throws CuentaException, ClienteException;
     
     
     

@@ -11,6 +11,7 @@ import javax.persistence.Query;
 import es.uma.proyecto.entidades.Autorizacion;
 import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.entidades.CuentaFintech;
+import es.uma.proyecto.entidades.CuentaReferencia;
 import es.uma.proyecto.entidades.DepositadaEn;
 import es.uma.proyecto.entidades.Empresa;
 import es.uma.proyecto.entidades.EmpresaPersAutoPK;
@@ -97,26 +98,53 @@ public class Administrativos implements GestionAdministratitivos{
 
 	
 	@Override
-	public void aperturaCuenta(String iban, String tipo) throws CuentaException, AdministrativoException {
-		CuentaFintech account = em.find(CuentaFintech.class, iban);
+	public void aperturaCuentaAgrupada(String iban, String id) throws CuentaException, ClienteException {
+		PooledAccount account = em.find(PooledAccount.class, iban);
+
 		if(account != null){
 			throw new CuentaException("Ya existe una cuenta asociada al IBAN: " + iban+ ".");
+		}
+
+		Cliente c1 = em.find(Cliente.class, id);
+
+		if (c1 == null) {
+			throw new ClienteException("El cliente no existe"); 
 		}
 		
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		
-		if(tipo.equalsIgnoreCase("segregada")){
-			em.persist(new CuentaFintech(iban, null, true, sqlDate, null, tipo));
+
+		em.persist(new PooledAccount(iban, null, true, sqlDate, null, "agrupada"));
+		account = em.find(PooledAccount.class, iban);
+		account.setCliente(c1);
+	}
+
+	@Override
+	public void aperturaCuentaSegregada(String iban, String id, CuentaReferencia cuentaRef) throws CuentaException, ClienteException {
+		Segregada account = em.find(Segregada.class, iban);
+
+		if(account != null){
+			throw new CuentaException("Ya existe una cuenta asociada al IBAN: " + iban+ ".");
+		}
+
+		Cliente c1 = em.find(Cliente.class, id);
+
+		if (c1 == null) {
+			throw new ClienteException("EL cliente no existe"); 
 		}
 		
-		else if(tipo.equalsIgnoreCase("agrupada")){
-			em.persist(new CuentaFintech(iban, null, true, sqlDate, null, tipo));
+		if(cuentaRef == null) {
+			throw new CuentaException("Cuenta referencia nula");
 		}
-		
-		else {
-			throw new AdministrativoException("No se reconoce la clasificacion de cuenta. Debe ser 'agrupada' o 'segregada'.");
-		}	
+
+		java.util.Date utilDate = new java.util.Date();
+		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+
+
+		em.persist(new Segregada(iban, null, true, sqlDate, null, "segregada"));
+		account = em.find(Segregada.class, iban);
+		account.setCliente(c1);
+		account.setCuentaReferencia(cuentaRef);
 	
 	}
 
@@ -140,7 +168,6 @@ public class Administrativos implements GestionAdministratitivos{
 		
 		Autorizacion aut = new Autorizacion(fk, tipo, pers, emp);
 		
-		em.persist(fk);
 		em.persist(aut);
 	}
 
@@ -148,22 +175,22 @@ public class Administrativos implements GestionAdministratitivos{
 	
 	@Override
 	public void modificarAutorizado(PersonaAutorizada persona) throws PersonaAutorizadaException{
-		PersonaAutorizada per = em.find(PersonaAutorizada.class, persona.getID());
+		Query query = em.createQuery("Select c from PersonaAutorizada c where c.identificacion like :fident");
+		query.setParameter("fident", persona.getIdentificacion());
+		PersonaAutorizada per = (PersonaAutorizada) query.getSingleResult();
 		if(per == null){
 			throw new PersonaAutorizadaException("PersonaAutorizada no encontrada");
 		}
 
-		em.merge(per);
-		/*
+		
 		per.setApellidos(persona.getApellidos());
 		per.setDireccion(persona.getDireccion());
 		per.setEstado(persona.getEstado());
 		per.setFechaFin(persona.getFechaFin());
 		per.setFecha_Inicio(persona.getFecha_Inicio());
 		per.setFecha_Nacimiento(persona.getFecha_Nacimiento());
-		per.setIdentificacion(persona.getIdentificacion());
 		per.setNombre(persona.getNombre());
-		*/
+		em.merge(per);
 	}
 
 	
@@ -177,7 +204,7 @@ public class Administrativos implements GestionAdministratitivos{
 		if(pers == null){
 			throw new PersonaAutorizadaException("Persona no encontrada.");
 		}
-		Autorizacion aut = em.find(Autorizacion.class, new Autorizacion(new EmpresaPersAutoPK(idEmpresa, idAutorizado)));
+		Autorizacion aut = em.find(Autorizacion.class, new EmpresaPersAutoPK(idEmpresa, idAutorizado));
 		if(aut == null){
 			throw new AutorizacionException("La persona indicada no cuenta con autorización en la empresa: "+ emp.getRazonSocial()+".");
 		}

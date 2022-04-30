@@ -2,6 +2,7 @@ package es.uma.proyecto;
 
 import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.entidades.Cuenta;
+import es.uma.proyecto.entidades.CuentaReferencia;
 import es.uma.proyecto.exceptions.ClienteException;
 import es.uma.proyecto.exceptions.CuentaException;
 
@@ -28,6 +29,15 @@ public class Cuentas implements GestionCuentas{
     @Override
     public Cuenta getCuenta(String iban) throws CuentaException {
         Cuenta ac = em.find(Cuenta.class, iban);
+        if(ac == null){
+            throw new CuentaException("No existe la cuenta");
+        }
+        return ac;
+    }
+
+    @Override
+    public CuentaReferencia getCuentaReferencia(String iban) throws CuentaException{
+        CuentaReferencia ac = em.find(CuentaReferencia.class, iban);
         if(ac == null){
             throw new CuentaException("No existe la cuenta");
         }

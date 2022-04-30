@@ -4,6 +4,8 @@ import javax.ejb.Local;
 
 import es.uma.proyecto.exceptions.ClienteException;
 import es.uma.proyecto.exceptions.CuentaException;
+import es.uma.proyecto.exceptions.IndividualException;
+import es.uma.proyecto.exceptions.SaldoException;
 
 @Local
 public interface GestionTransaccion {
@@ -16,5 +18,7 @@ public interface GestionTransaccion {
 	 * e indicar una cuenta de destino mediante su IBAN. Internamente Los saldos deberán actualizarse 
 	 * adecuadamente en las cuentas de eBury y en las cuentas asociadas a las de eBury.
 	 */
-	public void transaccion(String id, String ib1, String ib2, double trans) throws ClienteException, CuentaException;
+	public void transaccionIndividual(String identificacion, String ibanOrigen, String ibanDestino, Double cantidad, String tipo) throws ClienteException, CuentaException, IndividualException, SaldoException;
+
+	public void transaccionAutorizado(String identificacion, String ibanOrigen, String ibanDestino, Double cantidad, String tipo) throws ClienteException, CuentaException, IndividualException, SaldoException;
 }
