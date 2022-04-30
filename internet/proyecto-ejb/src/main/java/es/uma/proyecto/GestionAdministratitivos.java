@@ -59,7 +59,7 @@ public interface GestionAdministratitivos {
      * @param le pasamos el iban
      * @throws CuentaException en caso de que ya existe una cuenta con ese iban
      */
-    public void aperturaCuentaAgrupada(String iban, String id) throws CuentaException, AdministrativoException,ClienteException;
+    public void aperturaCuentaAgrupada(String iban, String id) throws CuentaException,ClienteException;
 
     /*
      * La aplicación permitirá a un administrativo la apertura de una cuenta.
@@ -67,7 +67,7 @@ public interface GestionAdministratitivos {
      * @param le pasamos el iban
      * @throws CuentaException en caso de que ya existe una cuenta con ese iban
      */
-    public void aperturaCuentaSegregada(String iban, String id, CuentaReferencia cuantaRef) throws CuentaException, AdministrativoException, ClienteException;
+    public void aperturaCuentaSegregada(String iban, String id, CuentaReferencia cuantaRef) throws CuentaException, ClienteException;
     
     
     

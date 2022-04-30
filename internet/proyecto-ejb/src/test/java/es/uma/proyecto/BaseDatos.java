@@ -56,7 +56,7 @@ public class BaseDatos {
 		cf7.setCliente(c7);
 		em.persist(cf7);
 
-		CuentaReferencia cref = new CuentaReferencia("7", "Cuenta Prueba", 1.00);
+		CuentaReferencia cref = new CuentaReferencia("8", "Cuenta Prueba", 1.00);
 		em.persist(cref);
 		
 		//No tocar abajo

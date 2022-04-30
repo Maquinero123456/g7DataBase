@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.naming.NamingException;
 
 import es.uma.proyecto.entidades.CuentaFintech;
+import es.uma.proyecto.entidades.CuentaReferencia;
 import es.uma.proyecto.exceptions.*;
 
 import org.glassfish.appclient.client.CLIBootstrap;
@@ -27,6 +28,8 @@ import es.uma.proyecto.Administrativos;
 import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.entidades.Empresa;
 import es.uma.proyecto.entidades.PersonaAutorizada;
+import es.uma.proyecto.entidades.PooledAccount;
+import es.uma.proyecto.entidades.Segregada;
 import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.exceptions.AdministrativoException;
 
@@ -207,7 +210,7 @@ public class AdministrativosPrueba {
 	}
 
 	@Test
-	public void testAperturaCuentaAgrupada() throws CuentaException, AdministrativoException {
+	public void testAperturaCuentaAgrupada() throws CuentaException, ClienteException {
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 		Cliente c1 = new Cliente("testApCuentAgrup", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
@@ -218,28 +221,26 @@ public class AdministrativosPrueba {
 			fail("Deberia poder crear el cliente");
 		}
 
-		CuentaFintech prueba = new CuentaFintech("ES45450545054505", null, true, sqlDate, null, "segregada");
+			PooledAccount prueba =  new PooledAccount("ES45450545054505","swift", true, sqlDate, sqlDate, "Clasic");
 
 		try {
 			gestionAdministratitivos.aperturaCuentaAgrupada("ES45450545054505", "testApCuentAgrup");
 		}catch (CuentaException e) {
-			fail ("La cuenta ");
+			fail ("No se ha podido crear la cuenta");
 		}catch (ClienteException e) {
-			fail ("La cuenta ");
-		}catch (AdministrativoException e) {
-			fail ("La cuenta ");
+			fail ("El usuario no existe");
 		}
 		
-		CuentaFintech cf = (CuentaFintech) gestionCuentas.getCuenta("ES45450545054505");
+		PooledAccount cf = (PooledAccount) gestionCuentas.getCuenta("ES45450545054505");
 
 		assertEquals(prueba, cf);
 	}
 
 	@Test
-	public void testAperturaCuentaSegregada() throws CuentaException, AdministrativoException {
+	public void testAperturaCuentaSegregada() throws CuentaException, ClienteException {
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		Cliente c1 = new Cliente("testApCuentAgrup", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		Cliente c1 = new Cliente("testApCuentSeg", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
 		
 		try{
 			gestionClientes.crearCliente(c1);
@@ -247,33 +248,29 @@ public class AdministrativosPrueba {
 			fail("Deberia poder crear el cliente");
 		}
 
-		CuentaFintech prueba = new CuentaFintech("ES45450545054505", null, true, sqlDate, null, "segregada");
-		
+		CuentaReferencia cuentaRef = null;
+
 		try {
-			gestionAdministratitivos.aperturaCuentaAgrupada("ES45450545054505", "testApCuentAgrup");
+			cuentaRef = (CuentaReferencia) gestionCuentas.getCuenta("8");
 		}catch (CuentaException e) {
-			fail ("La cuenta ");
+			fail ("No se ha encontrado la cuenta referencia");
+		}
+
+		Segregada prueba =  new Segregada("ES45450545054505","swift", true, sqlDate, sqlDate, "Clasic");
+
+		try {
+			gestionAdministratitivos.aperturaCuentaSegregada("ES45450545054505", "testApCuentSeg", cuentaRef);
+		}catch (CuentaException e) {
+			fail ("No se ha podido crear la cuenta");
 		}catch (ClienteException e) {
-			fail ("La cuenta ");
-		}catch (AdministrativoException e) {
-			fail ("La cuenta ");
+			fail ("El usuario no existe");
 		}
 		
-		CuentaFintech cf = (CuentaFintech) gestionCuentas.getCuenta("ES45450545054505");
+		Segregada cf = (Segregada) gestionCuentas.getCuenta("ES45450545054505");
 
 		assertEquals(prueba, cf);
 	}
-
-	@Test
-	public void testAperturaCuenta() throws CuentaException, AdministrativoException {
-		java.util.Date utilDate = new java.util.Date();
-		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		CuentaFintech prueba = new CuentaFintech("ES45450545054505", null, true, sqlDate, null, "segregada");
-		gestionAdministratitivos.aperturaCuenta("ES45450545054505", "segregada");
-		CuentaFintech cf = (CuentaFintech) gestionCuentas.getCuenta("ES45450545054505");
-		assertEquals(prueba, cf);
-	}
-
+	
 	@Test
 	public void testAddAutorizados() {
 		java.util.Date utilDate = new java.util.Date();
