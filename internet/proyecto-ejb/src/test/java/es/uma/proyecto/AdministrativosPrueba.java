@@ -208,12 +208,7 @@ public class AdministrativosPrueba {
 
 	@Test
 	public void testAperturaCuenta() throws CuentaException, AdministrativoException {
-		java.util.Date utilDate = new java.util.Date();
-		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		CuentaFintech prueba = new CuentaFintech("ES45450545054505", null, true, sqlDate, null, "segregada");
-		gestionAdministratitivos.aperturaCuenta("ES45450545054505", "segregada");
-		CuentaFintech cf = (CuentaFintech) gestionCuentas.getCuenta("ES45450545054505");
-		assertEquals(prueba, cf);
+
 	}
 
 	@Test
@@ -315,7 +310,7 @@ public class AdministrativosPrueba {
 			fail ("La persona autorizada deberia exisitir");
 		}
 
-		assertEquals("modPersona", comprobar.getID());
+		assertEquals("modPersona", comprobar.getNombre());
     }
 
 	@Test
