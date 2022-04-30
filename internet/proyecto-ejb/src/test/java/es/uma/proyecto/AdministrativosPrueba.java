@@ -207,6 +207,64 @@ public class AdministrativosPrueba {
 	}
 
 	@Test
+	public void testAperturaCuentaAgrupada() throws CuentaException, AdministrativoException {
+		java.util.Date utilDate = new java.util.Date();
+		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+		Cliente c1 = new Cliente("testApCuentAgrup", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		
+		try{
+			gestionClientes.crearCliente(c1);
+		}catch(ClienteException e){
+			fail("Deberia poder crear el cliente");
+		}
+
+		CuentaFintech prueba = new CuentaFintech("ES45450545054505", null, true, sqlDate, null, "segregada");
+
+		try {
+			gestionAdministratitivos.aperturaCuentaAgrupada("ES45450545054505", "testApCuentAgrup");
+		}catch (CuentaException e) {
+			fail ("La cuenta ");
+		}catch (ClienteException e) {
+			fail ("La cuenta ");
+		}catch (AdministrativoException e) {
+			fail ("La cuenta ");
+		}
+		
+		CuentaFintech cf = (CuentaFintech) gestionCuentas.getCuenta("ES45450545054505");
+
+		assertEquals(prueba, cf);
+	}
+
+	@Test
+	public void testAperturaCuentaSegregada() throws CuentaException, AdministrativoException {
+		java.util.Date utilDate = new java.util.Date();
+		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+		Cliente c1 = new Cliente("testApCuentAgrup", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		
+		try{
+			gestionClientes.crearCliente(c1);
+		}catch(ClienteException e){
+			fail("Deberia poder crear el cliente");
+		}
+
+		CuentaFintech prueba = new CuentaFintech("ES45450545054505", null, true, sqlDate, null, "segregada");
+		
+		try {
+			gestionAdministratitivos.aperturaCuentaAgrupada("ES45450545054505", "testApCuentAgrup");
+		}catch (CuentaException e) {
+			fail ("La cuenta ");
+		}catch (ClienteException e) {
+			fail ("La cuenta ");
+		}catch (AdministrativoException e) {
+			fail ("La cuenta ");
+		}
+		
+		CuentaFintech cf = (CuentaFintech) gestionCuentas.getCuenta("ES45450545054505");
+
+		assertEquals(prueba, cf);
+	}
+
+	@Test
 	public void testAperturaCuenta() throws CuentaException, AdministrativoException {
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());

@@ -6,6 +6,7 @@ import javax.persistence.Persistence;
 
 import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.entidades.CuentaFintech;
+import es.uma.proyecto.entidades.CuentaReferencia;
 
 public class BaseDatos {
 	public static void inicializaBaseDatos(String nombreUnidadPersistencia) {
@@ -54,7 +55,9 @@ public class BaseDatos {
 		CuentaFintech cf7 = new CuentaFintech("7", true, sqlDate, null, "segregada");
 		cf7.setCliente(c7);
 		em.persist(cf7);
-		
+
+		CuentaReferencia cref = new CuentaReferencia("7", "Cuenta Prueba", 1.00);
+		em.persist(cref);
 		
 		//No tocar abajo
 		em.getTransaction().commit();
