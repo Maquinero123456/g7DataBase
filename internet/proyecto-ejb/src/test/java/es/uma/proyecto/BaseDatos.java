@@ -88,9 +88,9 @@ public class BaseDatos {
 
 		Divisa falsoEuro = new Divisa("fe", "falsoEuro", 1.0);
 		em.persist(falsoEuro);
-		PersonaAutorizada persAuto = new PersonaAutorizada("Pablo", "Pablo", "Vazques", "Calle falsa", sqlDate, "Baja", sqlDate, sqlDate);
+		PersonaAutorizada persAuto = new PersonaAutorizada("Pablo", "Pablo", "Vazques", "Calle falsa", utilDate, "Baja", utilDate, utilDate);
 		em.persist(persAuto);
-		Empresa emp = new Empresa("empTrans", "aa", "aaa", sqlDate, sqlDate, "Calle falsa", "Cuidad falsa", "falso", "Uno", "tesla");
+		Empresa emp = new Empresa("empTrans", "aa", "aaa", utilDate, utilDate, "Calle falsa", "Cuidad falsa", "falso", "Uno", "tesla");
 		em.persist(emp);
 		Query query = em.createQuery("SELECT c FROM PersonaAutorizada c WHERE c.identificacion LIKE :fident");
 		query.setParameter("fident", "Pablo");
@@ -104,7 +104,7 @@ public class BaseDatos {
 		CuentaReferencia cuenta3 = new CuentaReferencia("autorizadoDestino", "Alguien lo sabra", 100.0);
 		cuenta3.setDivisa(falsoEuro);
 		em.persist(cuenta3);
-		Segregada unaSegregada = new Segregada("segregadaFalsisima", "No", true, sqlDate, sqlDate, "AAAAAAAAAAAAA", 0.0);
+		Segregada unaSegregada = new Segregada("segregadaFalsisima", "No", true, utilDate, utilDate, "AAAAAAAAAAAAA", 0.0);
 		unaSegregada.setCliente(emp);
 		unaSegregada.setCuentaReferencia(cuenta2);
 		em.persist(unaSegregada);
