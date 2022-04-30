@@ -13,7 +13,7 @@ import javax.persistence.Table;
 public class Usuario {
     
     @Id
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String nombre;
     @Column(nullable = false)
     private String password;

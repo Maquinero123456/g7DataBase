@@ -3,12 +3,12 @@ package es.uma.proyecto.entidades;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
-@DiscriminatorValue("Empresa")
+@Table(name="EMPRESA")
 public class Empresa extends Cliente {
 
 
@@ -18,9 +18,9 @@ public class Empresa extends Cliente {
 	@OneToMany(mappedBy = "empresa")
     private List<Autorizacion> autorizacion;
 
-	public Empresa(long id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad,
+	public Empresa(String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad,
 				String cp, String pais, String razonSocial) {
-			super(id, ident, tp, est, alta, baja, direc, ciudad, cp, pais);
+			super(ident, tp, est, alta, baja, direc, ciudad, cp, pais);
 			this.razonSocial = razonSocial;
 		}
 	

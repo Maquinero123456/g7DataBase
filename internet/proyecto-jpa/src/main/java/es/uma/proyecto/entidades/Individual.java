@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@DiscriminatorValue("Individual")
+@Table(name="INDIVIDUAL")
 public class Individual extends Cliente{
     //Atributos
     @Column(nullable = false)
@@ -14,15 +14,15 @@ public class Individual extends Cliente{
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
 
-    public Individual(long id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais, String nom, String ape, Date nac) {
-    	super(id, ident, tp, est, alta, baja, direc, ciudad, cp, pais);
+    public Individual(String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais, String nom, String ape, Date nac) {
+    	super(ident, tp, est, alta, baja, direc, ciudad, cp, pais);
     	this.nombre = nom;
     	this.apellidos = ape;
     	this.fechaNacimiento = nac;
     }
     
-    public Individual(long id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais, String nombre, String apellido) {
-    	super(id, ident, tp, est, alta, baja, direc, ciudad, cp, pais);
+    public Individual(String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais, String nombre, String apellido) {
+    	super(ident, tp, est, alta, baja, direc, ciudad, cp, pais);
         this.nombre = nombre;
         this.apellidos = apellido;
     }

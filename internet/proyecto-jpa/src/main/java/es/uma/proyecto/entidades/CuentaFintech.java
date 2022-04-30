@@ -1,16 +1,16 @@
 package es.uma.proyecto.entidades;
 
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
 
 @Entity
-@DiscriminatorValue("CuentaFintech")
+@Table(name="CUENTAFINTECH")
 public class CuentaFintech extends Cuenta {
     @Column(nullable = false)
     private Boolean estado = false;

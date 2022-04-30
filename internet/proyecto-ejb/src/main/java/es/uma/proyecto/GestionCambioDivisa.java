@@ -12,7 +12,8 @@ import es.uma.proyecto.exceptions.PooledAccountException;
 
 @Local
 public interface GestionCambioDivisa {
-    /**
+    
+	/** REQUISITO 17
      * La aplicación permitirá a un cliente/autorizado realizar un cambio de divisas en una cuenta agrupada (pooled).
      * El cambio de divisas se considerará una transacción especial donde el origen y destino es la misma cuenta. 
      * Para poder realizar un cambio de divisas será necesario que la cuenta tenga saldos en las divisas de origen y destino.
