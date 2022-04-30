@@ -27,7 +27,7 @@ public class Autorizados implements GestionAutorizados{
 
     @Override
     public void addPersonaAutorizada(PersonaAutorizada pers) throws PersonaAutorizadaException {
-        Query query = em.createQuery("SELECT cl from Cliente cl WHERE cl.identificacion = :fidentificacion");
+        Query query = em.createQuery("SELECT cl from PersonaAutorizada cl WHERE cl.identificacion = :fidentificacion");
 		query.setParameter("fidentificacion", pers.getIdentificacion()); 
         PersonaAutorizada cli = null;
         try{
@@ -42,7 +42,7 @@ public class Autorizados implements GestionAutorizados{
 
     @Override
     public PersonaAutorizada getPersonaAutorizada(String identificacion) throws PersonaAutorizadaException {
-        Query query = em.createQuery("SELECT cl from Cliente cl WHERE cl.identificacion = :fidentificacion");
+        Query query = em.createQuery("SELECT cl from PersonaAutorizada cl WHERE cl.identificacion = :fidentificacion");
 		query.setParameter("fidentificacion", identificacion); 
         PersonaAutorizada cli = null;
         try{
@@ -84,7 +84,7 @@ public class Autorizados implements GestionAutorizados{
     }
 
     public Empresa getEmpresa(String identificacion) throws EmpresaException{
-        Query query = em.createQuery("SELECT cl from Cliente cl WHERE cl.identificacion = :fidentificacion");
+        Query query = em.createQuery("SELECT cl from Empresa cl WHERE cl.Empresa = :fidentificacion");
 		query.setParameter("fidentificacion", identificacion); 
         Empresa cli = null;
         try{

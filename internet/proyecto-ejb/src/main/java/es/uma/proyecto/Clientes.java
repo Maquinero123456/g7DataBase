@@ -55,7 +55,7 @@ public class Clientes implements GestionClientes{
 
     @Override
     public void crearEmpresa(Empresa emp) throws EmpresaException{
-        Query query = em.createQuery("SELECT cl from Cliente cl WHERE cl.identificacion = :fidentificacion");
+        Query query = em.createQuery("SELECT cl from Empresa cl WHERE cl.identificacion = :fidentificacion");
 		query.setParameter("fidentificacion", emp.getIdentificacion()); 
         Empresa cli = null;
         try{
@@ -71,7 +71,7 @@ public class Clientes implements GestionClientes{
 
     @Override
     public Empresa getEmpresa(String identificacion) throws EmpresaException{
-        Query query = em.createQuery("SELECT cl from Cliente cl WHERE cl.identificacion = :fidentificacion");
+        Query query = em.createQuery("SELECT cl from Empresa cl WHERE cl.identificacion = :fidentificacion");
 		query.setParameter("fidentificacion", identificacion); 
         Empresa cli = null;
         try{
