@@ -4,8 +4,20 @@ import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
+import es.uma.proyecto.entidades.Autorizacion;
+import es.uma.proyecto.entidades.Cliente;
+import es.uma.proyecto.entidades.CuentaFintech;
+import es.uma.proyecto.entidades.DepositadaEn;
+import es.uma.proyecto.entidades.Empresa;
+import es.uma.proyecto.entidades.EmpresaPersAutoPK;
+import es.uma.proyecto.entidades.PersonaAutorizada;
+import es.uma.proyecto.entidades.PooledAccount;
+import es.uma.proyecto.entidades.Segregada;
+import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.exceptions.AdministrativoException;
 import es.uma.proyecto.exceptions.AutorizacionException;
 import es.uma.proyecto.exceptions.ClienteException;
@@ -17,7 +29,7 @@ public class Administrativos implements GestionAdministratitivos{
 
     private static final Logger LOG = Logger.getLogger(Administrativos.class.getCanonicalName());
 
-    @PersistenceContext(name="Cache")
+    @PersistenceContext(name="proyectoEJB")
     private EntityManager em;
 
     @Override
@@ -27,17 +39,27 @@ public class Administrativos implements GestionAdministratitivos{
             throw new AdministrativoException("Usuario no encontrado");
         }
         if(!user.getPassword().equals(password)){
-            throw new AdministrativoException("Contraseña erronea");
+            throw new AdministrativoException("Password incorrecta");
         }
+        if(!user.getEsAdministrativo()) {
+        	throw new AdministrativoException("El usuario NO es administrativo");
+        }
+        
         return user;
     }
 
     
 	@Override
 	public void darAltaCliente(String id) throws ClienteException {
-		Cliente cliente = em.find(Cliente.class, id);
+		Cliente cliente = null;
+		try{
+			cliente = getCliente(id);
+		}catch(ClienteException e){
+			throw new ClienteException("No va");
+		}
+		
 		if(cliente == null){
-			throw new ClienteException("Cliente no encontrado.");
+			throw new ClienteException("Cliente no encontrado");
 		}
 		
 		cliente.setEstado("Alta");
@@ -46,9 +68,9 @@ public class Administrativos implements GestionAdministratitivos{
 	
 	@Override
 	public void darBajaCliente(String id) throws ClienteException {
-		Cliente cliente = em.find(Cliente.class, id);
+		Cliente cliente = getCliente(id);
 		if(cliente == null){
-			throw new ClienteException("Cliente no encontrado.");
+			throw new ClienteException("Cliente no encontrado");
 		}
         
         cliente.setEstado("Baja");
@@ -56,11 +78,12 @@ public class Administrativos implements GestionAdministratitivos{
 	
 
 	@Override
-	public Cliente modificarCliente(Cliente cliente) throws ClienteException {
-		Cliente client = em.find(Cliente.class, cliente);
+	public void modificarCliente(Cliente cliente) throws ClienteException {
+		Cliente client = getCliente(cliente.getIdentificacion());
 		if(client == null){
 			throw new ClienteException("Cliente no encontrado");
 		}
+		
 		client.setCiudad(cliente.getCiudad());
 		client.setCodigoPostal(cliente.getCodigoPostal());
 		client.setDireccion(cliente.getDireccion());
@@ -69,8 +92,7 @@ public class Administrativos implements GestionAdministratitivos{
 		client.setFechaBaja(cliente.getFechaBaja());
 		client.setCuentas(cliente.getCuentas());
 		client.setIdentificacion(cliente.getIdentificacion());
-		
-		return client;
+		em.merge(client);
 	}
 
 	
@@ -78,7 +100,7 @@ public class Administrativos implements GestionAdministratitivos{
 	public void aperturaCuenta(String iban, String tipo) throws CuentaException, AdministrativoException {
 		CuentaFintech account = em.find(CuentaFintech.class, iban);
 		if(account != null){
-			throw new CuentaException("Ya existe una cuenta asociada a ese IBAN.");
+			throw new CuentaException("Ya existe una cuenta asociada al IBAN: " + iban+ ".");
 		}
 		
 		java.util.Date utilDate = new java.util.Date();
@@ -101,25 +123,29 @@ public class Administrativos implements GestionAdministratitivos{
 
 	
 	@Override
-	public void addAutorizados(Empresa empresa, PersonaAutorizada persona, String tipo) throws ClienteException, PersonaAutorizadaException, AutorizacionException{
-		Empresa emp = em.find(Empresa.class, empresa.getID());
+	public void addAutorizados(long idEmp, long idPer, String tipo) throws ClienteException, PersonaAutorizadaException, AutorizacionException{
+		Empresa emp = em.find(Empresa.class, idEmp);
 		if(emp == null){
-			throw new ClienteException("Empresa no encontrada");
+			throw new ClienteException("Empresa no encontrada.");
 		}
-		PersonaAutorizada pers = em.find(PersonaAutorizada.class, persona.getID());
+		PersonaAutorizada pers = em.find(PersonaAutorizada.class, idPer);
 		if(pers == null){
-			throw new PersonaAutorizadaException("Persona no encontrada");
+			throw new PersonaAutorizadaException("Persona no encontrada.");
 		}
-		EmpresaPersAutoPK fk = new EmpresaPersAutoPK(emp.getID(), pers.getID());
+		
+		EmpresaPersAutoPK fk = new EmpresaPersAutoPK(idEmp, idPer);
+		Autorizacion autAux = em.find(Autorizacion.class, fk);
+		if(autAux!=null){
+			throw new AutorizacionException(pers.getApellidos() + " ya tiene autorización en " + emp.getRazonSocial() + ".");
+		}
+		
 		Autorizacion aut = new Autorizacion(fk, tipo, pers, emp);
-		Autorizacion aut2 = em.find(Autorizacion.class, fk);
-		if(aut2!=null){
-			throw new AutorizacionException("Autorizacion ya existente");
-		}
+		
 		em.persist(fk);
 		em.persist(aut);
 	}
 
+	
 	
 	@Override
 	public void modificarAutorizado(PersonaAutorizada persona) throws PersonaAutorizadaException{
@@ -128,6 +154,8 @@ public class Administrativos implements GestionAdministratitivos{
 			throw new PersonaAutorizadaException("PersonaAutorizada no encontrada");
 		}
 
+		em.merge(per);
+		/*
 		per.setApellidos(persona.getApellidos());
 		per.setDireccion(persona.getDireccion());
 		per.setEstado(persona.getEstado());
@@ -136,32 +164,34 @@ public class Administrativos implements GestionAdministratitivos{
 		per.setFecha_Nacimiento(persona.getFecha_Nacimiento());
 		per.setIdentificacion(persona.getIdentificacion());
 		per.setNombre(persona.getNombre());
-		
+		*/
 	}
 
+	
 	@Override
-	public void eliminarAutorizado(Empresa empresa, PersonaAutorizada persona) throws ClienteException, PersonaAutorizadaException, AutorizacionException{
-		Empresa emp = em.find(Empresa.class, empresa.getID());
+	public void eliminarAutorizado(long idEmpresa, long idAutorizado) throws ClienteException, PersonaAutorizadaException, AutorizacionException{
+		Empresa emp = em.find(Empresa.class, idEmpresa);
 		if(emp == null){
-			throw new ClienteException("Empresa no encontrado");
+			throw new ClienteException("Empresa no encontrada.");
 		}
-		PersonaAutorizada pers = em.find(PersonaAutorizada.class, persona.getID());
+		PersonaAutorizada pers = em.find(PersonaAutorizada.class, idAutorizado);
 		if(pers == null){
-			throw new PersonaAutorizadaException("Persona no encontrada");
+			throw new PersonaAutorizadaException("Persona no encontrada.");
 		}
-		Autorizacion aut = em.find(Autorizacion.class, new Autorizacion(new EmpresaPersAutoPK(empresa.getID(), persona.getID())));
+		Autorizacion aut = em.find(Autorizacion.class, new Autorizacion(new EmpresaPersAutoPK(idEmpresa, idAutorizado)));
 		if(aut == null){
-			throw new AutorizacionException("Autorizacion no encontrada");
+			throw new AutorizacionException("La persona indicada no cuenta con autorización en la empresa: "+ emp.getRazonSocial()+".");
 		}
 		em.remove(aut);
 	}
 
 	
+	
 	@Override
 	public void cerrarCuenta(String iban) throws CuentaException{
 		CuentaFintech account = em.find(CuentaFintech.class, iban);
 		if(account == null){
-			throw new CuentaException("No existe ninguna cuenta asociada a este IBAN.");
+			throw new CuentaException("No existe ninguna cuenta asociada al IBAN: "+ iban +".");
 		}
 		
 		if(account.getClasificacion().equalsIgnoreCase("segregada")) {
@@ -197,5 +227,34 @@ public class Administrativos implements GestionAdministratitivos{
 		}
 		
 	}
+
+    public void crearCliente(Cliente client) throws ClienteException {
+        Query query = em.createQuery("SELECT cl from Cliente cl WHERE cl.identificacion = :fidentificacion");
+		query.setParameter("fidentificacion", client.getIdentificacion()); 
+        Cliente cli = null;
+        try{
+            cli = (Cliente) query.getSingleResult();
+        }catch(NoResultException e){
+            em.persist(client);
+        }
+        if(cli!=null){
+            throw new ClienteException("Cliente ya existe");
+        }
+       
+        
+    }
+
+    public Cliente getCliente(String id) throws ClienteException {
+        Query query = em.createQuery("SELECT cl from Cliente cl WHERE cl.identificacion = :fidentificacion");
+		query.setParameter("fidentificacion", id); 
+        Cliente cli = null;
+        try{
+            cli = (Cliente) query.getSingleResult();
+        }catch(NoResultException e){
+            throw new ClienteException("Cliente no existe");
+        }
+        return cli;
+        
+    }
     
 }

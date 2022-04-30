@@ -1,4 +1,4 @@
-package es.uma.proyecto;
+package es.uma.proyecto.entidades;
 
 import java.util.Objects;
 
@@ -13,7 +13,7 @@ import javax.persistence.Table;
 public class Usuario {
     
     @Id
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String nombre;
     @Column(nullable = false)
     private String password;

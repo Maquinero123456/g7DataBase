@@ -1,4 +1,4 @@
-package es.uma.proyecto;
+package es.uma.proyecto.entidades;
 
 import java.util.Objects;
 import javax.persistence.*;
@@ -6,14 +6,12 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="tipoCliente", discriminatorType = DiscriminatorType.CHAR)
-@DiscriminatorValue("Cliente")
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name="CLIENTE")
 public class Cliente {
     
     @Id @GeneratedValue
-    private String id;
+    private long id;
     @Column(unique=true, nullable=false)
     private String identificacion;
     @Column(nullable=false)
@@ -41,8 +39,7 @@ public class Cliente {
     @JoinColumn(unique = true)
     private Usuario usuario;
 
-    public Cliente(String id, String ident, String tp, String est, Date alta, String direc, String ciudad, String cp, String pais){
-    	this.id = id;
+    public Cliente(String ident, String tp, String est, Date alta, String direc, String ciudad, String cp, String pais){
     	this.identificacion = ident;
     	this.tipoCliente = tp;
     	this.estado = est;
@@ -55,8 +52,7 @@ public class Cliente {
     
 
 
-    public Cliente(String id, String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais){
-    	this.id = id;
+    public Cliente(String ident, String tp, String est, Date alta, Date baja, String direc, String ciudad, String cp, String pais){
     	this.identificacion = ident;
     	this.tipoCliente = tp;
     	this.estado = est;
@@ -82,7 +78,7 @@ public class Cliente {
 
     }
 
-    public String getID() {
+    public long getID() {
         return this.id;
     }
 

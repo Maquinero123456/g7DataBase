@@ -1,4 +1,4 @@
-package es.uma.proyecto;
+package es.uma.proyecto.entidades;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -8,23 +8,23 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class EmpresaPersAutoPK implements Serializable{
-    private String empresa;
+    private long empresa;
     private long personaAutorizada;
 
 
     public EmpresaPersAutoPK() {
     }
 
-    public EmpresaPersAutoPK(String empresa, long personaAutorizada){
+    public EmpresaPersAutoPK(long empresa, long personaAutorizada){
         this.empresa = empresa;
         this.personaAutorizada = personaAutorizada;
     }
 
-    public String getEmpresa() {
+    public long getEmpresa() {
         return this.empresa;
     }
 
-    public void setEmpresa(String empresa) {
+    public void setEmpresa(long empresa) {
         this.empresa = empresa;
     }
 
