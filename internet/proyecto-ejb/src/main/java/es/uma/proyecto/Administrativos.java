@@ -98,8 +98,8 @@ public class Administrativos implements GestionAdministratitivos{
 
 	
 	@Override
-	public void aperturaCuentaAgrupada(String iban, String id) throws CuentaException, AdministrativoException, ClienteException {
-		CuentaFintech account = em.find(CuentaFintech.class, iban);
+	public void aperturaCuentaAgrupada(String iban, String id) throws CuentaException, ClienteException {
+		PooledAccount account = em.find(PooledAccount.class, iban);
 
 		if(account != null){
 			throw new CuentaException("Ya existe una cuenta asociada al IBAN: " + iban+ ".");
@@ -108,19 +108,19 @@ public class Administrativos implements GestionAdministratitivos{
 		Cliente c1 = em.find(Cliente.class, id);
 
 		if (c1 == null) {
-			throw new ClienteException(); 
+			throw new ClienteException("El cliente no existe"); 
 		}
 		
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
-		em.persist(new CuentaFintech(iban, null, true, sqlDate, null, "Agrupada"));
-		account = em.find(CuentaFintech.class, iban);
+		em.persist(new PooledAccount(iban, null, true, sqlDate, null, "Agrupada"));
+		account = em.find(PooledAccount.class, iban);
 		account.setCliente(c1);
 	}
 
 	@Override
-	public void aperturaCuentaSegregada(String iban, String id, CuentaReferencia cuentaRef) throws CuentaException, AdministrativoException, ClienteException {
+	public void aperturaCuentaSegregada(String iban, String id, CuentaReferencia cuentaRef) throws CuentaException, ClienteException {
 		Segregada account = em.find(Segregada.class, iban);
 
 		if(account != null){
@@ -130,13 +130,18 @@ public class Administrativos implements GestionAdministratitivos{
 		Cliente c1 = em.find(Cliente.class, id);
 
 		if (c1 == null) {
-			throw new ClienteException(); 
+			throw new ClienteException("EL cliente no existe"); 
 		}
 		
+		if(cuentaRef == null) {
+			throw new CuentaException("Cuenta referencia nula");
+		}
+
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
-		em.persist(new CuentaFintech(iban, null, true, sqlDate, null, "Segregada"));
+
+		em.persist(new Segregada(iban, null, true, sqlDate, null, "Segregada"));
 		account = em.find(Segregada.class, iban);
 		account.setCliente(c1);
 		account.setCuentaReferencia(cuentaRef);

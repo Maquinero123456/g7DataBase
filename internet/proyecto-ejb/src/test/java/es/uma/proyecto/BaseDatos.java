@@ -73,6 +73,10 @@ public class BaseDatos {
 		seg.setCliente(ind);
 		seg.setCuentaReferencia(cr);
 		em.persist(seg);
+
+		CuentaReferencia cref = new CuentaReferencia("8", "Cuenta Prueba", 1.00);
+		em.persist(cref);
+		
 		//No tocar abajo
 		em.getTransaction().commit();
 		em.close();
