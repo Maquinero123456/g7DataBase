@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.entidades.Cuenta;
+import es.uma.proyecto.entidades.CuentaFintech;
 import es.uma.proyecto.exceptions.ClienteException;
 import es.uma.proyecto.exceptions.CuentaException;
 
@@ -59,7 +60,7 @@ public class InformePrueba {
 
     @Test
     public void informeAlemania() throws ClienteException{
-        List<Cuenta> report = gestionInformes.informeAlemania();
+        List<CuentaFintech> report = gestionInformes.informeAlemania();
         System.out.println("/****************************************************************************");
         for(Cuenta e: report){
             System.out.println(e);

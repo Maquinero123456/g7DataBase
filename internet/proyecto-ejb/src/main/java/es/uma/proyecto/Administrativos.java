@@ -140,7 +140,6 @@ public class Administrativos implements GestionAdministratitivos{
 		
 		Autorizacion aut = new Autorizacion(fk, tipo, pers, emp);
 		
-		em.persist(fk);
 		em.persist(aut);
 	}
 
@@ -153,8 +152,7 @@ public class Administrativos implements GestionAdministratitivos{
 			throw new PersonaAutorizadaException("PersonaAutorizada no encontrada");
 		}
 
-		em.merge(per);
-		/*
+		
 		per.setApellidos(persona.getApellidos());
 		per.setDireccion(persona.getDireccion());
 		per.setEstado(persona.getEstado());
@@ -163,7 +161,7 @@ public class Administrativos implements GestionAdministratitivos{
 		per.setFecha_Nacimiento(persona.getFecha_Nacimiento());
 		per.setIdentificacion(persona.getIdentificacion());
 		per.setNombre(persona.getNombre());
-		*/
+		em.merge(per);
 	}
 
 	

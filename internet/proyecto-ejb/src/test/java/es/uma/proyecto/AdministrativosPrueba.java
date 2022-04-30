@@ -314,6 +314,7 @@ public class AdministrativosPrueba {
 		} catch (PersonaAutorizadaException e)  {
 			fail ("Persona no encontrada");
 		}
+		
 
 	}
 
