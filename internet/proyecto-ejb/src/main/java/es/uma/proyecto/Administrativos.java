@@ -11,6 +11,7 @@ import javax.persistence.Query;
 import es.uma.proyecto.entidades.Autorizacion;
 import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.entidades.CuentaFintech;
+import es.uma.proyecto.entidades.CuentaReferencia;
 import es.uma.proyecto.entidades.DepositadaEn;
 import es.uma.proyecto.entidades.Empresa;
 import es.uma.proyecto.entidades.EmpresaPersAutoPK;
@@ -97,26 +98,48 @@ public class Administrativos implements GestionAdministratitivos{
 
 	
 	@Override
-	public void aperturaCuenta(String iban, String tipo) throws CuentaException, AdministrativoException {
+	public void aperturaCuentaAgrupada(String iban, String id) throws CuentaException, AdministrativoException, ClienteException {
 		CuentaFintech account = em.find(CuentaFintech.class, iban);
+
 		if(account != null){
 			throw new CuentaException("Ya existe una cuenta asociada al IBAN: " + iban+ ".");
+		}
+
+		Cliente c1 = em.find(Cliente.class, id);
+
+		if (c1 == null) {
+			throw new ClienteException(); 
 		}
 		
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		
-		if(tipo.equalsIgnoreCase("segregada")){
-			em.persist(new CuentaFintech(iban, null, true, sqlDate, null, tipo));
+
+		em.persist(new CuentaFintech(iban, null, true, sqlDate, null, "Agrupada"));
+		account = em.find(CuentaFintech.class, iban);
+		account.setCliente(c1);
+	}
+
+	@Override
+	public void aperturaCuentaSegregada(String iban, String id, CuentaReferencia cuentaRef) throws CuentaException, AdministrativoException, ClienteException {
+		Segregada account = em.find(Segregada.class, iban);
+
+		if(account != null){
+			throw new CuentaException("Ya existe una cuenta asociada al IBAN: " + iban+ ".");
+		}
+
+		Cliente c1 = em.find(Cliente.class, id);
+
+		if (c1 == null) {
+			throw new ClienteException(); 
 		}
 		
-		else if(tipo.equalsIgnoreCase("agrupada")){
-			em.persist(new CuentaFintech(iban, null, true, sqlDate, null, tipo));
-		}
-		
-		else {
-			throw new AdministrativoException("No se reconoce la clasificacion de cuenta. Debe ser 'agrupada' o 'segregada'.");
-		}	
+		java.util.Date utilDate = new java.util.Date();
+		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+
+		em.persist(new CuentaFintech(iban, null, true, sqlDate, null, "Segregada"));
+		account = em.find(Segregada.class, iban);
+		account.setCliente(c1);
+		account.setCuentaReferencia(cuentaRef);
 	
 	}
 
