@@ -84,7 +84,7 @@ public class Autorizados implements GestionAutorizados{
     }
 
     public Empresa getEmpresa(String identificacion) throws EmpresaException{
-        Query query = em.createQuery("SELECT cl from Empresa cl WHERE cl.Empresa = :fidentificacion");
+        Query query = em.createQuery("SELECT cl from Empresa cl WHERE cl.identificacion = :fidentificacion");
 		query.setParameter("fidentificacion", identificacion); 
         Empresa cli = null;
         try{
