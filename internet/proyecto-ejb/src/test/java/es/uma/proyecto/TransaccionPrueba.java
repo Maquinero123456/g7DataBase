@@ -61,7 +61,7 @@ public class TransaccionPrueba {
 
     @Test
     public void testTransaccionAutorizada() throws ClienteException, CuentaException, IndividualException, SaldoException{
-        generarTransaccion.transaccionIndividual("Pablo", "autorizadoOrigen", "autorizadoDestino", 100.0, "Quien sabe");
+        generarTransaccion.transaccionAutorizado("Pablo", "autorizadoOrigen", "autorizadoDestino", 100.0, "Quien sabe");
         CuentaReferencia ref = null;
         try{
             ref = gestionCuentas.getCuentaReferencia("autorizadoDestino");

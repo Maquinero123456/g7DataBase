@@ -444,7 +444,7 @@ public class AdministrativosPrueba {
 		assertEquals("modPersona", comprobar.getNombre());
     }
 
-	/*@Test
+	@Test
 	public void testEliminarAutorizado() {
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
@@ -494,7 +494,7 @@ public class AdministrativosPrueba {
 		} catch (PersonaAutorizadaException e)  {
 			fail ("Persona no encontrada");
 		}
-	}*/
+	}
 
 }
    
