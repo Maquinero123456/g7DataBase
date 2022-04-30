@@ -1,5 +1,7 @@
 package es.uma.proyecto;
 
+import static org.junit.Assert.fail;
+
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -9,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import es.uma.proyecto.entidades.Cliente;
+import es.uma.proyecto.entidades.Cuenta;
 import es.uma.proyecto.exceptions.ClienteException;
 
 public class InformePrueba {
@@ -28,21 +31,22 @@ public class InformePrueba {
 
 
     @Test
-    public void informePaisesBajos() throws ClienteException{
-    	java.util.Date utilDate = new java.util.Date();
-		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		
-        List<String> cliente = gestionInformes.informeCuentasPaisesBajos(true, "1");
-        System.out.println("/************************************************************************************/");
-        if(cliente.isEmpty()){
-            System.out.println("Esta vacio");
+    public void informeHolanda() throws ClienteException{
+        /*List<Cliente> cliente = gestionInformes.informeCuentasPaisesBajos();
+        for(Cliente e : cliente){
+            if(!e.getPais().equals("PaisesBajos")){
+                fail("Solo deberia devolver clientes de holanda");
+            }
+        }*/
+    }
+
+    @Test
+    public void informeAlemania() throws ClienteException{
+        List<Cuenta> report = gestionInformes.informeAlemania();
+        System.out.println("/****************************************************************************");
+        for(Cuenta e: report){
+            System.out.println(e);
         }
-        else{
-        	for(String s : cliente){
-        		System.out.println(s);
-        	}
-        }
-        
-        System.out.println("/************************************************************************************/");
+        System.out.println("/****************************************************************************");
     }
 }

@@ -4,7 +4,9 @@ import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import es.uma.proyecto.entidades.Autorizacion;
 import es.uma.proyecto.entidades.Cliente;
@@ -49,8 +51,13 @@ public class Administrativos implements GestionAdministratitivos{
     
 	@Override
 	public void darAltaCliente(String id) throws ClienteException {
-		CLientes gestionClientes = new Clientes();
-		Cliente cliente = gestionClientes.getCliente(id);
+		Cliente cliente = null;
+		try{
+			cliente = getCliente(id);
+		}catch(ClienteException e){
+			throw new ClienteException("No va");
+		}
+		
 		if(cliente == null){
 			throw new ClienteException("Cliente no encontrado");
 		}
@@ -61,8 +68,7 @@ public class Administrativos implements GestionAdministratitivos{
 	
 	@Override
 	public void darBajaCliente(String id) throws ClienteException {
-		Clientes client = new Clientes();
-		Cliente cliente = client.getCliente(id);
+		Cliente cliente = getCliente(id);
 		if(cliente == null){
 			throw new ClienteException("Cliente no encontrado");
 		}
@@ -73,8 +79,7 @@ public class Administrativos implements GestionAdministratitivos{
 
 	@Override
 	public void modificarCliente(Cliente cliente) throws ClienteException {
-		Clientes clientes = new Clientes();
-		Cliente client = clientes.getCliente(cliente.getIdentificacion());
+		Cliente client = getCliente(cliente.getIdentificacion());
 		if(client == null){
 			throw new ClienteException("Cliente no encontrado");
 		}
@@ -222,5 +227,34 @@ public class Administrativos implements GestionAdministratitivos{
 		}
 		
 	}
+
+    public void crearCliente(Cliente client) throws ClienteException {
+        Query query = em.createQuery("SELECT cl from Cliente cl WHERE cl.identificacion = :fidentificacion");
+		query.setParameter("fidentificacion", client.getIdentificacion()); 
+        Cliente cli = null;
+        try{
+            cli = (Cliente) query.getSingleResult();
+        }catch(NoResultException e){
+            em.persist(client);
+        }
+        if(cli!=null){
+            throw new ClienteException("Cliente ya existe");
+        }
+       
+        
+    }
+
+    public Cliente getCliente(String id) throws ClienteException {
+        Query query = em.createQuery("SELECT cl from Cliente cl WHERE cl.identificacion = :fidentificacion");
+		query.setParameter("fidentificacion", id); 
+        Cliente cli = null;
+        try{
+            cli = (Cliente) query.getSingleResult();
+        }catch(NoResultException e){
+            throw new ClienteException("Cliente no existe");
+        }
+        return cli;
+        
+    }
     
 }
