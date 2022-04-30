@@ -13,19 +13,20 @@ import java.util.logging.Logger;
 
 import javax.naming.NamingException;
 
+import es.uma.proyecto.entidades.CuentaFintech;
+import es.uma.proyecto.exceptions.*;
 import org.junit.Before;
 import org.junit.Test;
 
 import es.uma.proyecto.GestionAdministratitivos;
 import es.uma.proyecto.entidades.Usuario;
-import es.uma.proyecto.exceptions.AdministrativoException;
+import es.uma.proyecto.Administrativos;
 
 import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.entidades.Empresa;
 import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.exceptions.AdministrativoException;
-import es.uma.proyecto.exceptions.ClienteException;
-import es.uma.proyecto.exceptions.UsuarioException;
+
 public class AdministrativosPrueba {
     private static final Logger LOG = Logger.getLogger(Administrativos.class.getCanonicalName());
 
@@ -37,6 +38,7 @@ public class AdministrativosPrueba {
 	private GestionAdministratitivos gestionAdministratitivos;
 	private GestionCuentasUsuarios gestionCuentasUsuarios;
 	private GestionClientes gestionClientes;
+	private GestionCuentas gestionCuentas;
 
     @Before
 	public void setup() throws NamingException  {
@@ -199,9 +201,13 @@ public class AdministrativosPrueba {
 	}
 
 	@Test
-	public void testAperturaCuenta() {
-		
-
+	public void testAperturaCuenta() throws CuentaException, AdministrativoException {
+		java.util.Date utilDate = new java.util.Date();
+		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+		CuentaFintech prueba = new CuentaFintech("ES45450545054505", null, true, sqlDate, null, "segregada");
+		gestionAdministratitivos.aperturaCuenta("ES45450545054505", "segregada");
+		CuentaFintech cf = (CuentaFintech) gestionCuentas.getCuenta("ES45450545054505");
+		assertEquals(prueba, cf);
 	}
 
 	@Test
@@ -211,30 +217,17 @@ public class AdministrativosPrueba {
 		Empresa emp = new Empresa("empreTestAddAutot", "fisica", "alta", sqlDate, sqlDate, "Avenida prueba", "Malaga","29010", "PaisesBajos", "prueba");
 		Cliente c1 = new Cliente("clienTestAddAutot", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
 		
+		/*
 		try  {
 			gestionAdministratitivos.addAutorizados("empreTestAddAutot", "clienTestAddAutot", tipo);
 		}
+		*/
 		
 	}
 
 	@Test
 	public void testModificarAutorizado () {
-        Usuario user = new Usuario("Paco", "Paco", true);
-
-		try{
-			gestionCuentasUsuarios.CrearUsuario(user);
-		}catch(UsuarioException e){
-			fail("Usuario no deberia existir");
-		}
-
-		Usuario admin = null;
-		try{
-			admin = gestionAdministratitivos.iniciarSesion(user.getNombre(), user.getPassword());
-		}catch(AdministrativoException e){
-			fail("No deberia saltar excepcion");
-		}
-
-		assertEquals(admin, user);
+        
     }
 
 	@Test
@@ -244,11 +237,8 @@ public class AdministrativosPrueba {
 		Empresa emp = new Empresa("empreTestAddAutot", "fisica", "alta", sqlDate, sqlDate, "Avenida prueba", "Malaga","29010", "PaisesBajos", "prueba");
 		Cliente c1 = new Cliente("clienTestAddAutot", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
 		
-		c1 = gestionClientes.getCliente("clienTestAddAutot");w
+		//c1 = gestionClientes.getCliente("clienTestAddAutot");
 
-		try {
-			gestionAdministratitivos.eliminarAutorizado(, "clienTestAddAutot");
-		}
 	}
 
 	@Test
