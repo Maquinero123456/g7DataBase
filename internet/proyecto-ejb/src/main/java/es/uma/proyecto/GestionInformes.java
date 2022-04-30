@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import es.uma.proyecto.entidades.Cliente;
+import es.uma.proyecto.entidades.Cuenta;
 import es.uma.proyecto.entidades.CuentaFintech;
 
 @Local
@@ -36,7 +37,7 @@ public interface GestionInformes {
 	 * (no el cliente, puesto que esa cuenta no es suya).
 	 */
 	
-	public void informeAlemania();
+	public List<Cuenta> informeAlemania();
 	
 
 	public List<Cliente> getClientesPais(String pais);

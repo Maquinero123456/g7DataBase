@@ -13,15 +13,19 @@ import java.util.logging.Logger;
 
 import javax.naming.NamingException;
 
+import es.uma.proyecto.entidades.CuentaFintech;
+import es.uma.proyecto.exceptions.*;
 import org.junit.Before;
 import org.junit.Test;
 
 import es.uma.proyecto.GestionAdministratitivos;
+import es.uma.proyecto.entidades.Usuario;
+import es.uma.proyecto.Administrativos;
+
 import es.uma.proyecto.entidades.Cliente;
+import es.uma.proyecto.entidades.Empresa;
 import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.exceptions.AdministrativoException;
-import es.uma.proyecto.exceptions.ClienteException;
-import es.uma.proyecto.exceptions.UsuarioException;
 
 public class AdministrativosPrueba {
     private static final Logger LOG = Logger.getLogger(Administrativos.class.getCanonicalName());
@@ -34,6 +38,7 @@ public class AdministrativosPrueba {
 	private GestionAdministratitivos gestionAdministratitivos;
 	private GestionCuentasUsuarios gestionCuentasUsuarios;
 	private GestionClientes gestionClientes;
+	private GestionCuentas gestionCuentas;
 
     @Before
 	public void setup() throws NamingException  {
@@ -45,43 +50,19 @@ public class AdministrativosPrueba {
 
     @Test
     public void testIniciarSesionAdministrativo(){
-        Usuario user = new Usuario("Paco", "Paco", true);
-
+        Usuario admin = new Usuario("Pepito", "Juanito", true);
+		
 		try{
-			gestionCuentasUsuarios.CrearUsuario(user);
+			gestionCuentasUsuarios.CrearUsuario(admin);
 		}catch(UsuarioException e){
 			fail("Usuario no deberia existir");
 		}
 
-		Usuario admin = null;
-		try{
-			admin = gestionAdministratitivos.iniciarSesion(user.getNombre(), user.getPassword());
-		}catch(AdministrativoException e){
-			fail("No deberia saltar excepcion");
+		try {
+			gestionAdministratitivos.iniciarSesion("Pepito","Juanito");
+		}catch (AdministrativoException e) {
+			fail("Se deberia haber iniciado sesion");
 		}
-
-		assertEquals(admin, user);
-    }
-
-	@Test
-    public void testIniciarSesionAdministrativoPasswordIncorrecta(){
-        Usuario user = new Usuario("Paco", "Paco", true);
-
-		try{
-			gestionCuentasUsuarios.CrearUsuario(user);
-		}catch(UsuarioException e){
-			fail("Usuario no deberia existir");
-		}
-
-
-		Exception exception = assertThrows(AdministrativoException.class, () -> {
-            gestionAdministratitivos.iniciarSesion("Paco", "Anda");
-        });
-    
-        String expectedMessage = "Password incorrecta";
-        String actualMessage = exception.getMessage();
-    
-        assertTrue(actualMessage.contains(expectedMessage));
     }
 
 	@Test
@@ -106,9 +87,30 @@ public class AdministrativosPrueba {
     }
 
 	@Test
-    public void testIniciarSesionAdministrativoUsuarioNoExiste(){
+    public void testIniciarSesionAdministrativoPasswordIncorrecta(){
+        Usuario user = new Usuario("Paco", "Paco", true);
+
+		try{
+			gestionCuentasUsuarios.CrearUsuario(user);
+		}catch(UsuarioException e){
+			fail("Usuario no deberia existir");
+		}
+
+
 		Exception exception = assertThrows(AdministrativoException.class, () -> {
-            gestionAdministratitivos.iniciarSesion("Paco", "Paco");
+            gestionAdministratitivos.iniciarSesion("Paco", "Anda");
+        });
+    
+        String expectedMessage = "Password incorrecta";
+        String actualMessage = exception.getMessage();
+    
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+	@Test
+    public void testIniciarSesionAdministrativoNoExisteUsuario(){
+		Exception exception = assertThrows(AdministrativoException.class, () -> {
+            gestionAdministratitivos.iniciarSesion("Paco", "Anda");
         });
     
         String expectedMessage = "Usuario no encontrado";
@@ -118,7 +120,7 @@ public class AdministrativosPrueba {
     }
 
 	@Test
-	public void testDarAltaCliente(){
+	public void testDarDeAltaCliente () {
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 		Cliente c1 = new Cliente("testAlta", "fisica", "Baja", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
@@ -140,14 +142,13 @@ public class AdministrativosPrueba {
 		}
 
 		assertEquals("Alta", c1.getEstado());
-
 	}
 
 	@Test
-	public void testDarBajaCliente(){
+	public void testDarDeBajaCliente () {
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		Cliente c1 = new Cliente("testAlta", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		Cliente c1 = new Cliente("testBaja", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
 		
 		try{
 			gestionClientes.crearCliente(c1);
@@ -155,22 +156,21 @@ public class AdministrativosPrueba {
 			fail("Deberia poder crear el cliente");
 		}
 		try{
-			gestionAdministratitivos.darBajaCliente("testAlta");
+			gestionAdministratitivos.darBajaCliente("testBaja");
 		}catch(ClienteException e){
-			fail("Deberia encontrar al cliente al darlo de alta");
+			fail("Deberia encontrar al cliente al darlo de baja");
 		}
 		try{
-			c1 = gestionClientes.getCliente("testAlta");
+			c1 = gestionClientes.getCliente("testBaja");
 		}catch(ClienteException e){
 			fail("Deberia encontrar el cliente");
 		}
 
 		assertEquals("Baja", c1.getEstado());
-
 	}
 
 	@Test
-	public void testModificarCliente(){
+	public void testModificarCliente () {
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 		Cliente c1 = new Cliente("testAlta", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
@@ -197,5 +197,54 @@ public class AdministrativosPrueba {
 
 		assertTrue("Deberia haber cambiado direccion, ciudad, codigo postal y pais", 
 		c1.getDireccion().equals(c2.getDireccion()) && c1.getCiudad().equals(c2.getCiudad()) && c1.getCodigoPostal().equals(c2.getCodigoPostal()) && c1.getPais().equals(c2.getPais()) );
+	
 	}
+
+	@Test
+	public void testAperturaCuenta() throws CuentaException, AdministrativoException {
+		java.util.Date utilDate = new java.util.Date();
+		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+		CuentaFintech prueba = new CuentaFintech("ES45450545054505", null, true, sqlDate, null, "segregada");
+		gestionAdministratitivos.aperturaCuenta("ES45450545054505", "segregada");
+		CuentaFintech cf = (CuentaFintech) gestionCuentas.getCuenta("ES45450545054505");
+		assertEquals(prueba, cf);
+	}
+
+	@Test
+	public void testAddAutorizados() {
+		java.util.Date utilDate = new java.util.Date();
+		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+		Empresa emp = new Empresa("empreTestAddAutot", "fisica", "alta", sqlDate, sqlDate, "Avenida prueba", "Malaga","29010", "PaisesBajos", "prueba");
+		Cliente c1 = new Cliente("clienTestAddAutot", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		
+		/*
+		try  {
+			gestionAdministratitivos.addAutorizados("empreTestAddAutot", "clienTestAddAutot", tipo);
+		}
+		*/
+		
+	}
+
+	@Test
+	public void testModificarAutorizado () {
+        
+    }
+
+	@Test
+	public void testEliminarAutorizado() {
+		java.util.Date utilDate = new java.util.Date();
+		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+		Empresa emp = new Empresa("empreTestAddAutot", "fisica", "alta", sqlDate, sqlDate, "Avenida prueba", "Malaga","29010", "PaisesBajos", "prueba");
+		Cliente c1 = new Cliente("clienTestAddAutot", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		
+		//c1 = gestionClientes.getCliente("clienTestAddAutot");
+
+	}
+
+	@Test
+	public void testCerrarCuenta() {
+
+	}
+
 }
+   
