@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import es.uma.proyecto.entidades.Cliente;
+import es.uma.proyecto.entidades.Cuenta;
 import es.uma.proyecto.exceptions.ClienteException;
 
 public class InformePrueba {
@@ -31,11 +32,21 @@ public class InformePrueba {
 
     @Test
     public void informeHolanda() throws ClienteException{
-        List<Cliente> cliente = gestionInformes.informePaisesBajos();
+        /*List<Cliente> cliente = gestionInformes.informeCuentasPaisesBajos();
         for(Cliente e : cliente){
             if(!e.getPais().equals("PaisesBajos")){
                 fail("Solo deberia devolver clientes de holanda");
             }
+        }*/
+    }
+
+    @Test
+    public void informeAlemania() throws ClienteException{
+        List<Cuenta> report = gestionInformes.informeAlemania();
+        System.out.println("/****************************************************************************");
+        for(Cuenta e: report){
+            System.out.println(e);
         }
+        System.out.println("/****************************************************************************");
     }
 }

@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import es.uma.proyecto.entidades.Cliente;
+import es.uma.proyecto.entidades.Cuenta;
 import es.uma.proyecto.entidades.CuentaFintech;
 import es.uma.proyecto.entidades.Individual;
 import es.uma.proyecto.exceptions.ClienteException;
@@ -49,9 +50,11 @@ public class Informes implements GestionInformes{
 	
 		
 	@Override
-	public void informeAlemania() {
-		// TODO Auto-generated method stub
-		
+	public List<Cuenta> informeAlemania() {
+		Query query = em.createQuery("Select c from Cuenta c, PersonaAutorizada p");
+		query.setParameter("fpais", "Alemania");
+		List<Cuenta> clientes = query.getResultList();
+		return clientes;
 	}
 	
 	@Override
