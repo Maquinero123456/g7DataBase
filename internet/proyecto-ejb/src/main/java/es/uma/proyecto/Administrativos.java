@@ -105,18 +105,20 @@ public class Administrativos implements GestionAdministratitivos{
 			throw new CuentaException("Ya existe una cuenta asociada al IBAN: " + iban+ ".");
 		}
 
-		Cliente c1 = em.find(Cliente.class, id);
-
-		if (c1 == null) {
-			throw new ClienteException("El cliente no existe"); 
+		Cliente c1 = null;
+		Query query = em.createQuery("Select c from Cliente c where c.identificacion LIKE :fident");
+		query.setParameter("fident", id);
+		try{
+			c1 = (Cliente) query.getSingleResult();
+		}catch(NoResultException e){
+			throw new ClienteException("EL cliente no existe");
 		}
 		
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-
-		em.persist(new PooledAccount(iban, null, true, sqlDate, null, "Agrupada"));
-		account = em.find(PooledAccount.class, iban);
+		account = new PooledAccount(iban, null, true, sqlDate, null, "Agrupada");
 		account.setCliente(c1);
+		em.persist(account);
 	}
 
 	@Override
@@ -126,12 +128,16 @@ public class Administrativos implements GestionAdministratitivos{
 		if(account != null){
 			throw new CuentaException("Ya existe una cuenta asociada al IBAN: " + iban+ ".");
 		}
-
-		Cliente c1 = em.find(Cliente.class, id);
-
-		if (c1 == null) {
-			throw new ClienteException("EL cliente no existe"); 
+		Cliente c1 = null;
+		Query query = em.createQuery("Select c from Cliente c where c.identificacion LIKE :fident");
+		query.setParameter("fident", id);
+		try{
+			c1 = (Cliente) query.getSingleResult();
+		}catch(NoResultException e){
+			throw new ClienteException("EL cliente no existe");
 		}
+		
+
 		
 		if(cuentaRef == null) {
 			throw new CuentaException("Cuenta referencia nula");
@@ -140,12 +146,10 @@ public class Administrativos implements GestionAdministratitivos{
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
-
-		em.persist(new Segregada(iban, null, true, sqlDate, null, "Segregada"));
-		account = em.find(Segregada.class, iban);
+		account = new Segregada(iban, null, true, sqlDate, null, "Segregada");
 		account.setCliente(c1);
 		account.setCuentaReferencia(cuentaRef);
-	
+		em.persist(account);
 	}
 
 	
