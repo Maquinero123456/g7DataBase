@@ -62,20 +62,8 @@ public class GenerarTransaccion implements GestionTransaccion{
 
 		@Override
 		public void transaccionAutorizado(String identificacion, String ibanOrigen, String ibanDestino, Double cantidad, String tipo) throws ClienteException, CuentaException, IndividualException, SaldoException {
-			Query query = em.createQuery("Select c from PersonaAutorizada c WHERE c.identificacion LIKE :fident");
+			Query query = em.createQuery("Select c from CuentaReferencia c, PersonaAutorizada p WHERE p.identificacion LIKE :fident AND c.iban LIKE :fiban");
 			query.setParameter("fident", identificacion);
-			
-			Individual individual = (Individual) query.getSingleResult();
-			if(individual == null){
-				throw new IndividualException("Individual no existe");
-			}
-
-			query = em.createQuery("Select emp from Empresa emp, PersonaAutorizada i where i.identificacion like :fident AND r.iban like :fiban");
-			query.setParameter("fident", identificacion);
-			query.setParameter("fiban", ibanOrigen);
-			Empresa aux = (Empresa) query.getSingleResult();
-			query = em.createQuery("Select r from CuentaReferencia r, Individual i where i.identificacion like :fident AND r.iban like :fiban");
-			query.setParameter("fident", aux.getIdentificacion());
 			query.setParameter("fiban", ibanOrigen);
 			CuentaReferencia cuentaOrigen = (CuentaReferencia) query.getSingleResult();
 			if(cuentaOrigen.getSaldo()<cantidad){
