@@ -49,29 +49,16 @@ public class AdministrativosPrueba {
     public void testIniciarSesionAdministrativo(){
         Usuario admin = new Usuario("Pepito", "Juanito", true);
 		
+		try{
+			gestionCuentasUsuarios.CrearUsuario(admin);
+		}catch(UsuarioException e){
+			fail("Usuario no deberia existir");
+		}
+
 		try {
 			gestionAdministratitivos.iniciarSesion("Pepito","Juanito");
 		}catch (AdministrativoException e) {
-			throw new RuntimeException(e);
-		}
-
-		try {
-			gestionAdministratitivos.iniciarSesion("Juanito", "Juanito");
-		}catch (AdministrativoException e) {
-			fail("El usuario no esta regitrado");
-		}
-
-		try {
-			gestionAdministratitivos.iniciarSesion("Pepito", "Pepito");
-		} catch (AdministrativoException e) {
-			fail("La contraseña es incorrecta");
-		}
-
-		try {
-			Usuario user = new Usuario("Juanito", "Pepito", false);
-			gestionAdministratitivos.iniciarSesion("Juanito", "Pepito");
-		} catch (AdministrativoException e) {
-			fail("El usuario no es administrativo");
+			fail("Se deberia haber iniciado sesion");
 		}
     }
 
@@ -96,7 +83,6 @@ public class AdministrativosPrueba {
         assertTrue(actualMessage.contains(expectedMessage));
     }
 
-
 	@Test
     public void testIniciarSesionAdministrativoPasswordIncorrecta(){
         Usuario user = new Usuario("Paco", "Paco", true);
@@ -113,6 +99,18 @@ public class AdministrativosPrueba {
         });
     
         String expectedMessage = "Password incorrecta";
+        String actualMessage = exception.getMessage();
+    
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+	@Test
+    public void testIniciarSesionAdministrativoNoExisteUsuario(){
+		Exception exception = assertThrows(AdministrativoException.class, () -> {
+            gestionAdministratitivos.iniciarSesion("Paco", "Anda");
+        });
+    
+        String expectedMessage = "Usuario no encontrado";
         String actualMessage = exception.getMessage();
     
         assertTrue(actualMessage.contains(expectedMessage));
@@ -147,7 +145,7 @@ public class AdministrativosPrueba {
 	public void testDarDeBajaCliente () {
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		Cliente c1 = new Cliente("testAlta", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		Cliente c1 = new Cliente("testBaja", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
 		
 		try{
 			gestionClientes.crearCliente(c1);
@@ -155,12 +153,12 @@ public class AdministrativosPrueba {
 			fail("Deberia poder crear el cliente");
 		}
 		try{
-			gestionAdministratitivos.darBajaCliente("testAlta");
+			gestionAdministratitivos.darBajaCliente("testBaja");
 		}catch(ClienteException e){
-			fail("Deberia encontrar al cliente al darlo de alta");
+			fail("Deberia encontrar al cliente al darlo de baja");
 		}
 		try{
-			c1 = gestionClientes.getCliente("testAlta");
+			c1 = gestionClientes.getCliente("testBaja");
 		}catch(ClienteException e){
 			fail("Deberia encontrar el cliente");
 		}
@@ -227,18 +225,6 @@ public class AdministrativosPrueba {
 		}
 
 		assertEquals(admin, user);
-    }
-
-	@Test
-    public void testIniciarSesionAdministrativoUsuarioNoExiste(){
-		Exception exception = assertThrows(AdministrativoException.class, () -> {
-            gestionAdministratitivos.iniciarSesion("Paco", "Paco");
-        });
-    
-        String expectedMessage = "Usuario no encontrado";
-        String actualMessage = exception.getMessage();
-    
-        assertTrue(actualMessage.contains(expectedMessage));
     }
 
 	@Test
