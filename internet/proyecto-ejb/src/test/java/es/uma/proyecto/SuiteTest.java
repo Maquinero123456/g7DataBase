@@ -12,7 +12,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({InformePrueba.class})
+@SuiteClasses({AdministrativosPrueba.class, ClientesPrueba.class, CuentasUsuariosPrueba.class, TransaccionPrueba.class, InformePrueba.class})
 
 public class SuiteTest {
 	

@@ -13,6 +13,7 @@ import es.uma.proyecto.entidades.Cuenta;
 import es.uma.proyecto.entidades.CuentaFintech;
 import es.uma.proyecto.entidades.CuentaReferencia;
 import es.uma.proyecto.entidades.DepositadaEn;
+import es.uma.proyecto.entidades.Empresa;
 import es.uma.proyecto.entidades.Individual;
 import es.uma.proyecto.entidades.Segregada;
 import es.uma.proyecto.entidades.Transaccion;
@@ -61,15 +62,7 @@ public class GenerarTransaccion implements GestionTransaccion{
 
 		@Override
 		public void transaccionAutorizado(String identificacion, String ibanOrigen, String ibanDestino, Double cantidad, String tipo) throws ClienteException, CuentaException, IndividualException, SaldoException {
-			Query query = em.createQuery("Select c from PersonaAutorizada c WHERE c.identificacion LIKE :fident");
-			query.setParameter("fident", identificacion);
-			
-			Individual individual = (Individual) query.getSingleResult();
-			if(individual == null){
-				throw new IndividualException("Individual no existe");
-			}
-
-			query = em.createQuery("Select r from CuentaReferencia r, Empresa emp, PersonaAutorizada i where i.identificacion like :fident AND r.iban like :fiban");
+			Query query = em.createQuery("Select c from CuentaReferencia c, PersonaAutorizada p WHERE p.identificacion LIKE :fident AND c.iban LIKE :fiban");
 			query.setParameter("fident", identificacion);
 			query.setParameter("fiban", ibanOrigen);
 			CuentaReferencia cuentaOrigen = (CuentaReferencia) query.getSingleResult();
