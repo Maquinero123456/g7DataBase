@@ -35,6 +35,7 @@ public class ClientesPrueba {
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 		Cliente c1 = new Cliente("testGet", "fisica", "Baja", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
 		Cliente res = null;
+        
         try{
 			gestionClientes.crearCliente(c1);
 		}catch(ClienteException e){
