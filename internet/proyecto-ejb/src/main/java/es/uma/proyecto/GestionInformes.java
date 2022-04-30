@@ -1,6 +1,6 @@
 package es.uma.proyecto;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -40,9 +40,5 @@ public interface GestionInformes {
 	public List<Cuenta> informeAlemania();
 	
 
-	public List<Cliente> getClientesPais(String pais);
-	
-	
-	public List<CuentaFintech> getCuentasPais(String pais);
-
+	public int getFecha(Date date);
 }

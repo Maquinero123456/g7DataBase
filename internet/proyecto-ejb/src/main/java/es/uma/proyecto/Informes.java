@@ -1,6 +1,6 @@
 package es.uma.proyecto;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -48,7 +48,7 @@ public class Informes implements GestionInformes{
 	    for(CuentaFintech cf: listCl) {
 	    	Cliente cl = cf.getCliente();
 	    	
-	    		if((cl.getTipoCliente().equalsIgnoreCase("individual") || cl.getTipoCliente().equalsIgnoreCase("fisica"))) {
+	    		if((cl.getTipoCliente().equalsIgnoreCase("individual") || cl.getTipoCliente().equalsIgnoreCase("fisica")) && getFecha(cl.getFechaBaja()) > 2019) {
 	    			Individual ind = em.find(Individual.class, cl.getID());
 	    			informe.add("\n	'ACCOUNTHOLDER':[ activeCustomer: "+cl.getEstado()+", accountType: " +cl.getTipoCliente() + "]"
 	    	    	+"\n	'NAME':[ First Name: " +ind.getNombre()+", Last Name: "+ind.getApellidos() + "] " 
@@ -57,7 +57,7 @@ public class Informes implements GestionInformes{
 	    	    
 	    		}
 	    		
-	    		else if(true){
+	    		else if(getFecha(cl.getFechaBaja()) > 2019){
 	    			Empresa emp = em.find(Empresa.class, cl.getID());
 	    			informe.add("\n	'ACCOUNTHOLDER':[ activeCustomer: "+cl.getEstado()+", accountType: " +cl.getTipoCliente() + "]"
 	    	    	+"\n	'NAME':[ business name: "+ emp.getRazonSocial() +" ] "  
@@ -108,14 +108,14 @@ public class Informes implements GestionInformes{
 		List<Individual> listCl = query.getResultList();
 	    
 	    for(Individual ind: listCl) {
-	    	//if() {
+	    	if(getFecha(ind.getFechaBaja()) > 2019) {
 	    		informeC.add("\n	'NAME':[ First Name: " +ind.getNombre()+", Last Name: "+ind.getApellidos() + "] " 
 	    				+"\n 	'ADRESSES':[ city: "+ ind.getCiudad() + ", street: "+ ind.getDireccion() +", postalCode: "+ind.getCodigoPostal() + ", country: " + ind.getPais() + "]");
 	    	    
 	    		for(CuentaFintech cf: ind.getCuentas()) {
 	    			informeC.add("\n 	'CUENTA':[ productType: "+ cf.getClasificacion() + ", productNumber: "+ cf.getIBAN()+ ", status: " + cf.getEstado()+ ", startDate: "+ ind.getFechaAlta() + ", endDate: "+ ind.getFechaBaja()+"\n");
 	    		}
-	    	//}
+	    	}
 	    }
 		
 		return informeC;
@@ -123,24 +123,17 @@ public class Informes implements GestionInformes{
 	
 		
 	@Override
-	public List<Cuenta> informeAlemania() {
-		Query query = em.createQuery("Select cu from Cuenta cu, Cliente cl where cl.pais LIKE :fpais");
-		query.setParameter("fpais", "Alemania");
-		List<Cuenta> clientes = query.getResultList();
-		return clientes;
+	public int getFecha(Date date) {
+		int ano = 0;
+		ano = Integer.parseInt(date.toString().substring(date.toString().length()-4));
+			
+		return ano;
 	}
-	
+
+
 	@Override
-    public List<Cliente> getClientesPais(String pais) {
-		Query query = em.createQuery("SELECT cl from Cliente cl WHERE cl.pais = :fpais");
-		query.setParameter("fpais", pais);
-    	return query.getResultList();
-    }
-    
-	@Override
-    public List<CuentaFintech> getCuentasPais(String pais) {
-    	Query query = em.createQuery("SELECT cu from CuentaFintech cu, Cliente cl WHERE cl.pais = :fpais");
-		query.setParameter("fpais", pais);
-    	return query.getResultList();
-    }
-}
+	public List<Cuenta> informeAlemania() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}  

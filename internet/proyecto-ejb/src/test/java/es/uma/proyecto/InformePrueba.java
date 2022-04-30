@@ -48,11 +48,8 @@ public class InformePrueba {
         
         List<String> report3 = gestionInformes.informeCuentasPaisesBajos(true, null);
         System.out.println(report3.toString());
-    }
     
-    @Test
-    public void informeClienteHolanda() throws ClienteException, CuentaException{
-        List<String> reporte1 = gestionInformes.informeClientePaisesBajos(null, null, "2");
+        List<String> reporte1 = gestionInformes.informeClientePaisesBajos(null, null, "4");
         System.out.println(reporte1.toString());
         
         List<String> reporte2 = gestionInformes.informeClientePaisesBajos("Elsa Capunta", null, null);
