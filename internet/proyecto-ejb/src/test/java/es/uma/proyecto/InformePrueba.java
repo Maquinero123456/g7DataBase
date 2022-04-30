@@ -1,5 +1,7 @@
 package es.uma.proyecto;
 
+import static org.junit.Assert.fail;
+
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -29,20 +31,11 @@ public class InformePrueba {
 
     @Test
     public void informeHolanda() throws ClienteException{
-    	java.util.Date utilDate = new java.util.Date();
-		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		
         List<Cliente> cliente = gestionInformes.informePaisesBajos();
-        System.out.println("/************************************************************************************/");
-        if(cliente.isEmpty()){
-            System.out.println("Esta vacio");
+        for(Cliente e : cliente){
+            if(!e.getPais().equals("PaisesBajos")){
+                fail("Solo deberia devolver clientes de holanda");
+            }
         }
-        else{
-        	for(Cliente e : cliente){
-        		System.out.println(e);
-        	}
-        }
-        
-        System.out.println("/************************************************************************************/");
     }
 }

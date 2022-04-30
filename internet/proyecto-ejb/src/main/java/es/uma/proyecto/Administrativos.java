@@ -50,7 +50,13 @@ public class Administrativos implements GestionAdministratitivos{
 	@Override
 	public void darAltaCliente(String id) throws ClienteException {
 		Clientes client = new Clientes();
-		Cliente cliente = client.getCliente(id);
+		Cliente cliente = null;
+		try{
+			cliente = client.getCliente(id);
+		}catch(ClienteException e){
+			throw new ClienteException("No va");
+		}
+		
 		if(cliente == null){
 			throw new ClienteException("Cliente no encontrado");
 		}

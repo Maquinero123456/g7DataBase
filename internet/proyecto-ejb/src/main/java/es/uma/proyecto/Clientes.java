@@ -50,5 +50,8 @@ public class Clientes implements GestionClientes{
         return cli;
         
     }
+
+    public Clientes(){
+    }
     
 }
