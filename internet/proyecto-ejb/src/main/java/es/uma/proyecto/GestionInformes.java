@@ -1,6 +1,6 @@
 package es.uma.proyecto;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -22,7 +22,7 @@ public interface GestionInformes {
 	 * (no el cliente, puesto que esa cuenta no es suya).
 	 */
 	public List<String> informeCuentasPaisesBajos(boolean status, String productNumber);
-	public List<String> informeClientePaisesBajos(Date alta, Date baja, String name, String apellidos, String direccion, String cp);
+	public List<String> informeClientePaisesBajos(String apellidos, String direccion, String cp);
 	
 	
 	
@@ -40,9 +40,5 @@ public interface GestionInformes {
 	public List<CuentaFintech> informeAlemania();
 	
 
-	public List<Cliente> getClientesPais(String pais);
-	
-	
-	public List<CuentaFintech> getCuentasPais(String pais);
-
+	public int getFecha(Date date);
 }
