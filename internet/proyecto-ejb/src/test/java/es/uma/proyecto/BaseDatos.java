@@ -7,6 +7,9 @@ import javax.persistence.Persistence;
 import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.entidades.CuentaFintech;
 import es.uma.proyecto.entidades.CuentaReferencia;
+import es.uma.proyecto.entidades.Divisa;
+import es.uma.proyecto.entidades.Individual;
+import es.uma.proyecto.entidades.Segregada;
 
 public class BaseDatos {
 	public static void inicializaBaseDatos(String nombreUnidadPersistencia) {
@@ -55,6 +58,21 @@ public class BaseDatos {
 		CuentaFintech cf7 = new CuentaFintech("7", true, sqlDate, null, "segregada");
 		cf7.setCliente(c7);
 		em.persist(cf7);
+		
+		Divisa divisa = new Divisa("a", "e", 1.0);
+		em.persist(divisa);
+		CuentaReferencia cr = new CuentaReferencia("cuentaOrigen", "LaCuentaDePaco", 1000.0);
+		cr.setDivisa(divisa);
+		em.persist(cr);
+		CuentaReferencia cr2 = new CuentaReferencia("cuentaDestino", "LaCuentaDeJuan", 100.0);
+		cr2.setDivisa(divisa);
+		em.persist(cr2);
+		Individual ind = new Individual("Paco", "Individual", "Alta", sqlDate, sqlDate, "Una calle", "Alguna", "No", "No existe", "Juanito", "Perez", sqlDate);
+		em.persist(ind);
+		Segregada seg = new Segregada("Uno aleatorio", "No", true, sqlDate, sqlDate, "No hay", 0.0);
+		seg.setCliente(ind);
+		seg.setCuentaReferencia(cr);
+		em.persist(seg);
 
 		CuentaReferencia cref = new CuentaReferencia("8", "Cuenta Prueba", 1.00);
 		em.persist(cref);

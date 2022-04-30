@@ -370,7 +370,7 @@ public class AdministrativosPrueba {
 			fail ("La persona autorizada deberia exisitir");
 		}
 
-		assertEquals("modPersona", comprobar.getID());
+		assertEquals("modPersona", comprobar.getNombre());
     }
 
 	@Test
