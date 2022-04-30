@@ -221,19 +221,47 @@ public class AdministrativosPrueba {
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 		Empresa emp = new Empresa("empreTestAddAutot", "fisica", "alta", sqlDate, sqlDate, "Avenida prueba", "Malaga","29010", "PaisesBajos", "prueba");
-		Cliente c1 = new Cliente("clienTestAddAutot", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		PersonaAutorizada pA = new PersonaAutorizada("perAutTestAddAutot", "Persona", "Autorizado", "Avenida 123", sqlDate, "Mara cay", sqlDate, sqlDate);
 		
-		/*
-		try  {
-			gestionAdministratitivos.addAutorizados("empreTestAddAutot", "clienTestAddAutot", tipo);
+		try {
+			gestionAutorizados.addPersonaAutorizada(pA);
+		} catch (PersonaAutorizadaException e) {
+			fail ("La persona autorizada ya exisiste");
 		}
-		*/
+
+		try {
+			pA = gestionAutorizados.getPersonaAutorizada("perAutTestAddAutot");
+		} catch (PersonaAutorizadaException e) {
+			fail ("La persona autorizada deberia exisitir");
+		}
+
+		try {
+			gestionClientes.crearEmpresa(emp);
+		} catch (EmpresaException e) {
+			fail ("La empresa ya exisiste");
+		}
+
+		try {
+			emp = gestionClientes.getEmpresa("empreTestAddAutot");
+		} catch (EmpresaException e) { 
+			fail ("La empresa deberia exisitir");
+		}
+
+		try {
+			gestionAdministratitivos.addAutorizados(emp.getID(), pA.getID(), "tipo");
+		} catch (ClienteException e) {
+			fail ("La empresa deberia existir");
+		} catch (AutorizacionException e) {
+			fail ("La persona no tiene autorización de la empresa");
+		} catch (PersonaAutorizadaException e)  {
+			fail ("Persona no encontrada");
+		}
 		
 	}
 
 	@Test
 	public void testModificarAutorizado () {
-        
+
     }
 
 	@Test
@@ -286,6 +314,7 @@ public class AdministrativosPrueba {
 		} catch (PersonaAutorizadaException e)  {
 			fail ("Persona no encontrada");
 		}
+
 	}
 
 	@Test
