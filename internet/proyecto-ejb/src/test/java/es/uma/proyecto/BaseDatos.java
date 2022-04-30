@@ -79,7 +79,7 @@ public class BaseDatos {
 		seg.setCuentaReferencia(cr);
 		em.persist(seg);
 
-		CuentaReferencia cref = new CuentaReferencia("8", "Cuenta Prueba", 1.00);
+		CuentaReferencia cref = new CuentaReferencia("8", "Cuenta Prueba", 0.00);
 		em.persist(cref);
 		
 		Divisa divisa2 = new Divisa("fe", "falsoEuro", 1.0);
