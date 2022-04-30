@@ -15,6 +15,7 @@ import es.uma.proyecto.entidades.Cuenta;
 import es.uma.proyecto.entidades.CuentaFintech;
 import es.uma.proyecto.entidades.Empresa;
 import es.uma.proyecto.entidades.Individual;
+import es.uma.proyecto.entidades.PersonaAutorizada;
 import es.uma.proyecto.exceptions.ClienteException;
 
 @Stateless
@@ -132,8 +133,37 @@ public class Informes implements GestionInformes{
 
 
 	@Override
-	public List<CuentaFintech> informeAlemania() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<String> informeAlemania() {
+		List<String> informe = new ArrayList<String>();
+		String sentence = "SELECT cu FROM CuentaFintech cu WHERE cu.cliente.pais = :fpais AND cu.estado = :fstatus";
+	    
+		Query query = em.createQuery(sentence);
+		query.setParameter("fpais", "Alemania");
+		query.setParameter("fstatus", true);
+		
+		
+		List<CuentaFintech> listCl = query.getResultList();
+		
+		for(CuentaFintech cf: listCl) {
+	    	Cliente cl = cf.getCliente();
+	    	
+	    		if((cl.getTipoCliente().equalsIgnoreCase("individual") || cl.getTipoCliente().equalsIgnoreCase("fisica")) && getFecha(cl.getFechaBaja()) > 2019) {
+	    			Individual ind = em.find(Individual.class, cl.getID());
+	    			informe.add("IBAN: "+ cf.getIBAN() + ", Last_Name: "+ ind.getApellidos() +", First_Name: "+ ind.getNombre() + ", Street: " + ind.getDireccion() + ", City: " + ind.getCiudad()+ ", Post_Code: "+ ind.getCodigoPostal() +", Country: "+ ind.getPais() +", identificacion_Number: "+ ind.getID()+ ", Date_of_birth: "+ ind.getFechaNacimiento()+"\n");
+	    	    
+	    		}
+	    		
+	    		else if(getFecha(cl.getFechaBaja()) > 2019){
+	    			Query query2 = em.createQuery("Select c from PersonaAutorizada c, CuentaFintech cu WHERE cu.iban = :fident");
+	    			query2.setParameter("fident", cf.getIBAN());
+	    			List<PersonaAutorizada> listPA = query2.getResultList();
+	    			for(PersonaAutorizada pa: listPA) {
+	    				informe.add("IBAN: "+ cf.getIBAN() + ", Last_Name: "+ pa.getApellidos() +", First_Name: "+ pa.getNombre() + ", Street: " + pa.getDireccion() + ", City: 'noexistente'"+ ", Post_Code: 'noexistente'"  +", Country: Alemania" +", identificacion_Number: "+ pa.getID()+ ", Date_of_birth: 'noexistente'\n");
+	    			}
+	    			
+	    		}
+		}
+	    		
+		return informe;
 	}
 }  
