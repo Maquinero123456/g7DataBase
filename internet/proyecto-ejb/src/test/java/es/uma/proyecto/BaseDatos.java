@@ -80,8 +80,10 @@ public class BaseDatos {
 		em.persist(seg);
 
 		CuentaReferencia cref = new CuentaReferencia("8", "Cuenta Prueba", 0.00);
+		cref.setDivisa(divisa);
 		em.persist(cref);
 		
+		/*
 		Divisa divisa2 = new Divisa("fe", "falsoEuro", 1.0);
 		em.persist(divisa2);
 		CuentaReferencia cr3 = new CuentaReferencia("autoOrigen", "LaCuentaDeNoPaco", 1000.0);
@@ -90,7 +92,7 @@ public class BaseDatos {
 		CuentaReferencia cr4 = new CuentaReferencia("autoDestino", "LaCuentaDeNoJuan", 100.0);
 		cr4.setDivisa(divisa);
 		em.persist(cr4);
-		PersonaAutorizada ind2 = new PersonaAutorizada("testTransaccionPer", "Pablo", "Vazques", "Una calle", sqlDate, "Quien sabe", sqlDate, sqlDate);
+		PersonaAutorizada ind2 = new PersonaAutorizada("testTransaccionPer", "Pablo", "Vazquez", "Una calle", sqlDate, "Quien sabe", sqlDate, sqlDate);
 		em.persist(ind2);
 		Empresa emp = new Empresa("LaDePablo", "aa", "aaa", sqlDate, sqlDate, "Falso", "No existe", "Quien sabe", "Venezuela", "Tesla");
 		em.persist(emp);
@@ -106,7 +108,7 @@ public class BaseDatos {
 		seg2.setCliente(emp);
 		seg2.setCuentaReferencia(cr3);
 		em.persist(seg2);
-
+		*/
 
 		//No tocar abajo
 		em.getTransaction().commit();
