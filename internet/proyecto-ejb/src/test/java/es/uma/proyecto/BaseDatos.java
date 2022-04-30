@@ -23,6 +23,7 @@ public class BaseDatos {
 	public static void inicializaBaseDatos(String nombreUnidadPersistencia) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory(nombreUnidadPersistencia);
 		EntityManager em = emf.createEntityManager();
+	
 		
 		em.getTransaction().begin();
 		//No tocar arriba

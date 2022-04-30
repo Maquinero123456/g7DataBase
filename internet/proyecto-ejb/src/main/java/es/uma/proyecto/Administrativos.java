@@ -114,7 +114,7 @@ public class Administrativos implements GestionAdministratitivos{
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
-		em.persist(new PooledAccount(iban, null, true, sqlDate, null, "agrupada"));
+		em.persist(new PooledAccount(iban, null, true, sqlDate, null, "Agrupada"));
 		account = em.find(PooledAccount.class, iban);
 		account.setCliente(c1);
 	}
@@ -141,7 +141,7 @@ public class Administrativos implements GestionAdministratitivos{
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
 
-		em.persist(new Segregada(iban, null, true, sqlDate, null, "segregada"));
+		em.persist(new Segregada(iban, null, true, sqlDate, null, "Segregada"));
 		account = em.find(Segregada.class, iban);
 		account.setCliente(c1);
 		account.setCuentaReferencia(cuentaRef);

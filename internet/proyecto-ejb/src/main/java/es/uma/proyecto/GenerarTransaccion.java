@@ -69,7 +69,7 @@ public class GenerarTransaccion implements GestionTransaccion{
 				throw new IndividualException("Individual no existe");
 			}
 
-			query = em.createQuery("Select r from CuentaReferencia r, PersonaAutorizada i where i.identificacion like :fident AND r.iban like :fiban");
+			query = em.createQuery("Select r from CuentaReferencia r, Empresa emp, PersonaAutorizada i where i.identificacion like :fident AND r.iban like :fiban");
 			query.setParameter("fident", identificacion);
 			query.setParameter("fiban", ibanOrigen);
 			CuentaReferencia cuentaOrigen = (CuentaReferencia) query.getSingleResult();
