@@ -40,24 +40,29 @@ public class InformePrueba {
 
     @Test
     public void informeHolanda() throws ClienteException, CuentaException{
-        Cliente client = gestionClientes.getCliente("uno");
-        if(client == null){
-            throw new ClienteException("El cliente deberia existir");
-        }
-        Cuenta cuenta = gestionCuentas.getCuenta("1");
-        if(cuenta == null){
-            throw new CuentaException("La cuenta deberia existir");
-        }
-
-        List<String> report = gestionInformes.informeCuentasPaisesBajos(true, "1");
-
-        List<String> seSuponeQueDaEsto = null;
-
-        assertEquals(report, seSuponeQueDaEsto);
-
+        List<String> report1 = gestionInformes.informeCuentasPaisesBajos(true, "15");
+        System.out.println(report1.toString());
+        
+        List<String> report2 = gestionInformes.informeCuentasPaisesBajos(false, "6");
+        System.out.println(report2.toString());
+        
+        List<String> report3 = gestionInformes.informeCuentasPaisesBajos(true, null);
+        System.out.println(report3.toString());
+    }
+    
+    @Test
+    public void informeClienteHolanda() throws ClienteException, CuentaException{
+        List<String> reporte1 = gestionInformes.informeClientePaisesBajos(null, null, "2");
+        System.out.println(reporte1.toString());
+        
+        List<String> reporte2 = gestionInformes.informeClientePaisesBajos("Elsa Capunta", null, null);
+        System.out.println(reporte2.toString());
+        
+        List<String> reporte3 = gestionInformes.informeClientePaisesBajos(null, null, null);
+        System.out.println(reporte3.toString());
     }
 
-    @Test
+    /*@Test
     public void informeAlemania() throws ClienteException{
         List<Cuenta> report = gestionInformes.informeAlemania();
         System.out.println("/****************************************************************************");
@@ -65,5 +70,5 @@ public class InformePrueba {
             System.out.println(e);
         }
         System.out.println("/****************************************************************************");
-    }
+    }*/
 }

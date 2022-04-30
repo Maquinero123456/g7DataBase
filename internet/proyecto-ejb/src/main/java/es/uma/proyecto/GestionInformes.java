@@ -22,7 +22,7 @@ public interface GestionInformes {
 	 * (no el cliente, puesto que esa cuenta no es suya).
 	 */
 	public List<String> informeCuentasPaisesBajos(boolean status, String productNumber);
-	public List<String> informeClientePaisesBajos(Date alta, Date baja, String name, String apellidos, String direccion, String cp);
+	public List<String> informeClientePaisesBajos(String apellidos, String direccion, String cp);
 	
 	
 	
