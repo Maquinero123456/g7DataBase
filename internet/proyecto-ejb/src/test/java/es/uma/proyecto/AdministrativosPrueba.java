@@ -17,12 +17,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import es.uma.proyecto.GestionAdministratitivos;
+import es.uma.proyecto.entidades.Usuario;
+import es.uma.proyecto.exceptions.AdministrativoException;
+
 import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.exceptions.AdministrativoException;
 import es.uma.proyecto.exceptions.ClienteException;
 import es.uma.proyecto.exceptions.UsuarioException;
-
 public class AdministrativosPrueba {
     private static final Logger LOG = Logger.getLogger(Administrativos.class.getCanonicalName());
 
@@ -45,43 +47,32 @@ public class AdministrativosPrueba {
 
     @Test
     public void testIniciarSesionAdministrativo(){
-        Usuario user = new Usuario("Paco", "Paco", true);
-
-		try{
-			gestionCuentasUsuarios.CrearUsuario(user);
-		}catch(UsuarioException e){
-			fail("Usuario no deberia existir");
+        Usuario admin = new Usuario("Pepito", "Juanito", true);
+		
+		try {
+			gestionAdministratitivos.iniciarSesion("Pepito","Juanito");
+		}catch (AdministrativoException e) {
+			throw new RuntimeException(e);
 		}
 
-		Usuario admin = null;
-		try{
-			admin = gestionAdministratitivos.iniciarSesion(user.getNombre(), user.getPassword());
-		}catch(AdministrativoException e){
-			fail("No deberia saltar excepcion");
+		try {
+			gestionAdministratitivos.iniciarSesion("Juanito", "Juanito");
+		}catch (AdministrativoException e) {
+			fail("El usuario no esta regitrado");
 		}
 
-		assertEquals(admin, user);
-    }
-
-	@Test
-    public void testIniciarSesionAdministrativoPasswordIncorrecta(){
-        Usuario user = new Usuario("Paco", "Paco", true);
-
-		try{
-			gestionCuentasUsuarios.CrearUsuario(user);
-		}catch(UsuarioException e){
-			fail("Usuario no deberia existir");
+		try {
+			gestionAdministratitivos.iniciarSesion("Pepito", "Pepito");
+		} catch (AdministrativoException e) {
+			fail("La contraseña es incorrecta");
 		}
 
-
-		Exception exception = assertThrows(AdministrativoException.class, () -> {
-            gestionAdministratitivos.iniciarSesion("Paco", "Anda");
-        });
-    
-        String expectedMessage = "Password incorrecta";
-        String actualMessage = exception.getMessage();
-    
-        assertTrue(actualMessage.contains(expectedMessage));
+		try {
+			Usuario user = new Usuario("Juanito", "Pepito", false);
+			gestionAdministratitivos.iniciarSesion("Juanito", "Pepito");
+		} catch (AdministrativoException e) {
+			fail("El usuario no es administrativo");
+		}
     }
 
 	@Test
@@ -105,20 +96,30 @@ public class AdministrativosPrueba {
         assertTrue(actualMessage.contains(expectedMessage));
     }
 
+
 	@Test
-    public void testIniciarSesionAdministrativoUsuarioNoExiste(){
+    public void testIniciarSesionAdministrativoPasswordIncorrecta(){
+        Usuario user = new Usuario("Paco", "Paco", true);
+
+		try{
+			gestionCuentasUsuarios.CrearUsuario(user);
+		}catch(UsuarioException e){
+			fail("Usuario no deberia existir");
+		}
+
+
 		Exception exception = assertThrows(AdministrativoException.class, () -> {
-            gestionAdministratitivos.iniciarSesion("Paco", "Paco");
+            gestionAdministratitivos.iniciarSesion("Paco", "Anda");
         });
     
-        String expectedMessage = "Usuario no encontrado";
+        String expectedMessage = "Password incorrecta";
         String actualMessage = exception.getMessage();
     
         assertTrue(actualMessage.contains(expectedMessage));
     }
 
 	@Test
-	public void testDarAltaCliente(){
+	public void testDarDeAltaCliente () {
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 		Cliente c1 = new Cliente("testAlta", "fisica", "Baja", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
@@ -140,11 +141,10 @@ public class AdministrativosPrueba {
 		}
 
 		assertEquals("Alta", c1.getEstado());
-
 	}
 
 	@Test
-	public void testDarBajaCliente(){
+	public void testDarDeBajaCliente () {
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 		Cliente c1 = new Cliente("testAlta", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
@@ -166,11 +166,10 @@ public class AdministrativosPrueba {
 		}
 
 		assertEquals("Baja", c1.getEstado());
-
 	}
 
 	@Test
-	public void testModificarCliente(){
+	public void testModificarCliente () {
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 		Cliente c1 = new Cliente("testAlta", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
@@ -197,5 +196,59 @@ public class AdministrativosPrueba {
 
 		assertTrue("Deberia haber cambiado direccion, ciudad, codigo postal y pais", 
 		c1.getDireccion().equals(c2.getDireccion()) && c1.getCiudad().equals(c2.getCiudad()) && c1.getCodigoPostal().equals(c2.getCodigoPostal()) && c1.getPais().equals(c2.getPais()) );
+	
 	}
+
+	@Test
+	public void testAperturaCuenta() {
+
+	}
+
+	@Test
+	public void testAddAutorizados() {
+
+	}
+
+	@Test
+	public void testModificarAutorizado () {
+        Usuario user = new Usuario("Paco", "Paco", true);
+
+		try{
+			gestionCuentasUsuarios.CrearUsuario(user);
+		}catch(UsuarioException e){
+			fail("Usuario no deberia existir");
+		}
+
+		Usuario admin = null;
+		try{
+			admin = gestionAdministratitivos.iniciarSesion(user.getNombre(), user.getPassword());
+		}catch(AdministrativoException e){
+			fail("No deberia saltar excepcion");
+		}
+
+		assertEquals(admin, user);
+    }
+
+	@Test
+    public void testIniciarSesionAdministrativoUsuarioNoExiste(){
+		Exception exception = assertThrows(AdministrativoException.class, () -> {
+            gestionAdministratitivos.iniciarSesion("Paco", "Paco");
+        });
+    
+        String expectedMessage = "Usuario no encontrado";
+        String actualMessage = exception.getMessage();
+    
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+	@Test
+	public void testEliminarAutorizado() {
+
+	}
+
+	@Test
+	public void testCerrarCuenta() {
+
+	}
+
 }
