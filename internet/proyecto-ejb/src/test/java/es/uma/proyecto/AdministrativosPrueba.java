@@ -13,18 +13,19 @@ import java.util.logging.Logger;
 
 import javax.naming.NamingException;
 
+import es.uma.proyecto.entidades.CuentaFintech;
+import es.uma.proyecto.exceptions.*;
 import org.junit.Before;
 import org.junit.Test;
 
 import es.uma.proyecto.GestionAdministratitivos;
 import es.uma.proyecto.entidades.Usuario;
-import es.uma.proyecto.exceptions.AdministrativoException;
+import es.uma.proyecto.Administrativos;
 
 import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.exceptions.AdministrativoException;
-import es.uma.proyecto.exceptions.ClienteException;
-import es.uma.proyecto.exceptions.UsuarioException;
+
 public class AdministrativosPrueba {
     private static final Logger LOG = Logger.getLogger(Administrativos.class.getCanonicalName());
 
@@ -36,6 +37,7 @@ public class AdministrativosPrueba {
 	private GestionAdministratitivos gestionAdministratitivos;
 	private GestionCuentasUsuarios gestionCuentasUsuarios;
 	private GestionClientes gestionClientes;
+	private GestionCuentas gestionCuentas;
 
     @Before
 	public void setup() throws NamingException  {
@@ -198,8 +200,13 @@ public class AdministrativosPrueba {
 	}
 
 	@Test
-	public void testAperturaCuenta() {
-
+	public void testAperturaCuenta() throws CuentaException, AdministrativoException {
+		java.util.Date utilDate = new java.util.Date();
+		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+		CuentaFintech prueba = new CuentaFintech("ES45450545054505", null, true, sqlDate, null, "segregada");
+		gestionAdministratitivos.aperturaCuenta("ES45450545054505", "segregada");
+		CuentaFintech cf = (CuentaFintech) gestionCuentas.getCuenta("ES45450545054505");
+		assertEquals(prueba, cf);
 	}
 
 	@Test
