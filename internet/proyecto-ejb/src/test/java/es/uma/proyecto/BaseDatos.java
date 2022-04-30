@@ -73,9 +73,9 @@ public class BaseDatos {
 		CuentaReferencia cr2 = new CuentaReferencia("cuentaDestino", "LaCuentaDeJuan", 100.0);
 		cr2.setDivisa(divisa);
 		em.persist(cr2);
-		Individual ind = new Individual("Paco", "Individual", "Alta", sqlDate, sqlDate, "Una calle", "Alguna", "No", "No existe", "Juanito", "Perez", sqlDate);
+		Individual ind = new Individual("Paco", "Individual", "Alta", utilDate, utilDate, "Una calle", "Alguna", "No", "No existe", "Juanito", "Perez", utilDate);
 		em.persist(ind);
-		Segregada seg = new Segregada("Uno aleatorio", "No", true, sqlDate, sqlDate, "No hay", 0.0);
+		Segregada seg = new Segregada("Uno aleatorio", "No", true, utilDate, utilDate, "No hay", 0.0);
 		seg.setCliente(ind);
 		seg.setCuentaReferencia(cr);
 		em.persist(seg);
@@ -91,9 +91,9 @@ public class BaseDatos {
 		CuentaReferencia cr4 = new CuentaReferencia("autoDestino", "LaCuentaDeNoJuan", 100.0);
 		cr4.setDivisa(divisa);
 		em.persist(cr4);
-		PersonaAutorizada ind2 = new PersonaAutorizada("testTransaccionPer", "Pablo", "Vazques", "Una calle", sqlDate, "Quien sabe", sqlDate, sqlDate);
+		PersonaAutorizada ind2 = new PersonaAutorizada("testTransaccionPer", "Pablo", "Vazques", "Una calle", utilDate, "Quien sabe", utilDate, utilDate);
 		em.persist(ind2);
-		Empresa emp = new Empresa("LaDePablo", "aa", "aaa", sqlDate, sqlDate, "Falso", "No existe", "Quien sabe", "Venezuela", "Tesla");
+		Empresa emp = new Empresa("LaDePablo", "aa", "aaa", utilDate, utilDate, "Falso", "No existe", "Quien sabe", "Venezuela", "Tesla");
 		em.persist(emp);
 		Query query = em.createQuery("Select c from PersonaAutorizada c where c.identificacion LIKE :fident");
 		query.setParameter("fident", ind2.getIdentificacion());
@@ -103,7 +103,7 @@ public class BaseDatos {
 		emp = (Empresa) query.getSingleResult();
 		Autorizacion aut = new Autorizacion(new EmpresaPersAutoPK(emp.getID(), ind2.getID()), "Algundo", ind2, emp);
 		em.persist(aut);
-		Segregada seg2 = new Segregada("Dos Aleatorio", "No", true, sqlDate, sqlDate, "No hay", 0.0);
+		Segregada seg2 = new Segregada("Dos Aleatorio", "No", true, utilDate, utilDate, "No hay", 0.0);
 		seg2.setCliente(emp);
 		seg2.setCuentaReferencia(cr3);
 		em.persist(seg2);

@@ -132,7 +132,7 @@ public class Informes implements GestionInformes{
 
 
 	@Override
-	public List<Cuenta> informeAlemania() {
+	public List<CuentaFintech> informeAlemania() {
 		// TODO Auto-generated method stub
 		return null;
 	}
