@@ -21,6 +21,7 @@ import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.exceptions.AdministrativoException;
 
 import es.uma.proyecto.entidades.Cliente;
+import es.uma.proyecto.entidades.Empresa;
 import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.exceptions.AdministrativoException;
 import es.uma.proyecto.exceptions.ClienteException;
@@ -199,12 +200,21 @@ public class AdministrativosPrueba {
 
 	@Test
 	public void testAperturaCuenta() {
+		
 
 	}
 
 	@Test
 	public void testAddAutorizados() {
-
+		java.util.Date utilDate = new java.util.Date();
+		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+		Empresa emp = new Empresa("empreTestAddAutot", "fisica", "alta", sqlDate, sqlDate, "Avenida prueba", "Malaga","29010", "PaisesBajos", "prueba");
+		Cliente c1 = new Cliente("clienTestAddAutot", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		
+		try  {
+			gestionAdministratitivos.addAutorizados("empreTestAddAutot", "clienTestAddAutot", tipo);
+		}
+		
 	}
 
 	@Test
@@ -229,7 +239,16 @@ public class AdministrativosPrueba {
 
 	@Test
 	public void testEliminarAutorizado() {
+		java.util.Date utilDate = new java.util.Date();
+		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+		Empresa emp = new Empresa("empreTestAddAutot", "fisica", "alta", sqlDate, sqlDate, "Avenida prueba", "Malaga","29010", "PaisesBajos", "prueba");
+		Cliente c1 = new Cliente("clienTestAddAutot", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		
+		c1 = gestionClientes.getCliente("clienTestAddAutot");w
 
+		try {
+			gestionAdministratitivos.eliminarAutorizado(, "clienTestAddAutot");
+		}
 	}
 
 	@Test
@@ -238,3 +257,4 @@ public class AdministrativosPrueba {
 	}
 
 }
+   
