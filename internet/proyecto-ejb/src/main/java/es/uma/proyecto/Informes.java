@@ -1,6 +1,7 @@
 package es.uma.proyecto;
 
-import java.sql.Date;
+import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -27,33 +28,41 @@ public class Informes implements GestionInformes{
     
 	@Override
 	public List<String> informeCuentasPaisesBajos(boolean status, String productNumber) {
-		List<String> informe = null;
-		informe.add("{'PRODUCTS':[");
-	    Query query = em.createQuery("SELECT cu from CuentaFintech cu, Cliente cl WHERE cl.pais = :fpais AND c.estado = :fstatus AND c.iban = :fiban");
+		List<String> informe = new ArrayList<String>();
+		informe.add("'PRODUCTS':[");
+		String sentence = "SELECT cu FROM CuentaFintech cu WHERE cu.cliente.pais = :fpais AND cu.estado = :fstatus";
+	    
+		if(productNumber != null) {
+			sentence = sentence.concat(" AND cu.iban = :fiban");
+		}
+		
+		Query query = em.createQuery(sentence);
 		query.setParameter("fpais", "PaisesBajos");
 		query.setParameter("fstatus", status);
-		query.setParameter("fiban", productNumber);
+		if(productNumber != null) {
+			query.setParameter("fiban", productNumber);
+		}
 		
 		List<CuentaFintech> listCl = query.getResultList();
-	    
+		
 	    for(CuentaFintech cf: listCl) {
 	    	Cliente cl = cf.getCliente();
 	    	
-	    		if(cl.getTipoCliente().equalsIgnoreCase("individual") || cl.getTipoCliente().equalsIgnoreCase("fisico")) {
+	    		if((cl.getTipoCliente().equalsIgnoreCase("individual") || cl.getTipoCliente().equalsIgnoreCase("fisica")) && getFecha(cl.getFechaBaja()) > 2019) {
 	    			Individual ind = em.find(Individual.class, cl.getID());
-	    			informe.add("ACCOUNTHOLDER:[ activeCustomer: "+cl.getEstado()+" accountType: " +cl.getTipoCliente() + "]"
-	    	    	+"\n'name':[ First Name: " +ind.getNombre()+", Last Name: "+ind.getApellidos() + "] " 
-	    	    	+"\n 'adresses':[ city: "+ cl.getCiudad() + ", street: "+ cl.getDireccion() +", postalCode: "+cl.getCodigoPostal() + ", country: " + cl.getPais() + "]"
-	    	    	+"\n CUENTA:[ productType: "+ cf.getClasificacion() + " productNumber: "+ cf.getIBAN()+ " status: " +status+ " startDate: "+ cl.getFechaAlta() + " endDate: "+ cl.getFechaBaja());
+	    			informe.add("\n	'ACCOUNTHOLDER':[ activeCustomer: "+cl.getEstado()+", accountType: " +cl.getTipoCliente() + "]"
+	    	    	+"\n	'NAME':[ First Name: " +ind.getNombre()+", Last Name: "+ind.getApellidos() + "] " 
+	    	    	+"\n 	'ADRESSES':[ city: "+ cl.getCiudad() + ", street: "+ cl.getDireccion() +", postalCode: "+cl.getCodigoPostal() + ", country: " + cl.getPais() + "]"
+	    	    	+"\n 	'CUENTA':[ productType: "+ cf.getClasificacion() + ", productNumber: "+ cf.getIBAN()+ ", status: " +status+ ", startDate: "+ cl.getFechaAlta() + ", endDate: "+ cl.getFechaBaja()+"\n");
 	    	    
 	    		}
 	    		
-	    		else{
+	    		else if(getFecha(cl.getFechaBaja()) > 2019){
 	    			Empresa emp = em.find(Empresa.class, cl.getID());
-	    			informe.add("ACCOUNTHOLDER:[ activeCustomer: "+cl.getEstado()+" accountType: " +cl.getTipoCliente() + "]"
-	    	    	+"\n'name':[ business name: "+ emp.getRazonSocial() +" ] "  
-	    	    	+"\n 'adresses':[ city: "+ cl.getCiudad() + ", street: "+ cl.getDireccion() +", postalCode: "+cl.getCodigoPostal() + ", country: " + cl.getPais() + "]"
-	    	    	+"\n CUENTA:[ productType: "+ cf.getClasificacion() + " productNumber: "+ cf.getIBAN()+ " status: " +status+ " startDate: "+ cl.getFechaAlta() + " endDate: "+ cl.getFechaBaja());
+	    			informe.add("\n	'ACCOUNTHOLDER':[ activeCustomer: "+cl.getEstado()+", accountType: " +cl.getTipoCliente() + "]"
+	    	    	+"\n	'NAME':[ business name: "+ emp.getRazonSocial() +" ] "  
+	    	    	+"\n 	'ADRESSES':[ city: "+ cl.getCiudad() + ", street: "+ cl.getDireccion() +", postalCode: "+cl.getCodigoPostal() + ", country: " + cl.getPais() + "]"
+	    	    	+"\n 	'CUENTA':[ productType: "+ cf.getClasificacion() + ", productNumber: "+ cf.getIBAN()+ ", status: " +status+ ", startDate: "+ cl.getFechaAlta() + ", endDate: "+ cl.getFechaBaja()+"\n");
 	    	    
 	    		}
 	    		
@@ -65,73 +74,66 @@ public class Informes implements GestionInformes{
 	
 	
 	@Override
-	public List<String> informeClientePaisesBajos(Date alta, Date baja, String nom, String ape, String dir, String cp) {
-		List<String> informe = null;
-		informe.add("{'PERSONAS':[");
-		String sentencia = "SELECT cl Cliente cl WHERE cl.pais = :fpais";
-		
-		if(alta != null) {
-			sentencia.concat(" AND cl.fechaAlta = :falta");
-		}
-		
-		if(baja != null) {
-			sentencia.concat(" AND cl.fechaBaja = :fbaja");
-		}
-		
-		if(nom != null) {
-			sentencia.concat(" AND cl.fechaAlta = :falta");
-		}
-		
+	public List<String> informeClientePaisesBajos(String ape, String dir, String cp) {
+		List<String> informeC = new ArrayList<String>();
+		informeC.add("'PERSONAS':[");
+		String sentence = "SELECT cl FROM Individual cl WHERE cl.pais = :fpais";
+	    
 		if(ape != null) {
-			sentencia.concat(" AND cl.fechaAlta = :falta");
+			sentence = sentence.concat(" AND cl.apellidos = :fape");
 		}
 		
 		if(dir != null) {
-			sentencia.concat(" AND cl.fechaAlta = :falta");
+			sentence = sentence.concat(" AND cl.direccion = :fdir");
 		}
 		
 		if(cp != null) {
-			sentencia.concat(" AND cl.fechaAlta = :falta");
+			sentence = sentence.concat(" AND cl.codigoPostal = :fcp");
 		}
 		
-	    Query query = em.createQuery(sentencia);
+		Query query = em.createQuery(sentence);
 		query.setParameter("fpais", "PaisesBajos");
-		query.setParameter("fpais", "PaisesBajos");
-		query.setParameter("fpais", "PaisesBajos");
-		query.setParameter("fpais", "PaisesBajos");
-		query.setParameter("fpais", "PaisesBajos");
-		query.setParameter("fpais", "PaisesBajos");
-		query.setParameter("fpais", "PaisesBajos");
+		if(ape != null) {
+			query.setParameter("fape", ape);
+		}
 		
+		if(dir != null) {
+			query.setParameter("fdir", dir);
+		}
 		
-		List<CuentaFintech> listCl = query.getResultList();
+		if(cp != null) {
+			query.setParameter("fcp", cp);
+		}
+		
+		List<Individual> listCl = query.getResultList();
 	    
-	    for(CuentaFintech cf: listCl) {
-	    	Cliente cl = cf.getCliente();
-	    		
+	    for(Individual ind: listCl) {
+	    	if(getFecha(ind.getFechaBaja()) > 2019) {
+	    		informeC.add("\n	'NAME':[ First Name: " +ind.getNombre()+", Last Name: "+ind.getApellidos() + "] " 
+	    				+"\n 	'ADRESSES':[ city: "+ ind.getCiudad() + ", street: "+ ind.getDireccion() +", postalCode: "+ind.getCodigoPostal() + ", country: " + ind.getPais() + "]");
+	    	    
+	    		for(CuentaFintech cf: ind.getCuentas()) {
+	    			informeC.add("\n 	'CUENTA':[ productType: "+ cf.getClasificacion() + ", productNumber: "+ cf.getIBAN()+ ", status: " + cf.getEstado()+ ", startDate: "+ ind.getFechaAlta() + ", endDate: "+ ind.getFechaBaja()+"\n");
+	    		}
 	    	}
+	    }
 		
-		return informe;
+		return informeC;
 	}
 	
 		
 	@Override
-	public List<CuentaFintech> informeAlemania() {
-		List<CuentaFintech> clientes = getCuentasPais("Alemania");
-		return clientes;
+	public int getFecha(Date date) {
+		int ano = 0;
+		ano = Integer.parseInt(date.toString().substring(date.toString().length()-4));
+			
+		return ano;
 	}
-	
+
+
 	@Override
-    public List<Cliente> getClientesPais(String pais) {
-		Query query = em.createQuery("SELECT cl from Cliente cl WHERE cl.pais = :fpais");
-		query.setParameter("fpais", pais);
-    	return query.getResultList();
-    }
-    
-	@Override
-    public List<CuentaFintech> getCuentasPais(String pais) {
-    	Query query = em.createQuery("SELECT cu from CuentaFintech cu, Cliente cl WHERE cl.pais = :fpais");
-		query.setParameter("fpais", pais);
-    	return query.getResultList();
-    }
-}
+	public List<Cuenta> informeAlemania() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}  
