@@ -126,6 +126,10 @@ public class BaseDatos {
 		apertCuentaSegregadaReferencia.setDivisa(falsoEuro);
 		em.persist(apertCuentaSegregadaReferencia);
 
+		//Modificar Autorizado
+		PersonaAutorizada modificadAutorizad = new PersonaAutorizada("PabloDejaDeTocar", "Pablo", "Vazques", "Quien sabe", utilDate, "Alta", utilDate, null);
+		em.persist(modificadAutorizad);
+
 		//No tocar abajo
 		em.getTransaction().commit();
 		em.close();
