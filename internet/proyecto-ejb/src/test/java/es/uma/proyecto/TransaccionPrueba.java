@@ -68,7 +68,7 @@ public class TransaccionPrueba {
 
         CuentaReferencia ref2 = null;
         try{
-            ref2 = gestionCuentas.getCuentaReferencia("autorizadoOrigen");
+            ref2 = gestionCuentas.getCuentaReferencia("cuentaOrigen");
         }catch(CuentaException e){
             fail("La cuenta deberia existir");
         }

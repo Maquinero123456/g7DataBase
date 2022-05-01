@@ -1,20 +1,15 @@
 package es.uma.proyecto;
 
-import es.uma.proyecto.entidades.Cliente;
+import es.uma.informatica.sii.anotaciones.Requisitos;
 import es.uma.proyecto.entidades.CuentaReferencia;
-import es.uma.proyecto.entidades.DepositadaEn;
 import es.uma.proyecto.entidades.Divisa;
 import es.uma.proyecto.entidades.PooledAccount;
 import es.uma.proyecto.exceptions.*;
-import org.eclipse.persistence.jpa.jpql.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import javax.naming.NamingException;
-import java.sql.Date;
 import java.text.ParseException;
-import java.util.Optional;
-import java.util.Set;
 import java.util.logging.Logger;
 
 import static org.eclipse.persistence.jpa.jpql.Assert.*;
@@ -49,7 +44,12 @@ public class CambioDivisaPrueba {
         BaseDatos.inicializaBaseDatos(UNIDAD_PERSITENCIA_PRUEBAS);
     }
 
-    @Test
+    @Requisitos({"RF17"})
+    @Test 
+    /**
+     * Comprueba que, al cambiar las divisas de una cuenta de euro a dolar, el nuevo valor sea correcto
+     * @throws DivisaException, CuentaFintechException, PooledAccountException CuentaReferenciaException, SaldoException
+     */
     public void testCambioDivisa()  {
         PooledAccount p1 = null;
         try {

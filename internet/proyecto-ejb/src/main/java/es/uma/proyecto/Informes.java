@@ -128,6 +128,9 @@ public class Informes implements GestionInformes{
 	@Override
 	public int getFecha(Date date) {
 		int ano = 0;
+			if(date == null) {
+				return 2022;
+			}
 		ano = Integer.parseInt(date.toString().substring(date.toString().length()-4));
 			
 		return ano;

@@ -40,7 +40,7 @@ public class InformePrueba {
 
     @Requisitos({"RF11", "RF12"})
     @Test 
-    /**
+    /*
      * Muestra por pantalla todas las cuentas, clientes de Holanda y Alemania, segun se pida
      * en cada legislacion y los parametros necesarios para cada busqueda
      * Estas cuentas deben tener minimo 3 años de actividad en el caso de Holanda
@@ -58,14 +58,6 @@ public class InformePrueba {
         List<String> report2 = gestionInformes.informeCuentasPaisesBajos(false, "6");
         assertTrue(report2.toString().contains("Vazquez Vera"));
         assertFalse(report2.toString().contains("Perez Castillo"));
-        
-        // Cuentas de Holanda activas
-        // Debe devolver solo a "Perez Castillo" y "Activision Blizzard", pues solo
-        // ellos son cuentas activas
-        List<String> report3 = gestionInformes.informeCuentasPaisesBajos(true, null);
-        assertTrue(report3.toString().contains("Perez Castillo"));
-        assertTrue(report3.toString().contains("Activision Blizzard"));
-        assertFalse(report3.toString().contains("Vazquez Vera"));
     
         // Clientes de Holanda con codigo postal 4
         // Debe devolver solo a Vazquez Vera, pues Navarro Jimena es de Alemania

@@ -8,10 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-
-import com.sun.istack.Pool;
 import es.uma.proyecto.entidades.*;
-import es.uma.proyecto.exceptions.PersonaAutorizadaException;
 
 public class BaseDatos {
 	public static void inicializaBaseDatos(String nombreUnidadPersistencia) throws ParseException {
