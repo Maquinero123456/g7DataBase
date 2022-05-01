@@ -15,5 +15,4 @@ public interface GestionCuentas {
     public Segregada getCuentaSegregada(String iban) throws CuentaException;
     public PooledAccount getCuentaAgrupada(String iban) throws CuentaException;
     public CuentaReferencia getCuentaReferencia(String iban) throws CuentaException;
-    public void crearCuenta(String iban)throws CuentaException;
 }

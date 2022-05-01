@@ -251,7 +251,7 @@ public class AdministrativosPrueba {
 		
 		CuentaReferencia cuentaRef = null;
 		try {
-			gestionCuentas.getCuentaReferencia("8");
+			cuentaRef = gestionCuentas.getCuentaReferencia("8");
 		} catch (CuentaException e) {
 			fail ("No se encontro la cuenta referencia");
 		}
@@ -511,25 +511,6 @@ public class AdministrativosPrueba {
 		} catch (PersonaAutorizadaException e)  {
 			fail ("Persona no encontrada");
 		}
-	}
-
-	@Test
-	public void testGetCuenta() {
-		Cuenta ac1 = new Cuenta("ES77");
-		try {
-			gestionCuentas.crearCuenta("ES77");
-		}catch (CuentaException e){
-			fail("Deberia crear la cuenta");
-		}
-
-		Cuenta ac2 = null;
-
-		try{
-			ac2 = gestionCuentas.getCuenta("ES77");
-		} catch (CuentaException e) {
-			fail("Deberia obtener la cuenta");
-		}
-		assertEquals(ac1, ac2);
 	}
 
 }
