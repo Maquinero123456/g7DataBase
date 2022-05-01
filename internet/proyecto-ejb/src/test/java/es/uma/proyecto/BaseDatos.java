@@ -121,6 +121,7 @@ public class BaseDatos {
 		apertCuentaSegregadaReferencia.setDivisa(falsoEuro);
 		em.persist(apertCuentaSegregadaReferencia);
 
+
 		//TEST DIVISAS PRUEBA
 		Divisa euro1 = new Divisa("eur1", "euro1", 1.0);
 		em.persist(euro1);
@@ -147,6 +148,11 @@ public class BaseDatos {
 
 		DepositadaEn depositadaEnDivisa4 = new DepositadaEn(new CuentaRefPoolAccPK(cref4.getIBAN(), pooledAccountDivisa.getIBAN()), cref4, pooledAccountDivisa, cref4.getSaldo());
 		em.persist(depositadaEnDivisa4);
+
+		//Modificar Autorizado
+		PersonaAutorizada modificadAutorizad = new PersonaAutorizada("PabloDejaDeTocar", "Pablo", "Vazques", "Quien sabe", utilDate, "Alta", utilDate, null);
+		em.persist(modificadAutorizad);
+
 
 		//No tocar abajo
 		em.getTransaction().commit();

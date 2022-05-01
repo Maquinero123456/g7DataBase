@@ -23,9 +23,12 @@ import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.entidades.Empresa;
 import es.uma.proyecto.entidades.PersonaAutorizada;
 import es.uma.proyecto.entidades.PooledAccount;
+import es.uma.proyecto.entidades.Segregada;
 
 public class AdministrativosPrueba {
-    private static final Logger LOG = Logger.getLogger(AdministrativosPrueba.class.getCanonicalName());
+    
+	@SuppressWarnings("unused")
+	private static final Logger LOG = Logger.getLogger(AdministrativosPrueba.class.getCanonicalName());
 
 	private static final String ADMINISTRATIVOS_EJB = "java:global/classes/Administrativos";
 	private static final String CUENTASUSUARIOS_EJB = "java:global/classes/CuentasUsuarios";
@@ -253,9 +256,15 @@ public class AdministrativosPrueba {
 	}
 
 
-	@Test
+    @Requisitos({"RF5"})
+    @Test
+    /**
+     * Test que comprueba la correcta apertura de una cuenta agrupada
+     * 		> Se crea la cuenta agrupada y se cromprueba que el metodo la aperture
+     * 		> Se comprueba que luego esta cuenta exista
+     * @throws CuentaException, ClienteException, NullPointerException
+     */
 	public void testAperturaCuentaAgrupada() throws CuentaException, ClienteException {
-
 		try {
 			gestionAdministratitivos.aperturaCuentaAgrupada("ES45450545054505", "apertCuentaAgrupadaCliente");
 		}catch (CuentaException e) {
@@ -276,11 +285,15 @@ public class AdministrativosPrueba {
 		assertTrue(cf.getIBAN().contains("ES45450545054505"));
 	}
 
-	@Test
+    @Requisitos({"RF5"})
+    @Test
+    /**
+     * Test que comprueba la correcta apertura de una cuenta segregada
+     * 		> Se crea la cuenta segregada y se cromprueba que el metodo la aperture
+     * 		> Se comprueba que luego esta cuenta exista
+     * @throws CuentaException, ClienteException
+     */
 	public void testAperturaCuentaSegregada() throws CuentaException, ClienteException {
-
-		
-		
 		CuentaReferencia cuentaRef = null;
 		try {
 			cuentaRef = gestionCuentas.getCuentaReferencia("apertCuentaSegregadaReferencia");
@@ -288,7 +301,6 @@ public class AdministrativosPrueba {
 			fail ("No se encontro la cuenta referencia");
 		}
 	
-
 		try {
 			gestionAdministratitivos.aperturaCuentaSegregada("ES101010101", "apertCuentaSegregadaCliente",cuentaRef);
 		}catch (CuentaException e) {
@@ -309,11 +321,18 @@ public class AdministrativosPrueba {
 		
 	}
 	
-	@Test
+    @Requisitos({"RF9"})
+    @Test
+    /**
+     * Test que comprueba el correcto cierre de una cuenta agrupada
+     * Dado un cliente, se comprueba que:
+     * 		> El saldo de la cuenta a cerrar sea 0
+     * 		> Que luego de cerrarla, el estado de la cuenta pasa a "false" PERO NO QUE SE CIERRE
+     * @throws CuentaException, ClienteException
+     */
 	public void testCerrarCuentaAgrupada() {
-		java.util.Date utilDate = new java.util.Date();
-		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		Cliente c1 = new Cliente("testCerrCuentAgrup", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+    	Date utilDate = new Date(System.currentTimeMillis());
+		Cliente c1 = new Cliente("testCerrCuentAgrup", "fisica", "Alta", utilDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
 		
 		try{
 			gestionClientes.crearCliente(c1);
@@ -346,11 +365,18 @@ public class AdministrativosPrueba {
 
 	}
 
-	@Test
+    @Requisitos({"RF9"})
+    @Test
+    /**
+     * Test que comprueba el correcto cierre de una cuenta SEGREGADA
+     * Dado un cliente, se comprueba que:
+     * 		> El saldo de la cuenta a cerrar sea 0
+     * 		> Que luego de cerrarla, el estado de la cuenta pasa a "false" PERO NO QUE SE CIERRE
+     * @throws CuentaException, ClienteException
+     */
 	public void testCerrarCuentaSegregada() {
-		java.util.Date utilDate = new java.util.Date();
-		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		Cliente c1 = new Cliente("testCerrCuentSeg", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		Date utilDate = new Date(System.currentTimeMillis());
+		Cliente c1 = new Cliente("testCerrCuentSeg", "fisica", "Alta", utilDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
 		
 		try{
 			gestionClientes.crearCliente(c1);
@@ -457,40 +483,17 @@ public class AdministrativosPrueba {
      */
 	public void testModificarAutorizado () {
 		Date utilDate = new Date(System.currentTimeMillis());
-		Empresa emp = new Empresa("empreTestAddAutot", "fisica", "alta", utilDate, utilDate, "Avenida prueba", "Malaga","29010", "PaisesBajos", "prueba");
-		PersonaAutorizada pA = new PersonaAutorizada("perAutTestAddAutot", "Persona", "Autorizado", "Avenida 123", utilDate, "Mara cay", utilDate, utilDate);
+		PersonaAutorizada pA = null;
 		
 		try {
-			pA = gestionAutorizados.getPersonaAutorizada("perAutTestAddAutot");
+			pA = gestionAutorizados.getPersonaAutorizada("PabloDejaDeTocar");
 		} catch (PersonaAutorizadaException e) {
 			fail ("La persona autorizada deberia existir");
 		}
 
 		try {
-			gestionClientes.crearEmpresa(emp);
-		} catch (EmpresaException e) {
-			fail ("La empresa ya existe");
-		}
-
-		try {
-			emp = gestionClientes.getEmpresa("empreTestAddAutot");
-		} catch (EmpresaException e) { 
-			fail ("La empresa deberia existir");
-		}
-
-		try {
-			PersonaAutorizada mod = new PersonaAutorizada("perAutTestAddAutot", "modPersona", "Autorizado", "Avenida 123", utilDate, "Mara cay", utilDate, utilDate);
+			PersonaAutorizada mod = new PersonaAutorizada("PabloDejaDeTocar", "modPersona", "Autorizado", "Avenida 123", utilDate, "Mara cay", utilDate, utilDate);
 			gestionAdministratitivos.modificarAutorizado(mod);
-		} catch (PersonaAutorizadaException e)  {
-			fail ("Persona no encontrada");
-		}
-
-		try {
-			gestionAdministratitivos.addAutorizados(emp.getID(), pA.getID(), "tipo");
-		} catch (ClienteException e) {
-			fail ("La empresa deberia existir");
-		} catch (AutorizacionException e) {
-			fail ("La persona no tiene autorización de la empresa");
 		} catch (PersonaAutorizadaException e)  {
 			fail ("Persona no encontrada");
 		}
@@ -498,14 +501,15 @@ public class AdministrativosPrueba {
 		PersonaAutorizada comprobar = null;
 
 		try {
-			comprobar = gestionAutorizados.getPersonaAutorizada("perAutTestAddAutot");
+			comprobar = gestionAutorizados.getPersonaAutorizada("PabloDejaDeTocar");
 		} catch  (PersonaAutorizadaException e) {
-			fail ("La persona autorizada deberia exisitir");
+			fail ("La persona autorizada deberia existir");
 		}
 
 		assertEquals(pA, comprobar);
     }
 
+	
 	@Requisitos({"RF8"})
     @Test
     /**Test para comprobar el correcto uso de un administrativo para eliminar a un autorizado de la cuenta de la empresa
@@ -513,6 +517,7 @@ public class AdministrativosPrueba {
      * 		> Que la persona autorizada a eliminar exista 
 	 *		> Que la empresa exista
      *		> Que una vez añadida la persona, esta sea eliminada
+     *		> Que el mensaje que devuelve indique, que en efecto, la persona ya no esta autirizada en la cuenta de la empresa
      * @throws PersonaAutorizadaException, EmpresaException, ClienteException, AutorizacionException
      */
 	public void testEliminarAutorizado() throws PersonaAutorizadaException {
@@ -564,7 +569,14 @@ public class AdministrativosPrueba {
 			fail ("Persona no encontrada");
 		}
 		
-		assertEquals(null, gestionAutorizados.getPersonaAutorizada("perAutTestAddAutot"));
+		Exception exception = assertThrows(AutorizacionException.class, () -> {
+            gestionAutorizados.getAutorizacion("perAutTestAddAutot", "empreTestAddAutot");
+        });
+    
+        String expectedMessage = "Autorizacion no existe";
+        String actualMessage = exception.getMessage();
+    
+        assertTrue(actualMessage.contains(expectedMessage));
 	}
 
 }

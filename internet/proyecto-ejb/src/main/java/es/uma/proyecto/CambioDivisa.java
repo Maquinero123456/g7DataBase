@@ -53,16 +53,17 @@ public class CambioDivisa implements GestionCambioDivisa{
             throw new CuentaReferenciaException("No existe alguna de las cuentas referencia");
         }
         //Si el saldo en la cuenta original no es suficiente, lanzo la excepcion
-        if(cantidad*divisa.getCambioEuro()>depositadaOriginal.getSaldo()*original.getCambioEuro()){
+        if(cantidad>depositadaOriginal.getSaldo()){
             throw new SaldoException("No hay saldo suficiente");
         }
         //Actualizo el saldo en depositadaEn y CuentaReferencia que es igual a la divisa original
-        Double saldo = cantidad*divisa.getCambioEuro()/original.getCambioEuro()-depositadaOriginal.getSaldo();
-        depositadaOriginal.setSaldo(saldo);
-        referenciaOriginal.setSaldo(saldo);
+        depositadaOriginal.setSaldo(depositadaOriginal.getSaldo()-cantidad);
+        referenciaOriginal.setSaldo(referenciaOriginal.getSaldo()-cantidad);
+        em.merge(depositadaOriginal);
+        em.merge(referenciaOriginal);
         //Actualiza el saldo en las cuentas con la divisa a la que quiero cambiar
-        depositadaCambio.setSaldo(depositadaCambio.getSaldo()+cantidad);
-        referenciaCambio.setSaldo(referenciaCambio.getSaldo()-cantidad);
+        depositadaCambio.setSaldo(depositadaCambio.getSaldo()+cantidad*original.getCambioEuro()/divisa.getCambioEuro());
+        referenciaCambio.setSaldo(referenciaCambio.getSaldo()+cantidad*original.getCambioEuro()/divisa.getCambioEuro());
         //Consigo la fecha de hoy
         Date utilDate = new Date(System.currentTimeMillis());
         //Creo una nueva transaccion y la meto en la base de datos
