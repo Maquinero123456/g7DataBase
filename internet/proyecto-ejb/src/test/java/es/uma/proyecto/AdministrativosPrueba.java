@@ -23,6 +23,7 @@ import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.entidades.Empresa;
 import es.uma.proyecto.entidades.PersonaAutorizada;
 import es.uma.proyecto.entidades.PooledAccount;
+import es.uma.proyecto.entidades.Segregada;
 
 public class AdministrativosPrueba {
     private static final Logger LOG = Logger.getLogger(AdministrativosPrueba.class.getCanonicalName());
