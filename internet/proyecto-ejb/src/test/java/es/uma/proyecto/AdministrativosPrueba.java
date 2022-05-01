@@ -223,8 +223,6 @@ public class AdministrativosPrueba {
 			fail("Deberia poder crear el cliente");
 		}
 
-		PooledAccount prueba =  new PooledAccount("ES45450545054505","swift", true, sqlDate, sqlDate, "Clasic");
-
 		try {
 			gestionAdministratitivos.aperturaCuentaAgrupada("ES45450545054505", "testApCuentAgrup");
 		}catch (CuentaException e) {
@@ -233,13 +231,21 @@ public class AdministrativosPrueba {
 			fail ("El usuario no existe");
 		}
 		
-		PooledAccount cf = (PooledAccount) gestionCuentas.getCuenta("ES45450545054505");
+		PooledAccount cf = null;
 
-		assertEquals(prueba, cf);
+		try  {
+			 cf = gestionCuentas.getCuentaAgrupada("ES45450545054505");
+		} catch (CuentaException e) {
+			fail ("La cuenta no se ha encontrado");
+		}
+  		
+
+		assertTrue(cf.getIBAN().contains("ES45450545054505"));
 	}
 
 	@Test
 	public void testAperturaCuentaSegregada() throws CuentaException, ClienteException {
+
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 		Cliente c1 = new Cliente("testApCuentSeg", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
@@ -250,18 +256,31 @@ public class AdministrativosPrueba {
 			fail("Deberia poder crear el cliente");
 		}
 		
-		CuentaReferencia cuentaRef = gestionCuentas.getCuentaReferencia("8");
-		if (cuentaRef == null) {
-			fail("No se ha encontrado la cuenta");
+		CuentaReferencia cuentaRef = null;
+		try {
+			gestionCuentas.getCuentaReferencia("8");
+		} catch (CuentaException e) {
+			fail ("No se encontro la cuenta referencia");
 		}
+	
 
 		try {
-			gestionAdministratitivos.aperturaCuentaSegregada("ES45450545054505", "testApCuentSeg", cuentaRef);
+			gestionAdministratitivos.aperturaCuentaSegregada("ES101010101", "testApCuentAgrup",cuentaRef);
 		}catch (CuentaException e) {
 			fail ("No se ha podido crear la cuenta");
 		}catch (ClienteException e) {
 			fail ("El usuario no existe");
 		}
+		
+		Segregada cf = null;
+
+		try  {
+			 cf = gestionCuentas.getCuentaSegregada("ES101010101");
+		} catch (CuentaException e) {
+			fail ("La cuenta no se ha encontrado");
+		}
+  		
+		assertTrue(cf.getIBAN().contains("ES101010101"));
 		
 	}
 	

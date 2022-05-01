@@ -133,6 +133,7 @@ public class Administrativos implements GestionAdministratitivos{
 		Cliente c1 = null;
 		Query query = em.createQuery("Select c from Cliente c where c.identificacion LIKE :fident");
 		query.setParameter("fident", id);
+		
 		try{
 			c1 = (Cliente) query.getSingleResult();
 		}catch(NoResultException e){
