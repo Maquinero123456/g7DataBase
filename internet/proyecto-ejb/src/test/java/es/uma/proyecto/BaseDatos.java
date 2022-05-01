@@ -62,15 +62,14 @@ public class BaseDatos {
 		cf7.setCliente(c7);
 		em.persist(cf7);
 		
+		//Test transaccion individual
 		Divisa euro = new Divisa("eur", "euro", 1.0);
 		em.persist(euro);
-		Divisa dolar = new Divisa("usd", "dolar", 0.95);
-		em.persist(dolar);
 		CuentaReferencia cr = new CuentaReferencia("cuentaOrigen", "LaCuentaDePaco", 1000.0);
 		cr.setDivisa(euro);
 		em.persist(cr);
 		CuentaReferencia cr2 = new CuentaReferencia("cuentaDestino", "LaCuentaDeJuan", 100.0);
-		cr2.setDivisa(dolar);
+		cr2.setDivisa(euro);
 		em.persist(cr2);
 		Individual ind = new Individual("Paco", "Individual", "Alta", utilDate, utilDate, "Una calle", "Alguna", "No", "No existe", "Juanito", "Perez", utilDate);
 		em.persist(ind);
@@ -80,7 +79,7 @@ public class BaseDatos {
 		em.persist(seg);
 
 		CuentaReferencia cref = new CuentaReferencia("8", "Cuenta Prueba", 0.00);
-		cref.setDivisa(dolar);
+		cref.setDivisa(euro);
 		em.persist(cref);
 		
 		CuentaReferencia cref2 = new CuentaReferencia("9", "Cuenta Prueba 2", 0.00);
@@ -126,17 +125,17 @@ public class BaseDatos {
 
 
 		//TEST DIVISAS PRUEBA
-		Divisa euro1 = new Divisa("eur1", "euro1", 1.0);
+		Divisa euro1 = new Divisa("eu1", "euro1", 1.0);
 		em.persist(euro1);
-		Divisa dolar1 = new Divisa("usd1", "dolar1", 0.95);
+		Divisa dolar1 = new Divisa("us1", "dolar1", 0.95);
 		em.persist(dolar1);
 
 		CuentaReferencia cref3 = new CuentaReferencia("c3", "Cuenta Prueba", 100.00);
-		cref.setDivisa(euro1);
+		cref3.setDivisa(euro1);
 		em.persist(cref3);
 
 		CuentaReferencia cref4 = new CuentaReferencia("c4", "Cuenta Prueba", 100.00);
-		cref.setDivisa(dolar1);
+		cref4.setDivisa(dolar1);
 		em.persist(cref4);
 
 		Cliente clienteDivisa = new Cliente("testDivisa", "fisica", "Alta", utilDate, "Avenida 123", "Maracay", "123", "PaisesBajos");

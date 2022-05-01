@@ -2,6 +2,7 @@ package es.uma.proyecto;
 
 import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.entidades.CuentaReferencia;
+import es.uma.proyecto.entidades.DepositadaEn;
 import es.uma.proyecto.entidades.Divisa;
 import es.uma.proyecto.entidades.PooledAccount;
 import es.uma.proyecto.exceptions.*;
@@ -10,7 +11,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.naming.NamingException;
+import java.sql.Date;
 import java.text.ParseException;
+import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import static org.eclipse.persistence.jpa.jpql.Assert.*;
@@ -56,14 +60,14 @@ public class CambioDivisaPrueba {
 
         Divisa euro1 = null;
         try{
-            euro1 = gestionCambioDivisa.getDivisa("euro1");
+            euro1 = gestionCambioDivisa.getDivisa("eu1");
         }catch (DivisaException e){
             fail("No se encontro la divisa");
         }
 
         Divisa dolar1 = null;
         try{
-            dolar1 = gestionCambioDivisa.getDivisa("dolar1");
+            dolar1 = gestionCambioDivisa.getDivisa("us1");
         }catch (DivisaException e){
             fail("No se encontro la divisa");
         }
@@ -71,11 +75,11 @@ public class CambioDivisaPrueba {
         try{
             gestionCambioDivisa.cambioDivisas(p1, euro1, dolar1, 100.00);
         }catch (PooledAccountException e){
-            fail("No se hizo encontro la cuenta pooled");
+            fail("No se encontro la cuenta pooled");
         }catch (CuentaReferenciaException e ){
-            fail("No se hizo encontro la cuenta referencia");
+            fail("No se encontro la cuenta referencia");
         }catch (DivisaException e){
-            fail("No se hizo encontro la divisa");
+            fail("No se encontro la divisa");
         }catch (SaldoException e){
             fail("No hay saldo ");
         }
@@ -87,7 +91,7 @@ public class CambioDivisaPrueba {
             fail("No se encontro la cuenta");
         }
 
-        Double saldo1 = 100.00 + 100.00 * dolar1.getCambioEuro();
+        Double saldo1 = 100.00 + 100.00 /dolar1.getCambioEuro();
         Double saldo2 = ra1.getSaldo();
 
        assertEquals(saldo1, saldo2);
