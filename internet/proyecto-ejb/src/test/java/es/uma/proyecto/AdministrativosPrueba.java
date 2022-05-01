@@ -13,7 +13,8 @@ import java.util.logging.Logger;
 
 import javax.naming.NamingException;
 
-import es.uma.proyecto.entidades.*;
+import es.uma.proyecto.entidades.CuentaFintech;
+import es.uma.proyecto.entidades.CuentaReferencia;
 import es.uma.proyecto.exceptions.*;
 
 import org.glassfish.appclient.client.CLIBootstrap;
@@ -21,19 +22,26 @@ import org.junit.Before;
 import org.junit.Test;
 
 import es.uma.proyecto.GestionAdministratitivos;
+import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.Administrativos;
 
+import es.uma.proyecto.entidades.Cliente;
+import es.uma.proyecto.entidades.Empresa;
+import es.uma.proyecto.entidades.PersonaAutorizada;
+import es.uma.proyecto.entidades.PooledAccount;
+import es.uma.proyecto.entidades.Segregada;
 import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.exceptions.AdministrativoException;
 
 public class AdministrativosPrueba {
-    private static final Logger LOG = Logger.getLogger(Administrativos.class.getCanonicalName());
+    private static final Logger LOG = Logger.getLogger(AdministrativosPrueba.class.getCanonicalName());
 
 	private static final String ADMINISTRATIVOS_EJB = "java:global/classes/Administrativos";
 	private static final String CUENTASUSUARIOS_EJB = "java:global/classes/CuentasUsuarios";
 	private static final String CLIENTES_EJB = "java:global/classes/Clientes";
 	private static final String UNIDAD_PERSITENCIA_PRUEBAS = "proyectoTest";
 	private static final String PERSONA_AUTORIZADA = "java:global/classes/Autorizados";
+	private static final String CUENTAS_EJB = "java:global/classes/Cuentas";
 
 	private GestionAdministratitivos gestionAdministratitivos;
 	private GestionCuentasUsuarios gestionCuentasUsuarios;
@@ -47,6 +55,7 @@ public class AdministrativosPrueba {
 		gestionCuentasUsuarios = (GestionCuentasUsuarios) SuiteTest.ctx.lookup(CUENTASUSUARIOS_EJB);
 		gestionClientes = (GestionClientes) SuiteTest.ctx.lookup(CLIENTES_EJB);
 		gestionAutorizados  = (GestionAutorizados) SuiteTest.ctx.lookup(PERSONA_AUTORIZADA);
+		gestionCuentas = (GestionCuentas) SuiteTest.ctx.lookup(CUENTAS_EJB);
 		BaseDatos.inicializaBaseDatos(UNIDAD_PERSITENCIA_PRUEBAS);
 	}
 
@@ -206,63 +215,45 @@ public class AdministrativosPrueba {
 	@Test
 	public void testAperturaCuentaAgrupada() throws CuentaException, ClienteException {
 
-		java.util.Date utilDate = new java.util.Date();
-		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		Cliente p1 = new Cliente("testApCuentAgrup", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
-		
-		try{
-			gestionClientes.crearCliente(p1);
-		}catch(ClienteException e){
-			fail("Deberia poder crear el cliente");
-		}
-
 		try {
-			gestionAdministratitivos.aperturaCuentaAgrupada("ES45450545054505", "testApCuentAgrup");
+			gestionAdministratitivos.aperturaCuentaAgrupada("ES45450545054505", "apertCuentaAgrupadaCliente");
 		}catch (CuentaException e) {
 			fail ("No se ha podido crear la cuenta");
 		}catch (ClienteException e) {
 			fail ("El usuario no existe");
+		}catch (NullPointerException e){
+			fail("Se lanza en apertura");
 		}
 		
 		PooledAccount cf = null;
-
 		try  {
-			 cf = gestionCuentas.getCuentaAgrupada("ES45450545054505");
+			cf =gestionCuentas.getCuentaAgrupada("ES45450545054505");
 		} catch (CuentaException e) {
 			fail ("La cuenta no se ha encontrado");
 		}
-  		
-
+		
 		assertTrue(cf.getIBAN().contains("ES45450545054505"));
 	}
 
 	@Test
 	public void testAperturaCuentaSegregada() throws CuentaException, ClienteException {
 
-		java.util.Date utilDate = new java.util.Date();
-		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		Cliente c1 = new Cliente("testApCuentSeg", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
 		
-		try{
-			gestionClientes.crearCliente(c1);
-		}catch(ClienteException e){
-			fail("Deberia poder crear el cliente");
-		}
 		
 		CuentaReferencia cuentaRef = null;
 		try {
-			cuentaRef = gestionCuentas.getCuentaReferencia("8");
+			cuentaRef = gestionCuentas.getCuentaReferencia("apertCuentaSegregadaReferencia");
 		} catch (CuentaException e) {
 			fail ("No se encontro la cuenta referencia");
 		}
 	
 
 		try {
-			gestionAdministratitivos.aperturaCuentaSegregada("ES101010101", "testApCuentAgrup",cuentaRef);
+			gestionAdministratitivos.aperturaCuentaSegregada("ES101010101", "apertCuentaSegregadaCliente",cuentaRef);
 		}catch (CuentaException e) {
 			fail ("No se ha podido crear la cuenta");
 		}catch (ClienteException e) {
-			fail ("El usuario no existe");
+			fail ("El cliente no existe");
 		}
 		
 		Segregada cf = null;
@@ -303,14 +294,14 @@ public class AdministrativosPrueba {
 			fail ("El saldo de la cuenta no es 0");
 		}
 
-		Exception exception = assertThrows(AdministrativoException.class, () -> {
-            gestionCuentas.getCuenta("ES45450545054505");
-        });
+		PooledAccount cf = null;
+		try  {
+			cf = gestionCuentas.getCuentaAgrupada("ES45450545054505");
+		} catch (CuentaException e) {
+			fail ("La cuenta no se ha encontrado");
+		}
 
-        String expectedMessage = "No existe la cuenta";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
+        assertEquals(false, cf.getEstado());
 
 	}
 
@@ -348,14 +339,15 @@ public class AdministrativosPrueba {
 			fail ("El saldo de la cuenta no es 0");
 		}
 
-		Exception exception = assertThrows(AdministrativoException.class, () -> {
-            gestionCuentas.getCuenta("ES45450545054505");
-        });
-    
-        String expectedMessage = "No existe la cuenta";
-        String actualMessage = exception.getMessage();
-    
-        assertTrue(actualMessage.contains(expectedMessage));
+		Segregada cf = null;
+
+		try  {
+			 cf = gestionCuentas.getCuentaSegregada("ES45450545054505");
+		} catch (CuentaException e) {
+			fail ("La cuenta no se ha encontrado");
+		}
+  		
+		assertEquals(false,cf.getEstado());
 
 	}
 

@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 @Stateless
 public class Cuentas implements GestionCuentas{
 
-    private static final Logger LOG = Logger.getLogger(Clientes.class.getCanonicalName());
+    private static final Logger LOG = Logger.getLogger(Cuentas.class.getCanonicalName());
 
     @PersistenceContext(name="proyectoEJB")
     private EntityManager em;
@@ -63,5 +63,4 @@ public class Cuentas implements GestionCuentas{
         }
         return ac;
     }
-
 }

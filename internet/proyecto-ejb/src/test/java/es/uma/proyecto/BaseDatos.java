@@ -114,6 +114,18 @@ public class BaseDatos {
 		unaSegregada.setCuentaReferencia(cuenta2);
 		em.persist(unaSegregada);
 
+
+		//Test apertura cuenta agrupada
+		Cliente apertCuentaAgrupadaCliente = new Cliente("apertCuentaAgrupadaCliente", "Cliente", "Alta", utilDate, utilDate, "Calle falsa", "Ciudad falsa", "CP falso", "Pais falso");
+		em.persist(apertCuentaAgrupadaCliente);
+
+		//Test apertura cuenta Segregada
+		Cliente apertCuentaSegregadaCliente = new Cliente("apertCuentaSegregadaCliente", "Cliente", "Alta", utilDate, utilDate, "Calle falsa", "Ciudad falsa", "CP falso", "Pais falso");
+		em.persist(apertCuentaSegregadaCliente);
+		CuentaReferencia apertCuentaSegregadaReferencia = new CuentaReferencia("apertCuentaSegregadaReferencia", "apertCuentaSegregadaReferencia", 100.0);
+		apertCuentaSegregadaReferencia.setDivisa(falsoEuro);
+		em.persist(apertCuentaSegregadaReferencia);
+
 		//No tocar abajo
 		em.getTransaction().commit();
 		em.close();

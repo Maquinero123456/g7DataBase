@@ -14,7 +14,7 @@ import es.uma.proyecto.exceptions.CuentaException;
 
 public class InformePrueba {
     
-    private static final Logger LOG = Logger.getLogger(Informes.class.getCanonicalName());
+    private static final Logger LOG = Logger.getLogger(InformePrueba.class.getCanonicalName());
 
 	private static final String INFORMES_EJB = "java:global/classes/Informes";
 	private static final String UNIDAD_PERSITENCIA_PRUEBAS = "proyectoTest";

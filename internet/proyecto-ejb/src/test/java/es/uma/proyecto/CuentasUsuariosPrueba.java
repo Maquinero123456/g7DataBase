@@ -21,7 +21,7 @@ import es.uma.proyecto.exceptions.UsuarioException;
 
 public class CuentasUsuariosPrueba {
     
-    private static final Logger LOG = Logger.getLogger(CuentasUsuarios.class.getCanonicalName());
+    private static final Logger LOG = Logger.getLogger(CuentasUsuariosPrueba.class.getCanonicalName());
 
 	private static final String CUENTASUSUARIOS_EJB = "java:global/classes/CuentasUsuarios";
 	private static final String UNIDAD_PERSITENCIA_PRUEBAS = "proyectoTest";

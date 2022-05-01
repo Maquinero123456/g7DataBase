@@ -16,7 +16,7 @@ import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.exceptions.ClienteException;
 
 public class ClientesPrueba {
-    private static final Logger LOG = Logger.getLogger(Administrativos.class.getCanonicalName());
+    private static final Logger LOG = Logger.getLogger(AdministrativosPrueba.class.getCanonicalName());
 
     private static final String CLIENTES_EJB = "java:global/classes/Clientes";
 	private static final String UNIDAD_PERSITENCIA_PRUEBAS = "proyectoTest";

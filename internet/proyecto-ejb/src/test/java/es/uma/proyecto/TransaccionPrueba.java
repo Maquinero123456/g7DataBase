@@ -18,7 +18,7 @@ import es.uma.proyecto.exceptions.IndividualException;
 import es.uma.proyecto.exceptions.SaldoException;
 
 public class TransaccionPrueba {
-    private static final Logger LOG = Logger.getLogger(GenerarTransaccion.class.getCanonicalName());
+    private static final Logger LOG = Logger.getLogger(TransaccionPrueba.class.getCanonicalName());
 
 	private static final String ADMINISTRATIVOS_EJB = "java:global/classes/Administrativos";
 	private static final String CUENTASUSUARIOS_EJB = "java:global/classes/CuentasUsuarios";

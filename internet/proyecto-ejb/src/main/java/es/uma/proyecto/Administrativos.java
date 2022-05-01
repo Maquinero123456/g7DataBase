@@ -1,5 +1,6 @@
 package es.uma.proyecto;
 
+import java.util.Date;
 import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
@@ -105,19 +106,11 @@ public class Administrativos implements GestionAdministratitivos{
 			throw new CuentaException("Ya existe una cuenta asociada al IBAN: " + iban+ ".");
 		}
 
-		Cliente c1 = null;
-		Query query = em.createQuery("Select c from Cliente c where c.identificacion LIKE :fident");
-		query.setParameter("fident", id);
+		Cliente c1 = getCliente(id);
 		
-		try{
-			c1 = (Cliente) query.getSingleResult();
-		}catch(NoResultException e){
-			throw new ClienteException("EL cliente no existe");
-		}
 		
-		java.util.Date utilDate = new java.util.Date();
-		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		account = new PooledAccount(iban, null, true, sqlDate, null, "Agrupada");
+		Date utilDate = new Date(System.currentTimeMillis());
+		account = new PooledAccount(iban, null, true, utilDate, null, "Agrupada");
 		account.setCliente(c1);
 		em.persist(account);
 	}
