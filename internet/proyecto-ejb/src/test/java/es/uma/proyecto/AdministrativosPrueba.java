@@ -294,14 +294,14 @@ public class AdministrativosPrueba {
 			fail ("El saldo de la cuenta no es 0");
 		}
 
-		Exception exception = assertThrows(AdministrativoException.class, () -> {
-            gestionCuentas.getCuenta("ES45450545054505");
-        });
+		PooledAccount cf = null;
+		try  {
+			cf = gestionCuentas.getCuentaAgrupada("ES45450545054505");
+		} catch (CuentaException e) {
+			fail ("La cuenta no se ha encontrado");
+		}
 
-        String expectedMessage = "No existe la cuenta";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
+        assertEquals(false, cf.getEstado());
 
 	}
 
@@ -339,14 +339,15 @@ public class AdministrativosPrueba {
 			fail ("El saldo de la cuenta no es 0");
 		}
 
-		Exception exception = assertThrows(AdministrativoException.class, () -> {
-            gestionCuentas.getCuenta("ES45450545054505");
-        });
-    
-        String expectedMessage = "No existe la cuenta";
-        String actualMessage = exception.getMessage();
-    
-        assertTrue(actualMessage.contains(expectedMessage));
+		Segregada cf = null;
+
+		try  {
+			 cf = gestionCuentas.getCuentaSegregada("ES45450545054505");
+		} catch (CuentaException e) {
+			fail ("La cuenta no se ha encontrado");
+		}
+  		
+		assertEquals(false,cf.getEstado());
 
 	}
 
