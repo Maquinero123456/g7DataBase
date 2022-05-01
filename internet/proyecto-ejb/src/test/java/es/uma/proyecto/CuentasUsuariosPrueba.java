@@ -5,10 +5,6 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.logging.Logger;
 
 import javax.naming.NamingException;
@@ -16,6 +12,7 @@ import javax.naming.NamingException;
 import org.junit.Before;
 import org.junit.Test;
 
+import es.uma.informatica.sii.anotaciones.Requisitos;
 import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.exceptions.UsuarioException;
 
@@ -35,6 +32,7 @@ public class CuentasUsuariosPrueba {
 	}
 
     @Test
+    /* Comprueba que se crea el usuario correctamente */
     public void testCrearUsuario(){
         Usuario user = new Usuario("Pepito", "Juanito", true);
         try{
@@ -52,6 +50,7 @@ public class CuentasUsuariosPrueba {
     }
 
     @Test
+    /* Comprueba que no se pueda crear un usuario si ya este existe */
     public void testUsuarioRepetido(){
         Usuario user = new Usuario("Pepito", "Juanito", true);
         try{
@@ -70,7 +69,15 @@ public class CuentasUsuariosPrueba {
         assertTrue(actualMessage.contains(expectedMessage));
     }
 
+    @Requisitos({"RF10"})
     @Test
+    /**
+     * Test que comprueba el correcto acceso de un usuario NO ADMINISTRADOR a la aplicacion
+     * Dado un usuario normal:
+     * 		> Que al crearse al usuario este no exista ya en la aplicacion 
+     * 		> Que inicie sesion correctamente dado su usuario y su contraseña
+     * @throws UsuarioException
+     */
     public void testIniciarSesion(){
         String nombre = "Juanito";
         String password = "Pepito";
@@ -92,12 +99,19 @@ public class CuentasUsuariosPrueba {
         assertEquals(usuario, user);
     }
 
+    @Requisitos({"RF1, RF10"})
     @Test
+    /**
+     * Test que un Administrativo NO pueda acceder a la plataforma desde el apartado de los usuarios normales
+     * Dado un usuario administrador:
+     * 		> Que al crearse al usuario este no exista ya en la aplicacion 
+     * 		> Que al intentar iniciar sesion, la plataforma no lo deje al ser administrador
+     * @throws UsuarioException
+     */
     public void testIniciarSesionAdministrativo(){
         String nombre = "Admin";
         String password = "Admin";
         Usuario user = new Usuario(nombre, password, true);
-        Usuario usuario = null;
 
         try{
             gestionCuentasUsuarios.CrearUsuario(user);
@@ -115,7 +129,15 @@ public class CuentasUsuariosPrueba {
         assertTrue(actualMessage.contains(expectedMessage));
     }
 
+    @Requisitos({"RF10"})
     @Test
+    /**
+     * Test que comprueba el correcto acceso de un usuario NO ADMINISTRADOR a la aplicacion
+     * Dado un usuario normal:
+     * 		> Que al crearse al usuario este no exista ya en la aplicacion 
+     * 		> Que inicie sesion correctamente dado su usuario y su contraseña
+     * @throws UsuarioException
+     */
     public void testIniciarSesionPasswordIncorrecta(){
         Usuario user = new Usuario("Tremendo", "Metodo", true);
         try {

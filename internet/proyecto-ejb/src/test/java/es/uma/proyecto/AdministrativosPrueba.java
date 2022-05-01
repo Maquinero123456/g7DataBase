@@ -23,6 +23,7 @@ import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.entidades.Empresa;
 import es.uma.proyecto.entidades.PersonaAutorizada;
 import es.uma.proyecto.entidades.PooledAccount;
+import es.uma.proyecto.entidades.Segregada;
 
 public class AdministrativosPrueba {
     private static final Logger LOG = Logger.getLogger(AdministrativosPrueba.class.getCanonicalName());
@@ -500,12 +501,13 @@ public class AdministrativosPrueba {
 		try {
 			comprobar = gestionAutorizados.getPersonaAutorizada("perAutTestAddAutot");
 		} catch  (PersonaAutorizadaException e) {
-			fail ("La persona autorizada deberia exisitir");
+			fail ("La persona autorizada deberia existir");
 		}
 
 		assertEquals(pA, comprobar);
     }
 
+	
 	@Requisitos({"RF8"})
     @Test
     /**Test para comprobar el correcto uso de un administrativo para eliminar a un autorizado de la cuenta de la empresa
