@@ -26,7 +26,9 @@ import es.uma.proyecto.entidades.PooledAccount;
 import es.uma.proyecto.entidades.Segregada;
 
 public class AdministrativosPrueba {
-    private static final Logger LOG = Logger.getLogger(AdministrativosPrueba.class.getCanonicalName());
+    
+	@SuppressWarnings("unused")
+	private static final Logger LOG = Logger.getLogger(AdministrativosPrueba.class.getCanonicalName());
 
 	private static final String ADMINISTRATIVOS_EJB = "java:global/classes/Administrativos";
 	private static final String CUENTASUSUARIOS_EJB = "java:global/classes/CuentasUsuarios";
@@ -254,7 +256,14 @@ public class AdministrativosPrueba {
 	}
 
 
-	@Test
+    @Requisitos({"RF5"})
+    @Test
+    /**
+     * Test que comprueba la correcta apertura de una cuenta agrupada
+     * 		> Se crea la cuenta agrupada y se cromprueba que el metodo la aperture
+     * 		> Se comprueba que luego esta cuenta exista
+     * @throws CuentaException, ClienteException, NullPointerException
+     */
 	public void testAperturaCuentaAgrupada() throws CuentaException, ClienteException {
 		try {
 			gestionAdministratitivos.aperturaCuentaAgrupada("ES45450545054505", "apertCuentaAgrupadaCliente");
@@ -276,7 +285,14 @@ public class AdministrativosPrueba {
 		assertTrue(cf.getIBAN().contains("ES45450545054505"));
 	}
 
-	@Test
+    @Requisitos({"RF5"})
+    @Test
+    /**
+     * Test que comprueba la correcta apertura de una cuenta segregada
+     * 		> Se crea la cuenta segregada y se cromprueba que el metodo la aperture
+     * 		> Se comprueba que luego esta cuenta exista
+     * @throws CuentaException, ClienteException
+     */
 	public void testAperturaCuentaSegregada() throws CuentaException, ClienteException {
 		CuentaReferencia cuentaRef = null;
 		try {
@@ -305,11 +321,18 @@ public class AdministrativosPrueba {
 		
 	}
 	
-	@Test
+    @Requisitos({"RF9"})
+    @Test
+    /**
+     * Test que comprueba el correcto cierre de una cuenta agrupada
+     * Dado un cliente, se comprueba que:
+     * 		> El saldo de la cuenta a cerrar sea 0
+     * 		> Que luego de cerrarla, el estado de la cuenta pasa a "false" PERO NO QUE SE CIERRE
+     * @throws CuentaException, ClienteException
+     */
 	public void testCerrarCuentaAgrupada() {
-		java.util.Date utilDate = new java.util.Date();
-		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		Cliente c1 = new Cliente("testCerrCuentAgrup", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+    	Date utilDate = new Date(System.currentTimeMillis());
+		Cliente c1 = new Cliente("testCerrCuentAgrup", "fisica", "Alta", utilDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
 		
 		try{
 			gestionClientes.crearCliente(c1);
@@ -342,11 +365,18 @@ public class AdministrativosPrueba {
 
 	}
 
-	@Test
+    @Requisitos({"RF9"})
+    @Test
+    /**
+     * Test que comprueba el correcto cierre de una cuenta SEGREGADA
+     * Dado un cliente, se comprueba que:
+     * 		> El saldo de la cuenta a cerrar sea 0
+     * 		> Que luego de cerrarla, el estado de la cuenta pasa a "false" PERO NO QUE SE CIERRE
+     * @throws CuentaException, ClienteException
+     */
 	public void testCerrarCuentaSegregada() {
-		java.util.Date utilDate = new java.util.Date();
-		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		Cliente c1 = new Cliente("testCerrCuentSeg", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		Date utilDate = new Date(System.currentTimeMillis());
+		Cliente c1 = new Cliente("testCerrCuentSeg", "fisica", "Alta", utilDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
 		
 		try{
 			gestionClientes.crearCliente(c1);
