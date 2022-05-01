@@ -64,6 +64,7 @@ public class Administrativos implements GestionAdministratitivos{
 		}
 		
 		cliente.setEstado("Alta");
+		em.persist(cliente);
 	}
 
 	
@@ -75,6 +76,7 @@ public class Administrativos implements GestionAdministratitivos{
 		}
         
         cliente.setEstado("Baja");
+        em.persist(cliente);
 	}
 	
 

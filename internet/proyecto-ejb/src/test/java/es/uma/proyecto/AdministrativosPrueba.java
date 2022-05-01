@@ -5,33 +5,24 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.logging.Logger;
 
 import javax.naming.NamingException;
 
-import es.uma.proyecto.entidades.CuentaFintech;
 import es.uma.proyecto.entidades.CuentaReferencia;
 import es.uma.proyecto.exceptions.*;
 
-import org.glassfish.appclient.client.CLIBootstrap;
 import org.junit.Before;
 import org.junit.Test;
 
-import es.uma.proyecto.GestionAdministratitivos;
 import es.uma.proyecto.entidades.Usuario;
-import es.uma.proyecto.Administrativos;
+import es.uma.informatica.sii.anotaciones.Requisitos;
 
 import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.entidades.Empresa;
 import es.uma.proyecto.entidades.PersonaAutorizada;
 import es.uma.proyecto.entidades.PooledAccount;
-import es.uma.proyecto.entidades.Segregada;
-import es.uma.proyecto.entidades.Usuario;
-import es.uma.proyecto.exceptions.AdministrativoException;
 
 public class AdministrativosPrueba {
     private static final Logger LOG = Logger.getLogger(Administrativos.class.getCanonicalName());
@@ -57,7 +48,15 @@ public class AdministrativosPrueba {
 		BaseDatos.inicializaBaseDatos(UNIDAD_PERSITENCIA_PRUEBAS);
 	}
 
+    @Requisitos({"RF1"})
     @Test
+    /**
+     * Test que comprueba el correcto acceso de un usuario administrador a la aplicacion
+     * Dado un usuario que debe ser admin se comprueba:
+     * 		> Que al crearse al usuario este no exista ya en la aplicacion 
+     * 		> Que inicie sesion correctamente dado su usuario y su contraseña
+     * @throws UsuarioException y AdministrativoException
+     */
     public void testIniciarSesionAdministrativo(){
         Usuario admin = new Usuario("Pepito", "Juanito", true);
 		
@@ -74,7 +73,15 @@ public class AdministrativosPrueba {
 		}
     }
 
-	@Test
+    @Requisitos({"RF1"})
+    @Test
+    /**
+     * Test que comprueba que un usuario NO administrativo no pueda iniciar sesion como uno
+     * Dado un usuario que que no es admin se comprueba:
+     * 		> Que al crearse al usuario este no exista ya en la aplicacion 
+     * 		> Que al intentar iniciar sesion como un autorizado la aplicacion no se lo permita
+     * @throws UsuarioException y AdministrativoException
+     */
     public void testIniciarSesionAdministrativoNoAdministrativo(){
         Usuario user = new Usuario("Paco", "Paco", false);
 
@@ -95,7 +102,15 @@ public class AdministrativosPrueba {
         assertTrue(actualMessage.contains(expectedMessage));
     }
 
-	@Test
+    @Requisitos({"RF1"})
+    @Test
+    /**
+     * Test que comprueba que un usuario administrativo no pueda iniciar sesion si introduce una contraseña incorrecta
+     * Se comprueba que:
+     * 		> Que al crearse al usuario este no exista ya en la aplicacion 
+     * 		> Que al intentar iniciar sesion como un autorizado la aplicacion no se lo permita, pues la contraseña no es la correcta
+     * @throws UsuarioException y AdministrativoException
+     */
     public void testIniciarSesionAdministrativoPasswordIncorrecta(){
         Usuario user = new Usuario("Paco", "Paco", true);
 
@@ -116,7 +131,13 @@ public class AdministrativosPrueba {
         assertTrue(actualMessage.contains(expectedMessage));
     }
 
-	@Test
+    @Requisitos({"RF1"})
+    @Test
+    /**
+     * Se comprueba que:
+     * 		> Que al introducir un usuario que no existe, la aplicacion se lo notifique
+     * @throws UsuarioException y AdministrativoException
+     */
     public void testIniciarSesionAdministrativoNoExisteUsuario(){
 		Exception exception = assertThrows(AdministrativoException.class, () -> {
             gestionAdministratitivos.iniciarSesion("Paco", "Anda");
@@ -128,36 +149,50 @@ public class AdministrativosPrueba {
         assertTrue(actualMessage.contains(expectedMessage));
     }
 
-	@Test
+    @Requisitos({"RF2"})
+    @Test
+    /**Test para comprobar el correcto uso de un administrativo al dar de alta un cliente
+     * Se comprueba que dado un cliente:
+     * 		> Se pueda crear el usuario sin problema
+     * 		> Se pueda establecer de alta en el sistema
+     * 		> Se puede encontrar el nuevo cliente y su estado debe ser Alta
+     * @throws ClienteException
+     */
 	public void testDarDeAltaCliente () {
-		java.util.Date utilDate = new java.util.Date();
-		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		Cliente c1 = new Cliente("testAlta", "fisica", "Baja", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		Date utilDate = new Date(System.currentTimeMillis());
+		Cliente c1 = new Cliente("testAlta", "fisica", "Baja", utilDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
 		
 		try{
 			gestionClientes.crearCliente(c1);
 		}catch(ClienteException e){
-			fail("Deberia poder crear el cliente");
+			fail("Deberia poder crear el cliente.");
 		}
 		try{
 			gestionAdministratitivos.darAltaCliente("testAlta");
 		}catch(ClienteException e){
-			fail("Deberia encontrar al cliente al darlo de alta");
+			fail("No se pudo dar de alta al cliente.");
 		}
 		try{
 			c1 = gestionClientes.getCliente("testAlta");
 		}catch(ClienteException e){
-			fail("Deberia encontrar el cliente");
+			fail("Deberia encontrar el cliente.");
 		}
 
 		assertEquals("Alta", c1.getEstado());
 	}
 
-	@Test
+    @Requisitos({"RF4"})
+    @Test
+    /**Test para comprobar el correcto uso de un administrativo al dar de baja un cliente
+     * Se comprueba que dado un cliente:
+     * 		> Se pueda crear el usuario sin problema
+     * 		> Se pueda establecer de baja en el sistema sin problemas
+     * 		> Se puede encontrar el nuevo cliente y su estado debe ser Baja
+     * @throws ClienteException
+     */
 	public void testDarDeBajaCliente () {
-		java.util.Date utilDate = new java.util.Date();
-		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		Cliente c1 = new Cliente("testBaja", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		Date utilDate = new Date(System.currentTimeMillis());
+		Cliente c1 = new Cliente("testBaja", "fisica", "Alta", utilDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
 		
 		try{
 			gestionClientes.crearCliente(c1);
@@ -178,11 +213,17 @@ public class AdministrativosPrueba {
 		assertEquals("Baja", c1.getEstado());
 	}
 
-	@Test
+    @Requisitos({"RF3"})
+    @Test
+    /**Test para comprobar el correcto uso de un administrativo para modificar a un cliente
+     * Se comprueba que dado dos clientes:
+     * 		> Se puedan crear sin problema
+     * 		> El cliente 1 ahora tenga los parametros del cliente 2, indicando que se ha modificado correctamente
+     * @throws ClienteException
+     */
 	public void testModificarCliente () {
-		java.util.Date utilDate = new java.util.Date();
-		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		Cliente c1 = new Cliente("testAlta", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		Date utilDate = new Date(System.currentTimeMillis());
+		Cliente c1 = new Cliente("testAlta", "fisica", "Alta", utilDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
 		
 		try{
 			gestionClientes.crearCliente(c1);
@@ -190,7 +231,7 @@ public class AdministrativosPrueba {
 			fail("Deberia poder crear el cliente");
 		}
 
-		Cliente c2 = new Cliente("testAlta", "fisica", "Alta", sqlDate, "Avenida Falsa", "Guacamayo", "231", "PaisesAltos");
+		Cliente c2 = new Cliente("testAlta", "fisica", "Alta", utilDate, "Avenida Falsa", "Guacamayo", "231", "PaisesAltos");
 
 		try{
 			gestionAdministratitivos.modificarCliente(c2);
@@ -347,35 +388,45 @@ public class AdministrativosPrueba {
 
 	}
 
-	@Test
+	@Requisitos({"RF6"})
+    @Test
+    /**Test para comprobar el correcto uso de un administrativo para añadir
+     * personas autorizadas a las cuentas que pertenezcan a un cliente juridico (empresa)
+     * Se comprueba que dada una empresa y una PersonaAutorizada:
+     * 		> La persona que se busca agregar no este ya entre las personas autorizadas de la empresa
+     * 		> Que la persona autorizada creada exista 
+     *		> Que al crear la empresa, esta no exista
+     *		> Que luego de crear la empresa, esta exista
+     *		> Que se pueda añadir correctamente la persona autorizada creada a la empresa
+     * @throws PersonaAutorizadaException, EmpresaException, ClienteException, AutorizacionException
+     */
 	public void testAddAutorizados() {
-		java.util.Date utilDate = new java.util.Date();
-		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		Empresa emp = new Empresa("empreTestAddAutot", "fisica", "alta", sqlDate, sqlDate, "Avenida prueba", "Malaga","29010", "PaisesBajos", "prueba");
-		PersonaAutorizada pA = new PersonaAutorizada("perAutTestAddAutot", "Persona", "Autorizado", "Avenida 123", sqlDate, "Mara cay", sqlDate, sqlDate);
+		Date utilDate = new Date(System.currentTimeMillis());
+		Empresa emp = new Empresa("empreTestAddAutot", "fisica", "alta", utilDate, utilDate, "Avenida prueba", "Malaga","29010", "PaisesBajos", "prueba");
+		PersonaAutorizada pA = new PersonaAutorizada("perAutTestAddAutot", "Persona", "Autorizado", "Avenida 123", utilDate, "Mara cay", utilDate, utilDate);
 		
 		try {
 			gestionAutorizados.addPersonaAutorizada(pA);
 		} catch (PersonaAutorizadaException e) {
-			fail ("La persona autorizada ya exisiste");
+			fail ("La persona autorizada ya existe");
 		}
 
 		try {
 			pA = gestionAutorizados.getPersonaAutorizada("perAutTestAddAutot");
 		} catch (PersonaAutorizadaException e) {
-			fail ("La persona autorizada deberia exisitir");
+			fail ("La persona autorizada deberia existir");
 		}
 
 		try {
 			gestionClientes.crearEmpresa(emp);
 		} catch (EmpresaException e) {
-			fail ("La empresa ya exisiste");
+			fail ("La empresa ya existe");
 		}
 
 		try {
 			emp = gestionClientes.getEmpresa("empreTestAddAutot");
 		} catch (EmpresaException e) { 
-			fail ("La empresa deberia exisitir");
+			fail ("La empresa deberia existir");
 		}
 
 		try {
@@ -390,35 +441,44 @@ public class AdministrativosPrueba {
 		
 	}
 
-	@Test
+	@Requisitos({"RF7"})
+    @Test
+    /**Test para comprobar el correcto uso de un administrativo para modificar los datos de las personas autorizadas
+     * Se comprueba que dada una empresa y una PersonaAutorizada:
+     * 		> Que la persona autorizada a modificar exista 
+     *		> Que al crear la empresa, esta no exista
+     *		> Que luego de crear la empresa, esta exista
+     *		> Que la persona autorizada ahora tenga los nuevos datos
+     * @throws PersonaAutorizadaException, EmpresaException, ClienteException, AutorizacionException
+     */
 	public void testModificarAutorizado () {
-		java.util.Date utilDate = new java.util.Date();
-		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		Empresa emp = new Empresa("empreTestAddAutot", "fisica", "alta", sqlDate, sqlDate, "Avenida prueba", "Malaga","29010", "PaisesBajos", "prueba");
-		PersonaAutorizada pA = new PersonaAutorizada("perAutTestAddAutot", "Persona", "Autorizado", "Avenida 123", sqlDate, "Mara cay", sqlDate, sqlDate);
+		Date utilDate = new Date(System.currentTimeMillis());
+		Empresa emp = new Empresa("empreTestAddAutot", "fisica", "alta", utilDate, utilDate, "Avenida prueba", "Malaga","29010", "PaisesBajos", "prueba");
+		PersonaAutorizada pA = new PersonaAutorizada("perAutTestAddAutot", "Persona", "Autorizado", "Avenida 123", utilDate, "Mara cay", utilDate, utilDate);
 		
-		try {
-			gestionAutorizados.addPersonaAutorizada(pA);
-		} catch (PersonaAutorizadaException e) {
-			fail ("La persona autorizada ya exisiste");
-		}
-
 		try {
 			pA = gestionAutorizados.getPersonaAutorizada("perAutTestAddAutot");
 		} catch (PersonaAutorizadaException e) {
-			fail ("La persona autorizada deberia exisitir");
+			fail ("La persona autorizada deberia existir");
 		}
 
 		try {
 			gestionClientes.crearEmpresa(emp);
 		} catch (EmpresaException e) {
-			fail ("La empresa ya exisiste");
+			fail ("La empresa ya existe");
 		}
 
 		try {
 			emp = gestionClientes.getEmpresa("empreTestAddAutot");
 		} catch (EmpresaException e) { 
-			fail ("La empresa deberia exisitir");
+			fail ("La empresa deberia existir");
+		}
+
+		try {
+			PersonaAutorizada mod = new PersonaAutorizada("perAutTestAddAutot", "modPersona", "Autorizado", "Avenida 123", utilDate, "Mara cay", utilDate, utilDate);
+			gestionAdministratitivos.modificarAutorizado(mod);
+		} catch (PersonaAutorizadaException e)  {
+			fail ("Persona no encontrada");
 		}
 
 		try {
@@ -430,14 +490,7 @@ public class AdministrativosPrueba {
 		} catch (PersonaAutorizadaException e)  {
 			fail ("Persona no encontrada");
 		}
-
-		try {
-			PersonaAutorizada mod = new PersonaAutorizada("perAutTestAddAutot", "modPersona", "Autorizado", "Avenida 123", sqlDate, "Mara cay", sqlDate, sqlDate);
-			gestionAdministratitivos.modificarAutorizado(mod);
-		} catch (PersonaAutorizadaException e)  {
-			fail ("Persona no encontrada");
-		}
-
+		
 		PersonaAutorizada comprobar = null;
 
 		try {
@@ -446,38 +499,45 @@ public class AdministrativosPrueba {
 			fail ("La persona autorizada deberia exisitir");
 		}
 
-		assertEquals("modPersona", comprobar.getNombre());
+		assertEquals(pA, comprobar);
     }
 
-	@Test
-	public void testEliminarAutorizado() {
-		java.util.Date utilDate = new java.util.Date();
-		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		Empresa emp = new Empresa("empreTestAddAutot", "fisica", "alta", sqlDate, sqlDate, "Avenida prueba", "Malaga","29010", "PaisesBajos", "prueba");
-		PersonaAutorizada pA = new PersonaAutorizada("perAutTestAddAutot", "Persona", "Autorizado", "Avenida 123", sqlDate, "Mara cay", sqlDate, sqlDate);
+	@Requisitos({"RF8"})
+    @Test
+    /**Test para comprobar el correcto uso de un administrativo para eliminar a un autorizado de la cuenta de la empresa
+     * Se comprueba que dada una empresa y una PersonaAutorizada:
+     * 		> Que la persona autorizada a eliminar exista 
+	 *		> Que la empresa exista
+     *		> Que una vez añadida la persona, esta sea eliminada
+     * @throws PersonaAutorizadaException, EmpresaException, ClienteException, AutorizacionException
+     */
+	public void testEliminarAutorizado() throws PersonaAutorizadaException {
+		Date utilDate = new Date(System.currentTimeMillis());
+		Empresa emp = new Empresa("empreTestAddAutot", "fisica", "alta", utilDate, utilDate, "Avenida prueba", "Malaga","29010", "PaisesBajos", "prueba");
+		PersonaAutorizada pA = new PersonaAutorizada("perAutTestAddAutot", "Persona", "Autorizado", "Avenida 123", utilDate, "Mara cay", utilDate, utilDate);
 		
 		try {
 			gestionAutorizados.addPersonaAutorizada(pA);
 		} catch (PersonaAutorizadaException e) {
-			fail ("La persona autorizada ya exisiste");
+			fail ("La persona autorizada ya existe");
 		}
 
 		try {
 			pA = gestionAutorizados.getPersonaAutorizada("perAutTestAddAutot");
 		} catch (PersonaAutorizadaException e) {
-			fail ("La persona autorizada deberia exisitir");
+			fail ("La persona autorizada deberia existir");
 		}
 
 		try {
 			gestionClientes.crearEmpresa(emp);
 		} catch (EmpresaException e) {
-			fail ("La empresa ya exisiste");
+			fail ("La empresa ya existe");
 		}
 
 		try {
 			emp = gestionClientes.getEmpresa("empreTestAddAutot");
 		} catch (EmpresaException e) {
-			fail ("La empresa deberia exisitir");
+			fail ("La empresa deberia existir");
 		}
 
 		try {
@@ -499,6 +559,8 @@ public class AdministrativosPrueba {
 		} catch (PersonaAutorizadaException e)  {
 			fail ("Persona no encontrada");
 		}
+		
+		assertEquals(null, gestionAutorizados.getPersonaAutorizada("perAutTestAddAutot"));
 	}
 
 }
