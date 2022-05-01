@@ -1,6 +1,7 @@
 package es.uma.proyecto;
 
 import java.util.Date;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -51,10 +52,11 @@ public class Informes implements GestionInformes{
 	    	
 	    		if((cl.getTipoCliente().equalsIgnoreCase("individual") || cl.getTipoCliente().equalsIgnoreCase("fisica")) && getFecha(cl.getFechaBaja()) > 2019) {
 	    			Individual ind = em.find(Individual.class, cl.getID());
-	    			informe.add("\n	'ACCOUNTHOLDER':[ activeCustomer: "+cl.getEstado()+", accountType: " +cl.getTipoCliente() + "]"
+	    			
+	    			informe.add("\n	'ACCOUNTHOLDER':[ activeCustomer: "+ ind.getEstado()+", accountType: " + ind.getTipoCliente() + "]"
 	    	    	+"\n	'NAME':[ First Name: " +ind.getNombre()+", Last Name: "+ind.getApellidos() + "] " 
-	    	    	+"\n 	'ADRESSES':[ city: "+ cl.getCiudad() + ", street: "+ cl.getDireccion() +", postalCode: "+cl.getCodigoPostal() + ", country: " + cl.getPais() + "]"
-	    	    	+"\n 	'CUENTA':[ productType: "+ cf.getClasificacion() + ", productNumber: "+ cf.getIBAN()+ ", status: " +status+ ", startDate: "+ cl.getFechaAlta() + ", endDate: "+ cl.getFechaBaja()+"\n");
+	    	    	+"\n 	'ADRESSES':[ city: "+ ind.getCiudad() + ", street: "+ ind.getDireccion() +", postalCode: " + ind.getCodigoPostal() + ", country: " + ind.getPais() + "]"
+	    	    	+"\n 	'CUENTA':[ productType: "+ cf.getClasificacion() + ", productNumber: "+ cf.getIBAN()+ ", status: " +status+ ", startDate: "+ ind.getFechaAlta() + ", endDate: "+ ind.getFechaBaja()+"\n");
 	    	    
 	    		}
 	    		
@@ -147,13 +149,20 @@ public class Informes implements GestionInformes{
 		for(CuentaFintech cf: listCl) {
 	    	Cliente cl = cf.getCliente();
 	    	
-	    		if((cl.getTipoCliente().equalsIgnoreCase("individual") || cl.getTipoCliente().equalsIgnoreCase("fisica")) && getFecha(cl.getFechaBaja()) > 2019) {
+	    		if((cl.getTipoCliente().equalsIgnoreCase("individual") || cl.getTipoCliente().equalsIgnoreCase("fisica")) && getFecha(cl.getFechaBaja()) > 2017) {
 	    			Individual ind = em.find(Individual.class, cl.getID());
-	    			informe.add("IBAN: "+ cf.getIBAN() + ", Last_Name: "+ ind.getApellidos() +", First_Name: "+ ind.getNombre() + ", Street: " + ind.getDireccion() + ", City: " + ind.getCiudad()+ ", Post_Code: "+ ind.getCodigoPostal() +", Country: "+ ind.getPais() +", identificacion_Number: "+ ind.getID()+ ", Date_of_birth: "+ ind.getFechaNacimiento()+"\n");
-	    	    
+	    			
+	    			if(ind.getFechaNacimiento() != null) {
+	    				informe.add("IBAN: "+ cf.getIBAN() + ", Last_Name: "+ ind.getApellidos() +", First_Name: "+ ind.getNombre() + ", Street: " + ind.getDireccion() + ", City: " + ind.getCiudad()+ ", Post_Code: "+ ind.getCodigoPostal() +", Country: "+ ind.getPais() +", identificacion_Number: "+ ind.getID()+ ", Date_of_birth: "+ ind.getFechaNacimiento() +"\n");
+	    			}
+	    			
+	    			else {
+	    				informe.add("IBAN: "+ cf.getIBAN() + ", Last_Name: "+ ind.getApellidos() +", First_Name: "+ ind.getNombre() + ", Street: " + ind.getDireccion() + ", City: " + ind.getCiudad()+ ", Post_Code: "+ ind.getCodigoPostal() +", Country: "+ ind.getPais() +", identificacion_Number: "+ ind.getID()+ ", Date_of_birth: 'noexistente'\n");
+	    			}
+	    			
 	    		}
 	    		
-	    		else if(getFecha(cl.getFechaBaja()) > 2019){
+	    		else if(getFecha(cl.getFechaBaja()) > 2017){
 	    			Query query2 = em.createQuery("Select c from PersonaAutorizada c, CuentaFintech cu WHERE cu.iban = :fident");
 	    			query2.setParameter("fident", cf.getIBAN());
 	    			List<PersonaAutorizada> listPA = query2.getResultList();
