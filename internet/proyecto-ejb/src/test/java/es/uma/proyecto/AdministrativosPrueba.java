@@ -476,7 +476,7 @@ public class AdministrativosPrueba {
 			fail ("La persona autorizada deberia existir");
 		}
 
-		assertEquals("modPersona", comprobar.getNombre());
+		assertEquals(pA, comprobar);
     }
 
 	
@@ -487,6 +487,7 @@ public class AdministrativosPrueba {
      * 		> Que la persona autorizada a eliminar exista 
 	 *		> Que la empresa exista
      *		> Que una vez añadida la persona, esta sea eliminada
+     *		> Que el mensaje que devuelve indique, que en efecto, la persona ya no esta autirizada en la cuenta de la empresa
      * @throws PersonaAutorizadaException, EmpresaException, ClienteException, AutorizacionException
      */
 	public void testEliminarAutorizado() throws PersonaAutorizadaException {

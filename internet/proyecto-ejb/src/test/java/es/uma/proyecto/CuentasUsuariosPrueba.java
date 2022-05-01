@@ -132,10 +132,10 @@ public class CuentasUsuariosPrueba {
     @Requisitos({"RF10"})
     @Test
     /**
-     * Test que comprueba el correcto acceso de un usuario NO ADMINISTRADOR a la aplicacion
+     * Test que comprueba que dado un usuairo y una contraseña incorrecta, este no pueda iniciar sesion
      * Dado un usuario normal:
      * 		> Que al crearse al usuario este no exista ya en la aplicacion 
-     * 		> Que inicie sesion correctamente dado su usuario y su contraseña
+     * 		> Que no pueda iniciar sesion, pues su contraseña no es correcta
      * @throws UsuarioException
      */
     public void testIniciarSesionPasswordIncorrecta(){
@@ -155,7 +155,14 @@ public class CuentasUsuariosPrueba {
         assertTrue(actualMessage.contains(expectedMessage));
     }
 
+    @Requisitos({"RF10"})
     @Test
+    /**
+     * Test que comprueba que dado un usuario que no existe en la aplicacion, no se pueda iniciar sesion con el
+     * Dado un usuario que no existe:
+     * 		> Que no pueda iniciar sesion
+     * @throws UsuarioException
+     */
     public void testIniciarSesionUsuarioNoExiste(){
         Exception exception = assertThrows(UsuarioException.class, () -> {
             gestionCuentasUsuarios.iniciarSesion("NoTremendo", "Anda");
