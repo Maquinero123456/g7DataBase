@@ -249,9 +249,11 @@ public class AdministrativosPrueba {
 		}catch(ClienteException e){
 			fail("Deberia poder crear el cliente");
 		}
-
-		CuentaReferencia cuentaRef = new CuentaReferencia();
-		Segregada prueba =  new Segregada("ES45450545054505","swift", true, sqlDate, sqlDate, "Clasic");
+		
+		CuentaReferencia cuentaRef = gestionCuentas.getCuentaReferencia("8");
+		if (cuentaRef == null) {
+			fail("No se ha encontrado la cuenta");
+		}
 
 		try {
 			gestionAdministratitivos.aperturaCuentaSegregada("ES45450545054505", "testApCuentSeg", cuentaRef);
@@ -261,9 +263,6 @@ public class AdministrativosPrueba {
 			fail ("El usuario no existe");
 		}
 		
-		Segregada cf = (Segregada) gestionCuentas.getCuenta("ES45450545054505");
-
-		assertEquals(prueba, cf);
 	}
 	
 	@Test
@@ -315,13 +314,13 @@ public class AdministrativosPrueba {
 			fail("Deberia poder crear el cliente");
 		}
 
-		CuentaReferencia cuentaRef = new CuentaReferencia();
-
+		CuentaReferencia cuentaRef = null;
 		try {
-			cuentaRef = (CuentaReferencia) gestionCuentas.getCuenta("8");
+		 	cuentaRef = gestionCuentas.getCuentaReferencia("9");
 		}catch (CuentaException e) {
-			fail ("No se ha encontrado la cuenta referencia");
-		}
+			fail("No se ha encontrado la cuenta  referencia");
+		}		
+		
 
 		try {
 			gestionAdministratitivos.aperturaCuentaSegregada("ES45450545054505", "testApCuentAgrup",cuentaRef);
