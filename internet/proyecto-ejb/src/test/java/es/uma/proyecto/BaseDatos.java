@@ -114,6 +114,11 @@ public class BaseDatos {
 		unaSegregada.setCuentaReferencia(cuenta2);
 		em.persist(unaSegregada);
 
+
+		//Test apertura cuenta agrupada
+		Cliente apertCuentaAgrupadaCliente = new Cliente("apertCuentaAgrupadaCliente", "Cliente", "Alta", utilDate, utilDate, "Calle falsa", "Ciudad falsa", "CP falso", "Pais falso");
+		em.persist(apertCuentaAgrupadaCliente);
+
 		//No tocar abajo
 		em.getTransaction().commit();
 		em.close();

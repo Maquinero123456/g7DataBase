@@ -41,6 +41,7 @@ public class AdministrativosPrueba {
 	private static final String CLIENTES_EJB = "java:global/classes/Clientes";
 	private static final String UNIDAD_PERSITENCIA_PRUEBAS = "proyectoTest";
 	private static final String PERSONA_AUTORIZADA = "java:global/classes/Autorizados";
+	private static final String CUENTAS_EJB = "java:global/classes/Cuentas";
 
 	private GestionAdministratitivos gestionAdministratitivos;
 	private GestionCuentasUsuarios gestionCuentasUsuarios;
@@ -54,6 +55,7 @@ public class AdministrativosPrueba {
 		gestionCuentasUsuarios = (GestionCuentasUsuarios) SuiteTest.ctx.lookup(CUENTASUSUARIOS_EJB);
 		gestionClientes = (GestionClientes) SuiteTest.ctx.lookup(CLIENTES_EJB);
 		gestionAutorizados  = (GestionAutorizados) SuiteTest.ctx.lookup(PERSONA_AUTORIZADA);
+		gestionCuentas = (GestionCuentas) SuiteTest.ctx.lookup(CUENTAS_EJB);
 		BaseDatos.inicializaBaseDatos(UNIDAD_PERSITENCIA_PRUEBAS);
 	}
 
@@ -213,33 +215,35 @@ public class AdministrativosPrueba {
 	@Test
 	public void testAperturaCuentaAgrupada() throws CuentaException, ClienteException {
 
-		java.util.Date utilDate = new java.util.Date();
-		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		Cliente c1 = new Cliente("testApCuentAgrup", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
-		
-		try{
-			gestionClientes.crearCliente(c1);
-		}catch(ClienteException e){
-			fail("Deberia poder crear el cliente");
-		}
-
 		try {
-			gestionAdministratitivos.aperturaCuentaAgrupada("ES45450545054505", "testApCuentAgrup");
+			gestionAdministratitivos.aperturaCuentaAgrupada("ES45450545054505", "apertCuentaAgrupadaCliente");
 		}catch (CuentaException e) {
 			fail ("No se ha podido crear la cuenta");
 		}catch (ClienteException e) {
 			fail ("El usuario no existe");
+		}catch (NullPointerException e){
+			fail("Se lanza en apertura");
 		}
 		
-		PooledAccount cf = null;
-
+		PooledAccount cf = new PooledAccount();
+		System.out.println("/*****************************************************************************");
+		System.out.println(gestionClientes.getCliente("apertCuentaAgrupadaCliente"));
+		System.out.println("/*****************************************************************************");
 		try  {
-			 cf = gestionCuentas.getCuentaAgrupada("ES45450545054505");
+			 
+			System.out.println("/*****************************************************************************");
+			System.out.println(gestionCuentas.getCuentaAgrupada("ES45450545054505"));
+			System.out.println("/*****************************************************************************");
 		} catch (CuentaException e) {
 			fail ("La cuenta no se ha encontrado");
+		}catch (NullPointerException e){
+			fail("Se lanza en get");
 		}
-  		
-
+		
+		if(cf == null){
+			fail("La cuenta deberia existir");
+		}
+		
 		assertTrue(cf.getIBAN().contains("ES45450545054505"));
 	}
 
@@ -258,7 +262,7 @@ public class AdministrativosPrueba {
 		
 		CuentaReferencia cuentaRef = null;
 		try {
-			gestionCuentas.getCuentaReferencia("8");
+			cuentaRef = gestionCuentas.getCuentaReferencia("8");
 		} catch (CuentaException e) {
 			fail ("No se encontro la cuenta referencia");
 		}
