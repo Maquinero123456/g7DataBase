@@ -40,13 +40,13 @@ public class InformePrueba {
 
     @Requisitos({"RF11", "RF12"})
     @Test 
-    /*
+    /**
      * Muestra por pantalla todas las cuentas, clientes de Holanda y Alemania, segun se pida
      * en cada legislacion y los parametros necesarios para cada busqueda
      * Estas cuentas deben tener minimo 3 años de actividad en el caso de Holanda
      * y 5 años en caso de el caso de Alemania
      */
-    public void informeHolanda() throws ClienteException, CuentaException{
+    public void informeHolanda() {
     	// Cuentas de Holanda activas y con iban 15
     	// Debe devolver la cuenta de "Perez Castillo", pues es el dueño de la cuenta con iban 15
         List<String> report1 = gestionInformes.informeCuentasPaisesBajos(true, "15");
