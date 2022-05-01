@@ -256,7 +256,6 @@ public class AdministrativosPrueba {
 
 	@Test
 	public void testAperturaCuentaAgrupada() throws CuentaException, ClienteException {
-
 		try {
 			gestionAdministratitivos.aperturaCuentaAgrupada("ES45450545054505", "apertCuentaAgrupadaCliente");
 		}catch (CuentaException e) {
@@ -279,9 +278,6 @@ public class AdministrativosPrueba {
 
 	@Test
 	public void testAperturaCuentaSegregada() throws CuentaException, ClienteException {
-
-		
-		
 		CuentaReferencia cuentaRef = null;
 		try {
 			cuentaRef = gestionCuentas.getCuentaReferencia("apertCuentaSegregadaReferencia");
@@ -289,7 +285,6 @@ public class AdministrativosPrueba {
 			fail ("No se encontro la cuenta referencia");
 		}
 	
-
 		try {
 			gestionAdministratitivos.aperturaCuentaSegregada("ES101010101", "apertCuentaSegregadaCliente",cuentaRef);
 		}catch (CuentaException e) {
@@ -458,40 +453,17 @@ public class AdministrativosPrueba {
      */
 	public void testModificarAutorizado () {
 		Date utilDate = new Date(System.currentTimeMillis());
-		Empresa emp = new Empresa("empreTestAddAutot", "fisica", "alta", utilDate, utilDate, "Avenida prueba", "Malaga","29010", "PaisesBajos", "prueba");
-		PersonaAutorizada pA = new PersonaAutorizada("perAutTestAddAutot", "Persona", "Autorizado", "Avenida 123", utilDate, "Mara cay", utilDate, utilDate);
+		PersonaAutorizada pA = null;
 		
 		try {
-			pA = gestionAutorizados.getPersonaAutorizada("perAutTestAddAutot");
+			pA = gestionAutorizados.getPersonaAutorizada("PabloDejaDeTocar");
 		} catch (PersonaAutorizadaException e) {
 			fail ("La persona autorizada deberia existir");
 		}
 
 		try {
-			gestionClientes.crearEmpresa(emp);
-		} catch (EmpresaException e) {
-			fail ("La empresa ya existe");
-		}
-
-		try {
-			emp = gestionClientes.getEmpresa("empreTestAddAutot");
-		} catch (EmpresaException e) { 
-			fail ("La empresa deberia existir");
-		}
-
-		try {
-			PersonaAutorizada mod = new PersonaAutorizada("perAutTestAddAutot", "modPersona", "Autorizado", "Avenida 123", utilDate, "Mara cay", utilDate, utilDate);
+			PersonaAutorizada mod = new PersonaAutorizada("PabloDejaDeTocar", "modPersona", "Autorizado", "Avenida 123", utilDate, "Mara cay", utilDate, utilDate);
 			gestionAdministratitivos.modificarAutorizado(mod);
-		} catch (PersonaAutorizadaException e)  {
-			fail ("Persona no encontrada");
-		}
-
-		try {
-			gestionAdministratitivos.addAutorizados(emp.getID(), pA.getID(), "tipo");
-		} catch (ClienteException e) {
-			fail ("La empresa deberia existir");
-		} catch (AutorizacionException e) {
-			fail ("La persona no tiene autorización de la empresa");
 		} catch (PersonaAutorizadaException e)  {
 			fail ("Persona no encontrada");
 		}
@@ -499,12 +471,12 @@ public class AdministrativosPrueba {
 		PersonaAutorizada comprobar = null;
 
 		try {
-			comprobar = gestionAutorizados.getPersonaAutorizada("perAutTestAddAutot");
+			comprobar = gestionAutorizados.getPersonaAutorizada("PabloDejaDeTocar");
 		} catch  (PersonaAutorizadaException e) {
 			fail ("La persona autorizada deberia exisitir");
 		}
 
-		assertEquals(pA, comprobar);
+		assertEquals("modPersona", comprobar.getNombre());
     }
 
 	@Requisitos({"RF8"})
@@ -565,7 +537,14 @@ public class AdministrativosPrueba {
 			fail ("Persona no encontrada");
 		}
 		
-		assertEquals(null, gestionAutorizados.getPersonaAutorizada("perAutTestAddAutot"));
+		Exception exception = assertThrows(AutorizacionException.class, () -> {
+            gestionAutorizados.getAutorizacion("perAutTestAddAutot", "empreTestAddAutot");
+        });
+    
+        String expectedMessage = "Autorizacion no existe";
+        String actualMessage = exception.getMessage();
+    
+        assertTrue(actualMessage.contains(expectedMessage));
 	}
 
 }
