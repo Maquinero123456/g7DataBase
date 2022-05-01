@@ -69,5 +69,13 @@ public class CambioDivisa implements GestionCambioDivisa{
         Transaccion transaccion = new Transaccion(utilDate, cantidad, "Cambio divisa", pooled, pooled, original, divisa);
         em.persist(transaccion);
     }
+
+    public Divisa getDivisa(String abrev) throws DivisaException {
+        Divisa div = em.find(Divisa.class, abrev);
+        if(div == null){
+            throw new DivisaException("No existe la divisa");
+        }
+        return div;
+    }
     
 }

@@ -25,4 +25,6 @@ public interface GestionCambioDivisa {
      * @throws CuentaReferenciaException
      */
     public void cambioDivisas(PooledAccount pooled, Divisa original, Divisa nueva, Double cantidadDeseada) throws PooledAccountException, DivisaException, SaldoException, CuentaReferenciaException, CuentaReferenciaException;
+
+    public Divisa getDivisa(String abrev) throws DivisaException;
 }

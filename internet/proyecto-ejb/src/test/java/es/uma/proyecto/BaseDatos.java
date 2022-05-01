@@ -7,16 +7,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-import es.uma.proyecto.entidades.Autorizacion;
-import es.uma.proyecto.entidades.Cliente;
-import es.uma.proyecto.entidades.CuentaFintech;
-import es.uma.proyecto.entidades.CuentaReferencia;
-import es.uma.proyecto.entidades.Divisa;
-import es.uma.proyecto.entidades.Empresa;
-import es.uma.proyecto.entidades.EmpresaPersAutoPK;
-import es.uma.proyecto.entidades.Individual;
-import es.uma.proyecto.entidades.PersonaAutorizada;
-import es.uma.proyecto.entidades.Segregada;
+import com.sun.istack.Pool;
+import es.uma.proyecto.entidades.*;
 import es.uma.proyecto.exceptions.PersonaAutorizadaException;
 
 public class BaseDatos {
@@ -67,13 +59,15 @@ public class BaseDatos {
 		cf7.setCliente(c7);
 		em.persist(cf7);
 		
-		Divisa divisa = new Divisa("a", "e", 1.0);
-		em.persist(divisa);
+		Divisa euro = new Divisa("eur", "euro", 1.0);
+		em.persist(euro);
+		Divisa dolar = new Divisa("usd", "dolar", 0.95);
+		em.persist(dolar);
 		CuentaReferencia cr = new CuentaReferencia("cuentaOrigen", "LaCuentaDePaco", 1000.0);
-		cr.setDivisa(divisa);
+		cr.setDivisa(euro);
 		em.persist(cr);
 		CuentaReferencia cr2 = new CuentaReferencia("cuentaDestino", "LaCuentaDeJuan", 100.0);
-		cr2.setDivisa(divisa);
+		cr2.setDivisa(dolar);
 		em.persist(cr2);
 		Individual ind = new Individual("Paco", "Individual", "Alta", utilDate, utilDate, "Una calle", "Alguna", "No", "No existe", "Juanito", "Perez", utilDate);
 		em.persist(ind);
@@ -83,12 +77,13 @@ public class BaseDatos {
 		em.persist(seg);
 
 		CuentaReferencia cref = new CuentaReferencia("8", "Cuenta Prueba", 0.00);
-		cref.setDivisa(divisa);
+		cref.setDivisa(dolar);
 		em.persist(cref);
 		
 		CuentaReferencia cref2 = new CuentaReferencia("9", "Cuenta Prueba 2", 0.00);
-		cref2.setDivisa(divisa);
+		cref2.setDivisa(euro);
 		em.persist(cref2);
+
 		
 
 		Divisa falsoEuro = new Divisa("fe", "falsoEuro", 1.0);
@@ -125,6 +120,33 @@ public class BaseDatos {
 		CuentaReferencia apertCuentaSegregadaReferencia = new CuentaReferencia("apertCuentaSegregadaReferencia", "apertCuentaSegregadaReferencia", 100.0);
 		apertCuentaSegregadaReferencia.setDivisa(falsoEuro);
 		em.persist(apertCuentaSegregadaReferencia);
+
+		//TEST DIVISAS PRUEBA
+		Divisa euro1 = new Divisa("eur1", "euro1", 1.0);
+		em.persist(euro1);
+		Divisa dolar1 = new Divisa("usd1", "dolar1", 0.95);
+		em.persist(dolar1);
+
+		CuentaReferencia cref3 = new CuentaReferencia("c3", "Cuenta Prueba", 100.00);
+		cref.setDivisa(euro1);
+		em.persist(cref3);
+
+		CuentaReferencia cref4 = new CuentaReferencia("c4", "Cuenta Prueba", 100.00);
+		cref.setDivisa(dolar1);
+		em.persist(cref4);
+
+		Cliente clienteDivisa = new Cliente("testDivisa", "fisica", "Alta", utilDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		em.persist(clienteDivisa);
+
+		PooledAccount pooledAccountDivisa = new PooledAccount("ES44",null, true, utilDate, null, "agrupada");
+		pooledAccountDivisa.setCliente(clienteDivisa);
+		em.persist(pooledAccountDivisa);
+
+		DepositadaEn depositadaEnDivisa3 = new DepositadaEn(new CuentaRefPoolAccPK(cref3.getIBAN(), pooledAccountDivisa.getIBAN()), cref3, pooledAccountDivisa, cref3.getSaldo());
+		em.persist(depositadaEnDivisa3);
+
+		DepositadaEn depositadaEnDivisa4 = new DepositadaEn(new CuentaRefPoolAccPK(cref4.getIBAN(), pooledAccountDivisa.getIBAN()), cref4, pooledAccountDivisa, cref4.getSaldo());
+		em.persist(depositadaEnDivisa4);
 
 		//No tocar abajo
 		em.getTransaction().commit();
