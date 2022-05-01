@@ -3,6 +3,8 @@ package es.uma.proyecto;
 import org.junit.Before;
 
 import javax.naming.NamingException;
+
+import java.text.ParseException;
 import java.util.logging.Logger;
 
 public class CambioDivisaPrueba {
@@ -22,7 +24,7 @@ public class CambioDivisaPrueba {
     private GestionAutorizados gestionAutorizados;
 
     @Before
-    public void setup() throws NamingException {
+    public void setup() throws NamingException, ParseException {
         gestionAdministratitivos = (GestionAdministratitivos) SuiteTest.ctx.lookup(ADMINISTRATIVOS_EJB);
         gestionCuentasUsuarios = (GestionCuentasUsuarios) SuiteTest.ctx.lookup(CUENTASUSUARIOS_EJB);
         gestionClientes = (GestionClientes) SuiteTest.ctx.lookup(CLIENTES_EJB);

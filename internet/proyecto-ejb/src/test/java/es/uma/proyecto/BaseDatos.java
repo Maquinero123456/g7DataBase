@@ -1,5 +1,7 @@
 package es.uma.proyecto;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.EntityManager;
@@ -20,7 +22,7 @@ import es.uma.proyecto.entidades.Segregada;
 import es.uma.proyecto.exceptions.PersonaAutorizadaException;
 
 public class BaseDatos {
-	public static void inicializaBaseDatos(String nombreUnidadPersistencia) {
+	public static void inicializaBaseDatos(String nombreUnidadPersistencia) throws ParseException {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory(nombreUnidadPersistencia);
 		EntityManager em = emf.createEntityManager();
 	
@@ -29,12 +31,13 @@ public class BaseDatos {
 		//No tocar arriba
 		
 		Date utilDate = new Date(System.currentTimeMillis());
+		Date fechaPasada =new SimpleDateFormat("dd/MM/yyyy").parse("15/08/2005");
 		
 		Individual c1 = new Individual("uno", "fisica", "activa", utilDate, utilDate, "Avenida 123", "Maracay", "0", "PaisesBajos", "Juan", "Perez Castillo");	
 		em.persist(c1);
 		Individual c2 = new Individual("dos", "fisica", "activa", utilDate, utilDate, "Avenida 123", "Maracay", "1", "Francia", "Juan", "Elsa Capunta");
 		em.persist(c2);
-		Individual c3 = new Individual("tres", "fisica", "activa", utilDate, utilDate, "Avenida 123", "Maracay", "2", "Alemania", "Juan", "Benito Camela");
+		Individual c3 = new Individual("tres", "fisica", "activa", utilDate, fechaPasada, "Avenida 123", "Maracay", "2", "Alemania", "Juan", "Benito Camela");
 		em.persist(c3);
 		Individual c4 = new Individual("cuatro", "fisica", "activa", utilDate, utilDate, "Avenida 123", "Maracay", "3", "Espana", "Juana", "Gomez Vazquez");
 		em.persist(c4);

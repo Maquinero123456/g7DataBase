@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.sql.Date;
+import java.text.ParseException;
 import java.util.logging.Logger;
 
 import javax.naming.NamingException;
@@ -44,7 +45,7 @@ public class AdministrativosPrueba {
 	private GestionAutorizados gestionAutorizados;
 
     @Before
-	public void setup() throws NamingException  {
+	public void setup() throws NamingException, ParseException  {
 		gestionAdministratitivos = (GestionAdministratitivos) SuiteTest.ctx.lookup(ADMINISTRATIVOS_EJB);
 		gestionCuentasUsuarios = (GestionCuentasUsuarios) SuiteTest.ctx.lookup(CUENTASUSUARIOS_EJB);
 		gestionClientes = (GestionClientes) SuiteTest.ctx.lookup(CLIENTES_EJB);
