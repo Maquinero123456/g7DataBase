@@ -2,7 +2,6 @@ package es.uma.proyecto;
 
 import java.util.logging.Logger;
 
-import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -16,7 +15,7 @@ import es.uma.proyecto.exceptions.EmpresaException;
 
 @Stateless
 public class Clientes implements GestionClientes{
-
+    @SuppressWarnings("unused")
     private static final Logger LOG = Logger.getLogger(Clientes.class.getCanonicalName());
 
     @PersistenceContext(name="proyectoEJB")

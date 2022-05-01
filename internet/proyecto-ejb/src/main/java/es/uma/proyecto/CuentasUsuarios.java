@@ -7,12 +7,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import es.uma.proyecto.entidades.Usuario;
-import es.uma.proyecto.exceptions.ClienteException;
 import es.uma.proyecto.exceptions.UsuarioException;
 
 @Stateless
 public class CuentasUsuarios implements GestionCuentasUsuarios{
-
+    @SuppressWarnings("unused")
     private static final Logger LOG = Logger.getLogger(CuentasUsuarios.class.getCanonicalName());
 
     @PersistenceContext(name="proyectoEJB")

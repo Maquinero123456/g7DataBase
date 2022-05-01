@@ -3,8 +3,6 @@ package es.uma.proyecto;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.text.ParseException;
@@ -12,11 +10,11 @@ import java.util.logging.Logger;
 
 import javax.naming.NamingException;
 
-import es.uma.proyecto.GestionClientes;
 import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.exceptions.ClienteException;
 
 public class ClientesPrueba {
+    @SuppressWarnings("unused")
     private static final Logger LOG = Logger.getLogger(AdministrativosPrueba.class.getCanonicalName());
 
     private static final String CLIENTES_EJB = "java:global/classes/Clientes";

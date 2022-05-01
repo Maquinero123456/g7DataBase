@@ -19,7 +19,7 @@ import es.uma.proyecto.exceptions.PersonaAutorizadaException;
 
 @Stateless
 public class Autorizados implements GestionAutorizados{
-
+    @SuppressWarnings("unused")
     private static final Logger LOG = Logger.getLogger(Autorizados.class.getCanonicalName());
 
     @PersistenceContext(name="proyectoEJB")

@@ -14,27 +14,19 @@ import org.junit.Before;
 import org.junit.Test;
 
 import es.uma.informatica.sii.anotaciones.Requisitos;
-import es.uma.proyecto.exceptions.ClienteException;
-import es.uma.proyecto.exceptions.CuentaException;
 
 public class InformePrueba {
-    
+    @SuppressWarnings("unused")
     private static final Logger LOG = Logger.getLogger(InformePrueba.class.getCanonicalName());
 
 	private static final String INFORMES_EJB = "java:global/classes/Informes";
 	private static final String UNIDAD_PERSITENCIA_PRUEBAS = "proyectoTest";
-    private static final String CLIENTES_EJB = "java:global/classes/Clientes";
-    private static final String CUENTAS_EJB = "java:global/classes/Cuentas";
 
 	private GestionInformes gestionInformes;
-    private GestionClientes gestionClientes;
-    private GestionCuentas gestionCuentas;
 
     @Before
 	public void setup() throws NamingException, ParseException  {
-        gestionCuentas = (GestionCuentas) SuiteTest.ctx.lookup(CUENTAS_EJB);
 		gestionInformes = (GestionInformes) SuiteTest.ctx.lookup(INFORMES_EJB);
-		gestionClientes = (GestionClientes) SuiteTest.ctx.lookup(CLIENTES_EJB);
         BaseDatos.inicializaBaseDatos(UNIDAD_PERSITENCIA_PRUEBAS);
 	}
 

@@ -16,29 +16,18 @@ import static org.eclipse.persistence.jpa.jpql.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 public class CambioDivisaPrueba {
+    @SuppressWarnings("unused")
     private static final Logger LOG = Logger.getLogger(CambioDivisaPrueba.class.getCanonicalName());
 
-    private static final String ADMINISTRATIVOS_EJB = "java:global/classes/Administrativos";
-    private static final String CUENTASUSUARIOS_EJB = "java:global/classes/CuentasUsuarios";
-    private static final String CLIENTES_EJB = "java:global/classes/Clientes";
     private static final String UNIDAD_PERSITENCIA_PRUEBAS = "proyectoTest";
-    private static final String PERSONA_AUTORIZADA = "java:global/classes/Autorizados";
     private static final String CUENTAS_EJB = "java:global/classes/Cuentas";
     private static final String CAMBIODIVISA_EJB = "java:global/classes/CambioDivisa";
 
-    private GestionAdministratitivos gestionAdministratitivos;
-    private GestionCuentasUsuarios gestionCuentasUsuarios;
-    private GestionClientes gestionClientes;
     private GestionCuentas gestionCuentas;
-    private GestionAutorizados gestionAutorizados;
     private GestionCambioDivisa gestionCambioDivisa;
 
     @Before
     public void setup() throws NamingException, ParseException {
-        gestionAdministratitivos = (GestionAdministratitivos) SuiteTest.ctx.lookup(ADMINISTRATIVOS_EJB);
-        gestionCuentasUsuarios = (GestionCuentasUsuarios) SuiteTest.ctx.lookup(CUENTASUSUARIOS_EJB);
-        gestionClientes = (GestionClientes) SuiteTest.ctx.lookup(CLIENTES_EJB);
-        gestionAutorizados  = (GestionAutorizados) SuiteTest.ctx.lookup(PERSONA_AUTORIZADA);
         gestionCuentas = (GestionCuentas) SuiteTest.ctx.lookup(CUENTAS_EJB);
         gestionCambioDivisa = (GestionCambioDivisa) SuiteTest.ctx.lookup(CAMBIODIVISA_EJB);
         BaseDatos.inicializaBaseDatos(UNIDAD_PERSITENCIA_PRUEBAS);

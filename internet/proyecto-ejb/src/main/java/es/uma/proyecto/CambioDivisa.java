@@ -20,7 +20,7 @@ import es.uma.proyecto.exceptions.SaldoException;
 
 @Stateless
 public class CambioDivisa implements GestionCambioDivisa{
-
+    @SuppressWarnings("unused")
     private static final Logger LOG = Logger.getLogger(CambioDivisa.class.getCanonicalName());
 
     @PersistenceContext(name="proyectoEJB")

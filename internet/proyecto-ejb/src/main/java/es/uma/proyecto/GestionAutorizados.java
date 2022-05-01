@@ -3,7 +3,6 @@ package es.uma.proyecto;
 import javax.ejb.Local;
 
 import es.uma.proyecto.entidades.Autorizacion;
-import es.uma.proyecto.entidades.Empresa;
 import es.uma.proyecto.entidades.PersonaAutorizada;
 import es.uma.proyecto.exceptions.AutorizacionException;
 import es.uma.proyecto.exceptions.EmpresaException;

@@ -1,7 +1,6 @@
 package es.uma.proyecto;
 
 import java.util.Date;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -12,16 +11,13 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import es.uma.proyecto.entidades.Cliente;
-import es.uma.proyecto.entidades.Cuenta;
 import es.uma.proyecto.entidades.CuentaFintech;
 import es.uma.proyecto.entidades.Empresa;
 import es.uma.proyecto.entidades.Individual;
 import es.uma.proyecto.entidades.PersonaAutorizada;
-import es.uma.proyecto.exceptions.ClienteException;
-
 @Stateless
 public class Informes implements GestionInformes{
-
+	@SuppressWarnings("unused")
     private static final Logger LOG = Logger.getLogger(Informes.class.getCanonicalName());
 
     @PersistenceContext(name="proyectoEJB")
@@ -44,7 +40,7 @@ public class Informes implements GestionInformes{
 		if(productNumber != null) {
 			query.setParameter("fiban", productNumber);
 		}
-		
+
 		List<CuentaFintech> listCl = query.getResultList();
 		
 	    for(CuentaFintech cf: listCl) {

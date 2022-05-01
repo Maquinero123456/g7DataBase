@@ -4,7 +4,6 @@ import javax.ejb.Local;
 
 import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.entidades.CuentaReferencia;
-import es.uma.proyecto.entidades.Empresa;
 import es.uma.proyecto.entidades.PersonaAutorizada;
 import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.exceptions.AdministrativoException;

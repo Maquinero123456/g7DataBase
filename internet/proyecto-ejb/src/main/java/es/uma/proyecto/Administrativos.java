@@ -28,7 +28,8 @@ import es.uma.proyecto.exceptions.PersonaAutorizadaException;
 
 @Stateless
 public class Administrativos implements GestionAdministratitivos{
-
+	
+	@SuppressWarnings("unused")
     private static final Logger LOG = Logger.getLogger(Administrativos.class.getCanonicalName());
 
     @PersistenceContext(name="proyectoEJB")
