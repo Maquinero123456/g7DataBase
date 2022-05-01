@@ -11,4 +11,5 @@ public interface GestionCuentas {
     public void setCuenta()throws CuentaException;
     public Cuenta getCuenta(String iban) throws CuentaException;
     public CuentaReferencia getCuentaReferencia(String iban) throws CuentaException;
+    public void crearCuenta(String iban)throws CuentaException;
 }

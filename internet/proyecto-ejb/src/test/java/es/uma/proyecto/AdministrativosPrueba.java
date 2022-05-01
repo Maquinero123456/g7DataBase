@@ -13,8 +13,7 @@ import java.util.logging.Logger;
 
 import javax.naming.NamingException;
 
-import es.uma.proyecto.entidades.CuentaFintech;
-import es.uma.proyecto.entidades.CuentaReferencia;
+import es.uma.proyecto.entidades.*;
 import es.uma.proyecto.exceptions.*;
 
 import org.glassfish.appclient.client.CLIBootstrap;
@@ -22,14 +21,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import es.uma.proyecto.GestionAdministratitivos;
-import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.Administrativos;
 
-import es.uma.proyecto.entidades.Cliente;
-import es.uma.proyecto.entidades.Empresa;
-import es.uma.proyecto.entidades.PersonaAutorizada;
-import es.uma.proyecto.entidades.PooledAccount;
-import es.uma.proyecto.entidades.Segregada;
 import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.exceptions.AdministrativoException;
 
@@ -215,10 +208,10 @@ public class AdministrativosPrueba {
 
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		Cliente c1 = new Cliente("testApCuentAgrup", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		Cliente p1 = new Cliente("testApCuentAgrup", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
 		
 		try{
-			gestionClientes.crearCliente(c1);
+			gestionClientes.crearCliente(p1);
 		}catch(ClienteException e){
 			fail("Deberia poder crear el cliente");
 		}
@@ -500,6 +493,25 @@ public class AdministrativosPrueba {
 		} catch (PersonaAutorizadaException e)  {
 			fail ("Persona no encontrada");
 		}
+	}
+
+	@Test
+	public void testGetCuenta() {
+		Cuenta ac1 = new Cuenta("ES77");
+		try {
+			gestionCuentas.crearCuenta("ES77");
+		}catch (CuentaException e){
+			fail("Deberia crear la cuenta");
+		}
+
+		Cuenta ac2 = null;
+
+		try{
+			ac2 = gestionCuentas.getCuenta("ES77");
+		} catch (CuentaException e) {
+			fail("Deberia obtener la cuenta");
+		}
+		assertEquals(ac1, ac2);
 	}
 
 }

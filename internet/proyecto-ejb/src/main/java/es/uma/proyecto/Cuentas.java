@@ -43,4 +43,15 @@ public class Cuentas implements GestionCuentas{
         }
         return ac;
     }
+
+    @Override
+    public void crearCuenta(String iban) throws CuentaException{
+        Cuenta ac = em.find(Cuenta.class, iban);
+        if(ac != null) {
+            throw new CuentaException("Ya existe la cuenta");
+        }
+        em.persist(new Cuenta(iban));
+
+
+    }
 }
