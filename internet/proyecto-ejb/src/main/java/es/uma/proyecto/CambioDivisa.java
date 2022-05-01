@@ -1,8 +1,10 @@
 package es.uma.proyecto;
 
+import java.util.Date;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -16,6 +18,7 @@ import es.uma.proyecto.exceptions.DivisaException;
 import es.uma.proyecto.exceptions.PooledAccountException;
 import es.uma.proyecto.exceptions.SaldoException;
 
+@Stateless
 public class CambioDivisa implements GestionCambioDivisa{
 
     private static final Logger LOG = Logger.getLogger(CambioDivisa.class.getCanonicalName());
@@ -61,10 +64,9 @@ public class CambioDivisa implements GestionCambioDivisa{
         depositadaCambio.setSaldo(depositadaCambio.getSaldo()+cantidad);
         referenciaCambio.setSaldo(referenciaCambio.getSaldo()-cantidad);
         //Consigo la fecha de hoy
-        java.util.Date utilDate = new java.util.Date();
-		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());;
+        Date utilDate = new Date(System.currentTimeMillis());
         //Creo una nueva transaccion y la meto en la base de datos
-        Transaccion transaccion = new Transaccion(sqlDate, cantidad, "Cambio divisa", pooled, pooled, original, divisa);
+        Transaccion transaccion = new Transaccion(utilDate, cantidad, "Cambio divisa", pooled, pooled, original, divisa);
         em.persist(transaccion);
     }
     

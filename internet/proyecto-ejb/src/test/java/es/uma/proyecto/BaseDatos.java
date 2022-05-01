@@ -86,6 +86,10 @@ public class BaseDatos {
 		cref.setDivisa(divisa);
 		em.persist(cref);
 		
+		CuentaReferencia cref2 = new CuentaReferencia("9", "Cuenta Prueba 2", 0.00);
+		cref2.setDivisa(divisa);
+		em.persist(cref2);
+		
 
 		Divisa falsoEuro = new Divisa("fe", "falsoEuro", 1.0);
 		em.persist(falsoEuro);

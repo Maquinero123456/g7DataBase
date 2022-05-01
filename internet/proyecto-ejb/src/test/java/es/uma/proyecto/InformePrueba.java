@@ -43,30 +43,38 @@ public class InformePrueba {
      */
     public void informeHolanda() throws ClienteException, CuentaException{
     	// Cuentas de Holanda activas y con iban 15
+    	// Debe devolver la cuenta de "Perez Castillo", pues es el dueño de la cuenta con iban 15
         List<String> report1 = gestionInformes.informeCuentasPaisesBajos(true, "15");
         System.out.println(report1.toString());
         
         // Cuentas de Holanda inactiva con iban 6
+        // Debe devolver solo a "Vazquez Vera"
         List<String> report2 = gestionInformes.informeCuentasPaisesBajos(false, "6");
         System.out.println(report2.toString());
         
         // Cuentas de Holanda activas
+        // Debe devolver solo a "Perez Castillo" y "Activision Blizzard", pues solo
+        // ellos son cuentas activas
         List<String> report3 = gestionInformes.informeCuentasPaisesBajos(true, null);
         System.out.println(report3.toString());
     
         // Clientes de Holanda con codigo postal 4
+        // Debe devolver solo a Vazquez Vera, pues Navarro Jimena es de Alemania
         List<String> reporte1 = gestionInformes.informeClientePaisesBajos(null, null, "4");
         System.out.println(reporte1.toString());
         
         // Clientes de holanda con nombre Elsa Capunta
+        // No debe devolver nada, pues Elsa Capunta es de Francia
         List<String> reporte2 = gestionInformes.informeClientePaisesBajos("Elsa Capunta", null, null);
         System.out.println(reporte2.toString());
         
-        // Cuentas de Holanda activas y con iban 15
+        // Todos los clientes fisicos (NO JURIDICOS) de Holanda en la BaseDeDatos 
         List<String> reporte3 = gestionInformes.informeClientePaisesBajos(null, null, null);
         System.out.println(reporte3.toString());
         
-        // Cuentas de Holanda activas y con iban 15        
+        // Cuentas de Alemania   
+        // Debe devolver a Benito Camela y a Navarro Jimena, pues son los unicos alemanes
+        // en la base de datos
         List<String> reporteAlemania = gestionInformes.informeAlemania();
         System.out.println(reporteAlemania.toString());
     }

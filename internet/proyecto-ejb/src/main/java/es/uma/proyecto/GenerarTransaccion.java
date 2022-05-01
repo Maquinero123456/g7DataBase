@@ -1,6 +1,6 @@
 package es.uma.proyecto;
 
-import java.util.List;
+import java.util.Date;
 import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
@@ -8,14 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import es.uma.proyecto.entidades.Cliente;
-import es.uma.proyecto.entidades.Cuenta;
-import es.uma.proyecto.entidades.CuentaFintech;
+
 import es.uma.proyecto.entidades.CuentaReferencia;
-import es.uma.proyecto.entidades.DepositadaEn;
-import es.uma.proyecto.entidades.Empresa;
 import es.uma.proyecto.entidades.Individual;
-import es.uma.proyecto.entidades.Segregada;
 import es.uma.proyecto.entidades.Transaccion;
 import es.uma.proyecto.exceptions.ClienteException;
 import es.uma.proyecto.exceptions.CuentaException;
@@ -54,9 +49,8 @@ public class GenerarTransaccion implements GestionTransaccion{
 			cuentaDestino.setSaldo(cuentaDestino.getSaldo()+cantidad*cuentaOrigen.getDivisa().getCambioEuro()/cuentaDestino.getDivisa().getCambioEuro());
 			em.merge(cuentaOrigen);
 			em.merge(cuentaDestino);
-			java.util.Date utilDate = new java.util.Date();
-			java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-			Transaccion trans = new Transaccion(sqlDate, cantidad, tipo, cuentaDestino, cuentaOrigen, cuentaDestino.getDivisa(), cuentaOrigen.getDivisa());
+			Date utilDate = new Date(System.currentTimeMillis());
+			Transaccion trans = new Transaccion(utilDate, cantidad, tipo, cuentaDestino, cuentaOrigen, cuentaDestino.getDivisa(), cuentaOrigen.getDivisa());
 			em.persist(trans);
 		}
 
@@ -76,9 +70,8 @@ public class GenerarTransaccion implements GestionTransaccion{
 			cuentaDestino.setSaldo(cuentaDestino.getSaldo()+cantidad*cuentaOrigen.getDivisa().getCambioEuro()/cuentaDestino.getDivisa().getCambioEuro());
 			em.merge(cuentaOrigen);
 			em.merge(cuentaDestino);
-			java.util.Date utilDate = new java.util.Date();
-			java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-			Transaccion trans = new Transaccion(sqlDate, cantidad, tipo, cuentaDestino, cuentaOrigen, cuentaDestino.getDivisa(), cuentaOrigen.getDivisa());
+			Date utilDate = new Date(System.currentTimeMillis());
+			Transaccion trans = new Transaccion(utilDate, cantidad, tipo, cuentaDestino, cuentaOrigen, cuentaDestino.getDivisa(), cuentaOrigen.getDivisa());
 			em.persist(trans);
 		}
 		

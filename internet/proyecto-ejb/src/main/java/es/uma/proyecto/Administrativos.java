@@ -108,6 +108,7 @@ public class Administrativos implements GestionAdministratitivos{
 		Cliente c1 = null;
 		Query query = em.createQuery("Select c from Cliente c where c.identificacion LIKE :fident");
 		query.setParameter("fident", id);
+		
 		try{
 			c1 = (Cliente) query.getSingleResult();
 		}catch(NoResultException e){
@@ -128,16 +129,16 @@ public class Administrativos implements GestionAdministratitivos{
 		if(account != null){
 			throw new CuentaException("Ya existe una cuenta asociada al IBAN: " + iban+ ".");
 		}
+
 		Cliente c1 = null;
 		Query query = em.createQuery("Select c from Cliente c where c.identificacion LIKE :fident");
 		query.setParameter("fident", id);
+		
 		try{
 			c1 = (Cliente) query.getSingleResult();
 		}catch(NoResultException e){
 			throw new ClienteException("EL cliente no existe");
 		}
-		
-
 		
 		if(cuentaRef == null) {
 			throw new CuentaException("Cuenta referencia nula");
@@ -255,7 +256,6 @@ public class Administrativos implements GestionAdministratitivos{
 				}
 			}
 		}
-		
 	}
 
     public void crearCliente(Cliente client) throws ClienteException {

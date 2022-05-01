@@ -216,8 +216,6 @@ public class AdministrativosPrueba {
 			fail("Deberia poder crear el cliente");
 		}
 
-		PooledAccount prueba =  new PooledAccount("ES45450545054505","swift", true, sqlDate, sqlDate, "Clasic");
-
 		try {
 			gestionAdministratitivos.aperturaCuentaAgrupada("ES45450545054505", "testApCuentAgrup");
 		}catch (CuentaException e) {
@@ -226,13 +224,21 @@ public class AdministrativosPrueba {
 			fail ("El usuario no existe");
 		}
 		
-		PooledAccount cf = (PooledAccount) gestionCuentas.getCuenta("ES45450545054505");
+		PooledAccount cf = null;
 
-		assertEquals(prueba, cf);
+		try  {
+			 cf = gestionCuentas.getCuentaAgrupada("ES45450545054505");
+		} catch (CuentaException e) {
+			fail ("La cuenta no se ha encontrado");
+		}
+  		
+
+		assertTrue(cf.getIBAN().contains("ES45450545054505"));
 	}
 
 	@Test
 	public void testAperturaCuentaSegregada() throws CuentaException, ClienteException {
+
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 		Cliente c1 = new Cliente("testApCuentSeg", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
@@ -242,28 +248,40 @@ public class AdministrativosPrueba {
 		}catch(ClienteException e){
 			fail("Deberia poder crear el cliente");
 		}
-
-		CuentaReferencia cuentaRef = new CuentaReferencia();
-		Segregada prueba =  new Segregada("ES45450545054505","swift", true, sqlDate, sqlDate, "Clasic");
+		
+		CuentaReferencia cuentaRef = null;
+		try {
+			gestionCuentas.getCuentaReferencia("8");
+		} catch (CuentaException e) {
+			fail ("No se encontro la cuenta referencia");
+		}
+	
 
 		try {
-			gestionAdministratitivos.aperturaCuentaSegregada("ES45450545054505", "testApCuentSeg", cuentaRef);
+			gestionAdministratitivos.aperturaCuentaSegregada("ES101010101", "testApCuentAgrup",cuentaRef);
 		}catch (CuentaException e) {
 			fail ("No se ha podido crear la cuenta");
 		}catch (ClienteException e) {
 			fail ("El usuario no existe");
 		}
 		
-		Segregada cf = (Segregada) gestionCuentas.getCuenta("ES45450545054505");
+		Segregada cf = null;
 
-		assertEquals(prueba, cf);
+		try  {
+			 cf = gestionCuentas.getCuentaSegregada("ES101010101");
+		} catch (CuentaException e) {
+			fail ("La cuenta no se ha encontrado");
+		}
+  		
+		assertTrue(cf.getIBAN().contains("ES101010101"));
+		
 	}
 	
 	@Test
 	public void testCerrarCuentaAgrupada() {
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		Cliente c1 = new Cliente("testApCuentAgrup", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		Cliente c1 = new Cliente("testCerrCuentAgrup", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
 		
 		try{
 			gestionClientes.crearCliente(c1);
@@ -272,7 +290,7 @@ public class AdministrativosPrueba {
 		}
 
 		try {
-			gestionAdministratitivos.aperturaCuentaAgrupada("ES45450545054505", "testApCuentAgrup");
+			gestionAdministratitivos.aperturaCuentaAgrupada("ES45450545054505", "testCerrCuentAgrup");
 		}catch (CuentaException e) {
 			fail ("No se ha podido crear la cuenta");
 		}catch (ClienteException e) {
@@ -288,10 +306,10 @@ public class AdministrativosPrueba {
 		Exception exception = assertThrows(AdministrativoException.class, () -> {
             gestionCuentas.getCuenta("ES45450545054505");
         });
-    
+
         String expectedMessage = "No existe la cuenta";
         String actualMessage = exception.getMessage();
-    
+
         assertTrue(actualMessage.contains(expectedMessage));
 
 	}
@@ -300,7 +318,7 @@ public class AdministrativosPrueba {
 	public void testCerrarCuentaSegregada() {
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		Cliente c1 = new Cliente("testApCuentAgrup", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
+		Cliente c1 = new Cliente("testCerrCuentSeg", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
 		
 		try{
 			gestionClientes.crearCliente(c1);
@@ -308,16 +326,16 @@ public class AdministrativosPrueba {
 			fail("Deberia poder crear el cliente");
 		}
 
-		CuentaReferencia cuentaRef = new CuentaReferencia();
-
+		CuentaReferencia cuentaRef = null;
 		try {
-			cuentaRef = (CuentaReferencia) gestionCuentas.getCuenta("8");
+		 	cuentaRef = gestionCuentas.getCuentaReferencia("8");
 		}catch (CuentaException e) {
-			fail ("No se ha encontrado la cuenta referencia");
-		}
+			fail("No se ha encontrado la cuenta  referencia");
+		}		
+		
 
 		try {
-			gestionAdministratitivos.aperturaCuentaSegregada("ES45450545054505", "testApCuentAgrup",cuentaRef);
+			gestionAdministratitivos.aperturaCuentaSegregada("ES45450545054505", "testCerrCuentSeg",cuentaRef);
 		}catch (CuentaException e) {
 			fail ("No se ha podido crear la cuenta");
 		}catch (ClienteException e) {
