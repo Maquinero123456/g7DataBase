@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import javax.naming.NamingException;
 import java.sql.Date;
+import java.text.ParseException;
 import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -38,7 +39,7 @@ public class CambioDivisaPrueba {
     private GestionCambioDivisa gestionCambioDivisa;
 
     @Before
-    public void setup() throws NamingException {
+    public void setup() throws NamingException, ParseException {
         gestionAdministratitivos = (GestionAdministratitivos) SuiteTest.ctx.lookup(ADMINISTRATIVOS_EJB);
         gestionCuentasUsuarios = (GestionCuentasUsuarios) SuiteTest.ctx.lookup(CUENTASUSUARIOS_EJB);
         gestionClientes = (GestionClientes) SuiteTest.ctx.lookup(CLIENTES_EJB);

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.text.ParseException;
 import java.util.logging.Logger;
 
 import javax.naming.NamingException;
@@ -26,7 +27,7 @@ public class CuentasUsuariosPrueba {
 	private GestionCuentasUsuarios gestionCuentasUsuarios;
 
     @Before
-	public void setup() throws NamingException  {
+	public void setup() throws NamingException, ParseException  {
 		gestionCuentasUsuarios = (GestionCuentasUsuarios) SuiteTest.ctx.lookup(CUENTASUSUARIOS_EJB);
 		BaseDatos.inicializaBaseDatos(UNIDAD_PERSITENCIA_PRUEBAS);
 	}
