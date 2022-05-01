@@ -25,6 +25,12 @@ public class DepositadaEn{
     @Column(nullable = false)
     private Double saldo;
 
+    public DepositadaEn(CuentaRefPoolAccPK ck, CuentaReferencia cr, PooledAccount pa, Double saldo) {
+        this.fk = ck;
+        this.cuentaReferencia = cr;
+        this.pooledAccount = pa;
+        this.saldo = saldo;
+    }
 
     public DepositadaEn() {
     }

@@ -13,6 +13,10 @@ public class CuentaRefPoolAccPK implements Serializable{
     @Column(name = "pooledAccount_pk")
     private String pooledAccount;
 
+    public CuentaRefPoolAccPK(String cuentaReferencia, String pooledAccount) {
+        this.cuentaReferencia = cuentaReferencia;
+        this.pooledAccount = pooledAccount;
+    }
 
     public CuentaRefPoolAccPK() {
     }
