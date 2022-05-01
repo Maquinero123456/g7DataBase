@@ -225,23 +225,11 @@ public class AdministrativosPrueba {
 			fail("Se lanza en apertura");
 		}
 		
-		PooledAccount cf = new PooledAccount();
-		System.out.println("/*****************************************************************************");
-		System.out.println(gestionClientes.getCliente("apertCuentaAgrupadaCliente"));
-		System.out.println("/*****************************************************************************");
+		PooledAccount cf = null;
 		try  {
-			 
-			System.out.println("/*****************************************************************************");
-			System.out.println(gestionCuentas.getCuentaAgrupada("ES45450545054505"));
-			System.out.println("/*****************************************************************************");
+			cf =gestionCuentas.getCuentaAgrupada("ES45450545054505");
 		} catch (CuentaException e) {
 			fail ("La cuenta no se ha encontrado");
-		}catch (NullPointerException e){
-			fail("Se lanza en get");
-		}
-		
-		if(cf == null){
-			fail("La cuenta deberia existir");
 		}
 		
 		assertTrue(cf.getIBAN().contains("ES45450545054505"));
@@ -250,30 +238,22 @@ public class AdministrativosPrueba {
 	@Test
 	public void testAperturaCuentaSegregada() throws CuentaException, ClienteException {
 
-		java.util.Date utilDate = new java.util.Date();
-		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		Cliente c1 = new Cliente("testApCuentSeg", "fisica", "Alta", sqlDate, "Avenida 123", "Maracay", "123", "PaisesBajos");
 		
-		try{
-			gestionClientes.crearCliente(c1);
-		}catch(ClienteException e){
-			fail("Deberia poder crear el cliente");
-		}
 		
 		CuentaReferencia cuentaRef = null;
 		try {
-			cuentaRef = gestionCuentas.getCuentaReferencia("8");
+			cuentaRef = gestionCuentas.getCuentaReferencia("apertCuentaSegregadaReferencia");
 		} catch (CuentaException e) {
 			fail ("No se encontro la cuenta referencia");
 		}
 	
 
 		try {
-			gestionAdministratitivos.aperturaCuentaSegregada("ES101010101", "testApCuentAgrup",cuentaRef);
+			gestionAdministratitivos.aperturaCuentaSegregada("ES101010101", "apertCuentaSegregadaCliente",cuentaRef);
 		}catch (CuentaException e) {
 			fail ("No se ha podido crear la cuenta");
 		}catch (ClienteException e) {
-			fail ("El usuario no existe");
+			fail ("El cliente no existe");
 		}
 		
 		Segregada cf = null;
