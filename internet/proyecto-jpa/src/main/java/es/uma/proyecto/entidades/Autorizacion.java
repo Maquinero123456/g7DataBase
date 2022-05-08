@@ -1,6 +1,7 @@
 package es.uma.proyecto.entidades;
 
 import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -8,14 +9,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
-import org.eclipse.persistence.annotations.CascadeOnDelete;
 
 
 @Entity
 @Table(name="AUTORIZACION")
 public class Autorizacion {
     
-	@EmbeddedId @CascadeOnDelete
+	@EmbeddedId
 	private EmpresaPersAutoPK fk;
 
 	@ManyToOne
