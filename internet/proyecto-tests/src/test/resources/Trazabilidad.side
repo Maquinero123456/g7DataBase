@@ -1,0 +1,79 @@
+{
+  "id": "8a994318-8d83-4fb8-9ccf-f77610b1be8b",
+  "version": "2.0",
+  "name": "Trazabilidad",
+  "url": "http://localhost:8080/trazabilidad-war",
+  "tests": [{
+    "id": "4ef11f68-7018-40de-977b-e79b4906ba4e",
+    "name": "Inicio",
+    "commands": [{
+      "id": "c2566deb-d25e-4f8a-bfde-c37821202b54",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/trazabilidad-war/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "4ef33fe6-a7d8-49d9-8a95-c6d9bf0f653c",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1280x777",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "abfdca1f-787c-4b02-bb01-8063a0fb9594",
+      "comment": "",
+      "command": "click",
+      "target": "css=h1",
+      "targets": [
+        ["css=h1", "css:finder"],
+        ["xpath=//h1", "xpath:position"],
+        ["xpath=//h1[contains(.,'Hola mundo')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "0270cc72-c696-422c-90ce-303d86243217",
+      "comment": "",
+      "command": "click",
+      "target": "css=h1",
+      "targets": [
+        ["css=h1", "css:finder"],
+        ["xpath=//h1", "xpath:position"],
+        ["xpath=//h1[contains(.,'Hola mundo')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "ab10b010-6f68-4ee2-9ad8-0f50cb2927aa",
+      "comment": "",
+      "command": "doubleClick",
+      "target": "css=h1",
+      "targets": [
+        ["css=h1", "css:finder"],
+        ["xpath=//h1", "xpath:position"],
+        ["xpath=//h1[contains(.,'Hola mundo')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "9d856e57-15a8-4f44-9a95-79069f9adb2b",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=h1",
+      "targets": [
+        ["css=h1", "css:finder"],
+        ["xpath=//h1", "xpath:position"],
+        ["xpath=//h1[contains(.,'Hola mundo')]", "xpath:innerText"]
+      ],
+      "value": "Hola mundo"
+    }]
+  }],
+  "suites": [{
+    "id": "cd44a7bf-e040-4265-ba53-8f5b1ea616ee",
+    "name": "Trazabilidad",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["4ef11f68-7018-40de-977b-e79b4906ba4e"]
+  }],
+  "urls": [],
+  "plugins": []
+} 
