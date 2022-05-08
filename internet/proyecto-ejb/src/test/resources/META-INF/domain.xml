@@ -29,7 +29,7 @@
   <resources>
     <jdbc-resource pool-name="__TimerPool" jndi-name="jdbc/__TimerPool" object-type="system-admin" />
     <jdbc-resource pool-name="DerbyPool" jndi-name="jdbc/__default" object-type="system-all" />
-    <jdbc-resource pool-name="H2Pool" jndi-name="jdbc/sii" object-type="system-all" />
+    <jdbc-resource pool-name="H2Pool" jndi-name="java:jboss/datasources/sii" object-type="system-all" />
     <jdbc-connection-pool name="__TimerPool" datasource-classname="org.apache.derby.jdbc.EmbeddedXADataSource" res-type="javax.sql.XADataSource">
       <property value="${com.sun.aas.instanceRoot}/lib/databases/ejbtimer" name="databaseName" />
       <property value=";create=true" name="connectionAttributes" />
@@ -48,7 +48,7 @@
     <server name="server" config-ref="server-config"> 
       <resource-ref ref="jdbc/__TimerPool" />
       <resource-ref ref="jdbc/__default" />
-      <resource-ref ref="jdbc/sii" />
+      <resource-ref ref="java:jboss/datasources/sii" />
     </server>
   </servers>
  <configs>
