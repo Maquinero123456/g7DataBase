@@ -1,0 +1,19 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="932A5FCF-C553-2E7B-EEB1-4CD066E51A19" containerWithKeyObject="EB0AE259-FF1E-C454-9509-0611891F0AEE" localFKIndex="1EAB6221-8389-E9EC-7E75-8718694A3C1A" name="CUENTA_REFERENCIA_CUENTA_FK">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 17:48:32 UTC</createdTime>
+<generatorID>B48F96BF-BA97-9280-384E-40911ED56D49</generatorID>
+<ownerDesignName>modelo</ownerDesignName>
+<referredTableLongName>CUENTA</referredTableLongName>
+<arc>5ED8982B-72F1-E866-613A-FDBF574A5369</arc>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>C03D1029-EE30-6ADA-2799-CB19ED0C9231</referredTableID>
+<keyObject>2C502D9B-5915-AAC7-8EA3-C75BFDD4FB39</keyObject>
+<referredKeyID>2C502D9B-5915-AAC7-8EA3-C75BFDD4FB39</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>IBAN</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<discriminatorValue>NULL</discriminatorValue>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

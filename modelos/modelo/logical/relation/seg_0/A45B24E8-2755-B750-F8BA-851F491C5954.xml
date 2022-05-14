@@ -1,0 +1,19 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="DEPOSITADA POOLED FK" directorySegmentName="seg_0" id="A45B24E8-2755-B750-F8BA-851F491C5954">
+<createdBy>david</createdBy>
+<createdTime>2022-03-14 21:56:25 UTC</createdTime>
+<ownerDesignName>modelo</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<sourcePk>78774FD8-BA1F-F454-5689-6926D60B0BE2</sourcePk>
+<identifying>true</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>31552E5E-98A0-6F1C-7D7E-9DE54E6D794A</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>5E18831C-7441-E137-74DD-2516E7F54171</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

@@ -1,0 +1,77 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="F364EE34-0205-3649-2E32-162BC8C0F233" name="Relation_21">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="PERSONA_AUTORIZADA_ID" id="152F6657-B6D5-ED59-5B06-815B2D748F9A">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="FE39658D-FDB0-829A-7FC9-79B4D8B63EF8" referredColumn="DF65ADD9-A63E-F08C-F944-75B2D95646BF"/>
+</associations>
+</Column>
+<Column name="TARJETA_Numero" id="90029B32-B8B2-C01E-46BA-A3D122D3AFB4">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>60 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="DD2EF143-A23B-7743-1DE9-171DF288855E" referredColumn="B9CF7F23-F37D-B479-328D-A193FD6EEF8D"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="9263BB7E-4E20-0FE1-8EAE-61DFBE92D934" name="Relation_21_PK">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="152F6657-B6D5-ED59-5B06-815B2D748F9A"/>
+<colUsage columnID="90029B32-B8B2-C01E-46BA-A3D122D3AFB4"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="A9B86292-A9D0-8E0E-A1B0-CFDD8722D47F" name="Relation_21_AUTORIZADA_FK">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<generatorID>64C7E61F-FA9B-B49F-087D-4CC3C2A9C0B1</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="152F6657-B6D5-ED59-5B06-815B2D748F9A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="F629E91A-E97C-0FA1-A05B-1499CE6B9910" name="Relation_21_TARJETA_FK">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<generatorID>64C7E61F-FA9B-B49F-087D-4CC3C2A9C0B1</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="90029B32-B8B2-C01E-46BA-A3D122D3AFB4"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

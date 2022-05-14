@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="872A556A-472B-6882-3A66-8F96FB7D9A02" containerWithKeyObject="4408C427-0488-B07E-06D9-F215CFC7098B" localFKIndex="AC545430-1F6F-E47B-F92B-D61FC508F0DD" name="AUTORIZACION_AUTORIZADA_FK">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 17:48:32 UTC</createdTime>
+<generatorID>B0DC85A6-1B4B-7A88-B8C0-DC9739DD8FC5</generatorID>
+<ownerDesignName>modelo</ownerDesignName>
+<referredTableLongName>PERSONA_AUTORIZADA</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>3508F26B-16E3-2EE9-395A-5B9D292EDE3C</referredTableID>
+<keyObject>C9E7303A-67CF-AF2C-BB03-32B4A85738B2</keyObject>
+<referredKeyID>C9E7303A-67CF-AF2C-BB03-32B4A85738B2</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>ID</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>
