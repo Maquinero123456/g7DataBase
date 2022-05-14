@@ -1,0 +1,85 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="40F597EC-E0D6-0347-3E1F-6D20550FB762" name="DIVISA">
+<createdBy>david</createdBy>
+<createdTime>2022-03-14 21:51:50 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="Abreviatura" id="8565745B-B5F9-FE1D-2FAA-4186A0AE6513">
+<createdBy>david</createdBy>
+<createdTime>2022-03-14 21:52:01 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>3 CHAR</dataTypeSize>
+<ownDataTypeParameters>3 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Nombre" id="CE6ACF28-DB15-7B52-D6A8-E08ABFD87EE0">
+<createdBy>david</createdBy>
+<createdTime>2022-03-14 21:52:24 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Simbolo" id="335004C2-8A8C-D15A-8296-6DC2B23DDDFF">
+<createdBy>david</createdBy>
+<createdTime>2022-03-14 21:52:37 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>5 CHAR</dataTypeSize>
+<ownDataTypeParameters>5 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="CambioEuro" id="5EC69713-D9CA-35CE-3EB5-0E82A3299261">
+<createdBy>david</createdBy>
+<createdTime>2022-03-14 21:53:01 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT026</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="C7D5BEC9-C67E-5077-56BE-F5CB34C67DAF" name="DIVISA PK">
+<createdBy>david</createdBy>
+<createdTime>2022-03-14 21:52:14 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>8565745B-B5F9-FE1D-2FAA-4186A0AE6513</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

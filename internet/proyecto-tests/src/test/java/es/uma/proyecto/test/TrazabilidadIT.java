@@ -5,6 +5,7 @@ import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -21,6 +22,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+import es.uma.proyecto.test.BaseDatos;
 
 public class TrazabilidadIT {
 	private static final String UNIDAD_PERSISTENCIA_PRUEBAS = "TrazabilidadIT";
@@ -47,16 +49,18 @@ public class TrazabilidadIT {
 	}
 
 	@Before
-	public void setUp() {
+	public void setUp() throws ParseException {
 		driver = new ChromeDriver();
 		js = (JavascriptExecutor) driver;
 		vars = new HashMap<String, Object>();
-		BaseDatos.inicializaBaseDatos(UNIDAD_PERSISTENCIA_PRUEBAS, propiedadesExtra);
+		BaseDatos.inicializaBaseDatos(UNIDAD_PERSISTENCIA_PRUEBAS);
 	}
+	
 	@After
 	public void tearDown() {
 		driver.quit();
 	}
+	
 	@SuppressWarnings("deprecation")
 	@Test
 	public void inicio() {

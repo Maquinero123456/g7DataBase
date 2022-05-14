@@ -1,0 +1,77 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="1EE68062-6285-925B-F92B-2C1CA6CDA6AD" name="AUTORIZACION">
+<createdBy>david</createdBy>
+<createdTime>2022-03-14 21:37:30 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="Tipo" id="6B9ACECD-68E0-4B4F-5804-59FD99A0EB7C">
+<createdBy>david</createdBy>
+<createdTime>2022-03-14 21:37:42 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ID" id="AD70C902-11EE-48A1-6A6E-9AA3203076E6">
+<createdBy>david</createdBy>
+<createdTime>2022-03-14 21:44:27 UTC</createdTime>
+<generatorID>B0DC85A6-1B4B-7A88-B8C0-DC9739DD8FC5</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<referedAttribute>2381D03A-32DB-726B-1D89-98887444E511</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ID1" id="06BF9082-275F-8A21-E140-5E727D33948D">
+<createdBy>david</createdBy>
+<createdTime>2022-03-14 21:44:37 UTC</createdTime>
+<generatorID>06E15B16-335D-E8AF-9A61-DEDD033B31EE</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<referedAttribute>413A118A-DAC6-9FE1-0E14-10C41B93DB0F</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="07D14FBE-F549-C771-F25B-36192B2CACE3" name="AUTORIZACION PK">
+<createdBy>david</createdBy>
+<createdTime>2022-03-14 21:44:27 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>AD70C902-11EE-48A1-6A6E-9AA3203076E6</attributeRef>
+<attributeRef>06BF9082-275F-8A21-E140-5E727D33948D</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

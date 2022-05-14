@@ -1,0 +1,64 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="E3EE86C5-A4AB-CF64-D6B4-B3BAE531073F" name="EMPRESA">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 17:48:32 UTC</createdTime>
+<generatorID>B83C4B0B-8D61-936A-BE5D-4A80D811C9B2</generatorID>
+<ownerDesignName>modelo</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID" id="CBA1BC06-6355-F54C-CAD8-8C77423E3F0A">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 17:48:32 UTC</createdTime>
+<generatorID>413A118A-DAC6-9FE1-0E14-10C41B93DB0F</generatorID>
+<ownerDesignName>modelo</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="B056DEE8-8E76-A7DF-95B7-3744CA9F528F" referredColumn="97EA51A4-A375-3327-E5E3-77F64D325D81"/>
+</associations>
+</Column>
+<Column name="Razon_Social" id="6E24358C-7906-23D9-A439-57BEB4756216">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 17:48:32 UTC</createdTime>
+<generatorID>BFC8D4D8-C893-0F36-1A32-BB11C5AE00E0</generatorID>
+<ownerDesignName>modelo</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="3D20DB68-0B9D-5810-9172-BF20C3E3CC48" name="EMPRESA_PK">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 17:48:32 UTC</createdTime>
+<generatorID>95502299-648F-9C22-6AF4-350B978DEC2B</generatorID>
+<ownerDesignName>modelo</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="CBA1BC06-6355-F54C-CAD8-8C77423E3F0A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="009C3F35-FA0D-AE05-5898-3809AD193E0F" name="EMPRESA_CLIENTE_FK">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 17:48:32 UTC</createdTime>
+<generatorID>29A5A3ED-742C-DA1E-2264-A9D1C4FECD5E</generatorID>
+<ownerDesignName>modelo</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="CBA1BC06-6355-F54C-CAD8-8C77423E3F0A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

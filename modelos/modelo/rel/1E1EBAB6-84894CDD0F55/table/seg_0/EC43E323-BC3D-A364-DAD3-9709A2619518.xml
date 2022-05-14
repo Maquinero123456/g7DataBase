@@ -1,0 +1,52 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="EC43E323-BC3D-A364-DAD3-9709A2619518" name="POOLED_ACCOUNT">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 17:48:32 UTC</createdTime>
+<generatorID>31552E5E-98A0-6F1C-7D7E-9DE54E6D794A</generatorID>
+<ownerDesignName>modelo</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="IBAN" id="22E51C9C-750A-3162-B8F0-E7B17A6579A2">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 17:48:32 UTC</createdTime>
+<generatorID>36A3E848-ECAE-4CA0-9F88-ECFB760D7C08</generatorID>
+<ownerDesignName>modelo</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="C840E2FA-F9CB-0BDC-399C-99376A57ECE8" referredColumn="48F6BA3D-EDA0-E087-DAB1-9D009EB3FCAA"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="3E4B34B4-96E2-410A-8ADC-FB810ABF7CE8" name="POOLED_ACCOUNT_PK">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 17:48:32 UTC</createdTime>
+<generatorID>78774FD8-BA1F-F454-5689-6926D60B0BE2</generatorID>
+<ownerDesignName>modelo</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="22E51C9C-750A-3162-B8F0-E7B17A6579A2"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="3FF2ABFB-5AB8-98AC-028E-CB37646F646E" name="POOLED_CUENTA_FINTECH_FK">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 17:48:32 UTC</createdTime>
+<generatorID>7986DEFF-4704-96A5-B9CD-6E8F57D9562D</generatorID>
+<ownerDesignName>modelo</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="22E51C9C-750A-3162-B8F0-E7B17A6579A2"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

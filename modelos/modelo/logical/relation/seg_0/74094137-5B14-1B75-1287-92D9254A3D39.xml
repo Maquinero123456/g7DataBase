@@ -1,0 +1,19 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="CUENTA FINTECH CLIENTE FK" directorySegmentName="seg_0" id="74094137-5B14-1B75-1287-92D9254A3D39">
+<createdBy>david</createdBy>
+<createdTime>2022-03-14 21:55:59 UTC</createdTime>
+<ownerDesignName>modelo</ownerDesignName>
+<engineerTo>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+</engineerTo>
+<sourcePk>95502299-648F-9C22-6AF4-350B978DEC2B</sourcePk>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>A5D1A778-1DF4-F263-3621-FBA60311A5E8</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>11618577-81D3-F0C3-F103-A8EFEB0AF75B</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

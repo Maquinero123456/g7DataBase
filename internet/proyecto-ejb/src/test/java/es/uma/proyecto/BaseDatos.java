@@ -142,12 +142,6 @@ public class BaseDatos {
 		pooledAccountDivisa.setCliente(clienteDivisa);
 		em.persist(pooledAccountDivisa);
 
-		DepositadaEn depositadaEnDivisa3 = new DepositadaEn(new CuentaRefPoolAccPK(cref3.getIBAN(), pooledAccountDivisa.getIBAN()), cref3, pooledAccountDivisa, cref3.getSaldo());
-		em.persist(depositadaEnDivisa3);
-
-		DepositadaEn depositadaEnDivisa4 = new DepositadaEn(new CuentaRefPoolAccPK(cref4.getIBAN(), pooledAccountDivisa.getIBAN()), cref4, pooledAccountDivisa, cref4.getSaldo());
-		em.persist(depositadaEnDivisa4);
-
 		//Modificar Autorizado
 		PersonaAutorizada modificadAutorizad = new PersonaAutorizada("PabloDejaDeTocar", "Pablo", "Vazques", "Quien sabe", utilDate, "Alta", utilDate, null);
 		em.persist(modificadAutorizad);

@@ -1,0 +1,89 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="548C50B9-F831-13E8-2A96-C1B60E968E39" name="INDIVIDUAL">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 17:48:32 UTC</createdTime>
+<generatorID>7D4B1DFF-F7F0-A4D5-5571-58F29A4C1CFE</generatorID>
+<ownerDesignName>modelo</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID" id="234C8598-D1DB-FE27-5CAE-43F9C0B2BD5C">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 17:48:32 UTC</createdTime>
+<generatorID>413A118A-DAC6-9FE1-0E14-10C41B93DB0F</generatorID>
+<ownerDesignName>modelo</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="A8A1C55A-767C-76B1-16AC-39741F4FC597" referredColumn="97EA51A4-A375-3327-E5E3-77F64D325D81"/>
+</associations>
+</Column>
+<Column name="Nombre" id="76692D9E-AF74-6F91-9F3B-DF6C62B7C127">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 17:48:32 UTC</createdTime>
+<generatorID>B9AFFB54-45F6-391A-05A4-F7565CB39075</generatorID>
+<ownerDesignName>modelo</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Apellido" id="93EF9444-4652-5957-C750-23AD77123BBB">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 17:48:32 UTC</createdTime>
+<generatorID>404C61C2-A2EC-A504-340F-FB43C7CE76BC</generatorID>
+<ownerDesignName>modelo</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Fecha_Nacimiento" id="F735F636-DE7A-0CAF-E383-782ABE4274F7">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 17:48:32 UTC</createdTime>
+<generatorID>15C9DDCB-0028-F21F-BFB8-28C10E71D482</generatorID>
+<ownerDesignName>modelo</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1 BYTE</dataTypeSize>
+<ownDataTypeParameters>1 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="AC3CFF11-EF49-DC4D-31F5-8B23EE5D9D98" name="INDIVIDUAL_PK">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 17:48:32 UTC</createdTime>
+<generatorID>95502299-648F-9C22-6AF4-350B978DEC2B</generatorID>
+<ownerDesignName>modelo</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="234C8598-D1DB-FE27-5CAE-43F9C0B2BD5C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="63576A06-A8E1-8BCB-515F-1DD3AE32E047" name="INDIVIDUAL_CLIENTE_FK">
+<createdBy>david</createdBy>
+<createdTime>2022-03-27 17:48:32 UTC</createdTime>
+<generatorID>D05918F4-009A-E49C-23CB-A970068EC191</generatorID>
+<ownerDesignName>modelo</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="234C8598-D1DB-FE27-5CAE-43F9C0B2BD5C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
