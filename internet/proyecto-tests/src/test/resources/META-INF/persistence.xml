@@ -5,9 +5,20 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
 	<persistence-unit name="TrazabilidadIT"
 		transaction-type="RESOURCE_LOCAL">
-		<class>es.uma.informatica.sii.ejb.practica.entidades.Ingrediente</class>
-		<class>es.uma.informatica.sii.ejb.practica.entidades.Lote</class>
-		<class>es.uma.informatica.sii.ejb.practica.entidades.Producto</class>
+		<class>es.uma.proyecto.entidades.Autorizacion</class>
+		<class>es.uma.proyecto.entidades.Cliente</class>
+		<class>es.uma.proyecto.entidades.CuentaFintech</class>
+		<class>es.uma.proyecto.entidades.CuentaReferencia</class>
+		<class>es.uma.proyecto.entidades.Cuenta</class>
+		<class>es.uma.proyecto.entidades.DepositadaEn</class>
+		<class>es.uma.proyecto.entidades.Divisa</class>
+		<class>es.uma.proyecto.entidades.Empresa</class>
+		<class>es.uma.proyecto.entidades.Individual</class>
+		<class>es.uma.proyecto.entidades.PersonaAutorizada</class>
+		<class>es.uma.proyecto.entidades.PooledAccount</class>
+		<class>es.uma.proyecto.entidades.Segregada</class>
+		<class>es.uma.proyecto.entidades.Transaccion</class>
+		<class>es.uma.proyecto.entidades.Usuario</class>
 		<shared-cache-mode>NONE</shared-cache-mode>
 		<properties>
 			<property
