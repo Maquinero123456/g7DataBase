@@ -24,7 +24,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import es.uma.proyecto.test.BaseDatos;
 
-public class TrazabilidadIT {
+public class ProyectoIT {
 	private static final String UNIDAD_PERSISTENCIA_PRUEBAS = "TrazabilidadIT";
 	private WebDriver driver;
 	private Map<String, Object> vars;
@@ -36,7 +36,7 @@ public class TrazabilidadIT {
 	@BeforeClass
 	public static void setupClass() {
 		String server="localhost";
-		try (InputStream is = TrazabilidadIT.class.getClassLoader().getResourceAsStream("pom.properties")) {
+		try (InputStream is = ProyectoIT.class.getClassLoader().getResourceAsStream("pom.properties")) {
 			Properties pomProperties = new Properties();
 			pomProperties.load(is);
 			server=pomProperties.getProperty("server.host");

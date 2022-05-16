@@ -1,0 +1,480 @@
+-- Generado por Oracle SQL Developer Data Modeler 21.4.2.059.0838
+--   en:        2022-03-27 22:24:45 CEST
+--   sitio:      Oracle Database 11g
+--   tipo:      Oracle Database 11g
+
+
+
+-- predefined type, no DDL - MDSYS.SDO_GEOMETRY
+
+-- predefined type, no DDL - XMLTYPE
+
+CREATE TABLE autorizacion (
+    tipo                  VARCHAR2(40 CHAR) NOT NULL,
+    persona_autorizada_id VARCHAR2(40 CHAR) NOT NULL,
+    empresa_id            VARCHAR2(40 CHAR) NOT NULL
+);
+
+ALTER TABLE autorizacion ADD CONSTRAINT autorizacion_pk PRIMARY KEY ( persona_autorizada_id,
+                                                                      empresa_id );
+
+CREATE TABLE cliente (
+    id             VARCHAR2(40 CHAR) NOT NULL,
+    identificacion VARCHAR2(40 CHAR) NOT NULL,
+    tipo_cliente   VARCHAR2(20 CHAR) NOT NULL,
+    estado         CHAR(1) NOT NULL,
+    fecha_alta     DATE NOT NULL,
+    fecha_baja     DATE,
+    direccion      VARCHAR2(40 CHAR) NOT NULL,
+    ciudad         VARCHAR2(40 CHAR) NOT NULL,
+    codigopostal   INTEGER NOT NULL,
+    pais           VARCHAR2(40 CHAR) NOT NULL
+);
+
+ALTER TABLE cliente ADD CONSTRAINT cliente_pk PRIMARY KEY ( id );
+
+ALTER TABLE cliente ADD CONSTRAINT cliente_identificacion_un UNIQUE ( identificacion );
+
+CREATE TABLE cuenta (
+    iban  VARCHAR2(40 CHAR) NOT NULL,
+    swift VARCHAR2(40 CHAR)
+);
+
+ALTER TABLE cuenta ADD CONSTRAINT cuenta_pk PRIMARY KEY ( iban );
+
+CREATE TABLE cuenta_fintech (
+    iban           VARCHAR2(40 CHAR) NOT NULL,
+    estado         CHAR(1) NOT NULL,
+    fecha_apertura DATE NOT NULL,
+    fecha_cierre   DATE,
+    clasificacion  VARCHAR2(40 CHAR),
+    cliente_id     VARCHAR2(40 CHAR) NOT NULL
+);
+
+ALTER TABLE cuenta_fintech ADD CONSTRAINT cuenta_fintech_pk PRIMARY KEY ( iban );
+
+CREATE TABLE cuenta_referencia (
+    iban               VARCHAR2(40 CHAR) NOT NULL,
+    nombrebanco        VARCHAR2(40 CHAR) NOT NULL,
+    sucursal           VARCHAR2(40 CHAR),
+    pais               VARCHAR2(40 CHAR),
+    saldo              NUMBER NOT NULL,
+    fecha_apertura     DATE,
+    estado             CHAR(1),
+    divisa_abreviatura VARCHAR2(3 CHAR) NOT NULL
+);
+
+ALTER TABLE cuenta_referencia ADD CONSTRAINT cuenta_referencia_pk PRIMARY KEY ( iban );
+
+CREATE TABLE depositada_en (
+    saldo                  NUMBER NOT NULL,
+    cuenta_referencia_iban VARCHAR2(40 CHAR) NOT NULL,
+    pooled_account_iban    VARCHAR2(40 CHAR) NOT NULL
+);
+
+ALTER TABLE depositada_en ADD CONSTRAINT depositada_en_pk PRIMARY KEY ( cuenta_referencia_iban,
+                                                                        pooled_account_iban );
+
+CREATE TABLE divisa (
+    abreviatura VARCHAR2(3 CHAR) NOT NULL,
+    nombre      VARCHAR2(40 CHAR) NOT NULL,
+    simbolo     VARCHAR2(5 CHAR),
+    cambioeuro  NUMBER NOT NULL
+);
+
+ALTER TABLE divisa ADD CONSTRAINT divisa_pk PRIMARY KEY ( abreviatura );
+
+CREATE TABLE empresa (
+    id           VARCHAR2(40 CHAR) NOT NULL,
+    razon_social VARCHAR2(40 CHAR) NOT NULL
+);
+
+ALTER TABLE empresa ADD CONSTRAINT empresa_pk PRIMARY KEY ( id );
+
+CREATE TABLE individual (
+    id               VARCHAR2(40 CHAR) NOT NULL,
+    nombre           VARCHAR2(20 CHAR) NOT NULL,
+    apellido         VARCHAR2(20 CHAR) NOT NULL,
+    fecha_nacimiento CHAR(1)
+);
+
+ALTER TABLE individual ADD CONSTRAINT individual_pk PRIMARY KEY ( id );
+
+CREATE TABLE movimientos (
+    id                  INTEGER NOT NULL,
+    modooperacion       VARCHAR2(20 CHAR),
+    fechaoperacion      DATE NOT NULL,
+    concepto            VARCHAR2(20 CHAR) NOT NULL,
+    descripcion         VARCHAR2(80 CHAR),
+    nombreemisor        CHAR(60 CHAR) NOT NULL,
+    tipoemisor          VARCHAR2(20 CHAR) NOT NULL,
+    cantidad            NUMBER(10, 3) NOT NULL,
+    limitefisicomensual NUMBER(5, 3) NOT NULL,
+    limitecajero        NUMBER(5, 3),
+    limiteonlinemensual NUMBER(5, 3),
+    tarjeta_numero      VARCHAR2(60 CHAR) NOT NULL,
+    divisa_abreviatura  VARCHAR2(3 CHAR)
+);
+
+ALTER TABLE movimientos ADD CONSTRAINT movimientos_pk PRIMARY KEY ( id,
+                                                                    tarjeta_numero );
+
+CREATE TABLE persona_autorizada (
+    id               VARCHAR2(40 CHAR) NOT NULL,
+    identificacion   VARCHAR2(40 CHAR) NOT NULL,
+    nombre           VARCHAR2(20 CHAR) NOT NULL,
+    apellidos        VARCHAR2(40 CHAR) NOT NULL,
+    direccion        VARCHAR2(40 CHAR) NOT NULL,
+    fecha_nacimiento DATE,
+    estado           CHAR(1),
+    fechainicio      DATE,
+    fechafin         DATE
+);
+
+ALTER TABLE persona_autorizada ADD CONSTRAINT persona_autorizada_pk PRIMARY KEY ( id );
+
+ALTER TABLE persona_autorizada ADD CONSTRAINT persona_identificacion_un UNIQUE ( identificacion );
+
+CREATE TABLE pooled_account (
+    iban VARCHAR2(40 CHAR) NOT NULL
+);
+
+ALTER TABLE pooled_account ADD CONSTRAINT pooled_account_pk PRIMARY KEY ( iban );
+
+CREATE TABLE relation_21 (
+    persona_autorizada_id VARCHAR2(40 CHAR) NOT NULL,
+    tarjeta_numero        VARCHAR2(60 CHAR) NOT NULL
+);
+
+ALTER TABLE relation_21 ADD CONSTRAINT relation_21_pk PRIMARY KEY ( persona_autorizada_id,
+                                                                    tarjeta_numero );
+
+CREATE TABLE segregada (
+    iban                   VARCHAR2(40 CHAR) NOT NULL,
+    comision               NUMBER,
+    cuenta_referencia_iban VARCHAR2(40 CHAR) NOT NULL
+);
+
+CREATE UNIQUE INDEX segregada__idx ON
+    segregada (
+        cuenta_referencia_iban
+    ASC );
+
+ALTER TABLE segregada ADD CONSTRAINT segregada_pk PRIMARY KEY ( iban );
+
+CREATE TABLE tarjeta (
+    numero          VARCHAR2(60 CHAR) NOT NULL,
+    nombre          VARCHAR2(60 CHAR) NOT NULL,
+    fechacaducidad  DATE NOT NULL,
+    ccv             VARCHAR2(5 CHAR) NOT NULL,
+    fechaactivision DATE,
+    modo            VARCHAR2(10 CHAR),
+    cuenta_iban     VARCHAR2(40 CHAR)
+);
+
+ALTER TABLE tarjeta ADD CONSTRAINT tarjeta_pk PRIMARY KEY ( numero );
+
+CREATE TABLE transaccion (
+    id_unico            VARCHAR2(40 CHAR) NOT NULL,
+    fechainstruccion    DATE NOT NULL,
+    cantidad            NUMBER NOT NULL,
+    fechaejecucion      DATE,
+    tipo                VARCHAR2(40 CHAR) NOT NULL,
+    comision            NUMBER,
+    internacional       CHAR(1),
+    divisa_abreviatura  VARCHAR2(3 CHAR) NOT NULL,
+    divisa_abreviatura2 VARCHAR2(3 CHAR) NOT NULL,
+    cuenta_iban         VARCHAR2(40 CHAR) NOT NULL,
+    cuenta_iban2        VARCHAR2(40 CHAR) NOT NULL
+);
+
+ALTER TABLE transaccion ADD CONSTRAINT transaccion_pk PRIMARY KEY ( id_unico );
+
+ALTER TABLE autorizacion
+    ADD CONSTRAINT autorizacion_autorizada_fk FOREIGN KEY ( persona_autorizada_id )
+        REFERENCES persona_autorizada ( id );
+
+ALTER TABLE autorizacion
+    ADD CONSTRAINT autorizacion_empresa_fk FOREIGN KEY ( empresa_id )
+        REFERENCES empresa ( id );
+
+ALTER TABLE cuenta_fintech
+    ADD CONSTRAINT cuenta_fintech_cliente_fk FOREIGN KEY ( cliente_id )
+        REFERENCES cliente ( id );
+
+ALTER TABLE cuenta_fintech
+    ADD CONSTRAINT cuenta_fintech_cuenta_fk FOREIGN KEY ( iban )
+        REFERENCES cuenta ( iban );
+
+ALTER TABLE cuenta_referencia
+    ADD CONSTRAINT cuenta_referencia_cuenta_fk FOREIGN KEY ( iban )
+        REFERENCES cuenta ( iban );
+
+ALTER TABLE cuenta_referencia
+    ADD CONSTRAINT cuenta_referencia_divisa_fk FOREIGN KEY ( divisa_abreviatura )
+        REFERENCES divisa ( abreviatura );
+
+ALTER TABLE depositada_en
+    ADD CONSTRAINT depositada_cuenta_fk FOREIGN KEY ( cuenta_referencia_iban )
+        REFERENCES cuenta_referencia ( iban );
+
+ALTER TABLE depositada_en
+    ADD CONSTRAINT depositada_pooled_fk FOREIGN KEY ( pooled_account_iban )
+        REFERENCES pooled_account ( iban );
+
+ALTER TABLE empresa
+    ADD CONSTRAINT empresa_cliente_fk FOREIGN KEY ( id )
+        REFERENCES cliente ( id );
+
+ALTER TABLE individual
+    ADD CONSTRAINT individual_cliente_fk FOREIGN KEY ( id )
+        REFERENCES cliente ( id );
+
+ALTER TABLE movimientos
+    ADD CONSTRAINT movimientos_divisa_fk FOREIGN KEY ( divisa_abreviatura )
+        REFERENCES divisa ( abreviatura );
+
+ALTER TABLE movimientos
+    ADD CONSTRAINT movimientos_tarjeta_fk FOREIGN KEY ( tarjeta_numero )
+        REFERENCES tarjeta ( numero );
+
+ALTER TABLE pooled_account
+    ADD CONSTRAINT pooled_fintech_fk FOREIGN KEY ( iban )
+        REFERENCES cuenta_fintech ( iban );
+
+ALTER TABLE relation_21
+    ADD CONSTRAINT relation_21_autorizada_fk FOREIGN KEY ( persona_autorizada_id )
+        REFERENCES persona_autorizada ( id );
+
+ALTER TABLE relation_21
+    ADD CONSTRAINT relation_21_tarjeta_fk FOREIGN KEY ( tarjeta_numero )
+        REFERENCES tarjeta ( numero );
+
+ALTER TABLE segregada
+    ADD CONSTRAINT segregada_cuenta_fintech_fk FOREIGN KEY ( iban )
+        REFERENCES cuenta_fintech ( iban );
+
+ALTER TABLE segregada
+    ADD CONSTRAINT segregada_cuenta_referencia_fk FOREIGN KEY ( cuenta_referencia_iban )
+        REFERENCES cuenta_referencia ( iban );
+
+ALTER TABLE tarjeta
+    ADD CONSTRAINT tarjeta_cuenta_fk FOREIGN KEY ( cuenta_iban )
+        REFERENCES cuenta ( iban );
+
+ALTER TABLE transaccion
+    ADD CONSTRAINT transaccion_cuenta_fk FOREIGN KEY ( cuenta_iban )
+        REFERENCES cuenta ( iban );
+
+ALTER TABLE transaccion
+    ADD CONSTRAINT transaccion_cuenta_fkv2 FOREIGN KEY ( cuenta_iban2 )
+        REFERENCES cuenta ( iban );
+
+ALTER TABLE transaccion
+    ADD CONSTRAINT transaccion_divisa_fk FOREIGN KEY ( divisa_abreviatura )
+        REFERENCES divisa ( abreviatura );
+
+ALTER TABLE transaccion
+    ADD CONSTRAINT transaccion_divisa_fkv2 FOREIGN KEY ( divisa_abreviatura2 )
+        REFERENCES divisa ( abreviatura );
+
+CREATE OR REPLACE TRIGGER arc_fkarc_1_empresa BEFORE
+    INSERT OR UPDATE OF id ON empresa
+    FOR EACH ROW
+DECLARE
+    d VARCHAR2(40 CHAR);
+BEGIN
+    SELECT
+        a.id
+    INTO d
+    FROM
+        cliente a
+    WHERE
+        a.id = :new.id;
+
+    IF ( d IS NULL OR d <> 'EMPRESA' ) THEN
+        raise_application_error(-20223, 'FK EMPRESA_CLIENTE_FK in Table EMPRESA violates Arc constraint on Table CLIENTE - discriminator column ID doesn''t have value ''EMPRESA''');
+    END IF;
+
+EXCEPTION
+    WHEN no_data_found THEN
+        NULL;
+    WHEN OTHERS THEN
+        RAISE;
+END;
+/
+
+CREATE OR REPLACE TRIGGER arc_fkarc_1_individual BEFORE
+    INSERT OR UPDATE OF id ON individual
+    FOR EACH ROW
+DECLARE
+    d VARCHAR2(40 CHAR);
+BEGIN
+    SELECT
+        a.id
+    INTO d
+    FROM
+        cliente a
+    WHERE
+        a.id = :new.id;
+
+    IF ( d IS NULL OR d <> 'INDIVIDUAL' ) THEN
+        raise_application_error(-20223, 'FK INDIVIDUAL_CLIENTE_FK in Table INDIVIDUAL violates Arc constraint on Table CLIENTE - discriminator column ID doesn''t have value ''INDIVIDUAL''');
+    END IF;
+
+EXCEPTION
+    WHEN no_data_found THEN
+        NULL;
+    WHEN OTHERS THEN
+        RAISE;
+END;
+/
+
+CREATE OR REPLACE TRIGGER arc_fkarc_2_segregada BEFORE
+    INSERT OR UPDATE OF iban ON segregada
+    FOR EACH ROW
+DECLARE
+    d VARCHAR2(40 CHAR);
+BEGIN
+    SELECT
+        a.iban
+    INTO d
+    FROM
+        cuenta_fintech a
+    WHERE
+        a.iban = :new.iban;
+
+    IF ( d IS NULL OR d <> 'SEGREGADA' ) THEN
+        raise_application_error(-20223, 'FK SEGREGADA_CUENTA_FINTECH_FK in Table SEGREGADA violates Arc constraint on Table CUENTA_FINTECH - discriminator column IBAN doesn''t have value ''SEGREGADA''');
+    END IF;
+
+EXCEPTION
+    WHEN no_data_found THEN
+        NULL;
+    WHEN OTHERS THEN
+        RAISE;
+END;
+/
+
+CREATE OR REPLACE TRIGGER arc_fkarc_2_pooled_account BEFORE
+    INSERT OR UPDATE OF iban ON pooled_account
+    FOR EACH ROW
+DECLARE
+    d VARCHAR2(40 CHAR);
+BEGIN
+    SELECT
+        a.iban
+    INTO d
+    FROM
+        cuenta_fintech a
+    WHERE
+        a.iban = :new.iban;
+
+    IF ( d IS NULL OR d <> 'POOLED' ) THEN
+        raise_application_error(-20223, 'FK POOLED_FINTECH_FK in Table POOLED_ACCOUNT violates Arc constraint on Table CUENTA_FINTECH - discriminator column IBAN doesn''t have value ''POOLED''');
+    END IF;
+
+EXCEPTION
+    WHEN no_data_found THEN
+        NULL;
+    WHEN OTHERS THEN
+        RAISE;
+END;
+/
+
+CREATE OR REPLACE TRIGGER arc_fkarc_3_cuenta_fintech BEFORE
+    INSERT OR UPDATE OF iban ON cuenta_fintech
+    FOR EACH ROW
+DECLARE
+    d VARCHAR2(40 CHAR);
+BEGIN
+    SELECT
+        a.iban
+    INTO d
+    FROM
+        cuenta a
+    WHERE
+        a.iban = :new.iban;
+
+    IF ( d IS NULL OR d <> 'FINTECH' ) THEN
+        raise_application_error(-20223, 'FK CUENTA_FINTECH_CUENTA_FK in Table CUENTA_FINTECH violates Arc constraint on Table CUENTA - discriminator column IBAN doesn''t have value ''FINTECH''');
+    END IF;
+
+EXCEPTION
+    WHEN no_data_found THEN
+        NULL;
+    WHEN OTHERS THEN
+        RAISE;
+END;
+/
+
+CREATE OR REPLACE TRIGGER arc_fkarc_3_cuenta_referencia BEFORE
+    INSERT OR UPDATE OF iban ON cuenta_referencia
+    FOR EACH ROW
+DECLARE
+    d VARCHAR2(40 CHAR);
+BEGIN
+    SELECT
+        a.iban
+    INTO d
+    FROM
+        cuenta a
+    WHERE
+        a.iban = :new.iban;
+
+    IF ( d IS NULL OR d <> 'REFERENCIA' ) THEN
+        raise_application_error(-20223, 'FK CUENTA_REFERENCIA_CUENTA_FK in Table CUENTA_REFERENCIA violates Arc constraint on Table CUENTA - discriminator column IBAN doesn''t have value ''REFERENCIA''');
+    END IF;
+
+EXCEPTION
+    WHEN no_data_found THEN
+        NULL;
+    WHEN OTHERS THEN
+        RAISE;
+END;
+/
+
+
+
+-- Informe de Resumen de Oracle SQL Developer Data Modeler: 
+-- 
+-- CREATE TABLE                            16
+-- CREATE INDEX                             1
+-- ALTER TABLE                             40
+-- CREATE VIEW                              0
+-- ALTER VIEW                               0
+-- CREATE PACKAGE                           0
+-- CREATE PACKAGE BODY                      0
+-- CREATE PROCEDURE                         0
+-- CREATE FUNCTION                          0
+-- CREATE TRIGGER                           6
+-- ALTER TRIGGER                            0
+-- CREATE COLLECTION TYPE                   0
+-- CREATE STRUCTURED TYPE                   0
+-- CREATE STRUCTURED TYPE BODY              0
+-- CREATE CLUSTER                           0
+-- CREATE CONTEXT                           0
+-- CREATE DATABASE                          0
+-- CREATE DIMENSION                         0
+-- CREATE DIRECTORY                         0
+-- CREATE DISK GROUP                        0
+-- CREATE ROLE                              0
+-- CREATE ROLLBACK SEGMENT                  0
+-- CREATE SEQUENCE                          0
+-- CREATE MATERIALIZED VIEW                 0
+-- CREATE MATERIALIZED VIEW LOG             0
+-- CREATE SYNONYM                           0
+-- CREATE TABLESPACE                        0
+-- CREATE USER                              0
+-- 
+-- DROP TABLESPACE                          0
+-- DROP DATABASE                            0
+-- 
+-- REDACTION POLICY                         0
+-- 
+-- ORDS DROP SCHEMA                         0
+-- ORDS ENABLE SCHEMA                       0
+-- ORDS ENABLE OBJECT                       0
+-- 
+-- ERRORS                                   0
+-- WARNINGS                                 0
