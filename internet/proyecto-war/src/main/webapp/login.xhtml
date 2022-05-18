@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Login de usuario</title>
     </h:head>
@@ -21,13 +22,10 @@
                         <h:outputText value="Nombre de usuario:"/>
                         <h:inputText id="user" required="true" value="#{login.usuario.nombre}"/>
                         <h:message id="userMessage" for="user"/>
-
                         <h:outputText value="Contraseña:"/>
                         <h:inputSecret id="pass" required="true" value="#{login.usuario.password}"/>
                         <h:message id="passwordMessage" for="pass"/>
-
-                        <h:commandButton id="botonLogin" value="Entrar" action="#{login.entrar}"/>
-
+                        <h:commandButton id="botonLogin" value="Entrar" action="#{login.entrar()}"/>
                     </h:panelGrid>
 
                     <div>
