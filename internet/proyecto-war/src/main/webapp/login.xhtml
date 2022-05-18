@@ -12,21 +12,21 @@
 
             <c:choose>
                 <c:when test="#{!empty infoSesion.usuario}">
-                    <p>Está autenticado como <h:outputText value="#{infoSesion.usuario.cuenta}"/>.</p>
+                    <p>Está autenticado como <h:outputText value="#{infoSesion.usuario.nombre}"/>.</p>
                     <p>Para iniciar sesión con otra cuenta debe <h:commandLink action="#{infoSesion.invalidarSesion()}">salir</h:commandLink> primero de la aplicación</p>
                 </c:when>
 
                 <c:otherwise>
                     <h:panelGrid columns="3">
                         <h:outputText value="Nombre de usuario:"/>
-                        <h:inputText id="user" required="true" value="#{login.usuario.cuenta}"/>
+                        <h:inputText id="user" required="true" value="#{login.usuario.nombre}"/>
                         <h:message id="userMessage" for="user"/>
 
                         <h:outputText value="Contraseña:"/>
-                        <h:inputSecret id="pass" required="true" value="#{login.usuario.contrasenia}"/>
+                        <h:inputSecret id="pass" required="true" value="#{login.usuario.password}"/>
                         <h:message id="passwordMessage" for="pass"/>
 
-                        <h:commandButton id="botonLogin" value="Entrar" action="#{login.entrar()}"/>
+                        <h:commandButton id="botonLogin" value="Entrar" action="#{login.entrar}"/>
 
                     </h:panelGrid>
 

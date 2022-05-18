@@ -88,7 +88,7 @@ public class Registro{
         try {
         	cuentas.CrearUsuario(usuario);
         	registroOK = true;
-            return "index.xhtml";
+            return "exitoRegistro.xhtml";
 		} catch (UsuarioException e) {
 			 FacesMessage fm = new FacesMessage("Existe un usuario con la misma cuenta.");
 	         FacesContext.getCurrentInstance().addMessage("registro:user", fm);

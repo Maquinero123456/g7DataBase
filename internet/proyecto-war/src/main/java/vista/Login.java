@@ -44,9 +44,9 @@ public class Login {
     	try{
     		Usuario user = cuentas.iniciarSesion(usuario.getNombre(), usuario.getPassword());
     		if(user.isEsAdministrativo()){
-                return "administrativo.html";
+                return "administrador.xhtml";
             }else{
-                return "index.html";
+                return "index.xhtml";
             }
 		}catch (UsuarioException e) {
 			FacesMessage fm = new FacesMessage("La cuenta no existe");
