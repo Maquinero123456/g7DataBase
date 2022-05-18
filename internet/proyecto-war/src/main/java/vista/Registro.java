@@ -9,7 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import es.uma.proyecto.CuentasUsuarios;
+import es.uma.proyecto.GestionCuentasUsuarios;
 import es.uma.proyecto.entidades.*;
 import es.uma.proyecto.exceptions.UsuarioException;
 
@@ -20,9 +20,9 @@ public class Registro {
 	private static final String PARAM_VALIDACION="codigoValidacion";
 	private static final String PARAM_CUENTA = "cuenta";
 
-    @Inject
-    //@EJB
-    private CuentasUsuarios cuentas;
+    //@Inject
+    @EJB
+    private GestionCuentasUsuarios cuentas;
     
     private Usuario usuario;
     private String repass;

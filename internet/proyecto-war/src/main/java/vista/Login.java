@@ -1,6 +1,6 @@
 package vista;
 
-import es.uma.proyecto.CuentasUsuarios;
+import es.uma.proyecto.GestionCuentasUsuarios;
 import es.uma.proyecto.entidades.*;
 import es.uma.proyecto.exceptions.UsuarioException;
 
@@ -20,7 +20,8 @@ import javax.inject.Inject;
 public class Login {
 
     @Inject
-    private CuentasUsuarios cuentas;
+    @EJB
+    private GestionCuentasUsuarios cuentas;
 
     private Usuario usuario;
 
