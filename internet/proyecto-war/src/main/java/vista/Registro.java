@@ -2,26 +2,26 @@ package vista;
 
 import java.util.NoSuchElementException;
 
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import es.uma.proyecto.CuentasUsuarios;
 import es.uma.proyecto.GestionCuentasUsuarios;
 import es.uma.proyecto.entidades.*;
 import es.uma.proyecto.exceptions.UsuarioException;
 
 @Named(value = "registro")
 @RequestScoped
-public class Registro {
+public class Registro{
 	
 	private static final String PARAM_VALIDACION="codigoValidacion";
 	private static final String PARAM_CUENTA = "cuenta";
 
-    //@Inject
-    @EJB
+    @Inject
+    //@EJB
     private GestionCuentasUsuarios cuentas;
     
     private Usuario usuario;
