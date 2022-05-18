@@ -42,7 +42,11 @@ public class Login {
     public String entrar() {
     	try{
     		Usuario user = cuentas.iniciarSesion(usuario.getNombre(), usuario.getPassword());
-    		return "index.xhtml";
+    		if(user.isEsAdministrativo()){
+                return "administrativo.html";
+            }else{
+                return "index.html";
+            }
 		}catch (UsuarioException e) {
 			FacesMessage fm = new FacesMessage("La cuenta no existe");
             FacesContext.getCurrentInstance().addMessage("registro:user", fm);
