@@ -1,29 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package vista;
 
-import javax.ejb.EJB;
+import java.util.NoSuchElementException;
+
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.UriBuilder;
 
+import es.uma.proyecto.CuentasUsuarios;
+import es.uma.proyecto.GestionCuentasUsuarios;
 import es.uma.proyecto.entidades.*;
+import es.uma.proyecto.exceptions.UsuarioException;
 
 @Named(value = "registro")
 @RequestScoped
-public class Registro {
+public class Registro{
 	
 	private static final String PARAM_VALIDACION="codigoValidacion";
 	private static final String PARAM_CUENTA = "cuenta";
 
-    //@Inject
-    @EJB
+    @Inject
+    //@EJB
+    private GestionCuentasUsuarios cuentas;
+    
     private Usuario usuario;
     private String repass;
 
@@ -82,40 +82,24 @@ public class Registro {
                 FacesContext.getCurrentInstance().addMessage("registro:repass", fm);
                 return null;
             }
+        }catch(NoSuchElementException e){}
 
-            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance()
-            		.getExternalContext()
-            		.getRequest();
-            
-            String thisUri = request.getRequestURL().toString();
-            
-            int ultimaBarra = thisUri.lastIndexOf('/');
-            if (ultimaBarra < 0) {
-            	FacesMessage fm = new FacesMessage("Error interno de URL");
-                FacesContext.getCurrentInstance().addMessage(null, fm);
-                return null;
-            }
-            
-            UriBuilder uriBuilder = UriBuilder.fromUri(thisUri.substring(0, ultimaBarra))
-            		.path("validarCuenta.xhtml")
-            		.queryParam(PARAM_CUENTA, "{cuenta}")
-            		.queryParam(PARAM_VALIDACION, "{validacion}");
-            negocio.registrarUsuario(usuario, uriBuilder);
-            registroOK = true;
+           
+        try {
+        	cuentas.CrearUsuario(usuario);
+        	registroOK = true;
             return "exitoRegistro.xhtml";
-            
-        } catch (CuentaException e) {
-            FacesMessage fm = new FacesMessage("Existe un usuario con la misma cuenta.");
-            FacesContext.getCurrentInstance().addMessage("registro:user", fm);
-            
-        } 
-        return null;
+		} catch (UsuarioException e) {
+			 FacesMessage fm = new FacesMessage("Existe un usuario con la misma cuenta.");
+	         FacesContext.getCurrentInstance().addMessage("registro:user", fm);
+		}
+		return null;
     }
 
-    public String validarCuenta() {
+    /*public String validarCuenta() {
         try {
             if (cuenta != null && codigoValidacion != null) {
-                negocio.validarCuenta(cuenta, codigoValidacion);
+                cuentas.validarCuenta(cuenta, codigoValidacion);
             }
             mensajeValidacion = "La validación ha sido correcta, ahora puede acceder con este usuario.";
             validacionOK = true;
@@ -124,7 +108,7 @@ public class Registro {
             validacionOK = false;
         }
         return null;
-    }
+    }*/
 
     public String getMensajeValidacion() {
         return mensajeValidacion;

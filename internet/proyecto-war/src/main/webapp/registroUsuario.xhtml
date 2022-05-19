@@ -13,26 +13,20 @@
                 <h:form id="registro">
                     <h:panelGrid columns="3">
                         <h:outputText value="Nombre:"/>
-                        <h:inputText id="nombre" value="#{registro.usuario.nombre}"/>
+                        <h:inputText id="nombre" value="#{registro.usuario.nombre}" required="true"/>
                         <h:message for="nombre"/>
-                        <h:outputText value="Apellidos:"/>
-                        <h:inputText id="apellidos" value="#{registro.usuario.apellidos}"/>
-                        <h:message for="apellidos"/>
-                        <h:outputText value="E-mail:"/>
-                        <h:inputText id="email" value="#{registro.usuario.email}" required="true"
-                                     validatorMessage="Compruebe que ha introducido un e-mail correcto">
-                            <f:validateRegex pattern=".+@.+"/>
-                        </h:inputText>
-                        <h:message for="email"/>
-                        <h:outputText value="Nombre de usuario:"/>
-                        <h:inputText id="user" value="#{registro.usuario.cuenta}" required="true"/>
-                        <h:message for="user"/>
                         <h:outputText value="Contraseña:"/>
-                        <h:inputSecret id="pass" value="#{registro.usuario.contrasenia}" required="true"/>
+                        <h:inputSecret id="pass" value="#{registro.usuario.password}" required="true"/>
                         <h:message for="pass"/>
                         <h:outputText value="Repita contraseña:"/>
                         <h:inputSecret id="repass" value="#{registro.repass}" required="true"/>
                         <h:message for="repass"/>
+                        <h:outputText value = "Administrativo:"/>
+                        <h:selectOneRadio value="#{registro.usuario.esAdministrativo}" required="true">
+                            <f:selectItem itemValue="#{true}" itemLabel="Si" />
+                            <f:selectItem itemValue="#{false}"  itemLabel="No" />
+                        </h:selectOneRadio>
+                        <h:outputText value = " "/>
                         <h:commandButton value="Crear usuario" action="#{registro.registrarUsuario()}"/>
                         <h:link outcome="login.xhtml">Volver a la página de login</h:link>
                     </h:panelGrid>

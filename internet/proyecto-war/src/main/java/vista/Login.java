@@ -1,16 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package vista;
 
-import es.uma.informatica.sii.agendaee.entidades.Usuario;
-import es.uma.informatica.sii.agendaee.negocio.AgendaException;
-import es.uma.informatica.sii.agendaee.negocio.ContraseniaInvalidaException;
-import es.uma.informatica.sii.agendaee.negocio.CuentaInactivaException;
-import es.uma.informatica.sii.agendaee.negocio.CuentaInexistenteException;
-import es.uma.informatica.sii.agendaee.negocio.Negocio;
+import es.uma.proyecto.Administrativos;
+import es.uma.proyecto.CuentasUsuarios;
+import es.uma.proyecto.GestionAdministratitivos;
+import es.uma.proyecto.GestionCuentasUsuarios;
+import es.uma.proyecto.entidades.*;
+import es.uma.proyecto.exceptions.AdministrativoException;
+import es.uma.proyecto.exceptions.UsuarioException;
+
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
@@ -27,15 +24,14 @@ import javax.inject.Inject;
 public class Login {
 
     @Inject
-    private Negocio negocio;
-
-    @Inject
-    private InfoSesion sesion;
+    @EJB
+    private GestionCuentasUsuarios cuentas;
+    private GestionAdministratitivos administratitivos;
 
     private Usuario usuario;
 
     /**
-     * Creates a new instance of login
+     * Crea una nueva instancia de 
      */
     public Login() {
         usuario = new Usuario();
@@ -49,26 +45,25 @@ public class Login {
         this.usuario = usuario;
     }
 
-    public String entrar() {
-        try {
-            negocio.compruebaLogin(usuario);
-            sesion.setUsuario(negocio.refrescarUsuario(usuario));
-            return "contactos.xhtml";
-
-        } catch (CuentaInexistenteException e) {
-            FacesMessage fm = new FacesMessage("La cuenta no existe");
-            FacesContext.getCurrentInstance().addMessage("login:user", fm);
-        } catch (ContraseniaInvalidaException e) {
-            FacesMessage fm = new FacesMessage("La contraseña no es correcta");
-            FacesContext.getCurrentInstance().addMessage("login:pass", fm);
-        } catch (CuentaInactivaException e) {
-            FacesMessage fm = new FacesMessage("La cuenta existe pero no está activa");
-            FacesContext.getCurrentInstance().addMessage("login:user", fm);
-        } catch (AgendaException e) {
-            FacesMessage fm = new FacesMessage("Error: " + e);
-            FacesContext.getCurrentInstance().addMessage(null, fm);
+    public String entrar(){
+    	try{
+    		if(cuentas.getUsuario(usuario.getNombre()).isEsAdministrativo()){
+                Usuario user = administratitivos.iniciarSesion(usuario.getNombre(), usuario.getPassword());
+                return "administrador.xhtml";
+            }else{
+                Usuario user = cuentas.iniciarSesion(usuario.getNombre(), usuario.getPassword());
+                return "index.xhtml";
+            }
+		} catch (UsuarioException e) {
+			FacesMessage fm = new FacesMessage("La cuenta no existe");
+            FacesContext.getCurrentInstance().addMessage("registro:user", fm);
+		} catch (AdministrativoException e) {
+            FacesMessage fm = new FacesMessage("El administrador no existe");
+            FacesContext.getCurrentInstance().addMessage("registro:user", fm);
+        } catch (NullPointerException e) {
+            FacesMessage fm = new FacesMessage("Usuario no existe");
+            FacesContext.getCurrentInstance().addMessage("registro:user", fm);
         }
-        return null;
+    	return "Error al iniciar sesion.";
     }
-
 }
