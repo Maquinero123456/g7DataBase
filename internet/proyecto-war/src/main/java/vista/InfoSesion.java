@@ -6,9 +6,11 @@
 
 package vista;
 
-import es.uma.informatica.sii.agendaee.entidades.Contacto;
-import es.uma.informatica.sii.agendaee.entidades.Usuario;
-import es.uma.informatica.sii.agendaee.negocio.AgendaException;
+import es.uma.proyecto.entidades.Usuario;
+import es.uma.proyecto.entidades.Empresa;
+import es.uma.proyecto.CuentasUsuarios;
+import es.uma.proyecto.entidades.Cliente;
+import es.uma.proyecto.entidades.PersonaAutorizada;
 import es.uma.informatica.sii.agendaee.negocio.Negocio;
 import java.io.Serializable;
 import java.util.List;
@@ -26,7 +28,7 @@ import javax.inject.Named;
 public class InfoSesion implements Serializable {
 
     @Inject
-    private Negocio negocio;
+    private CuentasUsuarios CuentasUsuarios;
     private Usuario usuario;
     
     /**
@@ -43,25 +45,37 @@ public class InfoSesion implements Serializable {
         return usuario;
     }
     
-    public synchronized List<Contacto> getContactos()
+    public synchronized Boolean isEsAdministrativo()
     {
         if (usuario != null)
         {
-            return usuario.getContactos();
+            return usuario.isEsAdministrativo();
         }
         return null;
     }
     
-    public synchronized String invalidarSesion()
+    public synchronized Cliente getCliente()
     {
         if (usuario != null)
         {
-            usuario = null;
-            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+            return usuario.getCliente();
         }
-        return "login.xhtml";
+        return null;
     }
     
+    public synchronized PersonaAutorizada getPersonaAutorizada () {
+        if (usuario != null)
+        {
+            return usuario.getPersonaAutorizada();
+        }
+        return null;
+    }
+
+    public synchronized void refrescarUsuario () {
+        
+    }
+
+    /*
     public synchronized void refrescarUsuario()
     {
         try {
@@ -75,5 +89,5 @@ public class InfoSesion implements Serializable {
             // TODO
         }
     }
-    
+    */
 }
