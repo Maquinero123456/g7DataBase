@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package vista;
 
 import es.uma.proyecto.GestionCuentasUsuarios;
@@ -20,7 +14,7 @@ import javax.inject.Named;
 @SessionScoped
 public class InfoSesion implements Serializable {
 
-    @EJB
+	@EJB
     private GestionCuentasUsuarios cuentas;
     private Usuario usuario;
     

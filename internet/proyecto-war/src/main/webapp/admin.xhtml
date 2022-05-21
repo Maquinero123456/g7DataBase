@@ -7,17 +7,17 @@
         <title>Página del admin</title>
     </h:head>
     <h:body>
-        <h:form id="admin">
-            <c:choose>
-                <c:when test="#{!empty infoSesion.usuario}">
-                    <p>Está autenticado como <h:outputText value="#{infoSesion.usuario.cuenta}"/>.</p>
-                    <p>Para iniciar sesión con otra cuenta debe <h:commandLink action="#{infoSesion.invalidarSesion()}">salir</h:commandLink> primero de la aplicación.</p>
-                </c:when>
-                <c:otherwise>
-                    <h:commandButton id="darAlta" value="Dar de Alta Cliente" action="#{administrador.darAlta()}"/>
-                    <h:commandButton id="darAlta" value="Dar de baja Cliente" action="#{administrador.darBaja()}"/>
-                </c:otherwise>
-            </c:choose>
-        </h:form>
+    		<div>
+    			<p>Buenas tardes <h:outputText value="#{infoSesion.usuario.nombre}"/>, ¿qué acción realizará?</p>
+    		</div>
+            <h:commandButton id="darAlta" value="Dar de Alta Cliente" action="#{administrador.darAlta()}"/>
+            <h:commandButton id="darBaja" value="Dar de baja Cliente" action="#{administrador.darBaja()}"/>
+            <h:commandButton id="modificar" value="Modificar cliente" action="#{administrador.darBaja()}"/>
+            <h:commandButton id="cerrar" value="Cerrar una Cuenta" action="#{administrador.cerrarCuenta()}"/>
+            <h:commandButton id="aperturaAgrup" value="Aperturar una cuenta Agrupada" action="#{administrador.aperturaCuentaAgrup()}"/>
+            <h:commandButton id="aperturaSegreg" value="Aperturar una cuenta Segregada" action="#{administrador.aperturaCuentaSegreg()}"/>
+            <h:commandButton id="addAutor" value="Añadir Persona Autorizada" action="#{administrador.addAutorizado()}"/>
+            <h:commandButton id="eliminarAutor" value="Eliminar Persona Autorizada" action="#{administrador.eliminarAutorizado()}"/>
+            <h:commandButton id="modificarAutor" value="Modificar Persona Autorizada" action="#{administrador.modificarAutorizado()}"/>
     </h:body>
 </html>
