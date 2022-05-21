@@ -11,7 +11,6 @@ import es.uma.proyecto.entidades.Empresa;
 import es.uma.proyecto.CuentasUsuarios;
 import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.entidades.PersonaAutorizada;
-import es.uma.informatica.sii.agendaee.negocio.Negocio;
 import java.io.Serializable;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
