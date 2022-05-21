@@ -38,7 +38,7 @@ public class AdministrativosPrueba {
 	private static final String PERSONA_AUTORIZADA = "java:global/classes/Autorizados";
 	private static final String CUENTAS_EJB = "java:global/classes/Cuentas";
 
-	private GestionAdministratitivos gestionAdministratitivos;
+	private GestionAdministrativos gestionAdministrativos;
 	private GestionCuentasUsuarios gestionCuentasUsuarios;
 	private GestionClientes gestionClientes;
 	private GestionCuentas gestionCuentas;
@@ -46,7 +46,7 @@ public class AdministrativosPrueba {
 
     @Before
 	public void setup() throws NamingException, ParseException  {
-		gestionAdministratitivos = (GestionAdministratitivos) SuiteTest.ctx.lookup(ADMINISTRATIVOS_EJB);
+		gestionAdministrativos = (GestionAdministrativos) SuiteTest.ctx.lookup(ADMINISTRATIVOS_EJB);
 		gestionCuentasUsuarios = (GestionCuentasUsuarios) SuiteTest.ctx.lookup(CUENTASUSUARIOS_EJB);
 		gestionClientes = (GestionClientes) SuiteTest.ctx.lookup(CLIENTES_EJB);
 		gestionAutorizados  = (GestionAutorizados) SuiteTest.ctx.lookup(PERSONA_AUTORIZADA);
@@ -73,7 +73,7 @@ public class AdministrativosPrueba {
 		}
 
 		try {
-			gestionAdministratitivos.iniciarSesion("Pepito","Juanito");
+			gestionAdministrativos.iniciarSesion("Pepito","Juanito");
 		}catch (AdministrativoException e) {
 			fail("Se deberia haber iniciado sesion");
 		}
@@ -99,7 +99,7 @@ public class AdministrativosPrueba {
 
 
 		Exception exception = assertThrows(AdministrativoException.class, () -> {
-            gestionAdministratitivos.iniciarSesion("Paco", "Paco");
+            gestionAdministrativos.iniciarSesion("Paco", "Paco");
         });
     
         String expectedMessage = "El usuario NO es administrativo";
@@ -128,7 +128,7 @@ public class AdministrativosPrueba {
 
 
 		Exception exception = assertThrows(AdministrativoException.class, () -> {
-            gestionAdministratitivos.iniciarSesion("Paco", "Anda");
+            gestionAdministrativos.iniciarSesion("Paco", "Anda");
         });
     
         String expectedMessage = "Password incorrecta";
@@ -146,7 +146,7 @@ public class AdministrativosPrueba {
      */
     public void testIniciarSesionAdministrativoNoExisteUsuario(){
 		Exception exception = assertThrows(AdministrativoException.class, () -> {
-            gestionAdministratitivos.iniciarSesion("Paco", "Anda");
+            gestionAdministrativos.iniciarSesion("Paco", "Anda");
         });
     
         String expectedMessage = "Usuario no encontrado";
@@ -174,7 +174,7 @@ public class AdministrativosPrueba {
 			fail("Deberia poder crear el cliente.");
 		}
 		try{
-			gestionAdministratitivos.darAltaCliente("testAlta");
+			gestionAdministrativos.darAltaCliente("testAlta");
 		}catch(ClienteException e){
 			fail("No se pudo dar de alta al cliente.");
 		}
@@ -206,7 +206,7 @@ public class AdministrativosPrueba {
 			fail("Deberia poder crear el cliente");
 		}
 		try{
-			gestionAdministratitivos.darBajaCliente("testBaja");
+			gestionAdministrativos.darBajaCliente("testBaja");
 		}catch(ClienteException e){
 			fail("Deberia encontrar al cliente al darlo de baja");
 		}
@@ -240,7 +240,7 @@ public class AdministrativosPrueba {
 		Cliente c2 = new Cliente("testAlta", "fisica", "Alta", utilDate, "Avenida Falsa", "Guacamayo", "231", "PaisesAltos");
 
 		try{
-			gestionAdministratitivos.modificarCliente(c2);
+			gestionAdministrativos.modificarCliente(c2);
 		}catch(ClienteException e){
 			fail("Deberia encontrar cliente");
 		}
@@ -267,7 +267,7 @@ public class AdministrativosPrueba {
      */
 	public void testAperturaCuentaAgrupada() throws CuentaException, ClienteException {
 		try {
-			gestionAdministratitivos.aperturaCuentaAgrupada("ES45450545054505", "apertCuentaAgrupadaCliente");
+			gestionAdministrativos.aperturaCuentaAgrupada("ES45450545054505", "apertCuentaAgrupadaCliente");
 		}catch (CuentaException e) {
 			fail ("No se ha podido crear la cuenta");
 		}catch (ClienteException e) {
@@ -303,7 +303,7 @@ public class AdministrativosPrueba {
 		}
 	
 		try {
-			gestionAdministratitivos.aperturaCuentaSegregada("ES101010101", "apertCuentaSegregadaCliente",cuentaRef);
+			gestionAdministrativos.aperturaCuentaSegregada("ES101010101", "apertCuentaSegregadaCliente",cuentaRef);
 		}catch (CuentaException e) {
 			fail ("No se ha podido crear la cuenta");
 		}catch (ClienteException e) {
@@ -342,7 +342,7 @@ public class AdministrativosPrueba {
 		}
 
 		try {
-			gestionAdministratitivos.aperturaCuentaAgrupada("ES45450545054505", "testCerrCuentAgrup");
+			gestionAdministrativos.aperturaCuentaAgrupada("ES45450545054505", "testCerrCuentAgrup");
 		}catch (CuentaException e) {
 			fail ("No se ha podido crear la cuenta");
 		}catch (ClienteException e) {
@@ -350,7 +350,7 @@ public class AdministrativosPrueba {
 		}
 
 		try {
-			gestionAdministratitivos.cerrarCuenta("ES45450545054505");
+			gestionAdministrativos.cerrarCuenta("ES45450545054505");
 		}catch (CuentaException e) {
 			fail ("El saldo de la cuenta no es 0");
 		}
@@ -394,7 +394,7 @@ public class AdministrativosPrueba {
 		
 
 		try {
-			gestionAdministratitivos.aperturaCuentaSegregada("ES45450545054505", "testCerrCuentSeg",cuentaRef);
+			gestionAdministrativos.aperturaCuentaSegregada("ES45450545054505", "testCerrCuentSeg",cuentaRef);
 		}catch (CuentaException e) {
 			fail ("No se ha podido crear la cuenta");
 		}catch (ClienteException e) {
@@ -402,7 +402,7 @@ public class AdministrativosPrueba {
 		}
 
 		try {
-			gestionAdministratitivos.cerrarCuenta("ES45450545054505");
+			gestionAdministrativos.cerrarCuenta("ES45450545054505");
 		}catch (CuentaException e) {
 			fail ("El saldo de la cuenta no es 0");
 		}
@@ -461,7 +461,7 @@ public class AdministrativosPrueba {
 		}
 
 		try {
-			gestionAdministratitivos.addAutorizados(emp.getID(), pA.getID(), "tipo");
+			gestionAdministrativos.addAutorizados(emp.getID(), pA.getID(), "tipo");
 		} catch (ClienteException e) {
 			fail ("La empresa deberia existir");
 		} catch (AutorizacionException e) {
@@ -494,7 +494,7 @@ public class AdministrativosPrueba {
 
 		try {
 			PersonaAutorizada mod = new PersonaAutorizada("PabloDejaDeTocar", "modPersona", "Autorizado", "Avenida 123", utilDate, "Mara cay", utilDate, utilDate);
-			gestionAdministratitivos.modificarAutorizado(mod);
+			gestionAdministrativos.modificarAutorizado(mod);
 		} catch (PersonaAutorizadaException e)  {
 			fail ("Persona no encontrada");
 		}
@@ -551,7 +551,7 @@ public class AdministrativosPrueba {
 		}
 
 		try {
-			gestionAdministratitivos.addAutorizados(emp.getID(), pA.getID(), "tipo");
+			gestionAdministrativos.addAutorizados(emp.getID(), pA.getID(), "tipo");
 		} catch (ClienteException e) {
 			fail ("La empresa deberia existir");
 		} catch (AutorizacionException e) {
@@ -561,7 +561,7 @@ public class AdministrativosPrueba {
 		}
 		
 		try {
-			gestionAdministratitivos.eliminarAutorizado(emp.getID(), pA.getID());
+			gestionAdministrativos.eliminarAutorizado(emp.getID(), pA.getID());
 		} catch (ClienteException e) {
 			fail ("La empresa deberia existir");
 		} catch (AutorizacionException e) {

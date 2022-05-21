@@ -13,7 +13,7 @@ import es.uma.proyecto.exceptions.CuentaException;
 import es.uma.proyecto.exceptions.PersonaAutorizadaException;
 
 @Local
-public interface GestionAdministratitivos {
+public interface GestionAdministrativos {
    
 	
 	/** REQUISITO 1

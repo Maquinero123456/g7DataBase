@@ -27,7 +27,7 @@ import es.uma.proyecto.exceptions.CuentaException;
 import es.uma.proyecto.exceptions.PersonaAutorizadaException;
 
 @Stateless
-public class Administrativos implements GestionAdministratitivos{
+public class Administrativos implements GestionAdministrativos{
 	
 	@SuppressWarnings("unused")
     private static final Logger LOG = Logger.getLogger(Administrativos.class.getCanonicalName());
@@ -62,7 +62,7 @@ public class Administrativos implements GestionAdministratitivos{
 		}
 		
 		if(cliente == null){
-			throw new ClienteException("Cliente no encontrado");
+			throw new ClienteException("Cliente no encontrado.");
 		}
 		
 		cliente.setEstado("Alta");

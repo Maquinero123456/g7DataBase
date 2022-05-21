@@ -4,15 +4,14 @@ import java.util.NoSuchElementException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
 
-import es.uma.proyecto.CuentasUsuarios;
 import es.uma.proyecto.GestionCuentasUsuarios;
-import es.uma.proyecto.entidades.*;
+import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.exceptions.UsuarioException;
 
 @Named(value = "registro")
@@ -24,18 +23,17 @@ public class Registro{
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$");
 
-    @Inject
-    //@EJB
+    @EJB
     private GestionCuentasUsuarios cuentas;
     
     private Usuario usuario;
     private String repass;
 
-    private String cuenta;
+    /*private String cuenta;
     private String codigoValidacion;
 
     private String mensajeValidacion;
-    private boolean validacionOK;
+    private boolean validacionOK;*/
 
     private boolean registroOK;
 
@@ -43,7 +41,7 @@ public class Registro{
         return registroOK;
     }
 
-    public String getCuenta() {
+   /* public String getCuenta() {
         return cuenta;
     }
 
@@ -57,7 +55,7 @@ public class Registro{
 
     public void setCodigoValidacion(String codigoValidacion) {
         this.codigoValidacion = codigoValidacion;
-    }
+    }*/
 
     public Registro() {
         usuario = new Usuario();
@@ -101,7 +99,7 @@ public class Registro{
             if (!usuario.getPassword().equals(repass)) {
                 FacesMessage fm = new FacesMessage("Las contraseñas deben coincidir.");
                 FacesContext.getCurrentInstance().addMessage("registro:repass", fm);
-                return null;
+                return "Error en contraseña";
             }
         }catch(NoSuchElementException e){}
 
@@ -114,7 +112,7 @@ public class Registro{
 			 FacesMessage fm = new FacesMessage("Existe un usuario con la misma cuenta.");
 	         FacesContext.getCurrentInstance().addMessage("registro:user", fm);
 		}
-		return null;
+		return "No se pudo registrar el usuario.";
     }
 
     /*public String validarCuenta() {
@@ -129,7 +127,7 @@ public class Registro{
             validacionOK = false;
         }
         return null;
-    }*/
+    }
 
     public String getMensajeValidacion() {
         return mensajeValidacion;
@@ -137,7 +135,7 @@ public class Registro{
 
     public boolean isValidacionOK() {
         return validacionOK;
-    }
+    }*/
 
     public static boolean validateEmail(String emailStr) {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
