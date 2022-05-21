@@ -48,7 +48,7 @@ public class Login {
 
     public String entrar(){
     	try{
-    		if(cuentas.getUsuario(usuario.getNombre()).isEsAdministrativo()){
+    		if(cuentas.getUsuario(usuario.getNombre()).getEsAdministrativo()){
                 Usuario user = administratitivos.iniciarSesion(usuario.getNombre(), usuario.getPassword());
                 return "administrador.xhtml";
             }else{
