@@ -1,7 +1,5 @@
 package vista;
 
-import es.uma.proyecto.Administrativos;
-import es.uma.proyecto.CuentasUsuarios;
 import es.uma.proyecto.GestionAdministratitivos;
 import es.uma.proyecto.GestionCuentasUsuarios;
 import es.uma.proyecto.entidades.*;
@@ -13,7 +11,6 @@ import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 
 @Named(value = "login")
 @RequestScoped
