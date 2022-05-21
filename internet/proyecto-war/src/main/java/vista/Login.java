@@ -15,15 +15,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-/**
- *
- * @author francis
- */
 @Named(value = "login")
 @RequestScoped
 public class Login {
 
-    @Inject
     @EJB
     private GestionCuentasUsuarios cuentas;
     @EJB 

@@ -50,11 +50,7 @@ public class Usuario {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public Boolean isEsAdministrativo() {
-        return this.esAdministrativo;
-    }
-
+    
     public Boolean getEsAdministrativo() {
         return this.esAdministrativo;
     }

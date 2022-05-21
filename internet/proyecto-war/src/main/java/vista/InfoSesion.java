@@ -27,7 +27,7 @@ import javax.inject.Named;
 public class InfoSesion implements Serializable {
 
     @Inject
-    private CuentasUsuarios CuentasUsuarios;
+    private CuentasUsuarios cuentas;
     private Usuario usuario;
     
     /**
@@ -44,11 +44,11 @@ public class InfoSesion implements Serializable {
         return usuario;
     }
     
-    public synchronized Boolean isEsAdministrativo()
+    public synchronized Boolean getEsAdministrativo()
     {
         if (usuario != null)
         {
-            return usuario.isEsAdministrativo();
+            return usuario.getEsAdministrativo();
         }
         return null;
     }
