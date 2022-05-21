@@ -26,6 +26,7 @@ public class Login {
     @Inject
     @EJB
     private GestionCuentasUsuarios cuentas;
+    @EJB 
     private GestionAdministratitivos administratitivos;
 
     private Usuario usuario;
