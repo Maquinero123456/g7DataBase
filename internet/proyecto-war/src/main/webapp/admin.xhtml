@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Página del admin</title>
+    </h:head>
+    <h:body>
+        <h:form id="admin">
+            <c:choose>
+                <c:when test="#{!empty infoSesion.usuario}">
+                    <p>Está autenticado como <h:outputText value="#{infoSesion.usuario.cuenta}"/>.</p>
+                    <p>Para iniciar sesión con otra cuenta debe <h:commandLink action="#{infoSesion.invalidarSesion()}">salir</h:commandLink> primero de la aplicación.</p>
+                </c:when>
+                <c:otherwise>
+                    <h:commandButton id="darAlta" value="Dar de Alta Cliente" action="#{administrador.darAlta()}"/>
+                    <h:commandButton id="darAlta" value="Dar de baja Cliente" action="#{administrador.darBaja()}"/>
+                </c:otherwise>
+            </c:choose>
+        </h:form>
+    </h:body>
+</html>

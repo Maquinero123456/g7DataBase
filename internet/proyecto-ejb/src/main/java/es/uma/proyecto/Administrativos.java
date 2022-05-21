@@ -72,9 +72,15 @@ public class Administrativos implements GestionAdministrativos{
 	
 	@Override
 	public void darBajaCliente(String id) throws ClienteException {
-		Cliente cliente = getCliente(id);
+		Cliente cliente  = null;
+		try{
+			cliente = getCliente(id);
+		}catch(ClienteException e){
+			throw new ClienteException("No va");
+		}
+		
 		if(cliente == null){
-			throw new ClienteException("Cliente no encontrado");
+			throw new ClienteException("Cliente no encontrado.");
 		}
         
         cliente.setEstado("Baja");
@@ -254,6 +260,8 @@ public class Administrativos implements GestionAdministrativos{
 		}
 	}
 
+	// ELIMINADOAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+	//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
     public void crearCliente(Cliente client) throws ClienteException {
         Query query = em.createQuery("SELECT cl from Cliente cl WHERE cl.identificacion = :fidentificacion");
 		query.setParameter("fidentificacion", client.getIdentificacion()); 
@@ -265,9 +273,7 @@ public class Administrativos implements GestionAdministrativos{
         }
         if(cli!=null){
             throw new ClienteException("Cliente ya existe");
-        }
-       
-        
+        }        
     }
 
     public Cliente getCliente(String id) throws ClienteException {
