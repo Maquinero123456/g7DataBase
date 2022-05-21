@@ -1,8 +1,8 @@
 package vista;
 
-import es.uma.proyecto.GestionAdministratitivos;
+import es.uma.proyecto.GestionAdministrativos;
 import es.uma.proyecto.GestionCuentasUsuarios;
-import es.uma.proyecto.entidades.*;
+import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.exceptions.AdministrativoException;
 import es.uma.proyecto.exceptions.UsuarioException;
 
@@ -19,7 +19,7 @@ public class Login {
     @EJB
     private GestionCuentasUsuarios cuentas;
     @EJB 
-    private GestionAdministratitivos administratitivos;
+    private GestionAdministrativos administratitivos;
 
     private Usuario usuario;
 
@@ -48,13 +48,13 @@ public class Login {
                 return "index.xhtml";
             }
 		} catch (UsuarioException e) {
-			FacesMessage fm = new FacesMessage("La cuenta no existe");
+			FacesMessage fm = new FacesMessage("La cuenta indicada no existe.");
             FacesContext.getCurrentInstance().addMessage("registro:user", fm);
 		} catch (AdministrativoException e) {
-            FacesMessage fm = new FacesMessage("El administrador no existe");
+            FacesMessage fm = new FacesMessage("El administrativo indicado no existe.");
             FacesContext.getCurrentInstance().addMessage("registro:user", fm);
         } catch (NullPointerException e) {
-            FacesMessage fm = new FacesMessage("Usuario no existe");
+            FacesMessage fm = new FacesMessage("El usuario indicado no existe.");
             FacesContext.getCurrentInstance().addMessage("registro:user", fm);
         }
     	return "Error al iniciar sesion.";

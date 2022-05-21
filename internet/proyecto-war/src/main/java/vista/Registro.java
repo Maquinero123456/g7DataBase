@@ -9,15 +9,15 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import es.uma.proyecto.GestionCuentasUsuarios;
-import es.uma.proyecto.entidades.*;
+import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.exceptions.UsuarioException;
 
 @Named(value = "registro")
 @RequestScoped
 public class Registro{
 	
-	private static final String PARAM_VALIDACION="codigoValidacion";
-	private static final String PARAM_CUENTA = "cuenta";
+	/*private static final String PARAM_VALIDACION="codigoValidacion";
+	private static final String PARAM_CUENTA = "cuenta";*/
     
     @EJB
     private GestionCuentasUsuarios cuentas;
@@ -25,11 +25,11 @@ public class Registro{
     private Usuario usuario;
     private String repass;
 
-    private String cuenta;
+    /*private String cuenta;
     private String codigoValidacion;
 
     private String mensajeValidacion;
-    private boolean validacionOK;
+    private boolean validacionOK;*/
 
     private boolean registroOK;
 
@@ -37,7 +37,7 @@ public class Registro{
         return registroOK;
     }
 
-    public String getCuenta() {
+   /* public String getCuenta() {
         return cuenta;
     }
 
@@ -51,7 +51,7 @@ public class Registro{
 
     public void setCodigoValidacion(String codigoValidacion) {
         this.codigoValidacion = codigoValidacion;
-    }
+    }*/
 
     public Registro() {
         usuario = new Usuario();
@@ -78,7 +78,7 @@ public class Registro{
             if (!usuario.getPassword().equals(repass)) {
                 FacesMessage fm = new FacesMessage("Las contraseñas deben coincidir.");
                 FacesContext.getCurrentInstance().addMessage("registro:repass", fm);
-                return null;
+                return "Error en contraseña";
             }
         }catch(NoSuchElementException e){}
 
@@ -91,7 +91,7 @@ public class Registro{
 			 FacesMessage fm = new FacesMessage("Existe un usuario con la misma cuenta.");
 	         FacesContext.getCurrentInstance().addMessage("registro:user", fm);
 		}
-		return null;
+		return "No se pudo registrar el usuario.";
     }
 
     /*public String validarCuenta() {
@@ -106,7 +106,7 @@ public class Registro{
             validacionOK = false;
         }
         return null;
-    }*/
+    }
 
     public String getMensajeValidacion() {
         return mensajeValidacion;
@@ -114,6 +114,6 @@ public class Registro{
 
     public boolean isValidacionOK() {
         return validacionOK;
-    }
+    }*/
 
 }
