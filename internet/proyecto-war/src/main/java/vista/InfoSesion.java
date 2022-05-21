@@ -9,10 +9,13 @@ package vista;
 import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.entidades.Empresa;
 import es.uma.proyecto.CuentasUsuarios;
+import es.uma.proyecto.GestionCuentasUsuarios;
 import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.entidades.PersonaAutorizada;
 import java.io.Serializable;
 import java.util.List;
+
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -26,8 +29,8 @@ import javax.inject.Named;
 @SessionScoped
 public class InfoSesion implements Serializable {
 
-    @Inject
-    private CuentasUsuarios cuentas;
+    @EJB
+    private GestionCuentasUsuarios cuentas;
     private Usuario usuario;
     
     /**
