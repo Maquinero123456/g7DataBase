@@ -1,6 +1,8 @@
 package vista;
 
 import java.util.NoSuchElementException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -19,6 +21,8 @@ public class Registro{
 	
 	private static final String PARAM_VALIDACION="codigoValidacion";
 	private static final String PARAM_CUENTA = "cuenta";
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$");
 
     @Inject
     //@EJB
@@ -76,6 +80,23 @@ public class Registro{
     }
 
     public String registrarUsuario() {
+        usuario.setEsAdministrativo(false);
+
+        //Password comprueba
+        if(!validatePassword(usuario.getPassword())){
+            FacesMessage fm = new FacesMessage("La contraseña debe ser valida");
+            FacesContext.getCurrentInstance().addMessage("registro:repass", fm);
+            return null;
+        }
+
+        //Email comprueba
+        if(!validateEmail(usuario.getEmail())){
+            FacesMessage fm = new FacesMessage("El email debe ser valido");
+            FacesContext.getCurrentInstance().addMessage("registro:repass", fm);
+            return null;
+        }
+
+
         try {
             if (!usuario.getPassword().equals(repass)) {
                 FacesMessage fm = new FacesMessage("Las contraseñas deben coincidir.");
@@ -118,4 +139,13 @@ public class Registro{
         return validacionOK;
     }
 
+    public static boolean validateEmail(String emailStr) {
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
+        return matcher.find();
+    }
+
+    public static boolean validatePassword(String password) {
+        Matcher matcher = PASSWORD_PATTERN.matcher(password);
+        return matcher.matches();
+    }
 }
