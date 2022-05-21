@@ -35,7 +35,7 @@ public class CuentasUsuariosPrueba {
     @Test
     /* Comprueba que se crea el usuario correctamente */
     public void testCrearUsuario(){
-        Usuario user = new Usuario("Pepito", "Juanito", true);
+        Usuario user = new Usuario("Pepito", "Juanito", true, "Juanito");
         try{
             gestionCuentasUsuarios.CrearUsuario(user);
         }catch (UsuarioException e){
@@ -53,7 +53,7 @@ public class CuentasUsuariosPrueba {
     @Test
     /* Comprueba que no se pueda crear un usuario si ya este existe */
     public void testUsuarioRepetido(){
-        Usuario user = new Usuario("Pepito", "Juanito", true);
+        Usuario user = new Usuario("Pepito", "Juanito", true, "Juanito");
         try{
             gestionCuentasUsuarios.CrearUsuario(user);
         }catch (UsuarioException e){
@@ -82,7 +82,7 @@ public class CuentasUsuariosPrueba {
     public void testIniciarSesion(){
         String nombre = "Juanito";
         String password = "Pepito";
-        Usuario user = new Usuario(nombre, password, false);
+        Usuario user = new Usuario(nombre, password, false, "Juanito");
         Usuario usuario = null;
 
         try{
@@ -112,7 +112,7 @@ public class CuentasUsuariosPrueba {
     public void testIniciarSesionAdministrativo(){
         String nombre = "Admin";
         String password = "Admin";
-        Usuario user = new Usuario(nombre, password, true);
+        Usuario user = new Usuario(nombre, password, true, "Juanito");
 
         try{
             gestionCuentasUsuarios.CrearUsuario(user);
@@ -140,7 +140,7 @@ public class CuentasUsuariosPrueba {
      * @throws UsuarioException
      */
     public void testIniciarSesionPasswordIncorrecta(){
-        Usuario user = new Usuario("Tremendo", "Metodo", true);
+        Usuario user = new Usuario("Tremendo", "Metodo", true, "Juanito");
         try {
             gestionCuentasUsuarios.CrearUsuario(user);
         } catch (UsuarioException e) {

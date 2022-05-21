@@ -21,12 +21,9 @@
                         <h:outputText value="Repita contraseña:"/>
                         <h:inputSecret id="repass" value="#{registro.repass}" required="true"/>
                         <h:message for="repass"/>
-                        <h:outputText value = "Administrativo:"/>
-                        <h:selectOneRadio value="#{registro.usuario.esAdministrativo}" required="true">
-                            <f:selectItem itemValue="#{true}" itemLabel="Si" />
-                            <f:selectItem itemValue="#{false}"  itemLabel="No" />
-                        </h:selectOneRadio>
-                        <h:outputText value = " "/>
+                        <h:outputText value="Email:"/>
+                        <h:inputText id="email" value="#{registro.usuario.email}" required="true"/>
+                        <h:message for="email"/>
                         <h:commandButton value="Crear usuario" action="#{registro.registrarUsuario()}"/>
                         <h:link outcome="login.xhtml">Volver a la página de login</h:link>
                     </h:panelGrid>

@@ -64,7 +64,7 @@ public class AdministrativosPrueba {
      * @throws UsuarioException y AdministrativoException
      */
     public void testIniciarSesionAdministrativo(){
-        Usuario admin = new Usuario("Pepito", "Juanito", true);
+        Usuario admin = new Usuario("Pepito", "Juanito", true, "Juanito");
 		
 		try{
 			gestionCuentasUsuarios.CrearUsuario(admin);
@@ -89,7 +89,7 @@ public class AdministrativosPrueba {
      * @throws UsuarioException y AdministrativoException
      */
     public void testIniciarSesionAdministrativoNoAdministrativo(){
-        Usuario user = new Usuario("Paco", "Paco", false);
+        Usuario user = new Usuario("Paco", "Paco", false, "Juanito");
 
 		try{
 			gestionCuentasUsuarios.CrearUsuario(user);
@@ -118,7 +118,7 @@ public class AdministrativosPrueba {
      * @throws UsuarioException y AdministrativoException
      */
     public void testIniciarSesionAdministrativoPasswordIncorrecta(){
-        Usuario user = new Usuario("Paco", "Paco", true);
+        Usuario user = new Usuario("Paco", "Paco", true, "Juanito");
 
 		try{
 			gestionCuentasUsuarios.CrearUsuario(user);

@@ -19,6 +19,8 @@ public class Usuario {
     private String password;
     @Column(nullable = false)
     private Boolean esAdministrativo;
+    @Column(nullable = false)
+    private String email;
 
     @OneToOne(mappedBy = "usuario")
     private Cliente cliente;
@@ -29,10 +31,11 @@ public class Usuario {
     public Usuario() {
     }
     
-    public Usuario(String user, String password, Boolean esAdministrativo){
+    public Usuario(String user, String password, Boolean esAdministrativo, String email){
         this.nombre = user;
         this.password = password;
         this.esAdministrativo = esAdministrativo;
+        this.email = email;
     }
 
     public String getNombre() {
@@ -58,6 +61,15 @@ public class Usuario {
     public void setEsAdministrativo(Boolean esAdministrativo) {
         this.esAdministrativo = esAdministrativo;
     }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 
     public Cliente getCliente() {
         return this.cliente;
@@ -96,7 +108,7 @@ public class Usuario {
 	@Override
 	public String toString() {
 		return "Usuario [nombre=" + nombre + ", password=" + password + ", esAdministrativo="
-				+ esAdministrativo + ", individual=" + cliente + ", personaAutorizada=" + personaAutorizada + "]";
+				+ esAdministrativo + ", email=" + email + ", individual=" + cliente + ", personaAutorizada=" + personaAutorizada + "]";
 	}
 
 }
