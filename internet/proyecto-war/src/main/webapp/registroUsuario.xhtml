@@ -4,41 +4,73 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
+      <link rel="stylesheet" type="text/css" href="registro-usuario-estilo.css" media="screen"/>
+
     <h:head>
         <title>Registro de usuario</title>
     </h:head>
+
     <h:body>
-        <c:choose>
-            <c:when test="#{empty infoSesion.usuario}">
-                <h:form id="registro">
-                    <h:panelGrid columns="3">
-                        <h:outputText value="Nombre:"/>
-                        <h:inputText id="nombre" value="#{registro.usuario.nombre}" required="true"/>
-                        <h:message for="nombre"/>
-                        <h:outputText value="Contraseña:"/>
-                        <h:inputSecret id="pass" value="#{registro.usuario.password}" required="true"/>
-                        <h:message for="pass"/>
-                        <h:outputText value="Repita contraseña:"/>
-                        <h:inputSecret id="repass" value="#{registro.repass}" required="true"/>
-                        <h:message for="repass"/>
-                        <h:outputText value="Email:"/>
-                        <h:inputText id="email" value="#{registro.usuario.email}" required="true"/>
-                        <h:message for="email"/>
-                        <h:commandButton value="Crear usuario" action="#{registro.registrarUsuario()}"/>
-                        <h:link outcome="login.xhtml">Volver a la página de login</h:link>
-                    </h:panelGrid>
-                    <h:messages/>
+
+        <div class="registro-window">
+
+            <div class="backg-container">
+                <div class="color-overlay">
+                </div>
+                <img src = "demo/edificios.jpg"></img>
+            </div>
+
+            <div class="inside-context">
+
+                <c:choose>
+
+                    <c:when test="#{empty infoSesion.usuario}">
+
+                        <h:form id="registro">
+
+                            <h:panelGrid columns="3">
+
+                                <h:outputText value="Nombre:"/>
+                                <h:inputText id="nombre" value="#{registro.usuario.nombre}" required="true"/>
+                                <h:message for="nombre"/>
+                                <h:outputText value="Contraseña:"/>
+                                <h:inputSecret id="pass" value="#{registro.usuario.password}" required="true"/>
+                                <h:message for="pass"/>
+                                <h:outputText value="Repita contraseña:"/>
+                                <h:inputSecret id="repass" value="#{registro.repass}" required="true"/>
+                                <h:message for="repass"/>
+                                <h:outputText value="Email:"/>
+                                <h:inputText id="email" value="#{registro.usuario.email}" required="true"/>
+                                <h:message for="email"/>
+                                <h:commandButton value="Crear usuario" action="#{registro.registrarUsuario()}"/>
+                                <h:link outcome="login.xhtml">Volver a la página de login</h:link>
+
+                            </h:panelGrid>
+
+                            <h:messages/>
+                            
+                        </h:form>
+                        
+                    </c:when>
+
+                    <c:otherwise>
+
+                        <h:form>
+                            <p>Para crear un nuevo registro debe 
+                                <h:commandLink action="#{infoSesion.invalidarSesion()}">salir</h:commandLink> antes de la aplicación.</p>
+                        </h:form>
+
+                    </c:otherwise>
                     
-                </h:form>
-                
-            </c:when>
-            <c:otherwise>
-                <h:form>
-                    <p>Para crear un nuevo registro debe 
-                        <h:commandLink action="#{infoSesion.invalidarSesion()}">salir</h:commandLink> antes de la aplicación.</p>
-                </h:form>
-            </c:otherwise>
-        </c:choose>
+                </c:choose>
+
+            </div>
+
+            <div class="img-container">
+                <img src = "demo/logo_fondo_transparente.png"></img>
+            </div>
+
+        </div>
 
     </h:body>
 </html>
