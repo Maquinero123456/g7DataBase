@@ -1,8 +1,10 @@
 package vista;
 
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 
 import es.uma.proyecto.GestionAdministrativos;
 import es.uma.proyecto.GestionCuentasUsuarios;
@@ -15,6 +17,8 @@ import es.uma.proyecto.exceptions.ClienteException;
 import es.uma.proyecto.exceptions.CuentaException;
 import es.uma.proyecto.exceptions.PersonaAutorizadaException;
 
+@Named(value = "admin")
+@RequestScoped
 public class Administrador {
 
 	@EJB
@@ -69,23 +73,26 @@ public class Administrador {
 		this.cuentaRef = cuentaRef;
 	}
 	
-	public void darAlta() {	
+	public String darAlta() {	
 		try {
 			admin.darAltaCliente(ident);
+			return "BIEN";
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("No existe el cliente solicitado.");
 	        FacesContext.getCurrentInstance().addMessage("administrador:ident", fm);
 		}
-
+		return "ERROR";
 	}
 	
-	public void darBaja() {	
+	public String darBaja() {	
 		try {
 			admin.darBajaCliente(ident);
+			return "BIEN";
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("No existe el cliente solicitado.");
 	        FacesContext.getCurrentInstance().addMessage("administrador:ident", fm);
 		}
+		return "ERROR";
 	}
 	
 	public void modificarClient() {
