@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Página del admin</title>
+    </h:head>
+    <h:body>
+    		<div>
+    			<p>Buenas tardes <h:outputText value="#{infoSesion.usuario.nombre}"/>, ¿qué acción realizará?</p>
+    		</div>
+    		<button onclick="mostrar('Alta')">Dar de alta Cliente</button>
+    			<div class="Alta" style="display:none" >	
+    			<h:form id="Alta">
+    				<p>Indique el cliente que busca dar de alta:</p>
+    				<h:panelGrid columns="1">
+                    	<h:outputText value="Identificador del cliente:"/>
+                        <h:inputText id="identAlta" required="true" value="#{admin.ident}"/>
+                        <h:message id="identMessage" for="identAlta"/>
+                    </h:panelGrid>
+                        
+                    <div style="display: inline">
+                        <h:commandButton id="darAlta" value="Dar de Alta" action="#{admin.darAlta()}"/>
+            			<button onclick="cerrar('Alta')">Cancelar</button>
+            		</div>
+            	</h:form>
+            	</div>	
+            	
+            <button onclick="mostrar('Baja')">Dar de baja Cliente</button>
+            	<div class="Baja" style="display:none">
+            	<h:form id="Baja">
+            		<p>Indique el cliente que busca dar de baja:</p>
+            		<h:panelGrid columns="1">
+                    	<h:outputText value="Identificador del cliente:"/>
+                        <h:inputText id="identBaja" required="true" value="#{admin.ident}"/>
+                        <h:message id="identMessage2" for="identBaja"/>
+                    </h:panelGrid>
+						
+					<div style="display: inline">
+            			<h:commandButton id="darBaja" width="50px" value="Dar de Baja" action="#{admin.darBaja()}"/>
+            			<button onclick="cerrar('Baja')">Cancelar</button>
+            		</div>
+            	</h:form>	
+            	</div>
+            
+            <button onclick="mostrar('Mod')">Modificar Cliente</button>
+            	<div class="Mod" style="display:none">
+            		<p>Indique el cliente que busca modificar:</p>
+            		
+            		<div style="display: inline">
+            		<h:commandButton id="modificar" value="Modificar" action="#{admin.darBaja()}"/>
+            		<h:commandButton onclick="cerrar('Mod')" value="Cancelar"/>
+            		</div>
+            	</div>
+            
+            <button onclick="mostrar('Cer')">Cerrar Cuenta</button>
+            	<div class="Cer" style="display:none">
+            		<p>Indique la cuenta que busca cerrar:</p>
+            		
+            		<div style="display: inline">
+           			<h:commandButton id="cerrar" value="Cerrar" action="#{admin.cerrarCuenta()}"/>
+            		<button onclick="cerrar('Cer')">Cancelar</button>
+            		</div>
+            	</div>	
+            
+            <button onclick="mostrar('AA')">Aperturar una Cuenta Agrupada</button>
+            	<div class="AA" style="display:none">
+            		<p>Introduzca los datos necesarios para la apertura:</p>
+            		
+            		<div style="display: inline">
+            		<h:commandButton id="aperturaAgrup" value="Aperturar" action="#{admin.aperturaCuentaAgrup()}"/>
+            		<button onclick="cerrar('AA')">Cancelar</button>
+            		</div>
+            	</div>
+            
+            <button onclick="mostrar('AS')">Aperturar una Cuenta Segregada</button>
+            	<div class="AS" style="display:none">
+            		<p>Introduzca los datos necesarios para la apertura:</p>
+            		<h:commandButton id="aperturaSegreg" value="Aperturar" action="#{admin.aperturaCuentaSegreg()}"/>
+            		<button onclick="cerrar('AS')">Cancelar</button>
+            	</div>
+            
+            <button onclick="mostrar('APA')">Añadir Persona Autorizada</button>
+            	<div class="APA" style="display:none">
+            		<p>Indique la persona autorizada a añadir a la empresa:</p>
+            		
+            		<div style="display: inline">
+            		<h:commandButton id="addAutor" value="Añadir" action="#{admin.addAutorizado()}"/>
+            		<button onclick="cerrar('APA')">Cancelar</button>
+            		</div>
+            	</div>
+            
+            <button onclick="mostrar('EPA')">Eliminar Persona Autorizada</button>
+            	<div class="EPA" style="display:none">
+            		<p>Indique la persona autorizada a eliminar:</p>
+            		
+            		<div style="display: inline">
+            		<h:commandButton id="eliminarAutor" value="Eliminar" action="#{admin.eliminarAutorizado()}"/>
+            		<button onclick="cerrar('EPA')">Cancelar</button>
+            		</div>
+            	</div>
+            
+            <button onclick="mostrar('MPA')">Modificar Persona Autorizada</button>
+            	<div class="MPA" style="display:none">
+            		<p>Indique la persona autorizada a modificar:</p>	
+            		
+            		<div style="display: inline">
+            		<h:commandButton id="modificarAutor" value="Modificar" action="#{admin.modificarAutorizado()}"/>
+  					<button onclick="cerrar('MPA')">Cancelar</button>
+  					</div>
+  				</div>
+
+        	<h:outputScript type="text/javascript">
+            const mostrar = elementByClass => {
+                document.querySelector('.' + elementByClass).toggleAttribute('style');
+            };
+            
+            const cerrar = elementByClass => {
+                document.querySelector('.' + elementByClass).setAttribute('style',"display:none");
+            };
+        	</h:outputScript>
+    </h:body>
+</html>

@@ -4,44 +4,66 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
+      <link rel="stylesheet" type="text/css" href="login-estilo.css" media="screen"/>
+    
     <h:head>
         <title>Login</title>
     </h:head>
+
     <h:body>
 
-        <h:form id="login">
+        <div class = "log-Window">
 
-            <c:choose>
-                <c:when test="#{!empty infoSesion.usuario}">
-                    <p>Está autenticado como <h:outputText value="#{infoSesion.usuario.nombre}"/>.</p>
-                    <p>Para iniciar sesión con otra cuenta debe <h:commandLink action="#{infoSesion.invalidarSesion()}">salir</h:commandLink> primero de la aplicación</p>
-                </c:when>
+            <div class="video-container">
 
-                <c:otherwise>
-                    <h:panelGrid columns="3">
-                        <h:outputText value="Nombre de usuario:"/>
-                        <h:inputText id="user" required="true" value="#{login.usuario.nombre}"/>
-                        <h:message id="userMessage" for="user"/>
-                        <h:outputText value="Contraseña:"/>
-                        <h:inputSecret id="pass" required="true" value="#{login.usuario.password}"/>
-                        <h:message id="passwordMessage" for="pass"/>
-                        <h:commandButton id="botonLogin" value="Entrar" action="#{login.entrar()}"/>
-                    </h:panelGrid>
+                <video autoplay="true" loop = "true" muted = "true">
+                    <source src="demo/Login.mp4" type="video/mp4"></source>
+                </video>
 
-                    <div>
-                        <p>Si no tiene cuenta puede crear una en la <h:link outcome="registroUsuario.xhtml">página de registro</h:link></p>
-                    </div>
+            </div>
 
-                </c:otherwise>
-            </c:choose>
+            <div class="inside-context">
 
+                <h:form id="login">
 
+                    <c:choose>
 
+                        <c:when test="#{!empty infoSesion.usuario}">
+                            <p>Está autenticado como <h:outputText value="#{infoSesion.usuario.nombre}"/>.</p>
+                            <p>Para iniciar sesión con otra cuenta debe <h:commandLink action="#{infoSesion.invalidarSesion()}">salir</h:commandLink> primero de la aplicación</p>
+                        </c:when>
 
-        </h:form>
+                        <c:otherwise>
 
+                            <h:panelGrid columns="3">
+                                <h:outputText value="Nombre de usuario:"/>
+                                <h:inputText id="user" required="true" value="#{login.usuario.nombre}"/>
+                                <h:message id="userMessage" for="user"/>
+                                <h:outputText value="Contraseña:"/>
+                                <h:inputSecret id="pass" required="true" value="#{login.usuario.password}"/>
+                                <h:message id="passwordMessage" for="pass"/>
+                                <h:commandButton id="botonLogin" value="Entrar" action="#{login.entrar()}"/>
+                            </h:panelGrid>
 
+                            <div>
+                                <p>Si no tiene cuenta puede crear una en la <h:link outcome="registroUsuario.xhtml">página de registro</h:link></p>
+                            </div>
+
+                        </c:otherwise>
+
+                    </c:choose>
+
+                </h:form>
+
+            </div>
+
+            <div class="img-container">
+                <img src = "demo/logo_fondo_transparente.png"></img>
+            </div>
+
+        </div>
 
     </h:body>
+
 </html>
 
