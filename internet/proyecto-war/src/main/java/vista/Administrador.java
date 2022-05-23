@@ -32,9 +32,10 @@ public class Administrador {
 	private PersonaAutorizada perAu;
 	private String ident;
 	private String iban;
+	private String ibanRef;
     
-	private long idPer;
-	private long idEmp;
+	private String idPer;
+	private String idEmp;
 	private String tipo;
 	
 	public Administrador() {
@@ -71,6 +72,14 @@ public class Administrador {
 
 	public void setCuentaRef(CuentaReferencia cuentaRef) {
 		this.cuentaRef = cuentaRef;
+	}
+	
+	public String getIbanRef() {
+		return ibanRef;
+	}
+
+	public void setIbanRef(String ibanRef) {
+		this.ibanRef = ibanRef;
 	}
 	
 	public String darAlta() {	
@@ -147,8 +156,10 @@ public class Administrador {
 	}
 	
 	public void addAutorizado() {
+		long idE = Long.parseLong(idEmp);
+		long idP = Long.parseLong(idPer);
 		try {
-			admin.addAutorizados(idEmp, idPer, tipo);
+			admin.addAutorizados(idE, idP, tipo);
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("La empresa indicada no existe.");
 	        FacesContext.getCurrentInstance().addMessage("administrador:idEmp", fm);
@@ -162,8 +173,10 @@ public class Administrador {
 	}
 
 	public void eliminarAutorizado() {
+		long idE = Long.parseLong(idEmp);
+		long idP = Long.parseLong(idPer);
 		try {
-			admin.eliminarAutorizado(idEmp, idPer);
+			admin.eliminarAutorizado(idE, idP);
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("La empresa indicada no existe.");
 	        FacesContext.getCurrentInstance().addMessage("administrador:idEmp", fm);
@@ -175,5 +188,70 @@ public class Administrador {
 	        FacesContext.getCurrentInstance().addMessage("administrador:tipo", fm);
 		}
 	}
+
+	public GestionAdministrativos getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(GestionAdministrativos admin) {
+		this.admin = admin;
+	}
+
+	public GestionCuentasUsuarios getCuentas() {
+		return cuentas;
+	}
+
+	public void setCuentas(GestionCuentasUsuarios cuentas) {
+		this.cuentas = cuentas;
+	}
+
+	public PersonaAutorizada getPerAu() {
+		return perAu;
+	}
+
+	public void setPerAu(PersonaAutorizada perAu) {
+		this.perAu = perAu;
+	}
+
+	public String getIban() {
+		return iban;
+	}
+
+	public void setIban(String iban) {
+		this.iban = iban;
+	}
+
+	public String getIdPer() {
+		return idPer;
+	}
+
+	public void setIdPer(String idPer) {
+		this.idPer = idPer;
+	}
+
+	public String getIdEmp() {
+		return idEmp;
+	}
+
+	public void setIdEmp(String idEmp) {
+		this.idEmp = idEmp;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public void setIdent(String ident) {
+		this.ident = ident;
+	}
+
 	
 }
