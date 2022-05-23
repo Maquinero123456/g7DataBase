@@ -1,5 +1,6 @@
 package es.uma.proyecto;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
@@ -9,10 +10,12 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import es.uma.proyecto.entidades.Autorizacion;
+import es.uma.proyecto.entidades.CuentaFintech;
 import es.uma.proyecto.entidades.Empresa;
 import es.uma.proyecto.entidades.EmpresaPersAutoPK;
 import es.uma.proyecto.entidades.PersonaAutorizada;
 import es.uma.proyecto.exceptions.AutorizacionException;
+import es.uma.proyecto.exceptions.CuentaException;
 import es.uma.proyecto.exceptions.EmpresaException;
 import es.uma.proyecto.exceptions.EmpresaPersAutoPKException;
 import es.uma.proyecto.exceptions.PersonaAutorizadaException;
@@ -94,5 +97,40 @@ public class Autorizados implements GestionAutorizados{
         }
         return cli;
     }
+
+    @Override
+    public List<PersonaAutorizada> getPersonaAutorizadaNombre(String nombre, String apellido)
+            throws PersonaAutorizadaException {
+        Query query;
+        if(nombre == null){
+            query = em.createQuery("SELECT cl from PersonaAutorizada cl WHERE cl.apellido = :fapellido");
+            query.setParameter("fapellido", apellido); 
+        }else if(apellido == null){
+            query = em.createQuery("SELECT cl from PersonaAutorizada cl WHERE cl.nombre = :fnombre");
+            query.setParameter("fnombre", nombre);
+        }else{
+            query = em.createQuery("SELECT cl from PersonaAutorizada cl WHERE cl.nombre = :fnombre AND cl.apellido = :fapellido");
+            query.setParameter("fnombre", nombre);
+            query.setParameter("fapellido", apellido); 
+        }
+        
+        if(query.getResultList() == null){
+            throw new PersonaAutorizadaException("No existen personas autorizadas con esos apellidos o nombres");
+        }
+        
+        return query.getResultList();
+    }
     
+
+    @Override
+    public List<CuentaFintech> getCuentasPersonaAutorizada(String id) throws PersonaAutorizadaException, CuentaException{
+        Query query = em.createQuery("SELECT cf from CuentasFintech cf, PersonaAutorizada pa WHERE pa.id = :fid");
+        query.setParameter("fid", id);
+        
+        if(query.getResultList() == null){
+            throw new PersonaAutorizadaException("No existen personas autorizadas con esos apellidos o nombres");
+        }
+
+        return query.getResultList();
+    }
 }

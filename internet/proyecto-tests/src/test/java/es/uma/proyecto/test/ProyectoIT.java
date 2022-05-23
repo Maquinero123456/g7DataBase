@@ -53,7 +53,7 @@ public class ProyectoIT {
 		driver = new ChromeDriver();
 		js = (JavascriptExecutor) driver;
 		vars = new HashMap<String, Object>();
-		BaseDatos.inicializaBaseDatos(UNIDAD_PERSISTENCIA_PRUEBAS);
+		BaseDatos.inicializaBaseDatos(UNIDAD_PERSISTENCIA_PRUEBAS, propiedadesExtra);
 	}
 	
 	@After

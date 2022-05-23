@@ -3,6 +3,7 @@ package es.uma.proyecto.test;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -11,7 +12,7 @@ import javax.persistence.Query;
 import es.uma.proyecto.entidades.*;
 
 public class BaseDatos {
-	public static void inicializaBaseDatos(String nombreUnidadPersistencia) throws ParseException {
+	public static void inicializaBaseDatos(String nombreUnidadPersistencia, Map<String,String> propiedadesExtra) throws ParseException {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory(nombreUnidadPersistencia);
 		EntityManager em = emf.createEntityManager();
 	
