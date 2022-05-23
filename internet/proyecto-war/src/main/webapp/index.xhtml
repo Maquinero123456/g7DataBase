@@ -6,50 +6,65 @@
        xmlns:h="http://xmlns.jcp.org/jsf/html"
        xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-<h:head>
-       <title>Home</title>
-</h:head>
+    <h:head>
+        <title>Home</title>
+    </h:head>
 
-<h:body>
-       <h:form id="form" >
-          <p:messages id="growl" closable="true"  />
-            <div class="login-panel ui-fluid">
-                <div class="ui-g">
-                    <div class="ui-g-12 logo-container">
-                    </div>
-                    <div class="ui-g-12">
-                        <p:inputText value="#{loginController.username}" class="login-input" id="username" placeholder="#{app['login.email']}"/>
-                    </div>
-                    <div class="ui-g-12">
-                        <p:password  feedback="false" value="#{loginController.password}" class="login-input" id="password" placeholder="#{app['login.password']}"/>
-                    </div>
-                    <!--                <div class="ui-g-12 chkbox-container">
-                                        <p:selectBooleanCheckbox id="remember-me" />
-                                        <p:outputLabel for="remember-me" value="Remember Me"/>
-                                    </div>-->
-                    <!--                <div class="ui-g-12 button-container">
-                                        <p:button outcome="/dashboard" value="Sign In" icon="fa fa-user" styleClass="turquoise-btn"/>
-                                        <p:button outcome="/dashboard" value="Forgot Password" icon="fa fa-key" styleClass="blue-btn" />
-                                    </div>-->
-                    <div class="ui-g-12 button-container">
-                        <p:commandButton value="#{app['button.login']}"  
-                                         oncomplete="setTimeout(function() { $('[id$=growl]').hide(2000); }, 2000);"
-                                         icon="fa fa-user"   action="#{loginController.doLogin()}" update=":form:growl :form" />   
+    <h:body>
+
+        <h:form id="form" >
+
+            <p:messages id="growl" closable="true"  />
+
+                <div class="login-panel ui-fluid">
+
+                    <div class="ui-g">
+
+                        <div class="ui-g-12 logo-container">
+
+                        </div>
+
+                        <div class="ui-g-12">
+                            <p:inputText value="#{loginController.username}" class="login-input" id="username" placeholder="#{app['login.email']}"/>
+                        </div>
+
+                        <div class="ui-g-12">
+                            <p:password  feedback="false" value="#{loginController.password}" class="login-input" id="password" placeholder="#{app['login.password']}"/>
+                        </div>
+
+                        <!--                <div class="ui-g-12 chkbox-container">
+                                            <p:selectBooleanCheckbox id="remember-me" />
+                                            <p:outputLabel for="remember-me" value="Remember Me"/>
+                                        </div>-->
+                        <!--                <div class="ui-g-12 button-container">
+                                            <p:button outcome="/dashboard" value="Sign In" icon="fa fa-user" styleClass="turquoise-btn"/>
+                                            <p:button outcome="/dashboard" value="Forgot Password" icon="fa fa-key" styleClass="blue-btn" />
+                                        </div>-->
+
+                        <div class="ui-g-12 button-container">
+                            <p:commandButton value="#{app['button.login']}"  
+                                            oncomplete="setTimeout(function() { $('[id$=growl]').hide(2000); }, 2000);"
+                                            icon="fa fa-user"   action="#{loginController.doLogin()}" update=":form:growl :form" />   
+
+                        </div>
 
                     </div>
+
                 </div>
-            </div>
-            <p:confirmDialog widgetVar="sessionDialog" closable="false" global="true" showEffect="fade" hideEffect="fade" 
-                             message="#{app['session.procederacerrar']}">
-                <p:commandButton value="#{app['button.close']}" oncomplete="PF('sessionDialog').hide();" 
-                                 update=":form" styleClass="ui-confirmdialog-yes"
-                                 action="#{loginController.invalidateCurrentSession()}" />
 
-            </p:confirmDialog>
+                <p:confirmDialog widgetVar="sessionDialog" closable="false" global="true" showEffect="fade" hideEffect="fade" 
+                                message="#{app['session.procederacerrar']}">
 
-        </h:form>
-        <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="poseidon-layout" />
+                    <p:commandButton value="#{app['button.close']}" oncomplete="PF('sessionDialog').hide();" 
+                                    update=":form" styleClass="ui-confirmdialog-yes"
+                                    action="#{loginController.invalidateCurrentSession()}" />
 
-</h:body>
+                </p:confirmDialog>
+
+            </h:form>
+            
+            <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="poseidon-layout" />
+
+    </h:body>
 
 </html>
