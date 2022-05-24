@@ -39,7 +39,6 @@ public class Administrador {
 	private String tipo;
 	
 	public Administrador() {
-    	usuario = new Usuario();
     }
 	
 	public String getIdent() {

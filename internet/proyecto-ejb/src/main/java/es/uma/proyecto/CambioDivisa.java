@@ -64,6 +64,10 @@ public class CambioDivisa implements GestionCambioDivisa{
         //Actualiza el saldo en las cuentas con la divisa a la que quiero cambiar
         depositadaCambio.setSaldo(depositadaCambio.getSaldo()+cantidad*original.getCambioEuro()/divisa.getCambioEuro());
         referenciaCambio.setSaldo(referenciaCambio.getSaldo()+cantidad*original.getCambioEuro()/divisa.getCambioEuro());
+        
+        System.out.print(depositadaCambio.getSaldo()+cantidad*original.getCambioEuro()/divisa.getCambioEuro());
+        System.out.println(referenciaCambio.getSaldo()+cantidad*original.getCambioEuro()/divisa.getCambioEuro());
+        
         em.merge(depositadaCambio);
         em.merge(referenciaCambio);
         //Consigo la fecha de hoy

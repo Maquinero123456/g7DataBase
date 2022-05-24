@@ -11,9 +11,126 @@
     </h:head>
 
     <h:body>
-
-        
-
+        	<div>
+    			<p>Buenas tardes <h:outputText value="#{infoSesion.usuario.nombre}"/>, ¿qué acción realizará?</p>
+    		</div>
+    		
+            <button onclick="mostrar('tranI')">Realizar una Transacción</button>
+            	<div class="tranI" style="display:none">
+            	<h:form id="ftranI">
+            		<p>Indique los datos:</p>
+            		<h:panelGrid columns="3">
+                    	<h:outputText value="IBAN cuenta origen: "/>
+                        <h:inputText id="ibanOriI" required="true" value="#{index.ibanOrigen}"/>
+                        <h:message for="ibanOriI"/>
+                    </h:panelGrid>
+                    
+                    <h:panelGrid columns="3">
+                    	<h:outputText value="IBAN cuenta destino: "/>
+                        <h:inputText id="ibanDestI" required="true" value="#{index.ibanDestino}"/>
+                        <h:message for="ibanDestI"/>
+                    </h:panelGrid>
+                    
+                    <h:panelGrid columns="3">
+                    	<h:outputText value="Cantidad a transferir: "/>
+                        <h:inputText id="cantI" required="true" value="#{index.cantidad}"/>
+                        <h:message for="cantI"/>
+                    </h:panelGrid>
+                    
+                    <h:panelGrid columns="3">
+                    	<h:outputText value="Concepto: "/>
+                        <h:inputText id="tipoI" required="true" value="#{index.tipo}"/>
+                        <h:message for="tipoI"/>
+                    </h:panelGrid>
+						
+					<div style="display: inline">
+            			<h:commandButton id="TransI" value="Realizar transacción" action="#{index.transaccionIndividual()}"/>
+            			<button onclick="cerrar('tranI')">Cancelar</button>
+            		</div>
+            	</h:form>
+            	</div>
+            	
+            	
+            	<button onclick="mostrar('tranPA')">Realizar una Transacción</button>
+            	<div class="tranPA" style="display:none">
+            	<h:form id="ftranPA">
+            		<p>Indique los datos:</p>
+            		<h:panelGrid columns="3">
+                    	<h:outputText value="IBAN cuenta origen: "/>
+                        <h:inputText id="ibanOriPA" required="true" value="#{index.ibanOrigen}"/>
+                        <h:message for="ibanOriPA"/>
+                    </h:panelGrid>
+                    
+                    <h:panelGrid columns="3">
+                    	<h:outputText value="IBAN cuenta destino: "/>
+                        <h:inputText id="ibanDestPA" required="true" value="#{index.ibanDestino}"/>
+                        <h:message for="ibanDestPA"/>
+                    </h:panelGrid>
+                    
+                    <h:panelGrid columns="3">
+                    	<h:outputText value="Cantidad a transferir: "/>
+                        <h:inputText id="cantPA" required="true" value="#{index.cantidad}"/>
+                        <h:message for="cantPA"/>
+                    </h:panelGrid>
+                    
+                    <h:panelGrid columns="3">
+                    	<h:outputText value="Concepto: "/>
+                        <h:inputText id="tipoPA" required="true" value="#{index.tipo}"/>
+                        <h:message for="tipoPA"/>
+                    </h:panelGrid>
+						
+					<div style="display: inline">
+            			<h:commandButton id="TransPA" value="Realizar transacción" action="#{index.transaccionIndividual()}"/>
+            			<button onclick="cerrar('tranPA')">Cancelar</button>
+            		</div>
+            	</h:form>
+            	</div>
+            	
+            	
+            	<button onclick="mostrar('cdd')">Realizar un Cambio de Divisa en la Cuenta</button>
+            	<div class="cdd" style="display:none">
+            	<h:form id="fcdd">
+            		<p>Indique los datos:</p>
+            		<h:panelGrid columns="3">
+                    	<h:outputText value="IBAN de la cuenta agrupada: "/>
+                        <h:inputText id="ibanCDD" required="true" value="#{index.ibanOrigen}"/>
+                        <h:message for="ibanCDD"/>
+                    </h:panelGrid>
+                    
+                    <h:panelGrid columns="3">
+                    	<h:outputText value="Divisa origen: "/>
+                        <h:inputText id="oriCDD" required="true" value="#{index.ori}"/>
+                        <h:message for="oriCDD"/>
+                    </h:panelGrid>
+                    
+                    <h:panelGrid columns="3">
+                    	<h:outputText value="Divisa destino: "/>
+                        <h:inputText id="nueCDD" required="true" value="#{index.nue}"/>
+                        <h:message for="nueCDD"/>
+                    </h:panelGrid>
+                    
+                    <h:panelGrid columns="3">
+                    	<h:outputText value="Cantidad a cambiar: "/>
+                        <h:inputText id="cantiCDD" required="true" value="#{index.cantidad}"/>
+                        <h:message for="cantiCDD"/>
+                    </h:panelGrid>
+						
+					<div style="display: inline">
+            			<h:commandButton id="cambio" value="Realizar cambio" action="#{index.cambiarDivisas()}"/>
+            			<button onclick="cerrar('CDD')">Cancelar</button>
+            		</div>
+            	</h:form>
+            	</div>
+            	
+            	<h:outputScript type="text/javascript">
+            		const mostrar = elementByClass => {
+                	document.querySelector('.' + elementByClass).toggleAttribute('style');
+            		};
+            
+            		const cerrar = elementByClass => {
+                	document.querySelector('.' + elementByClass).setAttribute('style',"display:none");
+            		};
+				</h:outputScript>		
     </h:body>
 
 </html>
