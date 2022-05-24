@@ -83,14 +83,14 @@ public class Registro{
         //Password comprueba
         if(!validatePassword(usuario.getPassword())){
             FacesMessage fm = new FacesMessage("La contraseña debe ser valida");
-            FacesContext.getCurrentInstance().addMessage("registro:repass", fm);
+            FacesContext.getCurrentInstance().addMessage("registro:pass", fm);
             return null;
         }
 
         //Email comprueba
         if(!validateEmail(usuario.getEmail())){
             FacesMessage fm = new FacesMessage("El email debe ser valido");
-            FacesContext.getCurrentInstance().addMessage("registro:repass", fm);
+            FacesContext.getCurrentInstance().addMessage("registro:email", fm);
             return null;
         }
 
