@@ -88,7 +88,7 @@ public class Administrador {
 			return "BIEN";
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("No existe el cliente solicitado.");
-	        FacesContext.getCurrentInstance().addMessage("administrador:ident", fm);
+	        FacesContext.getCurrentInstance().addMessage("administrador:identAlta", fm);
 		}
 		return "ERROR";
 	}
@@ -99,7 +99,7 @@ public class Administrador {
 			return "BIEN";
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("No existe el cliente solicitado.");
-	        FacesContext.getCurrentInstance().addMessage("administrador:ident", fm);
+	        FacesContext.getCurrentInstance().addMessage("administrador:identBaja", fm);
 		}
 		return "ERROR";
 	}
@@ -109,7 +109,7 @@ public class Administrador {
 			admin.modificarCliente(cliente);
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("No existe el cliente solicitado.");
-	        FacesContext.getCurrentInstance().addMessage("administrador:cliente", fm);
+	        FacesContext.getCurrentInstance().addMessage("administrador:clienteMod", fm);
 		}
 	}
 	
@@ -185,7 +185,7 @@ public class Administrador {
 	        FacesContext.getCurrentInstance().addMessage("administrador:idPer", fm);
 		} catch (AutorizacionException e) {
 			FacesMessage fm = new FacesMessage("Error al eliminar la autorizacion.");
-	        FacesContext.getCurrentInstance().addMessage("administrador:tipo", fm);
+	        FacesContext.getCurrentInstance().addMessage("admini:tipo", fm);
 		}
 	}
 

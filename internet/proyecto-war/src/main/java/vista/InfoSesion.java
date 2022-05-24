@@ -48,11 +48,10 @@ public class InfoSesion implements Serializable {
         if (usuario != null)
         {
             usuario = cuentas.refrescarUsuario(usuario);
-            System.out.println(usuario.getContactos().size());
         } 
         }
-        catch (AgendaException e) {
-            // TODO
+        catch (NullPointerException e) {
+        	System.out.println(e);
         }
     }*/
     

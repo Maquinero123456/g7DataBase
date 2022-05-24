@@ -23,4 +23,5 @@ public interface GestionCuentasUsuarios {
     public Usuario getUsuario(String nombre) throws UsuarioException;
     
     public Usuario iniciarSesion(String nombre, String password) throws UsuarioException;
+    
 }
