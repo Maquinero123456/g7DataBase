@@ -47,7 +47,7 @@ public class Login {
     		if(cuentas.getUsuario(usuario.getNombre()).getEsAdministrativo()){
                 Usuario user = administratitivos.iniciarSesion(usuario.getNombre(), usuario.getPassword());
                 sesion.setUsuario(user);
-                return "administrador.xhtml";
+                return "admin.xhtml";
             }else{
                 Usuario user = cuentas.iniciarSesion(usuario.getNombre(), usuario.getPassword());
                 sesion.setUsuario(user);

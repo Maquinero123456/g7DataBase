@@ -34,8 +34,6 @@ public class InicializarBD {
     @PostConstruct
     public void inicializar(){
 
-        em.getTransaction().begin();
-
         Usuario comprobacion = em.find(Usuario.class, "ponciano");
         if (comprobacion !=null) {
             return;
@@ -87,7 +85,6 @@ public class InicializarBD {
         PersonaAutorizada pers = new PersonaAutorizada("Y4001267V", "Victor", "Rodriguez", "una calle", utilDate, "Alta", utilDate, null);
         em.persist(pers);
 
-        em.getTransaction().commit();
 
         /*
         Query query = em.createQuery("SELECT c FROM PersonaAutorizada c WHERE c.identificacion LIKE :fident");
