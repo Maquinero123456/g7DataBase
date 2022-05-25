@@ -163,7 +163,7 @@ public class Administrador {
 			admin.cerrarCuenta(iban);
 		} catch (CuentaException e) {
 			FacesMessage fm = new FacesMessage("No la cuenta o el saldo no es 0.");
-	        FacesContext.getCurrentInstance().addMessage("administrador:iban", fm);
+	        FacesContext.getCurrentInstance().addMessage("administrador:ibanCer", fm);
 		}
 	}
 	
@@ -172,10 +172,10 @@ public class Administrador {
 			admin.aperturaCuentaAgrupada(iban, ident);
 		} catch (CuentaException e) {
 			FacesMessage fm = new FacesMessage("La cuenta no existe o ya está tomada.");
-	        FacesContext.getCurrentInstance().addMessage("admin:iban", fm);
+	        FacesContext.getCurrentInstance().addMessage("admin:ibanAA", fm);
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("El cliente indicado no existe.");
-	        FacesContext.getCurrentInstance().addMessage("admin:ident", fm);
+	        FacesContext.getCurrentInstance().addMessage("admin:identAA", fm);
 		}
 	}
 	
@@ -184,10 +184,10 @@ public class Administrador {
 			admin.aperturaCuentaSegregada(iban, ident, cuentaRef);
 		} catch (CuentaException e) {
 			FacesMessage fm = new FacesMessage("La cuenta no existe o ya está tomada.");
-	        FacesContext.getCurrentInstance().addMessage("admin:iban", fm);
+	        FacesContext.getCurrentInstance().addMessage("admin:ibanAS", fm);
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("El cliente indicado no existe.");
-	        FacesContext.getCurrentInstance().addMessage("admin:ident", fm);
+	        FacesContext.getCurrentInstance().addMessage("admin:identAS", fm);
 		}
 	}
 	
@@ -237,13 +237,13 @@ public class Administrador {
 			admin.addAutorizados(idE, idP, tipo);
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("La empresa indicada no existe.");
-	        FacesContext.getCurrentInstance().addMessage("admin:idEmp", fm);
+	        FacesContext.getCurrentInstance().addMessage("admin:idEmpAPA", fm);
 		} catch (PersonaAutorizadaException e) {
 			FacesMessage fm = new FacesMessage("La persona autorizada indicada no existe.");
-	        FacesContext.getCurrentInstance().addMessage("admin:idPer", fm);
+	        FacesContext.getCurrentInstance().addMessage("admin:idPerAPA", fm);
 		} catch (AutorizacionException e) {
 			FacesMessage fm = new FacesMessage("Error al crear la autorizacion.");
-	        FacesContext.getCurrentInstance().addMessage("admin:tipo", fm);
+	        FacesContext.getCurrentInstance().addMessage("admin:tipoAPA", fm);
 		}
 	}
 
@@ -254,10 +254,10 @@ public class Administrador {
 			admin.eliminarAutorizado(idE, idP);
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("La empresa indicada no existe.");
-	        FacesContext.getCurrentInstance().addMessage("admin:idEmp", fm);
+	        FacesContext.getCurrentInstance().addMessage("admin:idEmpE", fm);
 		} catch (PersonaAutorizadaException e) {
 			FacesMessage fm = new FacesMessage("La persona autorizada indicada no existe.");
-	        FacesContext.getCurrentInstance().addMessage("admin:idPer", fm);
+	        FacesContext.getCurrentInstance().addMessage("admin:idPerE", fm);
 		} catch (AutorizacionException e) {
 			FacesMessage fm = new FacesMessage("Error al eliminar la autorizacion.");
 	        FacesContext.getCurrentInstance().addMessage("admini:tipo", fm);
