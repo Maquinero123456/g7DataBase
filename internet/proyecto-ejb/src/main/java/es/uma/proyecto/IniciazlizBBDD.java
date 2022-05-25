@@ -1,4 +1,5 @@
-package es.uma.proyecto;
+
+/*package es.uma.proyecto;
 
 import java.util.Date;
 
@@ -170,6 +171,7 @@ public class IniciazlizBBDD {
         PooledAccount pool = new PooledAccount("ES8400817251647192321264", null, true, utilDate, null, null);
         query = em.createQuery("SELECT c FROM Cliente c WHERE c.identificacion LIKE :fident");
 		query.setParameter("fident", "63937528N");
+		System.out.print(false);
         pool.setCliente((Cliente) query.getSingleResult());
         em.persist(pool);
 
@@ -184,4 +186,4 @@ public class IniciazlizBBDD {
         em.persist(tr);
 
     }
-}
+}*/
