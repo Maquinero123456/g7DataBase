@@ -6,6 +6,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -38,7 +39,7 @@ public class IniciazlizBBDD {
             return;
         }
 
-        Date utilDate = new Date(System.currentTimeMillis());
+        /*Date utilDate = new Date(System.currentTimeMillis());
 
         Usuario user = new Usuario("ponciano", "Ponciano123", true, "ponciano@gmail.com");
         em.persist(user);
@@ -81,11 +82,23 @@ public class IniciazlizBBDD {
         PersonaAutorizada pers = new PersonaAutorizada("Y4001267V", "Victor", "Rodriguez", "una calle", utilDate, "Alta", utilDate, null);
         em.persist(pers);
         Query query = em.createQuery("SELECT c FROM PersonaAutorizada c WHERE c.identificacion LIKE :fident");
-		query.setParameter("fident", client.getIdentificacion());
-		pers = (PersonaAutorizada) query.getSingleResult();
+		query.setParameter("fident", "63937528N");
+		
+		try{
+			pers = (PersonaAutorizada) query.getSingleResult();
+		}
+		catch(NoResultException e){
+			System.out.println("1");
+		}
         query = em.createQuery("SELECT c FROM Empresa c WHERE c.identificacion LIKE :fident");
-		query.setParameter("fident", emp.getIdentificacion());
-		emp = (Empresa) query.getSingleResult();
+		query.setParameter("fident", "P3310693A");
+		
+		try{
+			emp = (Empresa) query.getSingleResult();
+		}
+		catch(NoResultException e){
+			System.out.println("2");
+		}
 
         Autorizacion aut = new Autorizacion(new EmpresaPersAutoPK(emp.getID(), pers.getID()), "No", pers, emp);
         em.persist(aut);
@@ -93,7 +106,14 @@ public class IniciazlizBBDD {
         Usuario juan = new Usuario("juan", "Juanito123", false, "juan@juan.com");
         query = em.createQuery("SELECT c FROM Cliente c WHERE c.identificacion LIKE :fident");
 		query.setParameter("fident", "63937528N");
-        juan.setCliente((Cliente) query.getSingleResult());
+		
+		try{
+			juan.setCliente((Cliente) query.getSingleResult());
+		}
+		catch(NoResultException e){
+			System.out.println("3");
+		}
+        
         em.persist(juan);
 
         Usuario ana = new Usuario("ana", "Anita123", false, "ana@ana.com");
@@ -170,7 +190,13 @@ public class IniciazlizBBDD {
         PooledAccount pool = new PooledAccount("ES8400817251647192321264", null, true, utilDate, null, null);
         query = em.createQuery("SELECT c FROM Cliente c WHERE c.identificacion LIKE :fident");
 		query.setParameter("fident", "63937528N");
-        pool.setCliente((Cliente) query.getSingleResult());
+        
+		try{
+			pool.setCliente((Cliente) query.getSingleResult());
+		}
+		catch(NoResultException e){
+			System.out.println("");
+		}
         em.persist(pool);
 
         DepositadaEn dep1 = new DepositadaEn(new CuentaRefPoolAccPK(ES71.getIBAN(), pool.getIBAN()), ES71, pool, ES71.getSaldo());
@@ -181,7 +207,7 @@ public class IniciazlizBBDD {
         em.persist(dep3);
 
         Transaccion tr = new Transaccion(utilDate, 200, "Transaccion", pool, seg3, dolar, dolar);
-        em.persist(tr);
+        em.persist(tr);*/
 
     }
 }
