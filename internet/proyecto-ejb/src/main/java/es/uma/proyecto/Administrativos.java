@@ -289,4 +289,18 @@ public class Administrativos implements GestionAdministrativos{
         
     }
     
+    public PersonaAutorizada getPersonaAutorizada(String id) throws PersonaAutorizadaException {
+        Query query = em.createQuery("SELECT pa from PersonaAutorizada pa WHERE pa.identificacion = :fidentificacion");
+		query.setParameter("fidentificacion", id); 
+        PersonaAutorizada pa = null;
+        try{
+            pa = (PersonaAutorizada) query.getSingleResult();
+        }catch(NoResultException e){
+            throw new PersonaAutorizadaException("PersonaAutorizada no existe");
+        }
+        return pa;
+        
+    }
+
+    
 }

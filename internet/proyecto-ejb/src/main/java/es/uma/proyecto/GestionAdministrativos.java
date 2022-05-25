@@ -110,4 +110,7 @@ public interface GestionAdministrativos {
 
     // Devuelve el cliente
 	public Cliente getCliente(String id) throws ClienteException;
+	
+	// Devuelve personaautorizada
+	public PersonaAutorizada getPersonaAutorizada(String id) throws PersonaAutorizadaException;
 }

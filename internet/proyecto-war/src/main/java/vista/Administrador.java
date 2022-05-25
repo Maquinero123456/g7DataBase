@@ -36,18 +36,21 @@ public class Administrador {
 	private String iban;
 	private String ibanRef;
 	
+	// Atributos de Cliente
 	private String pais1;
 	private String fecha1;
 	private String ciudad1;
 	private String dir1;
 	private String cp1;
 	
-	private String pais2;
-	private String fecha2;
-	private String ciudad2;
+	// Atributos de Persona Autorizada
+	private String fechaInicio;
+	private String fechaNac;
+	private String fechaFin;
+	private String estadoPA;
 	private String dir2;
-	private String cp2;
-    
+	
+	
 	private String idPer;
 	private String idEmp;
 	private String tipo;
@@ -189,7 +192,35 @@ public class Administrador {
 	}
 	
 	public void modificarAutorizado() {
-		perAu = new PersonaAutorizada();
+		try {
+			perAu = admin.getPersonaAutorizada(idPer);
+		} catch (PersonaAutorizadaException e2) {
+			FacesMessage fm = new FacesMessage("La persona autorizada no existe.");
+	        FacesContext.getCurrentInstance().addMessage("admin:ident", fm);
+		}
+		
+		if(dir2 != null) {
+			perAu.setDireccion(dir2);
+		}
+		
+		if(fechaInicio != null) {
+			Date fecha = null;
+			perAu.setFecha_Inicio(fecha);
+		}
+		
+		if(fechaFin != null) {
+			Date fecha = null;
+			perAu.setFechaFin(fecha);
+		}
+		
+		if(fechaNac != null) {
+			Date fecha = null;
+			perAu.setFecha_Nacimiento(fecha);
+		}
+		
+		if(estadoPA != null) {
+			perAu.setEstado(estadoPA);
+		}
 		
 		try {
 			admin.modificarAutorizado(perAu);
@@ -337,29 +368,15 @@ public class Administrador {
 		this.cp1 = cp1;
 	}
 
-	public String getPais2() {
-		return pais2;
+
+	public String getFechaInicio() {
+		return fechaInicio;
 	}
 
-	public void setPais2(String pais2) {
-		this.pais2 = pais2;
+	public void setFechaInicio(String fechaInicio) {
+		this.fechaInicio = fechaInicio;
 	}
 
-	public String getFecha2() {
-		return fecha2;
-	}
-
-	public void setFecha2(String fecha2) {
-		this.fecha2 = fecha2;
-	}
-
-	public String getCiudad2() {
-		return ciudad2;
-	}
-
-	public void setCiudad2(String ciudad2) {
-		this.ciudad2 = ciudad2;
-	}
 
 	public String getDir2() {
 		return dir2;
@@ -369,12 +386,29 @@ public class Administrador {
 		this.dir2 = dir2;
 	}
 
-	public String getCp2() {
-		return cp2;
+	public String getFechaNac() {
+		return fechaNac;
 	}
 
-	public void setCp2(String cp2) {
-		this.cp2 = cp2;
+	public void setFechaNac(String fechaNac) {
+		this.fechaNac = fechaNac;
 	}
+
+	public String getFechaFin() {
+		return fechaFin;
+	}
+
+	public void setFechaFin(String fechaFin) {
+		this.fechaFin = fechaFin;
+	}
+
+	public String getEstadoPA() {
+		return estadoPA;
+	}
+
+	public void setEstadoPA(String estadoPA) {
+		this.estadoPA = estadoPA;
+	}
+
 	
 }
