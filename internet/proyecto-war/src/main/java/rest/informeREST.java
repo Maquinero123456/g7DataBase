@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -35,8 +36,7 @@ import es.uma.proyecto.exceptions.IndividualException;
 import es.uma.proyecto.exceptions.PersonaAutorizadaException;
 
 import javax.ws.rs.core.UriInfo;
-
-
+@Path("/api")
 public class informeREST {
 
 	@EJB
@@ -48,7 +48,7 @@ public class informeREST {
 
 
 	//1
-	@Path("/api/healcheck")
+	@Path("/healcheck")
     @GET
 	@Produces ("text/plain")
     public String healthCheck(){
@@ -56,7 +56,7 @@ public class informeREST {
     }
     
 	//2
-    @Path("/api/clients")
+    @Path("/clients")
     @POST
     @Consumes (MediaType.APPLICATION_JSON)
     public Response clients(String name, String lastName, String alta, String baja){
@@ -138,10 +138,10 @@ public class informeREST {
 			json.remove(json.size()-1);
 		}
 		json.add("}");
-        return Response.ok(json).build();
+        return Response.ok(json.toString()).build();
     }
 
-	@Path("/api/products")
+	@Path("/products")
     @POST
     @Consumes (MediaType.APPLICATION_JSON)
 	public Response products(Boolean status, String iban){
@@ -196,7 +196,7 @@ public class informeREST {
 			json.remove(json.size()-1);
 		}
 		json.add("}");
-		return Response.ok(json).build();
+		return Response.ok(json.toString()).build();
 	}
 
 }

@@ -103,13 +103,13 @@ public class Autorizados implements GestionAutorizados{
             throws PersonaAutorizadaException {
         Query query;
         if(nombre == null){
-            query = em.createQuery("SELECT cl from PersonaAutorizada cl WHERE cl.apellido = :fapellido");
+            query = em.createQuery("SELECT cl from PersonaAutorizada cl WHERE cl.apellidos = :fapellido");
             query.setParameter("fapellido", apellido); 
         }else if(apellido == null){
             query = em.createQuery("SELECT cl from PersonaAutorizada cl WHERE cl.nombre = :fnombre");
             query.setParameter("fnombre", nombre);
         }else{
-            query = em.createQuery("SELECT cl from PersonaAutorizada cl WHERE cl.nombre = :fnombre AND cl.apellido = :fapellido");
+            query = em.createQuery("SELECT cl from PersonaAutorizada cl WHERE cl.nombre = :fnombre AND cl.apellidos = :fapellido");
             query.setParameter("fnombre", nombre);
             query.setParameter("fapellido", apellido); 
         }
