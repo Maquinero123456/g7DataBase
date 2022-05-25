@@ -34,6 +34,9 @@ public class IniciazlizBBDD {
 
     @PostConstruct
     public void inicializar(){
+
+        em.getTransaction().begin();
+
         Usuario comprobacion = em.find(Usuario.class, "ponciano");
         if (comprobacion !=null) {
             return;
@@ -81,6 +84,9 @@ public class IniciazlizBBDD {
 
         PersonaAutorizada pers = new PersonaAutorizada("Y4001267V", "Victor", "Rodriguez", "una calle", utilDate, "Alta", utilDate, null);
         em.persist(pers);
+
+        em.getTransaction().commit();
+
         Query query = em.createQuery("SELECT c FROM PersonaAutorizada c WHERE c.identificacion LIKE :fident");
 		query.setParameter("fident", client.getIdentificacion());
 		pers = (PersonaAutorizada) query.getSingleResult();
@@ -90,6 +96,8 @@ public class IniciazlizBBDD {
 
         Autorizacion aut = new Autorizacion(new EmpresaPersAutoPK(emp.getID(), pers.getID()), "No", pers, emp);
         em.persist(aut);
+
+        em.getTransaction().commit();
 
         Usuario juan = new Usuario("juan", "Juanito123", false, "juan@juan.com");
         query = em.createQuery("SELECT c FROM Cliente c WHERE c.identificacion LIKE :fident");
@@ -184,6 +192,9 @@ public class IniciazlizBBDD {
 
         Transaccion tr = new Transaccion(utilDate, 200, "Transaccion", pool, seg3, dolar, dolar);
         em.persist(tr);
+
+        em.getTransaction().commit();
+		em.close();
 
     }
 }*/
