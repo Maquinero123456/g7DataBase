@@ -5,7 +5,6 @@ import es.uma.proyecto.entidades.*;
 import es.uma.proyecto.exceptions.UsuarioException;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -21,7 +20,7 @@ public class InfoSesion implements Serializable {
     private Usuario usuario;
     
     /**
-     * Creates a new instance of InfoSesion
+     * Crea una nueva instancia
      */
     public InfoSesion() {
     }
@@ -34,25 +33,20 @@ public class InfoSesion implements Serializable {
         return usuario;
     }
     
-    public synchronized String invalidarSesion()
-    {
-        if (usuario != null)
-        {
+    public synchronized String invalidarSesion(){
+        if (usuario != null){
             usuario = null;
             FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         }
         return "login.xhtml";
     }
     
-    public synchronized void refrescarUsuario()
-    {
+    public synchronized void refrescarUsuario(){
         try {
-        if (usuario != null)
-        {
+        if (usuario != null){
             usuario = cuentas.getUsuario(usuario.getNombre());
         } 
-        }
-        catch (NullPointerException e) {
+        } catch (NullPointerException e) {
         	System.out.println(e);
         } catch (UsuarioException e) {
             // TODO Auto-generated catch block
