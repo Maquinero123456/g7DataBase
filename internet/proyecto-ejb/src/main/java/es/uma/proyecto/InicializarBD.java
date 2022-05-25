@@ -7,6 +7,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PostLoad;
 import javax.persistence.Query;
 
 import es.uma.proyecto.entidades.Autorizacion;
@@ -33,7 +34,6 @@ public class InicializarBD {
 
     @PostConstruct
     public void inicializar(){
-
         Usuario comprobacion = em.find(Usuario.class, "ponciano");
         if (comprobacion !=null) {
             return;
@@ -85,30 +85,6 @@ public class InicializarBD {
         PersonaAutorizada pers = new PersonaAutorizada("Y4001267V", "Victor", "Rodriguez", "una calle", utilDate, "Alta", utilDate, null);
         em.persist(pers);
 
-
-        /*
-        Query query = em.createQuery("SELECT c FROM PersonaAutorizada c WHERE c.identificacion LIKE :fident");
-		query.setParameter("fident", client.getIdentificacion());
-		pers = (PersonaAutorizada) query.getSingleResult();
-        query = em.createQuery("SELECT c FROM Empresa c WHERE c.identificacion LIKE :fident");
-		query.setParameter("fident", emp.getIdentificacion());
-		emp = (Empresa) query.getSingleResult();
-
-        Autorizacion aut = new Autorizacion(new EmpresaPersAutoPK(emp.getID(), pers.getID()), "No", pers, emp);
-        em.persist(aut);
-
-        em.getTransaction().commit();
-
-        Usuario juan = new Usuario("juan", "Juanito123", false, "juan@juan.com");
-        query = em.createQuery("SELECT c FROM Cliente c WHERE c.identificacion LIKE :fident");
-		query.setParameter("fident", "63937528N");
-        juan.setCliente((Cliente) query.getSingleResult());
-        em.persist(juan);
-
-        Usuario ana = new Usuario("ana", "Anita123", false, "ana@ana.com");
-        ana.setPersonaAutorizada(pers);
-        em.persist(ana);
-
         CuentaReferencia vg57 = new CuentaReferencia();
         vg57.setIBAN("VG57DDVS5173214964983931");
         vg57.setSaldo(100.0);
@@ -132,7 +108,7 @@ public class InicializarBD {
         em.persist(hn47);
 
         Segregada seg2 = new Segregada();
-        seg2.setIBAN("NL63ABNA6548268733");
+        seg2.setIBAN("FR5514508000502273293129K55");
         seg2.setCliente(emp);
         seg2.setEstado(true);
         seg2.setFechaApertura(utilDate);
@@ -148,7 +124,7 @@ public class InicializarBD {
         em.persist(refFalsa);
 
         Segregada seg3 = new Segregada();
-        seg3.setIBAN("NL63ABNA6548268733");
+        seg3.setIBAN("DE31500105179261215675");
         seg3.setCliente(emp);
         seg3.setEstado(false);
         seg3.setFechaApertura(utilDate);
@@ -175,6 +151,41 @@ public class InicializarBD {
         GB79.setNombreBanco("Pablo Dineros");
         GB79.setDivisa(libra);
         em.persist(GB79);
+        
+    }
+
+    @PostLoad
+    public void inicio2(){
+        Usuario comprobacion = em.find(Usuario.class, "ponciano");
+        if (comprobacion !=null) {
+            return;
+        }
+
+        Date utilDate = new Date(System.currentTimeMillis());
+
+
+        Empresa emp = null;
+        PersonaAutorizada pers = null;
+
+        Query query = em.createQuery("SELECT c FROM PersonaAutorizada c WHERE c.identificacion LIKE :fident");
+		query.setParameter("fident", "Y4001267V");
+		pers = (PersonaAutorizada) query.getSingleResult();
+        query = em.createQuery("SELECT c FROM Empresa c WHERE c.identificacion LIKE :fident");
+		query.setParameter("fident", emp.getIdentificacion());
+		emp = (Empresa) query.getSingleResult();
+
+        Autorizacion aut = new Autorizacion(new EmpresaPersAutoPK(emp.getID(), pers.getID()), "No", pers, emp);
+        em.persist(aut);
+
+        Usuario juan = new Usuario("juan", "Juanito123", false, "juan@juan.com");
+        query = em.createQuery("SELECT c FROM Individual c WHERE c.identificacion LIKE :fident");
+		query.setParameter("fident", "63937528N");
+        juan.setCliente((Individual) query.getSingleResult());
+        em.persist(juan);
+
+        Usuario ana = new Usuario("ana", "Anita123", false, "ana@ana.com");
+        ana.setPersonaAutorizada(pers);
+        em.persist(ana);
 
         PooledAccount pool = new PooledAccount("ES8400817251647192321264", null, true, utilDate, null, null);
         query = em.createQuery("SELECT c FROM Cliente c WHERE c.identificacion LIKE :fident");
@@ -183,6 +194,10 @@ public class InicializarBD {
         pool.setCliente((Cliente) query.getSingleResult());
         em.persist(pool);
 
+        CuentaReferencia ES71 = em.find(CuentaReferencia.class, "ES7121007487367264321882");
+        CuentaReferencia VG88 = em.find(CuentaReferencia.class, "VG88HBIJ4257959912673134");
+        CuentaReferencia GB79 = em.find(CuentaReferencia.class, "GB79BARC20040134265953");
+
         DepositadaEn dep1 = new DepositadaEn(new CuentaRefPoolAccPK(ES71.getIBAN(), pool.getIBAN()), ES71, pool, ES71.getSaldo());
         em.persist(dep1);
         DepositadaEn dep2 = new DepositadaEn(new CuentaRefPoolAccPK(VG88.getIBAN(), pool.getIBAN()), VG88, pool, VG88.getSaldo());
@@ -190,11 +205,12 @@ public class InicializarBD {
         DepositadaEn dep3 = new DepositadaEn(new CuentaRefPoolAccPK(GB79.getIBAN(), pool.getIBAN()), GB79, pool, GB79.getSaldo());
         em.persist(dep3);
 
+        Divisa dolar = em.find(Divisa.class, "USD");
+
+        Segregada seg3 = em.find(Segregada.class, "NL63ABNA6548268733");
+
+
         Transaccion tr = new Transaccion(utilDate, 200, "Transaccion", pool, seg3, dolar, dolar);
         em.persist(tr);
-
-        em.getTransaction().commit();
-		em.close();
-		*/
     }
 }
