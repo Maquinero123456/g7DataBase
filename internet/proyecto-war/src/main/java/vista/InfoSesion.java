@@ -2,6 +2,8 @@ package vista;
 
 import es.uma.proyecto.GestionCuentasUsuarios;
 import es.uma.proyecto.entidades.*;
+import es.uma.proyecto.exceptions.UsuarioException;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -42,17 +44,20 @@ public class InfoSesion implements Serializable {
         return "login.xhtml";
     }
     
-    /*public synchronized void refrescarUsuario()
+    public synchronized void refrescarUsuario()
     {
         try {
         if (usuario != null)
         {
-            usuario = cuentas.refrescarUsuario(usuario);
+            usuario = cuentas.getUsuario(usuario.getNombre());
         } 
         }
         catch (NullPointerException e) {
         	System.out.println(e);
+        } catch (UsuarioException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
-    }*/
+    }
     
 }

@@ -7,6 +7,7 @@ import es.uma.proyecto.exceptions.AdministrativoException;
 import es.uma.proyecto.exceptions.UsuarioException;
 
 import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -20,6 +21,9 @@ public class Login {
     private GestionCuentasUsuarios cuentas;
     @EJB 
     private GestionAdministrativos administratitivos;
+
+    @Inject
+    private InfoSesion sesion;
 
     private Usuario usuario;
 
@@ -42,9 +46,11 @@ public class Login {
     	try{
     		if(cuentas.getUsuario(usuario.getNombre()).getEsAdministrativo()){
                 Usuario user = administratitivos.iniciarSesion(usuario.getNombre(), usuario.getPassword());
+                sesion.setUsuario(user);
                 return "administrador.xhtml";
             }else{
                 Usuario user = cuentas.iniciarSesion(usuario.getNombre(), usuario.getPassword());
+                sesion.setUsuario(user);
                 return "index.xhtml";
             }
 		} catch (UsuarioException e) {
