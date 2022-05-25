@@ -33,7 +33,11 @@
 				<h3>AREA DE
 					<span>ADMINISTRADORES</span>
 				</h3>
-
+				
+			<c:choose>
+				
+				<c:when test="#{!empty infoSesion.usuario && info.Sesion.esAdministrativo}">
+                	
 				<p>Buenas tardes <h:outputText value="#{infoSesion.usuario.nombre}"/>, ¿qué acción realizará?</p>
 
 				<div>
@@ -182,9 +186,8 @@
 				
 
 				</div>
-					
+				
 				<div>
-
 					<button onclick="mostrar('APA')">Añadir Persona Autorizada</button>
 					
 					<div class="APA" style="display:none">
@@ -256,6 +259,18 @@
 						</h:form>
 
 					</div>
+					
+					</div>		
+				</c:when>
+				
+				<c:otherwise>
+				
+					<p>NO TIENE PERMISO DE ENTRAR AQUÍ >:(((</p>
+				</c:otherwise>
+				
+				</c:choose>
+							
+			</div>			
 
 					<h:outputScript type="text/javascript"> 
 					const mostrar = elementByClass => {
@@ -267,10 +282,6 @@
 					};
 					
 					</h:outputScript>
-
-				</div>
-
-			</div>
 
 		</section>
 

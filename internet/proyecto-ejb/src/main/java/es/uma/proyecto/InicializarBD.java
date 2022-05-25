@@ -1,5 +1,4 @@
-
-/*package es.uma.proyecto;
+package es.uma.proyecto;
 
 import java.util.Date;
 
@@ -27,7 +26,7 @@ import es.uma.proyecto.entidades.Usuario;
 
 @Singleton
 @Startup
-public class IniciazlizBBDD {
+public class InicializarBD {
     
     @PersistenceContext(name = "proyectoEJB")
 	EntityManager em;
@@ -46,6 +45,9 @@ public class IniciazlizBBDD {
 
         Usuario user = new Usuario("ponciano", "Ponciano123", true, "ponciano@gmail.com");
         em.persist(user);
+        
+        Usuario admin = new Usuario("admin", "admin", true, "admin@gualet.com");
+        em.persist(admin);
 
         Divisa euro = new Divisa("EUR", "Euro", 1.0);
         Divisa libra = new Divisa("GBP", "Libra", 1.17);
@@ -87,6 +89,7 @@ public class IniciazlizBBDD {
 
         em.getTransaction().commit();
 
+        /*
         Query query = em.createQuery("SELECT c FROM PersonaAutorizada c WHERE c.identificacion LIKE :fident");
 		query.setParameter("fident", client.getIdentificacion());
 		pers = (PersonaAutorizada) query.getSingleResult();
@@ -195,6 +198,6 @@ public class IniciazlizBBDD {
 
         em.getTransaction().commit();
 		em.close();
-
+		*/
     }
-}*/
+}
