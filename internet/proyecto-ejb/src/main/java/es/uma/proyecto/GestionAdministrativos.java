@@ -106,4 +106,13 @@ public interface GestionAdministrativos {
      * Una cuenta cerrada no se elimina, por si es necesario reportarla en algún informe.
     */
     public void cerrarCuenta(String iban) throws CuentaException;
+    
+    
+    /**
+     * Devuelve el cliente
+     * @param id
+     * @return
+     * @throws ClienteException
+     */
+    public Cliente getCliente(String id) throws ClienteException;
 }

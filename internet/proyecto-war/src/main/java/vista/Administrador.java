@@ -1,5 +1,7 @@
 package vista;
 
+import java.util.Date;
+
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -33,6 +35,18 @@ public class Administrador {
 	private String ident;
 	private String iban;
 	private String ibanRef;
+	
+	private String pais1;
+	private String fecha1;
+	private String ciudad1;
+	private String dir1;
+	private String cp1;
+	
+	private String pais2;
+	private String fecha2;
+	private String ciudad2;
+	private String dir2;
+	private String cp2;
     
 	private String idPer;
 	private String idEmp;
@@ -105,6 +119,35 @@ public class Administrador {
 	
 	public void modificarClient() {
 		try {
+			cliente = admin.getCliente(ident);
+		} catch (ClienteException e1) {
+		}
+			
+		if(ciudad1 != null) {
+			cliente.setCiudad(ciudad1);
+		}
+		
+		if(cp1 != null) {
+			cliente.setCodigoPostal(cp1);
+		}
+		
+		if(dir1 != null) {
+			cliente.setDireccion(dir1);
+		}
+		
+		if(pais1 != null){
+			cliente.setPais(pais1);
+		}
+		if(fecha1 != null) {
+			Date fecha = null;
+			cliente.setFechaBaja(fecha);
+		}
+		
+		/*if() {
+			cliente.setCuentas(cliente.getCuentas());
+		}*/
+		
+		try {
 			admin.modificarCliente(cliente);
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("No existe el cliente solicitado.");
@@ -145,7 +188,7 @@ public class Administrador {
 		}
 	}
 	
-	public void modificarAutorizado() {
+	public void modificarAutorizado() {		
 		try {
 			admin.modificarAutorizado(perAu);
 		} catch (PersonaAutorizadaException e) {
@@ -252,5 +295,84 @@ public class Administrador {
 		this.ident = ident;
 	}
 
+	public String getPais1() {
+		return pais1;
+	}
+
+	public void setPais1(String pais1) {
+		this.pais1 = pais1;
+	}
+
+	public String getFecha1() {
+		return fecha1;
+	}
+
+	public void setFecha1(String fecha1) {
+		this.fecha1 = fecha1;
+	}
+
+	public String getCiudad1() {
+		return ciudad1;
+	}
+
+	public void setCiudad1(String ciudad1) {
+		this.ciudad1 = ciudad1;
+	}
+
+	public String getDir1() {
+		return dir1;
+	}
+
+	public void setDir1(String dir1) {
+		this.dir1 = dir1;
+	}
+
+	public String getCp1() {
+		return cp1;
+	}
+
+	public void setCp1(String cp1) {
+		this.cp1 = cp1;
+	}
+
+	public String getPais2() {
+		return pais2;
+	}
+
+	public void setPais2(String pais2) {
+		this.pais2 = pais2;
+	}
+
+	public String getFecha2() {
+		return fecha2;
+	}
+
+	public void setFecha2(String fecha2) {
+		this.fecha2 = fecha2;
+	}
+
+	public String getCiudad2() {
+		return ciudad2;
+	}
+
+	public void setCiudad2(String ciudad2) {
+		this.ciudad2 = ciudad2;
+	}
+
+	public String getDir2() {
+		return dir2;
+	}
+
+	public void setDir2(String dir2) {
+		this.dir2 = dir2;
+	}
+
+	public String getCp2() {
+		return cp2;
+	}
+
+	public void setCp2(String cp2) {
+		this.cp2 = cp2;
+	}
 	
 }
