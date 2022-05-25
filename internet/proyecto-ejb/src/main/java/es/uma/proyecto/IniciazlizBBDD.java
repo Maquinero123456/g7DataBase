@@ -123,11 +123,11 @@ public class IniciazlizBBDD {
         em.persist(hn47);
 
         Segregada seg2 = new Segregada();
-        seg.setIBAN("NL63ABNA6548268733");
-        seg.setCliente(emp);
-        seg.setEstado(true);
-        seg.setFechaApertura(utilDate);
-        seg.setCuentaReferencia(hn47);
+        seg2.setIBAN("NL63ABNA6548268733");
+        seg2.setCliente(emp);
+        seg2.setEstado(true);
+        seg2.setFechaApertura(utilDate);
+        seg2.setCuentaReferencia(hn47);
         em.persist(seg2);
 
         CuentaReferencia refFalsa = new CuentaReferencia();
@@ -139,11 +139,11 @@ public class IniciazlizBBDD {
         em.persist(refFalsa);
 
         Segregada seg3 = new Segregada();
-        seg.setIBAN("NL63ABNA6548268733");
-        seg.setCliente(emp);
-        seg.setEstado(false);
-        seg.setFechaApertura(utilDate);
-        seg.setCuentaReferencia(refFalsa);
+        seg3.setIBAN("NL63ABNA6548268733");
+        seg3.setCliente(emp);
+        seg3.setEstado(false);
+        seg3.setFechaApertura(utilDate);
+        seg3.setCuentaReferencia(refFalsa);
         em.persist(seg3);
 
         CuentaReferencia ES71 = new CuentaReferencia();
