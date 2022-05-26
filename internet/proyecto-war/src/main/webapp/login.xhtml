@@ -14,10 +14,11 @@
 
         <div class = "log-Window">
 
-
-            <video autoplay="true" loop = "true" muted = "true">
-                <source src="demo/Login.mp4" type="video/mp4"></source>
-            </video>
+            <div class="video-container">
+                <video autoplay="true" loop = "true" muted = "true">
+                    <source src="demo/Login.mp4" type="video/mp4"></source>
+                </video>
+            </div>
 
 
             <div class="inside-context">
@@ -33,18 +34,34 @@
 
                         <c:otherwise>
 
-                            <h:panelGrid columns="3" styleClass="panelGrid">
-                                <h:outputText value="Usuario:" styleClass="titulo"/>
-                                <h:inputText id="user" required="true" value="#{login.usuario.nombre}" styleClass="entrada"/>
-                                <h:message id="userMessage" for="user" styleClass="titulo"/>
-                                <h:outputText value="Contraseña:" styleClass="titulo"/>
-                                <h:inputSecret id="pass" required="true" value="#{login.usuario.password}" styleClass="entrada"/>
-                                <h:message id="passwordMessage" for="pass" styleClass="titulo"/>
-                                <h:commandButton id="botonLogin" value="Entrar" action="#{login.entrar()}" styleClass="boton"/>
-                            </h:panelGrid>
+                            <div class="centrar-elem">
 
-                            <div>
-                                <p>Si no tiene cuenta puede crear una en la <h:link outcome="registroUsuario.xhtml">página de registro</h:link></p>
+                                <div class="intro-usu">
+                                    <h:outputText value="Usuario:" styleClass="titulo"/>
+                                    <h:inputText id="user" required="true" value="#{login.usuario.nombre}" styleClass="entrada"/>
+                                </div>
+
+                                <div class="mensajes">                                    
+                                    <h:message id="userMessage" for="user"/>
+                                </div>
+
+                                <div class="intro-contr">
+                                    <h:outputText value="Contraseña:" styleClass="titulo"/>
+                                    <h:inputSecret id="pass" required="true" value="#{login.usuario.password}" styleClass="entrada"/>
+                                </div>
+
+                                <div class="mensajes">
+                                    <h:message id="passwordMessage" for="pass"/>
+                                </div>
+
+                                <div class="enter">
+                                    <h:commandButton id="botonLogin" value="Entrar" action="#{login.entrar()}" styleClass="boton"/>
+                                </div>
+
+                                <div class="mensaje-registro">
+                                  <p>Si no tiene cuenta puede crear una en la <h:link outcome="registroUsuario.xhtml">página de registro</h:link></p>
+                                </div>
+
                             </div>
 
                         </c:otherwise>

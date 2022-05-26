@@ -55,13 +55,13 @@ public class Login {
             }
 		} catch (UsuarioException e) {
 			FacesMessage fm = new FacesMessage("La cuenta indicada no existe.");
-            FacesContext.getCurrentInstance().addMessage("registro:user", fm);
+            FacesContext.getCurrentInstance().addMessage("login:userMessage", fm);
 		} catch (AdministrativoException e) {
             FacesMessage fm = new FacesMessage("El administrativo indicado no existe.");
-            FacesContext.getCurrentInstance().addMessage("registro:user", fm);
+            FacesContext.getCurrentInstance().addMessage("login:user", fm);
         } catch (NullPointerException e) {
             FacesMessage fm = new FacesMessage("El usuario indicado no existe.");
-            FacesContext.getCurrentInstance().addMessage("registro:user", fm);
+            FacesContext.getCurrentInstance().addMessage("login:userMessage", fm);
         }
     	return "Error al iniciar sesion.";
     }
