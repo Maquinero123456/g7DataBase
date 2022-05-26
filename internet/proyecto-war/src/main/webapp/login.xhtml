@@ -33,14 +33,14 @@
 
                         <c:otherwise>
 
-                            <h:panelGrid columns="3">
+                            <h:panelGrid columns="3" styleClass="panelGrid">
                                 <h:outputText value="Usuario:" styleClass="titulo"/>
                                 <h:inputText id="user" required="true" value="#{login.usuario.nombre}" styleClass="entrada"/>
-                                <h:message id="userMessage" for="user"/>
+                                <h:message id="userMessage" for="user" styleClass="titulo"/>
                                 <h:outputText value="Contraseña:" styleClass="titulo"/>
                                 <h:inputSecret id="pass" required="true" value="#{login.usuario.password}" styleClass="entrada"/>
-                                <h:message id="passwordMessage" for="pass"/>
-                                <h:commandButton id="botonLogin" value="Entrar" action="#{login.entrar()}"/>
+                                <h:message id="passwordMessage" for="pass" styleClass="titulo"/>
+                                <h:commandButton id="botonLogin" value="Entrar" action="#{login.entrar()}" styleClass="boton"/>
                             </h:panelGrid>
 
                             <div>

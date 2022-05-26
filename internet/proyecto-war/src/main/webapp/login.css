@@ -50,9 +50,15 @@
     text-align: center;
 }
 
-.entrada {
+.entrada, .boton{
     border-radius: 5rem;
     border: 0;
-    width: 60px;
-    height: 20px;
+    width: 120px;
+    height: 30px;
+}
+
+.panelGrid {
+    align-items: center;
+    justify-content: center;
+    columns: unset;
 }

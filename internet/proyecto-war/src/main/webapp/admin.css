@@ -8,7 +8,7 @@
 
 p{
 
-    font-size: 1.5rem;
+    font-size: 2.5rem;
     color: #333;
     text-transform: uppercase;
 
@@ -141,7 +141,7 @@ button{
     padding: .8rem 3rem;
     border-radius: 5rem;
     background: var(--degradado);
-    font-size: 2rem;
+    font-size: 2.5rem;
     color: white;
     cursor: pointer;
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
