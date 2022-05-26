@@ -55,7 +55,7 @@
 							</h:panelGrid>
 								
 							<div style="display: inline">
-								<h:commandButton id="darAlta" value="Dar de Alta" action="#{admin.darAlta()}"/>
+								<h:commandButton styleClass="button" id="darAlta" value="Dar de Alta" action="#{admin.darAlta()}"/>
 								<button onclick="cerrar('Alta');return false">Cancelar</button>
 							</div>
 
@@ -71,7 +71,7 @@
 							<p>Indique el cliente que busca modificar:</p>
 							
 							<div style="display: inline">
-								<h:commandButton id="modificar" value="Modificar" action="#{admin.darBaja()}"/>
+								<h:commandButton styleClass="button" id="modificar" value="Modificar" action="#{admin.darBaja()}"/>
 								<button onclick="cerrar('Mod');return false">Cancelar</button>
 							</div>
 
@@ -93,7 +93,7 @@
 							</h:panelGrid>
 								
 							<div style="display: inline">
-								<h:commandButton id="darBaja" value="Dar de Baja" action="#{admin.darBaja()}"/>
+								<h:commandButton styleClass="button" id="darBaja" value="Dar de Baja" action="#{admin.darBaja()}"/>
 								<button onclick="cerrar('Baja');return false">Cancelar</button>
 							</div>
 							
@@ -124,7 +124,7 @@
 							</h:panelGrid>
 							
 							<div style="display: inline">
-								<h:commandButton id="AA" value="Apeturar" action="#{admin.aperturaCuentaAgrup()}"/>
+								<h:commandButton styleClass="button" id="AA" value="Apeturar" action="#{admin.aperturaCuentaAgrup()}"/>
 								<button onclick="cerrar('AA');return false">Cancelar</button>
 							</div>
 
@@ -153,7 +153,7 @@
 								<h:message for="ibanRef"/>
 							</h:panelGrid>
 							
-							<h:commandButton id="aperturaSegreg" value="Aperturar" action="#{admin.aperturaCuentaSegreg()}"/>
+							<h:commandButton styleClass="button" id="aperturaSegreg" value="Aperturar" action="#{admin.aperturaCuentaSegreg()}"/>
 							<button onclick="cerrar('AS');return false">Cancelar</button>
 
 						</h:form>
@@ -174,7 +174,7 @@
 							</h:panelGrid>
 							
 							<div style="display: inline">
-								<h:commandButton id="cerra" value="Cerrar" action="#{admin.cerrarCuenta()}"/>
+								<h:commandButton styleClass="button" id="cerra" value="Cerrar" action="#{admin.cerrarCuenta()}"/>
 								<button onclick="cerrar('Cer');return false">Cancelar</button>
 							</div>
 
@@ -209,7 +209,7 @@
 							</h:panelGrid>
 							
 							<div style="display: inline">
-								<h:commandButton id="addAutor" value="Añadir" action="#{admin.addAutorizado()}"/>
+								<h:commandButton styleClass="button" id="addAutor" value="Añadir" action="#{admin.addAutorizado()}"/>
 								<button onclick="cerrar('APA');return false">Cancelar</button>
 							</div>
 
@@ -225,7 +225,7 @@
 						<p>Indique la persona autorizada a modificar:</p>	
 						
 						<div style="display: inline">
-							<h:commandButton id="modificarAutor" value="Modificar" action="#{admin.modificarAutorizado()}"/>
+							<h:commandButton styleClass="button" id="modificarAutor" value="Modificar" action="#{admin.modificarAutorizado()}"/>
 							<button onclick="cerrar('MPA');return false">Cancelar</button>
 						</div>
 
@@ -250,7 +250,7 @@
 							</h:panelGrid>
 							
 							<div style="display: inline">
-								<h:commandButton id="eliminarAutor" value="Eliminar" action="#{admin.eliminarAutorizado()}"/>
+								<h:commandButton styleClass="button" id="eliminarAutor" value="Eliminar" action="#{admin.eliminarAutorizado()}"/>
 								<button onclick="cerrar('EPA');return false">Cancelar</button>
 							</div>
 
