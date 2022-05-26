@@ -11,21 +11,19 @@
     </h:head>
 
     <h:body>
-
 		<section class="inicio" id="inicio">
-
 			<div class="content">
-
 				<header>
-
 					<a href="#" class="logo"><span>G</span>ualet</a>
 					<input type="checkbox" id="menu-bar"></input>
 					<label for="menu-bar" class="fa fa-bars"></label>
 
 					<nav class="navbar">
-						<a href="#inicio">Inicio</a>
-						<a href="#cuentas">Ajustes</a>
-						<a href="#sesion">Cerrar sesión</a>
+					<h:form>	
+						<a href="login.xhtml">Inicio</a>
+						<a href="admin.xhtml">Ajustes</a>
+						<h:commandLink action="#{infoSesion.invalidarSesion()}">Cerrar Sesion</h:commandLink>
+					</h:form>
 					</nav>
 
 				</header>
@@ -38,7 +36,7 @@
 				
 				<c:when test="#{infoSesion.usuario.esAdministrativo}">
                 	
-				<p>Buenas tardes <h:outputText value="#{infoSesion.usuario.nombre}"/>, ¿qué acción realizará?</p>
+				<p>Buenas tardes <i><h:outputText value="#{infoSesion.usuario.nombre}"/></i>, ¿qué acción realizará?</p>
 
 				<div>
 
@@ -58,7 +56,7 @@
 								
 							<div style="display: inline">
 								<h:commandButton id="darAlta" value="Dar de Alta" action="#{admin.darAlta()}"/>
-								<button onclick="cerrar('Alta')">Cancelar</button>
+								<button onclick="cerrar('Alta');return false">Cancelar</button>
 							</div>
 
 						</h:form>
@@ -74,7 +72,7 @@
 							
 							<div style="display: inline">
 								<h:commandButton id="modificar" value="Modificar" action="#{admin.darBaja()}"/>
-								<button onclick="cerrar('Mod')">Cancelar</button>
+								<button onclick="cerrar('Mod');return false">Cancelar</button>
 							</div>
 
 						</h:form>
@@ -96,7 +94,7 @@
 								
 							<div style="display: inline">
 								<h:commandButton id="darBaja" value="Dar de Baja" action="#{admin.darBaja()}"/>
-								<button onclick="cerrar('Baja')">Cancelar</button>
+								<button onclick="cerrar('Baja');return false">Cancelar</button>
 							</div>
 							
 						</h:form>
@@ -127,7 +125,7 @@
 							
 							<div style="display: inline">
 								<h:commandButton id="AA" value="Apeturar" action="#{admin.aperturaCuentaAgrup()}"/>
-								<button onclick="cerrar('AA')">Cancelar</button>
+								<button onclick="cerrar('AA');return false">Cancelar</button>
 							</div>
 
 						</h:form>
@@ -156,7 +154,7 @@
 							</h:panelGrid>
 							
 							<h:commandButton id="aperturaSegreg" value="Aperturar" action="#{admin.aperturaCuentaSegreg()}"/>
-							<button onclick="cerrar('AS')">Cancelar</button>
+							<button onclick="cerrar('AS');return false">Cancelar</button>
 
 						</h:form>
 					</div>
@@ -177,7 +175,7 @@
 							
 							<div style="display: inline">
 								<h:commandButton id="cerra" value="Cerrar" action="#{admin.cerrarCuenta()}"/>
-								<button onclick="cerrar('Cer')">Cancelar</button>
+								<button onclick="cerrar('Cer');return false">Cancelar</button>
 							</div>
 
 						</h:form>
@@ -212,7 +210,7 @@
 							
 							<div style="display: inline">
 								<h:commandButton id="addAutor" value="Añadir" action="#{admin.addAutorizado()}"/>
-								<button onclick="cerrar('APA')">Cancelar</button>
+								<button onclick="cerrar('APA');return false">Cancelar</button>
 							</div>
 
 						</h:form>
@@ -228,7 +226,7 @@
 						
 						<div style="display: inline">
 							<h:commandButton id="modificarAutor" value="Modificar" action="#{admin.modificarAutorizado()}"/>
-							<button onclick="cerrar('MPA')">Cancelar</button>
+							<button onclick="cerrar('MPA');return false">Cancelar</button>
 						</div>
 
 					</div>
@@ -253,7 +251,7 @@
 							
 							<div style="display: inline">
 								<h:commandButton id="eliminarAutor" value="Eliminar" action="#{admin.eliminarAutorizado()}"/>
-								<button onclick="cerrar('EPA')">Cancelar</button>
+								<button onclick="cerrar('EPA');return false">Cancelar</button>
 							</div>
 
 						</h:form>
