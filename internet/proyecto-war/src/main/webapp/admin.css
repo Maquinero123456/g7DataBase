@@ -3,12 +3,12 @@
 :root{
     --rojo:rgb(179, 0, 39);
     --naranja: #fb7e29;
-    --degradado: linear-gradient(90deg, var(--naranja), var(--rojo));
+    --degradado: linear-gradient(90deg, var(--rojo), var(--naranja));
 }
 
 p{
 
-    font-size: 1.5rem;
+    font-size: 2.5rem;
     color: #333;
     text-transform: uppercase;
 
@@ -64,11 +64,11 @@ header{
 /*LOGO*/
 header .logo{
     font-size: 5rem;
-    color: var(--rojo);
+    color: var(--naranja);
 }
 
 header .logo span{
-    color: var(--naranja);
+    color: var(--rojo);
 }
 /*---------------------------*/
 
@@ -141,7 +141,7 @@ button{
     padding: .8rem 3rem;
     border-radius: 5rem;
     background: var(--degradado);
-    font-size: 1.8rem;
+    font-size: 2.5rem;
     color: white;
     cursor: pointer;
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
