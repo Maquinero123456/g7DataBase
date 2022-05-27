@@ -30,6 +30,14 @@
                         <c:when test="#{!empty infoSesion.usuario}">
                             <p>Está autenticado como <h:outputText value="#{infoSesion.usuario.nombre}"/>.</p>
                             <p>Para iniciar sesión con otra cuenta debe <h:commandLink action="#{infoSesion.invalidarSesion()}">salir</h:commandLink> primero de la aplicación</p>
+                            <c:choose>
+                                <c:when test="#{infoSesion.usuario.getEsAdministrativo()}">
+                                    <p>Para acceder a la pagina de admin <a  href="admin.xhtml">pulsa aqui</a></p>
+                                </c:when>
+                                <c:otherwise>
+                                    <p>Para acceder a la pagina de inicio <a  href="index.xhtml">pulsa aqui</a></p>
+                                </c:otherwise>
+                            </c:choose>
                         </c:when>
 
                         <c:otherwise>
