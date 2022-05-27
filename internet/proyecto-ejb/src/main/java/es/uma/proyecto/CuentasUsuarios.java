@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import es.uma.proyecto.entidades.Usuario;
+import es.uma.proyecto.exceptions.PasswordException;
 import es.uma.proyecto.exceptions.UsuarioException;
 
 @Stateless
@@ -36,13 +37,13 @@ public class CuentasUsuarios implements GestionCuentasUsuarios{
     }
 
     @Override
-    public Usuario iniciarSesion(String nombre, String password) throws UsuarioException {
+    public Usuario iniciarSesion(String nombre, String password) throws UsuarioException, PasswordException {
         Usuario user = em.find(Usuario.class, nombre);
         if(user == null){
             throw new UsuarioException("El usuario no existe.");
         }
         if(!user.getPassword().equals(password)){
-            throw new UsuarioException("Password incorrecta");
+            throw new PasswordException("Password incorrecta");
         }
         if(user.getEsAdministrativo()){
             throw new UsuarioException("No puedes iniciar sesion como administrativo aqui");

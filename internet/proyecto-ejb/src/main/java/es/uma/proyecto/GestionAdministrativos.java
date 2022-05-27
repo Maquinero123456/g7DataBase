@@ -10,6 +10,7 @@ import es.uma.proyecto.exceptions.AdministrativoException;
 import es.uma.proyecto.exceptions.AutorizacionException;
 import es.uma.proyecto.exceptions.ClienteException;
 import es.uma.proyecto.exceptions.CuentaException;
+import es.uma.proyecto.exceptions.PasswordException;
 import es.uma.proyecto.exceptions.PersonaAutorizadaException;
 
 @Local
@@ -23,8 +24,9 @@ public interface GestionAdministrativos {
      * @param usuario Usuario del administrativo
      * @param password Contraseña del administrativo
      * @throws AdministrativoException Se lanza si no se encuentra el usuario o la contraseña no coincide 
+	 * @throws PasswordException
      */
-    public Usuario iniciarSesion(String usuario, String password) throws AdministrativoException;
+    public Usuario iniciarSesion(String usuario, String password) throws AdministrativoException, PasswordException;
     
     
     /** REQUISITO 2

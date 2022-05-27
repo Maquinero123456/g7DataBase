@@ -4,6 +4,7 @@ import es.uma.proyecto.GestionAdministrativos;
 import es.uma.proyecto.GestionCuentasUsuarios;
 import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.exceptions.AdministrativoException;
+import es.uma.proyecto.exceptions.PasswordException;
 import es.uma.proyecto.exceptions.UsuarioException;
 
 import javax.ejb.EJB;
@@ -54,14 +55,17 @@ public class Login {
                 return "index.xhtml";
             }
 		} catch (UsuarioException e) {
-			FacesMessage fm = new FacesMessage("La cuenta indicada no existe.");
-            FacesContext.getCurrentInstance().addMessage("login:userMessage", fm);
+			FacesMessage fm = new FacesMessage("La cuenta indicada no existe");
+            FacesContext.getCurrentInstance().addMessage("login:user", fm);
 		} catch (AdministrativoException e) {
-            FacesMessage fm = new FacesMessage("El administrativo indicado no existe.");
+            FacesMessage fm = new FacesMessage("El administrativo indicado no existe");
             FacesContext.getCurrentInstance().addMessage("login:user", fm);
         } catch (NullPointerException e) {
-            FacesMessage fm = new FacesMessage("El usuario indicado no existe.");
+            FacesMessage fm = new FacesMessage("El usuario indicado no existe");
             FacesContext.getCurrentInstance().addMessage("login:userMessage", fm);
+        } catch (PasswordException e) {
+            FacesMessage fm = new FacesMessage("La contraseña no coincide");
+            FacesContext.getCurrentInstance().addMessage("login:pass", fm);
         }
     	return "Error al iniciar sesion.";
     }

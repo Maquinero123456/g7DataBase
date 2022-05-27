@@ -24,6 +24,7 @@ import es.uma.proyecto.exceptions.AdministrativoException;
 import es.uma.proyecto.exceptions.AutorizacionException;
 import es.uma.proyecto.exceptions.ClienteException;
 import es.uma.proyecto.exceptions.CuentaException;
+import es.uma.proyecto.exceptions.PasswordException;
 import es.uma.proyecto.exceptions.PersonaAutorizadaException;
 
 @Stateless
@@ -36,13 +37,13 @@ public class Administrativos implements GestionAdministrativos{
     private EntityManager em;
 
     @Override
-    public Usuario iniciarSesion(String usuario, String password) throws AdministrativoException {
+    public Usuario iniciarSesion(String usuario, String password) throws AdministrativoException, PasswordException {
         Usuario user = em.find(Usuario.class, usuario);
         if(user == null){
             throw new AdministrativoException("Usuario no encontrado");
         }
         if(!user.getPassword().equals(password)){
-            throw new AdministrativoException("Password incorrecta");
+            throw new PasswordException("Password incorrecta");
         }
         if(!user.getEsAdministrativo()) {
         	throw new AdministrativoException("El usuario NO es administrativo");

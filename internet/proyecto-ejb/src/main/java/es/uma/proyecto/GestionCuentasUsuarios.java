@@ -3,6 +3,7 @@ package es.uma.proyecto;
 import javax.ejb.Local;
 
 import es.uma.proyecto.entidades.Usuario;
+import es.uma.proyecto.exceptions.PasswordException;
 import es.uma.proyecto.exceptions.UsuarioException;
 
 @Local
@@ -22,6 +23,6 @@ public interface GestionCuentasUsuarios {
     /* REQUISITO 10 */
     public Usuario getUsuario(String nombre) throws UsuarioException;
     
-    public Usuario iniciarSesion(String nombre, String password) throws UsuarioException;
+    public Usuario iniciarSesion(String nombre, String password) throws UsuarioException, PasswordException;
     
 }
