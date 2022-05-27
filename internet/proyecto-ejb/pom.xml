@@ -9,6 +9,15 @@
 	<artifactId>proyecto-ejb</artifactId>
 	<packaging>ejb</packaging>
 	
+	<repositories>
+   	 <!-- Needed for JSON-B API -->
+    	<repository>
+       	 	<id>java.net-Public</id>
+        	<name>Maven Java Net Snapshots and Releases</name>
+        	<url>https://maven.java.net/content/groups/public/</url>
+    	</repository>
+	</repositories>
+	
 	<dependencies>
 		<dependency>
 			<groupId>wallet</groupId>
@@ -43,6 +52,43 @@
     			<artifactId>anotaciones</artifactId>
     			<version>1.0.0</version>
 		</dependency>
+		
+    	<!-- JSON-P API -->
+    	<dependency>
+        	<groupId>javax.json</groupId>
+        	<artifactId>javax.json-api</artifactId>
+        	<version>1.1</version>
+    	</dependency>
+
+    	<!-- JSON-P RI -->
+    	<dependency>
+	        <groupId>org.glassfish</groupId>
+    	    <artifactId>javax.json</artifactId>
+        	<version>1.1</version>
+        	<scope>runtime</scope>
+    	</dependency>
+
+    	<!-- JSON-B API -->
+    	<dependency>
+	        <groupId>javax.json.bind</groupId>
+        	<artifactId>javax.json.bind-api</artifactId>
+        	<version>1.0.0-RC2</version>
+    	</dependency>
+
+    	<!-- Yasson (JSON-B RI) -->
+    	<dependency>
+        	<groupId>org.eclipse</groupId>
+        	<artifactId>yasson</artifactId>
+        	<version>1.0.0-RC1</version>
+        	<scope>runtime</scope>
+    	</dependency>
+    	
+    	<dependency>
+   			<groupId>org.apache.commons</groupId>
+    		<artifactId>commons-csv</artifactId>
+    		<version>1.9.0</version>
+		</dependency>
+    
 	</dependencies>
 
 	<build>

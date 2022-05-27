@@ -76,6 +76,8 @@ public class AdministrativosPrueba {
 			gestionAdministrativos.iniciarSesion("Pepito","Juanito");
 		}catch (AdministrativoException e) {
 			fail("Se deberia haber iniciado sesion");
+		} catch (PasswordException e) {
+			fail("Contraseña incorrecta");
 		}
     }
 

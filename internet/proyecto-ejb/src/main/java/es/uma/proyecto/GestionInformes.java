@@ -1,8 +1,8 @@
 package es.uma.proyecto;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-
 import javax.ejb.Local;
 
 @Local
@@ -33,7 +33,9 @@ public interface GestionInformes {
 	 * (no el cliente, puesto que esa cuenta no es suya).
 	 */
 	
-	public List<String> informeAlemania();
+	public void informeSemanalAlemania() throws IOException;
+	
+	public void informeMensualAlemania() throws IOException;
 	
 
 	public int getFecha(Date date);

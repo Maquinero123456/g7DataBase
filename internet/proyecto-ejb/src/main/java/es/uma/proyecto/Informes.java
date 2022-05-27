@@ -1,20 +1,30 @@
 package es.uma.proyecto;
 
 import java.util.Date;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
+import javax.json.bind.Jsonb;
+import javax.json.bind.JsonbBuilder;
+import javax.json.bind.JsonbConfig;
+import javax.json.bind.config.PropertyOrderStrategy;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 
 import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.entidades.CuentaFintech;
 import es.uma.proyecto.entidades.Empresa;
 import es.uma.proyecto.entidades.Individual;
 import es.uma.proyecto.entidades.PersonaAutorizada;
+
 @Stateless
 public class Informes implements GestionInformes{
 	@SuppressWarnings("unused")
@@ -26,8 +36,11 @@ public class Informes implements GestionInformes{
     
 	@Override
 	public List<String> informeCuentasPaisesBajos(boolean status, String productNumber) {
+		JsonbConfig config = new JsonbConfig().withPropertyOrderStrategy(PropertyOrderStrategy.ANY);
+		config.withNullValues(true);
+		Jsonb builder = JsonbBuilder.create(config);
 		List<String> informe = new ArrayList<String>();
-		informe.add("'PRODUCTS':[");
+		informe.add("PRODUCTOS: \n");
 		String sentence = "SELECT cu FROM CuentaFintech cu WHERE cu.cliente.pais = :fpais AND cu.estado = :fstatus";
 	    
 		if(productNumber != null) {
@@ -43,39 +56,21 @@ public class Informes implements GestionInformes{
 
 		List<CuentaFintech> listCl = query.getResultList();
 		
-	    for(CuentaFintech cf: listCl) {
-	    	Cliente cl = cf.getCliente();
-	    	
-	    		if((cl.getTipoCliente().equalsIgnoreCase("individual") || cl.getTipoCliente().equalsIgnoreCase("fisica")) && getFecha(cl.getFechaBaja()) > 2019) {
-	    			Individual ind = em.find(Individual.class, cl.getID());
-	    			
-	    			informe.add("\n	'ACCOUNTHOLDER':[ activeCustomer: "+ ind.getEstado()+", accountType: " + ind.getTipoCliente() + "]"
-	    	    	+"\n	'NAME':[ First Name: " +ind.getNombre()+", Last Name: "+ind.getApellidos() + "] " 
-	    	    	+"\n 	'ADRESSES':[ city: "+ ind.getCiudad() + ", street: "+ ind.getDireccion() +", postalCode: " + ind.getCodigoPostal() + ", country: " + ind.getPais() + "]"
-	    	    	+"\n 	'CUENTA':[ productType: "+ cf.getClasificacion() + ", productNumber: "+ cf.getIBAN()+ ", status: " +status+ ", startDate: "+ ind.getFechaAlta() + ", endDate: "+ ind.getFechaBaja()+"\n");
-	    	    
-	    		}
-	    		
-	    		else if(getFecha(cl.getFechaBaja()) > 2019){
-	    			Empresa emp = em.find(Empresa.class, cl.getID());
-	    			informe.add("\n	'ACCOUNTHOLDER':[ activeCustomer: "+cl.getEstado()+", accountType: " +cl.getTipoCliente() + "]"
-	    	    	+"\n	'NAME':[ business name: "+ emp.getRazonSocial() +" ] "  
-	    	    	+"\n 	'ADRESSES':[ city: "+ cl.getCiudad() + ", street: "+ cl.getDireccion() +", postalCode: "+cl.getCodigoPostal() + ", country: " + cl.getPais() + "]"
-	    	    	+"\n 	'CUENTA':[ productType: "+ cf.getClasificacion() + ", productNumber: "+ cf.getIBAN()+ ", status: " +status+ ", startDate: "+ cl.getFechaAlta() + ", endDate: "+ cl.getFechaBaja()+"\n");
-	    	    
-	    		}
-	    		
-	    		
-	    	}
-		
+	   	for(CuentaFintech cf: listCl) {
+	   		if(getFecha(cf.getCliente().getFechaBaja()) > 2019) {
+	   			informe.add("CLIENTE: "+builder.toJson(cf.getCliente())+"\n"+builder.toJson(cf)+"\n");
+	   		}
+	   	}
+	   	
 		return informe;
 	}
 	
 	
 	@Override
 	public List<String> informeClientePaisesBajos(String ape, String dir, String cp) {
-		List<String> informeC = new ArrayList<String>();
-		informeC.add("'PERSONAS':[");
+		Jsonb builder = JsonbBuilder.create();
+		List<String> informe = new ArrayList<String>();
+		informe.add("INDIVIDUALES: ");
 		String sentence = "SELECT cl FROM Individual cl WHERE cl.pais = :fpais";
 	    
 		if(ape != null) {
@@ -108,16 +103,11 @@ public class Informes implements GestionInformes{
 	    
 	    for(Individual ind: listCl) {
 	    	if(getFecha(ind.getFechaBaja()) > 2019) {
-	    		informeC.add("\n	'NAME':[ First Name: " +ind.getNombre()+", Last Name: "+ind.getApellidos() + "] " 
-	    				+"\n 	'ADRESSES':[ city: "+ ind.getCiudad() + ", street: "+ ind.getDireccion() +", postalCode: "+ind.getCodigoPostal() + ", country: " + ind.getPais() + "]");
-	    	    
-	    		for(CuentaFintech cf: ind.getCuentas()) {
-	    			informeC.add("\n 	'CUENTA':[ productType: "+ cf.getClasificacion() + ", productNumber: "+ cf.getIBAN()+ ", status: " + cf.getEstado()+ ", startDate: "+ ind.getFechaAlta() + ", endDate: "+ ind.getFechaBaja()+"\n");
-	    		}
+	    	   	informe.add("CLIENTE: "+builder.toJson(ind)+"\n");
 	    	}
 	    }
 		
-		return informeC;
+		return informe;
 	}
 	
 		
@@ -134,44 +124,93 @@ public class Informes implements GestionInformes{
 
 
 	@Override
-	public List<String> informeAlemania() {
-		List<String> informe = new ArrayList<String>();
-		String sentence = "SELECT cu FROM CuentaFintech cu WHERE cu.cliente.pais = :fpais AND cu.estado = :fstatus";
+	public void informeSemanalAlemania() throws IOException {
+		List<String[]> informe = new ArrayList<String[]>();
+		String sentence = "SELECT cf FROM CuentaFintech cf WHERE cf.cliente.pais = :fpais AND cf.estado = :fstatus AND cf.clasificacion = :fclas";
 	    
 		Query query = em.createQuery(sentence);
 		query.setParameter("fpais", "Alemania");
 		query.setParameter("fstatus", true);
+		query.setParameter("fclas", "segregada");
 		
 		
-		List<CuentaFintech> listCl = query.getResultList();
+		List<CuentaFintech> listCF = query.getResultList();
 		
-		for(CuentaFintech cf: listCl) {
+		for(CuentaFintech cf: listCF) {
 	    	Cliente cl = cf.getCliente();
 	    	
 	    		if((cl.getTipoCliente().equalsIgnoreCase("individual") || cl.getTipoCliente().equalsIgnoreCase("fisica")) && getFecha(cl.getFechaBaja()) > 2017) {
 	    			Individual ind = em.find(Individual.class, cl.getID());
 	    			
 	    			if(ind.getFechaNacimiento() != null) {
-	    				informe.add("IBAN: "+ cf.getIBAN() + ", Last_Name: "+ ind.getApellidos() +", First_Name: "+ ind.getNombre() + ", Street: " + ind.getDireccion() + ", City: " + ind.getCiudad()+ ", Post_Code: "+ ind.getCodigoPostal() +", Country: "+ ind.getPais() +", identificacion_Number: "+ ind.getID()+ ", Date_of_birth: "+ ind.getFechaNacimiento() +"\n");
+	    				informe.add(new String[] {cf.getIBAN(), ind.getApellidos(), ind.getNombre(), ind.getDireccion(), ind.getCiudad(), ind.getCodigoPostal(), ind.getPais(), ind.getIdentificacion(), ind.getFechaNacimiento().toString()});
 	    			}
 	    			
 	    			else {
-	    				informe.add("IBAN: "+ cf.getIBAN() + ", Last_Name: "+ ind.getApellidos() +", First_Name: "+ ind.getNombre() + ", Street: " + ind.getDireccion() + ", City: " + ind.getCiudad()+ ", Post_Code: "+ ind.getCodigoPostal() +", Country: "+ ind.getPais() +", identificacion_Number: "+ ind.getID()+ ", Date_of_birth: 'noexistente'\n");
+	    				informe.add(new String[] {cf.getIBAN(), ind.getApellidos(), ind.getNombre(), ind.getDireccion(), ind.getCiudad(), ind.getCodigoPostal(), ind.getPais(), ind.getIdentificacion(), "noexistente"});
 	    			}
 	    			
 	    		}
 	    		
-	    		else if(getFecha(cl.getFechaBaja()) > 2017){
-	    			Query query2 = em.createQuery("Select c from PersonaAutorizada c, CuentaFintech cu WHERE cu.iban = :fident");
-	    			query2.setParameter("fident", cf.getIBAN());
-	    			List<PersonaAutorizada> listPA = query2.getResultList();
-	    			for(PersonaAutorizada pa: listPA) {
-	    				informe.add("IBAN: "+ cf.getIBAN() + ", Last_Name: "+ pa.getApellidos() +", First_Name: "+ pa.getNombre() + ", Street: " + pa.getDireccion() + ", City: 'noexistente'"+ ", Post_Code: 'noexistente'"  +", Country: Alemania" +", identificacion_Number: "+ pa.getID()+ ", Date_of_birth: 'noexistente'\n");
-	    			}
-	    			
-	    		}
 		}
+		// Crea una CSV printer
+		CSVPrinter printer = new CSVPrinter(new FileWriter("informeSemanalAlemania.csv"), CSVFormat.EXCEL);
+		// Cabecera 
+		printer.printRecord("IBAN", "Apellidos", "Nombre", "Calle", "Ciudad", "Codigo_Postal", "Pais", "Identificacion", "Fecha_de_nacimiento");
+		
+		// Filas de datos
+		for (int i =0; i<informe.size(); i++) {
+		    printer.printRecord(informe.get(i));
+		}
+
+		// Cierra el printer
+		printer.flush();
+		printer.close();
+		
+	}
+	
+	@Override
+	public void informeMensualAlemania() throws IOException {
+		List<String[]> informe = new ArrayList<String[]>();
+		String sentence = "SELECT cf FROM CuentaFintech cf WHERE cf.cliente.pais = :fpais AND cf.clasificacion = :fclas";
+	    
+		Query query = em.createQuery(sentence);
+		query.setParameter("fpais", "Alemania");
+		query.setParameter("fclas", "segregada");
+		
+		
+		List<CuentaFintech> listCF = query.getResultList();
+		
+		for(CuentaFintech cf: listCF) {
+	    	Cliente cl = cf.getCliente();
+	    	
+	    		if((cl.getTipoCliente().equalsIgnoreCase("individual") || cl.getTipoCliente().equalsIgnoreCase("fisica")) && getFecha(cl.getFechaBaja()) > 2017) {
+	    			Individual ind = em.find(Individual.class, cl.getID());
+	    			
+	    			if(ind.getFechaNacimiento() != null) {
+	    				informe.add(new String[] {cf.getIBAN(), ind.getApellidos(), ind.getNombre(), ind.getDireccion(), ind.getCiudad(), ind.getCodigoPostal(), ind.getPais(), ind.getIdentificacion(), ind.getFechaNacimiento().toString()});
+	    			}
+	    			
+	    			else {
+	    				informe.add(new String[] {cf.getIBAN(), ind.getApellidos(), ind.getNombre(), ind.getDireccion(), ind.getCiudad(), ind.getCodigoPostal(), ind.getPais(), ind.getIdentificacion(), "noexistente"});
+	    			}
+	    			
+	    		}
 	    		
-		return informe;
+		}
+		// Crea una CSV printer
+		CSVPrinter printer = new CSVPrinter(new FileWriter("informeMensualAlemania.csv"), CSVFormat.DEFAULT);
+		// Cabecera 
+		printer.printRecord("IBAN", "Apellidos", "Nombre", "Calle", "Ciudad", "Codigo_Postal", "Pais", "Identificacion", "Fecha_de_nacimiento");
+		
+		// Filas de datos
+		for (int i =0; i<informe.size(); i++) {
+		    printer.printRecord(informe.get(i));
+		}
+
+		// Cierra el printer
+		printer.flush();
+		printer.close();
+		
 	}
 }  

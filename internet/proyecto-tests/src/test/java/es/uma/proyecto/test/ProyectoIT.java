@@ -3,6 +3,7 @@ package es.uma.proyecto.test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import es.uma.proyecto.test.BaseDatos;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
@@ -22,7 +23,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
-import es.uma.proyecto.test.BaseDatos;
 
 public class ProyectoIT {
 	private static final String UNIDAD_PERSISTENCIA_PRUEBAS = "TrazabilidadIT";
@@ -75,4 +75,6 @@ public class ProyectoIT {
 		}
 		assertThat(driver.findElement(By.cssSelector("h1")).getText(), is("Hola mundo"));
 	}
+	
+	
 }

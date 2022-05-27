@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import es.uma.informatica.sii.anotaciones.Requisitos;
 import es.uma.proyecto.entidades.Usuario;
+import es.uma.proyecto.exceptions.PasswordException;
 import es.uma.proyecto.exceptions.UsuarioException;
 
 public class CuentasUsuariosPrueba {
@@ -95,7 +96,10 @@ public class CuentasUsuariosPrueba {
             usuario = gestionCuentasUsuarios.iniciarSesion(nombre, password);
         }catch(UsuarioException e){
             fail("No se deberia lanzar ninguna excepcion");
-        }
+        } catch (PasswordException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         assertEquals(usuario, user);
     }

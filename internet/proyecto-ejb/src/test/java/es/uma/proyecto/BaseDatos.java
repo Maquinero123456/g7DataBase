@@ -36,6 +36,14 @@ public class BaseDatos {
 		em.persist(c6);
 		Empresa c7 = new Empresa("siete", "juridica", "activa", utilDate, utilDate, "Avenida 123", "Maracay", "2", "PaisesBajos", "Activision Blizzard");
 		em.persist(c7);
+		Individual c8 = new Individual("ocho", "fisica", "activa", utilDate, utilDate, "Av Falsa", "Berlin", "4", "Alemania", "Rodolfo", "Garcia Marquez");
+		em.persist(c8);
+		Individual c9 = new Individual("nueve", "fisica", "activa", utilDate, utilDate, "Av Siempre viva", "Munich", "4", "Alemania", "Morongo", "Griman Marcano", utilDate);
+		em.persist(c9);
+		Individual c10 = new Individual("diez", "fisica", "activa", utilDate, fechaPasada, "Av Reyes Catolicos", "Nuremberg", "4", "Alemania", "Sorocotopo", "Antony Oliviera", utilDate);
+		em.persist(c10);
+		Individual c11 = new Individual("once", "fisica", "activa", utilDate, utilDate, "Bulevar Louis Pasteur", "Hamburgo", "4", "Alemania", "Brunga", "Rectangulo", utilDate);
+		em.persist(c11);
 		
 		CuentaFintech cf1 = new CuentaFintech("15", true, utilDate, utilDate, "segregada");
 		cf1.setCliente(c1);
@@ -58,7 +66,20 @@ public class BaseDatos {
 		CuentaFintech cf7 = new CuentaFintech("7", true, utilDate, utilDate, "segregada");
 		cf7.setCliente(c7);
 		em.persist(cf7);
+		CuentaFintech cf8 = new CuentaFintech("8", true, utilDate, utilDate, "segregada");
+		cf8.setCliente(c8);
+		em.persist(cf8);
+		CuentaFintech cf9 = new CuentaFintech("9", false, utilDate, utilDate, "segregada");
+		cf9.setCliente(c9);
+		em.persist(cf9);
+		CuentaFintech cf10 = new CuentaFintech("10", true, utilDate, utilDate, "segregada");
+		cf10.setCliente(c10);
+		em.persist(cf10);
+		CuentaFintech cf11 = new CuentaFintech("11", false, utilDate, utilDate, "segregada");
+		cf11.setCliente(c11);
+		em.persist(cf11);
 		
+		/*
 		//Test transaccion individual
 		Divisa euro = new Divisa("eur", "euro", 1.0);
 		em.persist(euro);
@@ -151,7 +172,7 @@ public class BaseDatos {
 		//Modificar Autorizado
 		PersonaAutorizada modificadAutorizad = new PersonaAutorizada("PabloDejaDeTocar", "Pablo", "Vazques", "Quien sabe", utilDate, "Alta", utilDate, null);
 		em.persist(modificadAutorizad);
-
+		 */
 
 		//No tocar abajo
 		em.getTransaction().commit();

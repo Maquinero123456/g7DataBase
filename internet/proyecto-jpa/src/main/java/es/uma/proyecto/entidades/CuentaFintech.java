@@ -1,5 +1,6 @@
 package es.uma.proyecto.entidades;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -14,13 +15,14 @@ import java.util.Date;
 public class CuentaFintech extends Cuenta {
     @Column(nullable = false)
     private Boolean estado = false;
+    private String clasificacion;
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     private Date fechaApertura;
     @Temporal(TemporalType.DATE)
     private Date fechaCierre;
-    private String clasificacion;
 
+    @JsonbTransient
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private Cliente cliente;

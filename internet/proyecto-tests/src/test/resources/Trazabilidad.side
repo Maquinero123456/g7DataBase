@@ -1,8 +1,8 @@
 {
   "id": "8a994318-8d83-4fb8-9ccf-f77610b1be8b",
   "version": "2.0",
-  "name": "Trazabilidad",
-  "url": "http://localhost:8080/trazabilidad-war",
+  "name": "Proyecto",
+  "url": "http://localhost:8080/proyecto-war",
   "tests": [{
     "id": "4ef11f68-7018-40de-977b-e79b4906ba4e",
     "name": "Inicio",
@@ -10,7 +10,7 @@
       "id": "c2566deb-d25e-4f8a-bfde-c37821202b54",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:8080/trazabilidad-war/",
+      "target": "http://localhost:8080/proyecto-war/",
       "targets": [],
       "value": ""
     }, {
@@ -68,7 +68,7 @@
   }],
   "suites": [{
     "id": "cd44a7bf-e040-4265-ba53-8f5b1ea616ee",
-    "name": "Trazabilidad",
+    "name": "Proyecto",
     "persistSession": false,
     "parallel": false,
     "timeout": 300,

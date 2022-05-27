@@ -1,6 +1,8 @@
 package es.uma.proyecto.entidades;
 
 import java.util.Objects;
+
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -10,8 +12,10 @@ import java.util.List;
 @Table(name="CLIENTE")
 public class Cliente {
     
+	@JsonbTransient
     @Id @GeneratedValue
     private long id;
+	@JsonbTransient
     @Column(unique=true, nullable=false)
     private String identificacion;
     @Column(nullable=false)
@@ -24,17 +28,19 @@ public class Cliente {
     @Temporal(TemporalType.DATE)
     private Date fechaBaja;
     @Column(nullable=false)
-    private String direccion;
+    private String pais;
     @Column(nullable=false)
     private String ciudad;
     @Column(nullable=false)
     private String codigoPostal;
     @Column(nullable=false)
-    private String pais;
+    private String direccion;
 
+    @JsonbTransient
     @OneToMany(mappedBy = "cliente")
     private List<CuentaFintech> cuentas;
     
+    @JsonbTransient
     @OneToOne
     @JoinColumn(unique = true)
     private Usuario usuario;
