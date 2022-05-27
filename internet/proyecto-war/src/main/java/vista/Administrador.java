@@ -17,6 +17,7 @@ import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.exceptions.AutorizacionException;
 import es.uma.proyecto.exceptions.ClienteException;
 import es.uma.proyecto.exceptions.CuentaException;
+import es.uma.proyecto.exceptions.CuentaRefException;
 import es.uma.proyecto.exceptions.PersonaAutorizadaException;
 
 @Named(value = "admin")
@@ -50,7 +51,7 @@ public class Administrador {
 	private String estadoPA;
 	private String dir2;
 	
-	
+	// Atributos autorizacion
 	private String idPer;
 	private String idEmp;
 	private String tipo;
@@ -154,7 +155,7 @@ public class Administrador {
 			admin.modificarCliente(cliente);
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("No existe el cliente solicitado.");
-	        FacesContext.getCurrentInstance().addMessage("administrador:clienteMod", fm);
+	        FacesContext.getCurrentInstance().addMessage("administrador:identMod", fm);
 		}
 	}
 	
@@ -188,6 +189,9 @@ public class Administrador {
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("El cliente indicado no existe.");
 	        FacesContext.getCurrentInstance().addMessage("admin:identAS", fm);
+		}catch (CuentaRefException e) {
+			FacesMessage fm = new FacesMessage("La cuenta referencia no existe.");
+	        FacesContext.getCurrentInstance().addMessage("admin:ibanRef", fm);
 		}
 	}
 	
@@ -196,16 +200,11 @@ public class Administrador {
 			perAu = admin.getPersonaAutorizada(idPer);
 		} catch (PersonaAutorizadaException e2) {
 			FacesMessage fm = new FacesMessage("La persona autorizada no existe.");
-	        FacesContext.getCurrentInstance().addMessage("admin:ident", fm);
+	        FacesContext.getCurrentInstance().addMessage("admin:identModPer", fm);
 		}
 		
 		if(dir2 != null) {
 			perAu.setDireccion(dir2);
-		}
-		
-		if(fechaInicio != null) {
-			Date fecha = null;
-			perAu.setFecha_Inicio(fecha);
 		}
 		
 		if(fechaFin != null) {
@@ -226,7 +225,7 @@ public class Administrador {
 			admin.modificarAutorizado(perAu);
 		} catch (PersonaAutorizadaException e) {
 			FacesMessage fm = new FacesMessage("La persona autorizada indicada no existe.");
-	        FacesContext.getCurrentInstance().addMessage("admin:perAu", fm);
+	        FacesContext.getCurrentInstance().addMessage("admin:identModPer", fm);
 		}
 	}
 	

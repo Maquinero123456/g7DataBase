@@ -97,10 +97,8 @@ public class CuentasUsuariosPrueba {
         }catch(UsuarioException e){
             fail("No se deberia lanzar ninguna excepcion");
         } catch (PasswordException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+            fail("No se deberia lanzar ninguna excepcion");
+        }
         assertEquals(usuario, user);
     }
 

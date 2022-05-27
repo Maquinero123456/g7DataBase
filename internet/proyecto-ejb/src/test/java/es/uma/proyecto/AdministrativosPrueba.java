@@ -310,6 +310,8 @@ public class AdministrativosPrueba {
 			fail ("No se ha podido crear la cuenta");
 		}catch (ClienteException e) {
 			fail ("El cliente no existe");
+		} catch (CuentaRefException e) {
+			fail ("La cuenta referencia no existe");
 		}
 		
 		Segregada cf = null;
@@ -401,6 +403,8 @@ public class AdministrativosPrueba {
 			fail ("No se ha podido crear la cuenta");
 		}catch (ClienteException e) {
 			fail ("El usuario no existe");
+		} catch (CuentaRefException e) {
+			fail ("La cuenta referencia no existe");
 		}
 
 		try {

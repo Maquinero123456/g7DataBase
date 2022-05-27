@@ -56,7 +56,7 @@
 
 								<h:panelGrid columns="3"> 
 									<h:outputText value="Identificador del cliente: " styleClass="info-campo"/>
-									<h:inputText id="identAlta" required="true" value="#{admin.ident}"/>
+									<h:inputText id="identAlta" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}"/>
 									<h:message for="identAlta" styleClass="info-campo"/>
 								</h:panelGrid>
 									
@@ -72,8 +72,32 @@
 
 							<h:form id="fMod">
 
-								<p>Indique el cliente que busca modificar:</p>
-								
+								<p>Indique el cliente que busca modificar y los datos:</p>
+								<h:panelGrid columns="3"> 
+									<h:outputText value="Identificador del cliente: " styleClass="info-campo"/>
+									<h:inputText id="identMod" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}"/>
+									<h:message for="identMod" styleClass="info-campo"/>
+
+									<h:outputText value="Nuevo pais: " styleClass="info-campo"/>
+									<h:inputText id="pais1Mod" value="#{admin.pais1}"/>
+									<h:message for="pais1Mod" styleClass="info-campo"/>
+
+									<h:outputText value="Nueva fecha de baja: " styleClass="info-campo"/>
+									<h:inputText id="fecha1Mod" value="#{admin.fecha1}"/>
+									<h:message for="fecha1Mod" styleClass="info-campo"/>
+
+									<h:outputText value="Nueva ciudad: " styleClass="info-campo"/>
+									<h:inputText id="ciudad1Mod" value="#{admin.ciudad1}"/>
+									<h:message for="ciudad1Mod" styleClass="info-campo"/>
+
+									<h:outputText value="Nueva direccion: " styleClass="info-campo"/>
+									<h:inputText id="dir1Mod" value="#{admin.dir1}"/>
+									<h:message for="dir1Mod" styleClass="info-campo"/>
+
+									<h:outputText value="Nuevo codigo postal: " styleClass="info-campo"/>
+									<h:inputText id="cp1Mod" value="#{admin.cp1}"/>
+									<h:message for="cp1Mod" styleClass="info-campo"/>
+								</h:panelGrid>
 								<div style="display: inline">
 									<h:commandButton styleClass="button" id="modificar" value="Modificar" action="#{admin.darBaja()}"/>
 									<button onclick="cerrar('Mod');return false">Cancelar</button>
@@ -90,7 +114,7 @@
 
 								<h:panelGrid columns="3"> -->
 									<h:outputText value="Identificador del cliente: " styleClass="info-campo"/>
-									<h:inputText id="identBaja" required="true" value="#{admin.ident}"/>
+									<h:inputText id="identBaja" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}"/>
 									<h:message for="identBaja" styleClass="info-campo"/>
 								</h:panelGrid>
 									
@@ -123,11 +147,11 @@
 
 								<h:panelGrid columns="3">
 									<h:outputText value="IBAN de la cuenta: " styleClass="info-campo"/>
-									<h:inputText id="ibanAA" required="true" value="#{admin.iban}"/>
+									<h:inputText id="ibanAA" required="true" requiredMessage="Valor obligatorio" value="#{admin.iban}"/>
 									<h:message for="ibanAA" styleClass="info-campo"/>
 			
 									<h:outputText value="Identificador del cliente: " styleClass="info-campo"/>
-									<h:inputText id="identAA" required="true" value="#{admin.ident}"/>
+									<h:inputText id="identAA" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}"/>
 									<h:message for="identAA" styleClass="info-campo"/>
 								</h:panelGrid>
 								
@@ -147,15 +171,15 @@
 
 								<h:panelGrid columns="3">
 									<h:outputText value="IBAN de la cuenta: " styleClass="info-campo"/>
-									<h:inputText id="ibanAS" required="true" value="#{admin.iban}"/>
+									<h:inputText id="ibanAS" required="true" requiredMessage="Valor obligatorio" value="#{admin.iban}"/>
 									<h:message for="ibanAS" styleClass="info-campo"/>
 									
 									<h:outputText value="Identificador del cliente: " styleClass="info-campo"/>
-									<h:inputText id="identAS" required="true" value="#{admin.ident}"/>
+									<h:inputText id="identAS" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}"/>
 									<h:message for="identAS" styleClass="info-campo"/>
 									
 									<h:outputText value="IBAN de la Cuenta Referencia: " styleClass="info-campo"/>
-									<h:inputText id="ibanRef" required="true" value="#{admin.ibanRef}"/>
+									<h:inputText id="ibanRef" required="true" requiredMessage="Valor obligatorio" value="#{admin.ibanRef}"/>
 									<h:message for="ibanRef" styleClass="info-campo"/>
 								</h:panelGrid>
 								
@@ -173,7 +197,7 @@
 
 								<h:panelGrid columns="3">
 									<h:outputText value="IBAN de la cuenta: " styleClass="info-campo"/>
-									<h:inputText id="ibanCer" required="true" value="#{admin.iban}"/>
+									<h:inputText id="ibanCer" required="true" requiredMessage="Valor obligatorio" value="#{admin.iban}"/>
 									<h:message for="ibanCer" styleClass="info-campo"/>
 								</h:panelGrid>
 								
@@ -207,15 +231,15 @@
 								
 								<h:panelGrid columns="3">
 									<h:outputText value="Identificador de la empresa: " styleClass="info-campo"/>
-									<h:inputText id="idEmpAPA" required="true" value="#{admin.idEmp}"/>
+									<h:inputText id="idEmpAPA" required="true" requiredMessage="Valor obligatorio" value="#{admin.idEmp}"/>
 									<h:message for="idEmpAPA" styleClass="info-campo"/>
 									
 									<h:outputText value="Identificador de la persona a autorizar: " styleClass="info-campo"/>
-									<h:inputText id="idPerAPA" required="true" value="#{admin.idPer}"/>
+									<h:inputText id="idPerAPA" required="true" requiredMessage="Valor obligatorio" value="#{admin.idPer}"/>
 									<h:message for="idPerAPA" styleClass="info-campo"/>
 									
 									<h:outputText value="Tipo de autorizacion: " styleClass="info-campo"/>
-									<h:inputText id="tipoAPA" required="true" value="#{admin.tipo}"/>
+									<h:inputText id="tipoAPA" required="true" requiredMessage="Valor obligatorio" value="#{admin.tipo}"/>
 									<h:message for="tipoAPA" styleClass="info-campo"/>
 								</h:panelGrid>
 								
@@ -231,7 +255,23 @@
 						<div class="MPA" style="display:none">
 
 							<p>Indique la persona autorizada a modificar:</p>	
-							
+							<h:panelGrid columns="3"> 
+								<h:outputText value="Identificador de la Persona Autorizada: " styleClass="info-campo"/>
+								<h:inputText id="identModPer" required="true" requiredMessage="Valor obligatorio" value="#{admin.idPer}"/>
+								<h:message for="identModPer" styleClass="info-campo"/>
+
+								<h:outputText value="Nueva fecha de baja: " styleClass="info-campo"/>
+								<h:inputText id="fechaFinModPer" value="#{admin.fechaFin}"/>
+								<h:message for="fechaFinModPer" styleClass="info-campo"/>
+
+								<h:outputText value="Nuevo estado: " styleClass="info-campo"/>
+								<h:inputText id="estadoPAModPer" value="#{admin.estadoPA}"/>
+								<h:message for="estadoPAModPer" styleClass="info-campo"/>
+
+								<h:outputText value="Nueva direccion: " styleClass="info-campo"/>
+								<h:inputText id="dir2ModPer" value="#{admin.dir2}"/>
+								<h:message for="dir2ModPer" styleClass="info-campo"/>
+							</h:panelGrid>
 							<div style="display: inline">
 								<h:commandButton styleClass="button" id="modificarAutor" value="Modificar" action="#{admin.modificarAutorizado()}"/>
 								<button onclick="cerrar('MPA');return false">Cancelar</button>
@@ -247,11 +287,11 @@
 								
 								<h:panelGrid columns="3">
 									<h:outputText value="Identificador de la empresa: " styleClass="info-campo"/>
-									<h:inputText id="idEmpE" required="true" value="#{admin.idEmp}"/>
+									<h:inputText id="idEmpE" required="true" requiredMessage="Valor obligatorio" value="#{admin.idEmp}"/>
 									<h:message for="idEmpE" styleClass="info-campo"/>
 									
 									<h:outputText value="Identificador de la persona a autorizar: " styleClass="info-campo"/>
-									<h:inputText id="idPerE" required="true" value="#{admin.idPer}"/>
+									<h:inputText id="idPerE" required="true" requiredMessage="Valor obligatorio" value="#{admin.idPer}"/>
 									<h:message for="idPerE" styleClass="info-campo"/>
 								</h:panelGrid>
 								

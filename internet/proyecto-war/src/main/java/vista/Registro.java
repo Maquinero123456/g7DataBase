@@ -110,7 +110,7 @@ public class Registro{
             return "exitoRegistro.xhtml";
 		} catch (UsuarioException e) {
 			 FacesMessage fm = new FacesMessage("Existe un usuario con la misma cuenta.");
-	         FacesContext.getCurrentInstance().addMessage("registro:user", fm);
+	         FacesContext.getCurrentInstance().addMessage("registro:nombre", fm);
 		}
 		return "No se pudo registrar el usuario.";
     }

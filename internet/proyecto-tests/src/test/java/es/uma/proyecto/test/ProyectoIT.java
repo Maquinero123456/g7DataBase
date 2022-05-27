@@ -25,7 +25,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 
 public class ProyectoIT {
-	private static final String UNIDAD_PERSISTENCIA_PRUEBAS = "TrazabilidadIT";
 	private WebDriver driver;
 	private Map<String, Object> vars;
 	JavascriptExecutor js;
@@ -53,7 +52,6 @@ public class ProyectoIT {
 		driver = new ChromeDriver();
 		js = (JavascriptExecutor) driver;
 		vars = new HashMap<String, Object>();
-		BaseDatos.inicializaBaseDatos(UNIDAD_PERSISTENCIA_PRUEBAS, propiedadesExtra);
 	}
 	
 	@After
@@ -63,18 +61,130 @@ public class ProyectoIT {
 	
 	@SuppressWarnings("deprecation")
 	@Test
-	public void inicio() {
-		driver.get(baseURL);
-		driver.manage().window().setSize(new Dimension(1280, 777));
-		driver.findElement(By.cssSelector("h1")).click();
-		driver.findElement(By.cssSelector("h1")).click();
-		{
-			WebElement element = driver.findElement(By.cssSelector("h1"));
-			Actions builder = new Actions(driver);
-			builder.doubleClick(element).perform();
-		}
-		assertThat(driver.findElement(By.cssSelector("h1")).getText(), is("Hola mundo"));
+	public void iniciarSesion() {
+		driver.get("http://0.0.0.0:8080/proyecto-war/");
+		driver.manage().window().setSize(new Dimension(790, 866));
+		driver.findElement(By.id("login:user")).click();
+		driver.findElement(By.id("login:user")).sendKeys("ponciano");
+		driver.findElement(By.id("login:pass")).sendKeys("ponciano");
+		driver.findElement(By.id("login:botonLogin")).click();
+		assertThat(driver.findElement(By.cssSelector("i")).getText(), is("Ponciano"));
 	}
 	
-	
+	@SuppressWarnings("deprecation")
+	@Test
+	public void iniciarSesionPasswordMal() {
+		driver.get("http://0.0.0.0:8080/proyecto-war/");
+		driver.manage().window().setSize(new Dimension(790, 866));
+		driver.findElement(By.id("login:user")).click();
+		driver.findElement(By.id("login:user")).sendKeys("ponciano");
+		driver.findElement(By.id("login:pass")).sendKeys("poncianoNoEs");
+		driver.findElement(By.id("login:botonLogin")).click();
+		driver.findElement(By.id("login:passwordMessage")).click();
+		driver.findElement(By.cssSelector(".mensajes:nth-child(4)")).click();
+		assertThat(driver.findElement(By.id("login:passwordMessage")).getText(), is("La contraseña no coincide"));
+	}
+
+	@SuppressWarnings("deprecation")
+	@Test
+	public void iniciarSesionCamposVacios() {
+		driver.get("http://0.0.0.0:8080/proyecto-war/");
+		driver.manage().window().setSize(new Dimension(790, 866));
+		driver.findElement(By.id("login:botonLogin")).click();
+		assertThat(driver.findElement(By.id("login:userMessage")).getText(), is("Valor obligatorio"));
+		assertThat(driver.findElement(By.id("login:passwordMessage")).getText(), is("Valor obligatorio"));
+	}
+
+	@SuppressWarnings("deprecation")
+	@Test
+	public void iniciarSesionNoExisteUsuario() {
+		driver.get("http://0.0.0.0:8080/proyecto-war/");
+		driver.manage().window().setSize(new Dimension(790, 866));
+		driver.findElement(By.id("login:user")).click();
+		driver.findElement(By.id("login:user")).sendKeys("Inventado");
+		driver.findElement(By.id("login:pass")).sendKeys("asdasd");
+		driver.findElement(By.id("login:botonLogin")).click();
+		assertThat(driver.findElement(By.id("login:userMessage")).getText(), is("La cuenta indicada no existe"));
+	}
+
+	@SuppressWarnings("deprecation")
+	@Test
+	public void registro() {
+		driver.get("http://0.0.0.0:8080/proyecto-war/registro.xhtml");
+		driver.manage().window().setSize(new Dimension(790, 866));
+		driver.findElement(By.id("registro:nombre")).click();
+		driver.findElement(By.id("registro:nombre")).sendKeys("David");
+		driver.findElement(By.id("registro:pass")).sendKeys("David123");
+		driver.findElement(By.id("registro:repass")).sendKeys("David123");
+		driver.findElement(By.id("registro:email")).sendKeys("david@david.com");
+		driver.findElement(By.name("registro:j_idt15")).click();
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(1)")).getText(), is("El registro se ha realizado con éxito."));
+	}
+
+	@Test
+  public void registroCamposVacios() {
+    driver.get("http://0.0.0.0:8080/proyecto-war/registro.xhtml");
+    driver.manage().window().setSize(new Dimension(790, 866));
+    driver.findElement(By.name("registro:j_idt15")).click();
+    driver.findElement(By.cssSelector("tr:nth-child(1) > td:nth-child(3)")).click();
+    assertThat(driver.findElement(By.cssSelector("tr:nth-child(1) > td:nth-child(3)")).getText(), is("Valor obligatorio"));
+    assertThat(driver.findElement(By.cssSelector("tr:nth-child(2) > td:nth-child(3)")).getText(), is("Valor obligatorio"));
+    assertThat(driver.findElement(By.cssSelector("tr:nth-child(3) > td:nth-child(3)")).getText(), is("Valor obligatorio"));
+    assertThat(driver.findElement(By.cssSelector("tr:nth-child(4) > td:nth-child(3)")).getText(), is("Valor obligatorio"));
+  }
+
+  @Test
+  public void registroEmailNoValido() {
+    driver.get("http://0.0.0.0:8080/proyecto-war/registro.xhtml");
+    driver.manage().window().setSize(new Dimension(790, 866));
+    driver.findElement(By.id("registro:nombre")).click();
+    driver.findElement(By.id("registro:nombre")).sendKeys("Juanito");
+    driver.findElement(By.id("registro:pass")).sendKeys("Juanito123");
+    driver.findElement(By.id("registro:repass")).sendKeys("Juanito123");
+    driver.findElement(By.id("registro:email")).sendKeys("juanasdas");
+    driver.findElement(By.name("registro:j_idt15")).click();
+    driver.findElement(By.cssSelector("tr:nth-child(4) > td:nth-child(3)")).click();
+    assertThat(driver.findElement(By.cssSelector("tr:nth-child(4) > td:nth-child(3)")).getText(), is("El email debe ser valido"));
+  }
+
+  @Test
+  public void registroPasswordNoCoinciden() {
+    driver.get("http://0.0.0.0:8080/proyecto-war/registro.xhtml");
+    driver.manage().window().setSize(new Dimension(790, 866));
+    driver.findElement(By.id("registro:nombre")).click();
+    driver.findElement(By.id("registro:nombre")).sendKeys("Juanito");
+    driver.findElement(By.id("registro:pass")).sendKeys("Juanito123");
+    driver.findElement(By.id("registro:repass")).sendKeys("asdasd");
+    driver.findElement(By.id("registro:email")).sendKeys("juan@juan.com");
+    driver.findElement(By.name("registro:j_idt15")).click();
+    driver.findElement(By.cssSelector("tr:nth-child(3) > td:nth-child(3)")).click();
+    assertThat(driver.findElement(By.cssSelector("tr:nth-child(3) > td:nth-child(3)")).getText(), is("Las contraseñas deben coincidir."));
+  }
+
+  @Test
+  public void registroPasswordNoValida() {
+    driver.get("http://0.0.0.0:8080/proyecto-war/registro.xhtml");
+    driver.manage().window().setSize(new Dimension(790, 866));
+    driver.findElement(By.id("registro:nombre")).click();
+    driver.findElement(By.id("registro:nombre")).sendKeys("Juanito");
+    driver.findElement(By.id("registro:pass")).sendKeys("asdadd");
+    driver.findElement(By.id("registro:repass")).sendKeys("asdadd");
+    driver.findElement(By.id("registro:email")).sendKeys("juanito@juanito.com");
+    driver.findElement(By.name("registro:j_idt15")).click();
+    assertThat(driver.findElement(By.cssSelector("tr:nth-child(2) > td:nth-child(3)")).getText(), is("La contraseña debe ser valida"));
+  }
+
+  @Test
+  public void registroUsuarioRepetido() {
+    driver.get("http://0.0.0.0:8080/proyecto-war/registro.xhtml");
+    driver.manage().window().setSize(new Dimension(790, 866));
+    driver.findElement(By.cssSelector("table")).click();
+    driver.findElement(By.id("registro:nombre")).click();
+    driver.findElement(By.id("registro:nombre")).sendKeys("ponciano");
+    driver.findElement(By.id("registro:pass")).sendKeys("Ponciano123");
+    driver.findElement(By.id("registro:repass")).sendKeys("Ponciano123");
+    driver.findElement(By.id("registro:email")).sendKeys("ponciano@ponciano.com");
+    driver.findElement(By.name("registro:j_idt15")).click();
+    assertThat(driver.findElement(By.cssSelector("tr:nth-child(1) > td:nth-child(3)")).getText(), is("Existe un usuario con la misma cuenta."));
+  }
 }

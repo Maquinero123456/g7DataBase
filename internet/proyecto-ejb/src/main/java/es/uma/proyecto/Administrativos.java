@@ -24,6 +24,7 @@ import es.uma.proyecto.exceptions.AdministrativoException;
 import es.uma.proyecto.exceptions.AutorizacionException;
 import es.uma.proyecto.exceptions.ClienteException;
 import es.uma.proyecto.exceptions.CuentaException;
+import es.uma.proyecto.exceptions.CuentaRefException;
 import es.uma.proyecto.exceptions.PasswordException;
 import es.uma.proyecto.exceptions.PersonaAutorizadaException;
 
@@ -126,7 +127,7 @@ public class Administrativos implements GestionAdministrativos{
 	}
 
 	@Override
-	public void aperturaCuentaSegregada(String iban, String id, CuentaReferencia cuentaRef) throws CuentaException, ClienteException {
+	public void aperturaCuentaSegregada(String iban, String id, CuentaReferencia cuentaRef) throws CuentaException, ClienteException, CuentaRefException {
 		Segregada account = em.find(Segregada.class, iban);
 
 		if(account != null){
@@ -144,7 +145,7 @@ public class Administrativos implements GestionAdministrativos{
 		}
 		
 		if(cuentaRef == null) {
-			throw new CuentaException("Cuenta referencia nula");
+			throw new CuentaRefException("Cuenta referencia nula");
 		}
 
 		java.util.Date utilDate = new java.util.Date();
