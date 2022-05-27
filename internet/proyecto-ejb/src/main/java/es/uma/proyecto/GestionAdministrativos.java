@@ -10,6 +10,7 @@ import es.uma.proyecto.exceptions.AdministrativoException;
 import es.uma.proyecto.exceptions.AutorizacionException;
 import es.uma.proyecto.exceptions.ClienteException;
 import es.uma.proyecto.exceptions.CuentaException;
+import es.uma.proyecto.exceptions.CuentaRefException;
 import es.uma.proyecto.exceptions.PasswordException;
 import es.uma.proyecto.exceptions.PersonaAutorizadaException;
 
@@ -68,7 +69,7 @@ public interface GestionAdministrativos {
      * @param le pasamos el iban
      * @throws CuentaException en caso de que ya existe una cuenta con ese iban
      */
-    public void aperturaCuentaSegregada(String iban, String id, CuentaReferencia cuantaRef) throws CuentaException, ClienteException;
+    public void aperturaCuentaSegregada(String iban, String id, CuentaReferencia cuantaRef) throws CuentaException, ClienteException, CuentaRefException;
     
     
     

@@ -17,6 +17,7 @@ import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.exceptions.AutorizacionException;
 import es.uma.proyecto.exceptions.ClienteException;
 import es.uma.proyecto.exceptions.CuentaException;
+import es.uma.proyecto.exceptions.CuentaRefException;
 import es.uma.proyecto.exceptions.PersonaAutorizadaException;
 
 @Named(value = "admin")
@@ -188,6 +189,9 @@ public class Administrador {
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("El cliente indicado no existe.");
 	        FacesContext.getCurrentInstance().addMessage("admin:identAS", fm);
+		}catch (CuentaRefException e) {
+			FacesMessage fm = new FacesMessage("La cuenta referencia no existe.");
+	        FacesContext.getCurrentInstance().addMessage("admin:ibanRef", fm);
 		}
 	}
 	
