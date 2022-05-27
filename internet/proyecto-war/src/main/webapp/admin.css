@@ -46,6 +46,14 @@ section{
     padding-bottom: 2rem;
 }
 
+h2 {
+    text-transform: uppercase;
+    font-family: 'Rajdhani', sans-serif;
+    color: #333;
+    font-size: large;
+    font-style: normal;
+}
+
 /*CABECERA CON LOGO Y SECCIONES*/
 header{
     position: fixed;
@@ -148,6 +156,10 @@ button{
     transition: all .3s linear;
 }
 
+.info-campo {
+    font-size: medium;
+}
+
 button:hover{
     transform: scale(1.1);
 }
@@ -209,6 +221,7 @@ button:hover{
 
     .inicio .content p{
         font-size: 2rem;
+        padding-bottom: 20px;
     }
 }
 

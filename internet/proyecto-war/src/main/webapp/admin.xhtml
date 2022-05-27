@@ -32,239 +32,245 @@
 					<span>ADMINISTRADORES</span>
 				</h3>
 				
-			<c:choose>
-				
-				<c:when test="#{infoSesion.usuario.esAdministrativo}">
-                	
-				<p>Buenas tardes <i><h:outputText value="#{infoSesion.usuario.nombre}"/></i>, ¿qué acción realizará?</p>
-
-				<div>
-
-					<button onclick="mostrar('Alta')">Dar de alta Cliente</button>
-
-					<div class="Alta" style="display:none" >
-
-						<h:form id="fAlta">
-
-							<p>Indique el cliente que busca dar de alta:</p>
-
-							<h:panelGrid columns="3"> 
-								<h:outputText value="Identificador del cliente:"/>
-								<h:inputText id="identAlta" required="true" value="#{admin.ident}"/>
-								<h:message for="identAlta"/>
-							</h:panelGrid>
-								
-							<div style="display: inline">
-								<h:commandButton styleClass="button" id="darAlta" value="Dar de Alta" action="#{admin.darAlta()}"/>
-								<button onclick="cerrar('Alta');return false">Cancelar</button>
-							</div>
-
-						</h:form>
-					</div>	
-
-					<button onclick="mostrar('Mod')">Modificar Cliente</button>
-
-					<div class="Mod" style="display:none">
-
-						<h:form id="fMod">
-
-							<p>Indique el cliente que busca modificar:</p>
-							
-							<div style="display: inline">
-								<h:commandButton styleClass="button" id="modificar" value="Modificar" action="#{admin.darBaja()}"/>
-								<button onclick="cerrar('Mod');return false">Cancelar</button>
-							</div>
-
-						</h:form>
-					</div>
-						
-					<button onclick="mostrar('Baja')">Dar de baja Cliente</button>
-
-					<div class="Baja" style="display:none">
-
-						<h:form id="fBaja">
-
-							<p>Indique el cliente que busca dar de baja:</p>
-
-							<h:panelGrid columns="3"> -->
-								<h:outputText value="Identificador del cliente:"/>
-								<h:inputText id="identBaja" required="true" value="#{admin.ident}"/>
-								<h:message for="identBaja"/>
-							</h:panelGrid>
-								
-							<div style="display: inline">
-								<h:commandButton styleClass="button" id="darBaja" value="Dar de Baja" action="#{admin.darBaja()}"/>
-								<button onclick="cerrar('Baja');return false">Cancelar</button>
-							</div>
-							
-						</h:form>
-
-					</div>
-
-				</div>
-				
-				<div>
-
-					<button onclick="mostrar('AA')">Aperturar Cuenta Agrupada</button>
-
-					<div class="AA" style="display:none">
-
-						<h:form id="fAA">
-
-							<p>Introduzca los datos:</p>
-
-							<h:panelGrid columns="3">
-								<h:outputText value="IBAN de la cuenta:"/>
-								<h:inputText id="ibanAA" required="true" value="#{admin.iban}"/>
-								<h:message for="ibanAA"/>
-		
-								<h:outputText value="Identificador del cliente:"/>
-								<h:inputText id="identAA" required="true" value="#{admin.ident}"/>
-								<h:message for="identAA"/>
-							</h:panelGrid>
-							
-							<div style="display: inline">
-								<h:commandButton styleClass="button" id="AA" value="Apeturar" action="#{admin.aperturaCuentaAgrup()}"/>
-								<button onclick="cerrar('AA');return false">Cancelar</button>
-							</div>
-
-						</h:form>
-
-					</div>	
-						
-					<button onclick="mostrar('AS')">Aperturar una Cuenta Segregada</button>
+				<c:choose>
 					
-					<div class="AS" style="display:none">
-						<h:form id="fAS">
-
-							<p>Introduzca los datos necesarios para la apertura:</p>
-
-							<h:panelGrid columns="3">
-								<h:outputText value="IBAN de la cuenta:"/>
-								<h:inputText id="ibanAS" required="true" value="#{admin.iban}"/>
-								<h:message for="ibanAS"/>
-								
-								<h:outputText value="Identificador del cliente:"/>
-								<h:inputText id="identAS" required="true" value="#{admin.ident}"/>
-								<h:message for="identAS"/>
-								
-								<h:outputText value="IBAN de la Cuenta Referencia:"/>
-								<h:inputText id="ibanRef" required="true" value="#{admin.ibanRef}"/>
-								<h:message for="ibanRef"/>
-							</h:panelGrid>
-							
-							<h:commandButton styleClass="button" id="aperturaSegreg" value="Aperturar" action="#{admin.aperturaCuentaSegreg()}"/>
-							<button onclick="cerrar('AS');return false">Cancelar</button>
-
-						</h:form>
-					</div>
-
-					<button onclick="mostrar('Cer')">Cerrar Cuenta</button>
-
-					<div class="Cer" style="display:none">
+					<c:when test="#{infoSesion.usuario.esAdministrativo}">
 						
-						<h:form id="fCer">
+					<p>Buenas tardes <i><h:outputText value="#{infoSesion.usuario.nombre}"/></i>, ¿qué acción realizará?</p>
 
-							<p>Indique la cuenta que quiere cerrar: </p>
+					<div>
+						
+						<h2>Administrar clientes</h2>
 
-							<h:panelGrid columns="3">
-								<h:outputText value="IBAN de la cuenta: "/>
-								<h:inputText id="ibanCer" required="true" value="#{admin.iban}"/>
-								<h:message for="ibanCer"/>
-							</h:panelGrid>
-							
-							<div style="display: inline">
-								<h:commandButton styleClass="button" id="cerra" value="Cerrar" action="#{admin.cerrarCuenta()}"/>
-								<button onclick="cerrar('Cer');return false">Cancelar</button>
-							</div>
+						<button onclick="mostrar('Alta')">Dar de alta Cliente</button>
 
-						</h:form>
+						<button onclick="mostrar('Mod')">Modificar Cliente</button>
 
-					</div>
-				
+						<button onclick="mostrar('Baja')">Dar de baja Cliente</button>
 
-				</div>
-				
-				<div>
-					<button onclick="mostrar('APA')">Añadir Persona Autorizada</button>
-					
-					<div class="APA" style="display:none">
+						<div class="Alta" style="display:none" >
 
-						<h:form id="fAPA">
+							<h:form id="fAlta">
 
-							<p>Indique la persona autorizada a añadir a la empresa:</p>
-							
-							<h:panelGrid columns="3">
-								<h:outputText value="Identificador de la empresa:"/>
-								<h:inputText id="idEmpAPA" required="true" value="#{admin.idEmp}"/>
-								<h:message for="idEmpAPA"/>
-								
-								<h:outputText value="Identificador de la persona a autorizar:"/>
-								<h:inputText id="idPerAPA" required="true" value="#{admin.idPer}"/>
-								<h:message for="idPerAPA"/>
-								
-								<h:outputText value="Tipo de autorizacion:"/>
-								<h:inputText id="tipoAPA" required="true" value="#{admin.tipo}"/>
-								<h:message for="tipoAPA"/>
-							</h:panelGrid>
-							
-							<div style="display: inline">
-								<h:commandButton styleClass="button" id="addAutor" value="Añadir" action="#{admin.addAutorizado()}"/>
-								<button onclick="cerrar('APA');return false">Cancelar</button>
-							</div>
+								<p>Indique el cliente que busca dar de alta:</p>
 
-						</h:form>
-
-					</div>
-					
+								<h:panelGrid columns="3"> 
+									<h:outputText value="Identificador del cliente: " styleClass="info-campo"/>
+									<h:inputText id="identAlta" required="true" value="#{admin.ident}"/>
+									<h:message for="identAlta" styleClass="info-campo"/>
+								</h:panelGrid>
 									
-					<button onclick="mostrar('MPA')">Modificar Persona Autorizada</button>
-					
-					<div class="MPA" style="display:none">
+								<div style="display: inline">
+									<h:commandButton styleClass="button" id="darAlta" value="Dar de Alta" action="#{admin.darAlta()}"/>
+									<button onclick="cerrar('Alta');return false">Cancelar</button>
+								</div>
 
-						<p>Indique la persona autorizada a modificar:</p>	
-						
-						<div style="display: inline">
-							<h:commandButton styleClass="button" id="modificarAutor" value="Modificar" action="#{admin.modificarAutorizado()}"/>
-							<button onclick="cerrar('MPA');return false">Cancelar</button>
+							</h:form>
+						</div>	
+
+						<div class="Mod" style="display:none">
+
+							<h:form id="fMod">
+
+								<p>Indique el cliente que busca modificar:</p>
+								
+								<div style="display: inline">
+									<h:commandButton styleClass="button" id="modificar" value="Modificar" action="#{admin.darBaja()}"/>
+									<button onclick="cerrar('Mod');return false">Cancelar</button>
+								</div>
+
+							</h:form>
+						</div>
+
+						<div class="Baja" style="display:none">
+
+							<h:form id="fBaja">
+
+								<p>Indique el cliente que busca dar de baja:</p>
+
+								<h:panelGrid columns="3"> -->
+									<h:outputText value="Identificador del cliente: " styleClass="info-campo"/>
+									<h:inputText id="identBaja" required="true" value="#{admin.ident}"/>
+									<h:message for="identBaja" styleClass="info-campo"/>
+								</h:panelGrid>
+									
+								<div style="display: inline">
+									<h:commandButton styleClass="button" id="darBaja" value="Dar de Baja" action="#{admin.darBaja()}"/>
+									<button onclick="cerrar('Baja');return false">Cancelar</button>
+								</div>
+								
+							</h:form>
+
 						</div>
 
 					</div>
-				
-					<button onclick="mostrar('EPA')">Eliminar Persona Autorizada</button>
-						
-					<div class="EPA" style="display:none">
+					
+					<div>
 
-						<h:form id="fEPA">
+						<h2>Administrar cuentas</h2>
 
-							<p>Indique la persona autorizada a eliminar:</p>
-							
-							<h:panelGrid columns="3">
-								<h:outputText value="Identificador de la empresa:"/>
-								<h:inputText id="idEmpE" required="true" value="#{admin.idEmp}"/>
-								<h:message for="idEmpE"/>
+						<button onclick="mostrar('AA')">Aperturar Cuenta Agrupada</button>
+
+						<button onclick="mostrar('AS')">Aperturar una Cuenta Segregada</button>
+
+						<button onclick="mostrar('Cer')">Cerrar Cuenta</button>
+
+						<div class="AA" style="display:none">
+
+							<h:form id="fAA">
+
+								<p>Introduzca los datos:</p>
+
+								<h:panelGrid columns="3">
+									<h:outputText value="IBAN de la cuenta: " styleClass="info-campo"/>
+									<h:inputText id="ibanAA" required="true" value="#{admin.iban}"/>
+									<h:message for="ibanAA" styleClass="info-campo"/>
+			
+									<h:outputText value="Identificador del cliente: " styleClass="info-campo"/>
+									<h:inputText id="identAA" required="true" value="#{admin.ident}"/>
+									<h:message for="identAA" styleClass="info-campo"/>
+								</h:panelGrid>
 								
-								<h:outputText value="Identificador de la persona a autorizar:"/>
-								<h:inputText id="idPerE" required="true" value="#{admin.idPer}"/>
-								<h:message for="idPerE"/>
-							</h:panelGrid>
-							
-							<div style="display: inline">
-								<h:commandButton styleClass="button" id="eliminarAutor" value="Eliminar" action="#{admin.eliminarAutorizado()}"/>
-								<button onclick="cerrar('EPA');return false">Cancelar</button>
-							</div>
+								<div style="display: inline">
+									<h:commandButton styleClass="button" id="AA" value="Apeturar" action="#{admin.aperturaCuentaAgrup()}"/>
+									<button onclick="cerrar('AA');return false">Cancelar</button>
+								</div>
 
-						</h:form>
+							</h:form>
+
+						</div>	
+													
+						<div class="AS" style="display:none">
+							<h:form id="fAS">
+
+								<p>Introduzca los datos necesarios para la apertura:</p>
+
+								<h:panelGrid columns="3">
+									<h:outputText value="IBAN de la cuenta: " styleClass="info-campo"/>
+									<h:inputText id="ibanAS" required="true" value="#{admin.iban}"/>
+									<h:message for="ibanAS" styleClass="info-campo"/>
+									
+									<h:outputText value="Identificador del cliente: " styleClass="info-campo"/>
+									<h:inputText id="identAS" required="true" value="#{admin.ident}"/>
+									<h:message for="identAS" styleClass="info-campo"/>
+									
+									<h:outputText value="IBAN de la Cuenta Referencia: " styleClass="info-campo"/>
+									<h:inputText id="ibanRef" required="true" value="#{admin.ibanRef}"/>
+									<h:message for="ibanRef" styleClass="info-campo"/>
+								</h:panelGrid>
+								
+								<h:commandButton styleClass="button" id="aperturaSegreg" value="Aperturar" action="#{admin.aperturaCuentaSegreg()}"/>
+								<button onclick="cerrar('AS');return false">Cancelar</button>
+
+							</h:form>
+						</div>
+
+						<div class="Cer" style="display:none">
+							
+							<h:form id="fCer">
+
+								<p>Indique la cuenta que quiere cerrar: </p>
+
+								<h:panelGrid columns="3">
+									<h:outputText value="IBAN de la cuenta: " styleClass="info-campo"/>
+									<h:inputText id="ibanCer" required="true" value="#{admin.iban}"/>
+									<h:message for="ibanCer" styleClass="info-campo"/>
+								</h:panelGrid>
+								
+								<div style="display: inline">
+									<h:commandButton styleClass="button" id="cerra" value="Cerrar" action="#{admin.cerrarCuenta()}"/>
+									<button onclick="cerrar('Cer');return false">Cancelar</button>
+								</div>
+
+							</h:form>
+
+						</div>
+					
 
 					</div>
 					
-					</div>		
-				</c:when>
-				
-				<c:otherwise>
-					<p>NO TIENE PERMISO DE ENTRAR AQUÍ >:(((</p>
-				</c:otherwise>
-				
+					<div>
+
+						<h2>Administrar autorizaciones</h2>
+
+						<button onclick="mostrar('APA')">Añadir Persona Autorizada</button>
+						
+						<button onclick="mostrar('MPA')">Modificar Persona Autorizada</button>
+
+						<button onclick="mostrar('EPA')">Eliminar Persona Autorizada</button>
+
+						<div class="APA" style="display:none">
+
+							<h:form id="fAPA">
+
+								<p>Indique la persona autorizada a añadir a la empresa:</p>
+								
+								<h:panelGrid columns="3">
+									<h:outputText value="Identificador de la empresa: " styleClass="info-campo"/>
+									<h:inputText id="idEmpAPA" required="true" value="#{admin.idEmp}"/>
+									<h:message for="idEmpAPA" styleClass="info-campo"/>
+									
+									<h:outputText value="Identificador de la persona a autorizar: " styleClass="info-campo"/>
+									<h:inputText id="idPerAPA" required="true" value="#{admin.idPer}"/>
+									<h:message for="idPerAPA" styleClass="info-campo"/>
+									
+									<h:outputText value="Tipo de autorizacion: " styleClass="info-campo"/>
+									<h:inputText id="tipoAPA" required="true" value="#{admin.tipo}"/>
+									<h:message for="tipoAPA" styleClass="info-campo"/>
+								</h:panelGrid>
+								
+								<div style="display: inline">
+									<h:commandButton styleClass="button" id="addAutor" value="Añadir" action="#{admin.addAutorizado()}"/>
+									<button onclick="cerrar('APA');return false">Cancelar</button>
+								</div>
+
+							</h:form>
+
+						</div>
+												
+						<div class="MPA" style="display:none">
+
+							<p>Indique la persona autorizada a modificar:</p>	
+							
+							<div style="display: inline">
+								<h:commandButton styleClass="button" id="modificarAutor" value="Modificar" action="#{admin.modificarAutorizado()}"/>
+								<button onclick="cerrar('MPA');return false">Cancelar</button>
+							</div>
+
+						</div>
+												
+						<div class="EPA" style="display:none">
+
+							<h:form id="fEPA">
+
+								<p>Indique la persona autorizada a eliminar:</p>
+								
+								<h:panelGrid columns="3">
+									<h:outputText value="Identificador de la empresa: " styleClass="info-campo"/>
+									<h:inputText id="idEmpE" required="true" value="#{admin.idEmp}"/>
+									<h:message for="idEmpE" styleClass="info-campo"/>
+									
+									<h:outputText value="Identificador de la persona a autorizar: " styleClass="info-campo"/>
+									<h:inputText id="idPerE" required="true" value="#{admin.idPer}"/>
+									<h:message for="idPerE" styleClass="info-campo"/>
+								</h:panelGrid>
+								
+								<div style="display: inline">
+									<h:commandButton styleClass="button" id="eliminarAutor" value="Eliminar" action="#{admin.eliminarAutorizado()}"/>
+									<button onclick="cerrar('EPA');return false">Cancelar</button>
+								</div>
+
+							</h:form>
+
+						</div>
+						
+						</div>		
+					</c:when>
+					
+					<c:otherwise>
+						<p>NO TIENE PERMISO DE ENTRAR AQUÍ >:(((</p>
+					</c:otherwise>
+					
 				</c:choose>
 							
 			</div>			
