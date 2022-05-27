@@ -10,6 +10,7 @@ import javax.inject.Named;
 
 import es.uma.proyecto.GestionAdministrativos;
 import es.uma.proyecto.GestionCuentasUsuarios;
+import es.uma.proyecto.GestionInformes;
 import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.entidades.CuentaReferencia;
 import es.uma.proyecto.entidades.PersonaAutorizada;
@@ -28,6 +29,8 @@ public class Administrador {
 	private GestionAdministrativos admin;
 	@EJB
 	private GestionCuentasUsuarios cuentas;
+    @EJB
+    private GestionInformes informes;
 	
 	private Cliente cliente;
 	private Usuario usuario;
@@ -262,7 +265,7 @@ public class Administrador {
 	        FacesContext.getCurrentInstance().addMessage("admini:tipo", fm);
 		}
 	}
-
+	
 	public GestionAdministrativos getAdmin() {
 		return admin;
 	}

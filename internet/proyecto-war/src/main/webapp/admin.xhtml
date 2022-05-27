@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 	  <link rel="stylesheet" href="admin.css"></link>
 
     <h:head>
@@ -42,11 +43,11 @@
 						
 						<h2>Administrar clientes</h2>
 
-						<button onclick="mostrar('Alta')">Dar de alta Cliente</button>
+						<button onclick="mostrar('Alta')">Alta Cliente</button>
 
 						<button onclick="mostrar('Mod')">Modificar Cliente</button>
 
-						<button onclick="mostrar('Baja')">Dar de baja Cliente</button>
+						<button onclick="mostrar('Baja')">Baja Cliente</button>
 
 						<div class="Alta" style="display:none" >
 
@@ -135,7 +136,7 @@
 
 						<button onclick="mostrar('AA')">Aperturar Cuenta Agrupada</button>
 
-						<button onclick="mostrar('AS')">Aperturar una Cuenta Segregada</button>
+						<button onclick="mostrar('AS')">Aperturar Cuenta Segregada</button>
 
 						<button onclick="mostrar('Cer')">Cerrar Cuenta</button>
 
@@ -302,9 +303,33 @@
 
 							</h:form>
 
+							</div>
 						</div>
 						
-						</div>		
+						
+						<div>
+
+						<h2>Generar Informes regulatorios</h2>
+
+						<button onclick="mostrar('IFH')">Paises Bajos</button>
+						
+						<button onclick="mostrar('IFA')">Alemania</button>
+
+						<div class="IFA" style="display:none">
+							
+    					<h:form id="fIFA">
+       						<p:commandButton value="Semanal" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="pi pi-arrow-down">
+            				<p:fileDownload value="#{IFA.sfile}"/>
+        					</p:commandButton>
+							<p:commandButton value="Mensual" icon="pi pi-arrow-down">
+            				<p:fileDownload value="#{IFA.mfile}"/>
+        					</p:commandButton>
+						</h:form>
+
+						</div>
+						
+						</div>	
+						
 					</c:when>
 					
 					<c:otherwise>
@@ -315,7 +340,7 @@
 							
 			</div>			
 
-					<h:outputScript type="text/javascript"> 
+					<script type="text/javascript"> 
 					const mostrar = elementByClass => {
 						document.querySelector('.' + elementByClass).toggleAttribute('style');
 					};
@@ -324,10 +349,15 @@
 						document.querySelector('.' + elementByClass).setAttribute('style',"display:none");
 					};
 					
-					</h:outputScript>
+    				function start() {
+        				PF('statusDialog').show();
+    				}
 
+    				function stop() {
+        				PF('statusDialog').hide();
+    				}
+    				</script>
 		</section>
-
 	</h:body>
 
 </html>

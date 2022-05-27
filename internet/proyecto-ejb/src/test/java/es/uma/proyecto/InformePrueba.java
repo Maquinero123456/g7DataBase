@@ -78,8 +78,8 @@ public class InformePrueba {
         // Cuentas de Alemania   
         // Debe devolver solo a Navarro Jimena, pues es el unico aleman con una cuenta activa
         // en los ultimos cinco años en la base de datos
-        gestionInformes.informeSemanalAlemania();
-        gestionInformes.informeMensualAlemania();
+        //gestionInformes.informeSemanalAlemania();
+        //gestionInformes.informeMensualAlemania();
         // System.out.println(reporteAlemania.iterator());
         }
 

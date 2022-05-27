@@ -3,6 +3,7 @@ package es.uma.proyecto.test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import es.uma.informatica.sii.anotaciones.Requisitos;
 import es.uma.proyecto.test.BaseDatos;
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,7 +61,12 @@ public class ProyectoIT {
 	}
 	
 	@SuppressWarnings("deprecation")
+	@Requisitos({"RF10"})
 	@Test
+	/**
+	 * Test para comprobar un correcto inicio de sesión por parte de un usuario normal 
+	 * En este caso, un cliente individual
+	 */
 	public void iniciarSesion() {
 		driver.get("http://0.0.0.0:8080/proyecto-war/");
 		driver.manage().window().setSize(new Dimension(790, 866));
@@ -72,7 +78,12 @@ public class ProyectoIT {
 	}
 	
 	@SuppressWarnings("deprecation")
+	@Requisitos({"RF10"})
 	@Test
+	/**
+	 * Test para comprobar un incorrecto inicio de sesion con la contraseña que no es
+	 * En este caso, un cliente individual
+	 */
 	public void iniciarSesionPasswordMal() {
 		driver.get("http://0.0.0.0:8080/proyecto-war/");
 		driver.manage().window().setSize(new Dimension(790, 866));
@@ -86,7 +97,12 @@ public class ProyectoIT {
 	}
 
 	@SuppressWarnings("deprecation")
+	@Requisitos({"RF10"})
 	@Test
+	/**
+	 * Test para comprobar un incorrecto inicio de sesion 
+	 * Cuando no se colocan los valores obligatorios
+	 */
 	public void iniciarSesionCamposVacios() {
 		driver.get("http://0.0.0.0:8080/proyecto-war/");
 		driver.manage().window().setSize(new Dimension(790, 866));
@@ -121,8 +137,9 @@ public class ProyectoIT {
 		assertThat(driver.findElement(By.cssSelector("p:nth-child(1)")).getText(), is("El registro se ha realizado con éxito."));
 	}
 
+	@SuppressWarnings("deprecation")
 	@Test
-  public void registroCamposVacios() {
+	public void registroCamposVacios() {
     driver.get("http://0.0.0.0:8080/proyecto-war/registro.xhtml");
     driver.manage().window().setSize(new Dimension(790, 866));
     driver.findElement(By.name("registro:j_idt15")).click();
@@ -131,10 +148,11 @@ public class ProyectoIT {
     assertThat(driver.findElement(By.cssSelector("tr:nth-child(2) > td:nth-child(3)")).getText(), is("Valor obligatorio"));
     assertThat(driver.findElement(By.cssSelector("tr:nth-child(3) > td:nth-child(3)")).getText(), is("Valor obligatorio"));
     assertThat(driver.findElement(By.cssSelector("tr:nth-child(4) > td:nth-child(3)")).getText(), is("Valor obligatorio"));
-  }
+	}
 
-  @Test
-  public void registroEmailNoValido() {
+	@SuppressWarnings("deprecation")
+	@Test
+	public void registroEmailNoValido() {
     driver.get("http://0.0.0.0:8080/proyecto-war/registro.xhtml");
     driver.manage().window().setSize(new Dimension(790, 866));
     driver.findElement(By.id("registro:nombre")).click();
@@ -145,10 +163,11 @@ public class ProyectoIT {
     driver.findElement(By.name("registro:j_idt15")).click();
     driver.findElement(By.cssSelector("tr:nth-child(4) > td:nth-child(3)")).click();
     assertThat(driver.findElement(By.cssSelector("tr:nth-child(4) > td:nth-child(3)")).getText(), is("El email debe ser valido"));
-  }
+	}
 
-  @Test
-  public void registroPasswordNoCoinciden() {
+	@SuppressWarnings("deprecation")
+	@Test
+  	public void registroPasswordNoCoinciden() {
     driver.get("http://0.0.0.0:8080/proyecto-war/registro.xhtml");
     driver.manage().window().setSize(new Dimension(790, 866));
     driver.findElement(By.id("registro:nombre")).click();
@@ -159,7 +178,7 @@ public class ProyectoIT {
     driver.findElement(By.name("registro:j_idt15")).click();
     driver.findElement(By.cssSelector("tr:nth-child(3) > td:nth-child(3)")).click();
     assertThat(driver.findElement(By.cssSelector("tr:nth-child(3) > td:nth-child(3)")).getText(), is("Las contraseñas deben coincidir."));
-  }
+	}
 
   @Test
   public void registroPasswordNoValida() {
@@ -174,8 +193,8 @@ public class ProyectoIT {
     assertThat(driver.findElement(By.cssSelector("tr:nth-child(2) > td:nth-child(3)")).getText(), is("La contraseña debe ser valida"));
   }
 
-  @Test
-  public void registroUsuarioRepetido() {
+  	@Test
+  	public void registroUsuarioRepetido() {
     driver.get("http://0.0.0.0:8080/proyecto-war/registro.xhtml");
     driver.manage().window().setSize(new Dimension(790, 866));
     driver.findElement(By.cssSelector("table")).click();
@@ -186,5 +205,5 @@ public class ProyectoIT {
     driver.findElement(By.id("registro:email")).sendKeys("ponciano@ponciano.com");
     driver.findElement(By.name("registro:j_idt15")).click();
     assertThat(driver.findElement(By.cssSelector("tr:nth-child(1) > td:nth-child(3)")).getText(), is("Existe un usuario con la misma cuenta."));
-  }
+  	}
 }

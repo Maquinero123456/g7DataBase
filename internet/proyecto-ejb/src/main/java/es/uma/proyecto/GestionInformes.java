@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
+import org.apache.commons.csv.CSVPrinter;
+
 @Local
 public interface GestionInformes {
 
@@ -33,9 +35,9 @@ public interface GestionInformes {
 	 * (no el cliente, puesto que esa cuenta no es suya).
 	 */
 	
-	public void informeSemanalAlemania() throws IOException;
+	public CSVPrinter informeSemanalAlemania() throws IOException;
 	
-	public void informeMensualAlemania() throws IOException;
+	public CSVPrinter informeMensualAlemania() throws IOException;
 	
 
 	public int getFecha(Date date);
