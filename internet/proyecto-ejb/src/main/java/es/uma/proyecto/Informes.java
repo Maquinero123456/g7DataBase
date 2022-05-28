@@ -119,7 +119,7 @@ public class Informes implements GestionInformes{
 		String sentence = "SELECT cl FROM Cliente cl, Individual ind, Empresa emp WHERE cl.pais = :fpais";
 	    
 		if(ape != null) {
-			sentence = sentence.concat(" AND (ind.apellidos LIKE :fape OR emp.razonsocial LIKE :fape)");
+			sentence = sentence.concat(" AND (ind.apellidos LIKE :fape OR emp.razonSocial LIKE :fape)");
 		}
 		
 		Query query = em.createQuery(sentence);
