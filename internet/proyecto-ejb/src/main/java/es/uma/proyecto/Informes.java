@@ -58,7 +58,7 @@ public class Informes implements GestionInformes{
 		
 	   	for(CuentaFintech cf: listCl) {
 	   		if(getFecha(cf.getCliente().getFechaBaja()) > 2019) {
-	   			informe.add("CLIENTE: "+builder.toJson(cf.getCliente())+"\n"+builder.toJson(cf)+"\n");
+	   			informe.add("accountHolder: "+builder.toJson(cf.getCliente())+"\n"+builder.toJson(cf)+"\n");
 	   		}
 	   	}
 	   	
@@ -115,11 +115,11 @@ public class Informes implements GestionInformes{
 		Jsonb builder = JsonbBuilder.create();
 		List<String> informe = new ArrayList<String>();
 		
-		informe.add("Individual: ");
-		String sentence = "SELECT cl FROM Individual cl WHERE cl.pais = :fpais";
+		informe.add("Clientes: ");
+		String sentence = "SELECT cl FROM Cliente cl WHERE cl.pais = :fpais";
 	    
 		if(ape != null) {
-			sentence = sentence.concat(" AND cl.apellidos LIKE :fape");
+			sentence = sentence.concat(" AND (cl.apellidos LIKE :fape OR cl.razonsocial LIKE :fape)");
 		}
 		
 		Query query = em.createQuery(sentence);
@@ -128,11 +128,11 @@ public class Informes implements GestionInformes{
 			query.setParameter("fape", ape);
 		}
 				
-		List<Individual> listCl = query.getResultList();
+		List<Cliente> listCl = query.getResultList();
 	    
-	    for(Individual ind: listCl) {
-	    	if(ind.getFechaAlta().compareTo(alta) > 0 && ind.getFechaAlta().compareTo(baja) < 0) {
-	    	   	informe.add("CLIENTE: "+builder.toJson(ind)+"\n");
+	    for(Cliente c: listCl) {
+	    	if(c.getFechaAlta().compareTo(alta) > 0 && c.getFechaAlta().compareTo(baja) < 0) {
+	    	   	informe.add("CLIENTE: "+builder.toJson(c)+"\n");
 	    	}
 	    }
 		
