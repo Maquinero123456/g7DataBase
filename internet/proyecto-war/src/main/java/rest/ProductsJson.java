@@ -1,4 +1,3 @@
-
 package rest;
 
 import javax.annotation.Generated;

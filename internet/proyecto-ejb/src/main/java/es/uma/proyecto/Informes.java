@@ -110,6 +110,35 @@ public class Informes implements GestionInformes{
 		return informe;
 	}
 	
+	@Override
+	public List<String> informeClienteFechaPaisesBajos(String ape, Date alta, Date baja) {
+		Jsonb builder = JsonbBuilder.create();
+		List<String> informe = new ArrayList<String>();
+		
+		informe.add("Individual: ");
+		String sentence = "SELECT cl FROM Individual cl WHERE cl.pais = :fpais";
+	    
+		if(ape != null) {
+			sentence = sentence.concat(" AND cl.apellidos LIKE :fape");
+		}
+		
+		Query query = em.createQuery(sentence);
+		query.setParameter("fpais", "PaisesBajos");
+		if(ape != null) {
+			query.setParameter("fape", ape);
+		}
+				
+		List<Individual> listCl = query.getResultList();
+	    
+	    for(Individual ind: listCl) {
+	    	if(ind.getFechaAlta().compareTo(alta) > 0 && ind.getFechaAlta().compareTo(baja) < 0) {
+	    	   	informe.add("CLIENTE: "+builder.toJson(ind)+"\n");
+	    	}
+	    }
+		
+		return informe;
+	}
+	
 		
 	@Override
 	public int getFecha(Date date) {

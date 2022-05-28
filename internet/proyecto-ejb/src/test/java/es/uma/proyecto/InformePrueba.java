@@ -1,6 +1,5 @@
 package es.uma.proyecto;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -42,7 +41,7 @@ public class InformePrueba {
     public void informeHolanda() throws IOException {
     	// Cuentas de Holanda activas y con iban 15
     	// Debe devolver la cuenta de "Perez Castillo", pues es el dueño de la cuenta con iban 15
-        List<String> report1 = gestionInformes.informeCuentasPaisesBajos(true, "15");
+       /* List<String> report1 = gestionInformes.informeCuentasPaisesBajos(true, "15");
         System.out.println(report1.toString());
         assertTrue(report1.toString().contains("Perez Castillo"));
         assertFalse(report1.toString().contains("Navarro Jimena"));
@@ -73,13 +72,13 @@ public class InformePrueba {
         System.out.println(reporte3.toString());
         assertTrue(reporte3.toString().contains("Perez Castillo"));
         assertFalse(reporte3.toString().contains("Activision Blizzard"));
-        assertTrue(reporte3.toString().contains("Vazquez Vera"));
+        assertTrue(reporte3.toString().contains("Vazquez Vera"));*/
         
         // Cuentas de Alemania   
         // Debe devolver solo a Navarro Jimena, pues es el unico aleman con una cuenta activa
         // en los ultimos cinco años en la base de datos
-        //gestionInformes.informeSemanalAlemania();
-        //gestionInformes.informeMensualAlemania();
+        gestionInformes.informeSemanalAlemania();
+        gestionInformes.informeMensualAlemania();
         // System.out.println(reporteAlemania.iterator());
         }
 

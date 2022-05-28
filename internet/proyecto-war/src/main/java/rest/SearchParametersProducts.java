@@ -5,14 +5,14 @@ import javax.annotation.Generated;
 
 public class SearchParametersProducts {
 
-    private String status;
+    private Boolean status;
     private String productNumber;
 
-    public String getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 
