@@ -37,18 +37,21 @@ public class Informes implements GestionInformes{
     
     
 	@Override
-	public List<String> informeCuentasPaisesBajos(boolean status, String productNumber) throws ParseException {
+	public List<String> informeCuentasPaisesBajos(Boolean status, String productNumber) throws ParseException {
 		JsonbConfig config = new JsonbConfig().withPropertyOrderStrategy(PropertyOrderStrategy.ANY);
 		config.withNullValues(true);
 		Jsonb builder = JsonbBuilder.create(config);
 		List<String> informe = new ArrayList<String>();
 		informe.add("PRODUCTOS: ");
-		String sentence = "SELECT cu FROM CuentaFintech cu WHERE cu.cliente.pais = :fpais AND cu.estado = :fstatus";
+		String sentence = "SELECT cu FROM CuentaFintech cu WHERE cu.cliente.pais = :fpais";
 	    
 		Date limite = new SimpleDateFormat("yyyy-MM-dd").parse("2019-05-28");
 		
 		if(productNumber != null) {
 			sentence = sentence.concat(" AND cu.iban = :fiban");
+		}
+		if(status != null) {
+			sentence = sentence.concat(" AND cu.estado = :fstatus");
 		}
 		
 		Query query = em.createQuery(sentence);
@@ -56,6 +59,9 @@ public class Informes implements GestionInformes{
 		query.setParameter("fstatus", status);
 		if(productNumber != null) {
 			query.setParameter("fiban", productNumber);
+		}
+		if(status != null) {
+			query.setParameter("fstatus", status.booleanValue());
 		}
 
 		List<CuentaFintech> listCl = query.getResultList();
@@ -140,7 +146,7 @@ public class Informes implements GestionInformes{
 			for(Cliente c: listCl) {
 			   	if(c.getFechaAlta().compareTo(alta) > 0 && c.getFechaAlta().compareTo(baja) < 0) {
 			   		if(c.getTipoCliente().equalsIgnoreCase("individual") || c.getTipoCliente().equalsIgnoreCase("fisica")) {
-			   			informe.add("Individual: "+builder.toJson(c)+"\n");
+			   			informe.add("Individual: "+builder.toJson(c));
 			   			for(CuentaFintech cf: c.getCuentas()) {
 			   				informe.add(builder.toJson(cf)+"\n");
 			   			}
