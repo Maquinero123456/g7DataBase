@@ -311,19 +311,16 @@
 
 						<h2>Generar Informes regulatorios</h2>
 
-						<button onclick="mostrar('IFH')">Paises Bajos</button>
+						<button onclick="mostrar('HOLANDA')">Paises Bajos</button>
 						
-						<button onclick="mostrar('IFA')">Alemania</button>
+						<button onclick="mostrar('ALEMANIA')">Alemania</button>
 
-						<div class="IFA" style="display:none">
+						<div class="ALEMANIA" style="display:none">
 							
-    					<h:form id="fIFA">
-       						<p:commandButton value="Semanal" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="pi pi-arrow-down">
-            				<p:fileDownload value="#{IFA.sfile}"/>
-        					</p:commandButton>
-							<p:commandButton value="Mensual" icon="pi pi-arrow-down">
-            				<p:fileDownload value="#{IFA.mfile}"/>
-        					</p:commandButton>
+    					<h:form id="fALEMANIA">
+       						<h:commandButton styleClass="button" id="aSem" value="Semanal" action="#{infal.descargaSemanal()}"/>
+							<h:commandButton styleClass="button" id="aMen" value="Mensual" action="#{infal.descargaMensual()}"/>
+							<button onclick="cerrar('ALEMANIA');return false">Cancelar</button>
 						</h:form>
 
 						</div>

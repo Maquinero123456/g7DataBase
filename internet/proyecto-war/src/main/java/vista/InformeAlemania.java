@@ -1,44 +1,65 @@
 package vista;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.Serializable;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
-
-import org.apache.commons.csv.CSVPrinter;
+import javax.servlet.http.HttpServletResponse;
 
 import es.uma.proyecto.GestionInformes;
 
-@Named(value = "IFA")
+@Named(value = "infal")
 @RequestScoped
-public class InformeAlemania {
+public class InformeAlemania implements Serializable{
 
+	private static final long serialVersionUID = 1L; 
+	
 	@EJB
 	private GestionInformes informes;
-	
-    private CSVPrinter sfile;
-    
-    private CSVPrinter mfile;
 
     public InformeAlemania() {
     	// INSTANCIA
     }
 
-	public CSVPrinter getSfile() {
-		return sfile;
-	}
-
-	public void setSfile() throws IOException {
-		this.sfile = informes.informeSemanalAlemania();
-	}
-
-	public CSVPrinter getMfile() {
-		return mfile;
-	}
-
-	public void setMfile() throws IOException {
-		this.mfile = informes.informeMensualAlemania();
-	}
-
+	public void descargaMensual() throws IOException { 
+		informes.informeMensualAlemania();
+		File file = new File("informeMensualAlemania.csv"); 
+		InputStream fis = new FileInputStream(file); 
+		byte[] buf = new byte[1024]; int offset = 0; 
+		int numRead = 0; while ((offset < buf.length) && ((numRead = fis.read(buf, offset, buf.length -offset)) >= 0)) { 
+			offset += numRead; 
+		} 
+		
+		fis.close(); 
+		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance() .getExternalContext().getResponse();
+		response.setContentType("application/octet-stream"); 
+		response.setHeader("Content-Disposition", "attachment;filename=informeMensualAlemania.csv"); 
+		response.getOutputStream().write(buf); 
+		response.getOutputStream().flush(); 
+		response.getOutputStream().close(); FacesContext.getCurrentInstance().responseComplete(); 
+	} 
+	
+	public void descargaSemanal() throws IOException { 
+		informes.informeSemanalAlemania();
+		File file = new File("informeSemanalAlemania.csv"); 
+		InputStream fis = new FileInputStream(file); 
+		byte[] buf = new byte[1024]; int offset = 0; 
+		int numRead = 0; while ((offset < buf.length) && ((numRead = fis.read(buf, offset, buf.length -offset)) >= 0)) { 
+			offset += numRead; 
+		} 
+		
+		fis.close(); 
+		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance() .getExternalContext().getResponse();
+		response.setContentType("application/octet-stream"); 
+		response.setHeader("Content-Disposition", "attachment;filename=informeSemanalAlemania.csv"); 
+		response.getOutputStream().write(buf); 
+		response.getOutputStream().flush(); 
+		response.getOutputStream().close(); FacesContext.getCurrentInstance().responseComplete(); 
+	} 
 }

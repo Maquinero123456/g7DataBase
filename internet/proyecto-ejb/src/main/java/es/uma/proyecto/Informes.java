@@ -124,7 +124,7 @@ public class Informes implements GestionInformes{
 
 
 	@Override
-	public CSVPrinter informeSemanalAlemania() throws IOException {
+	public void informeSemanalAlemania() throws IOException {
 		List<String[]> informe = new ArrayList<String[]>();
 		String sentence = "SELECT cf FROM CuentaFintech cf WHERE cf.cliente.pais = :fpais AND cf.estado = :fstatus AND cf.clasificacion = :fclas";
 	    
@@ -168,12 +168,11 @@ public class Informes implements GestionInformes{
 		printer.flush();
 		printer.close();
 		
-		return printer;
 		
 	}
 	
 	@Override
-	public CSVPrinter informeMensualAlemania() throws IOException {
+	public void informeMensualAlemania() throws IOException {
 		List<String[]> informe = new ArrayList<String[]>();
 		String sentence = "SELECT cf FROM CuentaFintech cf WHERE cf.cliente.pais = :fpais AND cf.clasificacion = :fclas";
 	    
@@ -215,7 +214,6 @@ public class Informes implements GestionInformes{
 		printer.flush();
 		printer.close();
 		
-		return printer;
 		
 	}
 }  

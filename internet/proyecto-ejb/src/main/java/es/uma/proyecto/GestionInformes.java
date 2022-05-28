@@ -35,9 +35,9 @@ public interface GestionInformes {
 	 * (no el cliente, puesto que esa cuenta no es suya).
 	 */
 	
-	public CSVPrinter informeSemanalAlemania() throws IOException;
+	public void informeSemanalAlemania() throws IOException;
 	
-	public CSVPrinter informeMensualAlemania() throws IOException;
+	public void informeMensualAlemania() throws IOException;
 	
 
 	public int getFecha(Date date);
