@@ -68,7 +68,9 @@ public class Informes implements GestionInformes{
 	
 	@Override
 	public List<String> informeClientePaisesBajos(String ape, String dir, String cp) {
-		Jsonb builder = JsonbBuilder.create();
+		JsonbConfig config = new JsonbConfig().withPropertyOrderStrategy(PropertyOrderStrategy.ANY);
+		config.withNullValues(true);
+		Jsonb builder = JsonbBuilder.create(config);
 		List<String> informe = new ArrayList<String>();
 		informe.add("INDIVIDUALES: ");
 		String sentence = "SELECT cl FROM Individual cl WHERE cl.pais = :fpais";
@@ -112,7 +114,9 @@ public class Informes implements GestionInformes{
 	
 	@Override
 	public List<String> informeClienteFechaPaisesBajos(String ape, Date alta, Date baja) {
-		Jsonb builder = JsonbBuilder.create();
+		JsonbConfig config = new JsonbConfig().withPropertyOrderStrategy(PropertyOrderStrategy.ANY);
+		config.withNullValues(true);
+		Jsonb builder = JsonbBuilder.create(config);
 		List<String> informe = new ArrayList<String>();
 		
 		informe.add("Clientes: ");
@@ -132,7 +136,13 @@ public class Informes implements GestionInformes{
 	    
 	    for(Cliente c: listCl) {
 	    	if(c.getFechaAlta().compareTo(alta) > 0 && c.getFechaAlta().compareTo(baja) < 0) {
-	    	   	informe.add("CLIENTE: "+builder.toJson(c)+"\n");
+	    		if(c.getTipoCliente().equalsIgnoreCase("individual") || c.getTipoCliente().equalsIgnoreCase("fisica")) {
+	    			informe.add("Individual: "+builder.toJson(c)+"\n"+builder.toJson(c.getCuentas())+"\n");
+	    		}
+	    	   	
+	    		else {
+	    			informe.add("Empresa: "+builder.toJson(c)+"\n"+builder.toJson(c.getCuentas())+"\n");
+	    		}
 	    	}
 	    }
 		
