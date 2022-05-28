@@ -2,6 +2,7 @@ package es.uma.proyecto.entidades;
 
 import java.util.Objects;
 
+import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import java.util.Date;
@@ -12,29 +13,39 @@ import java.util.List;
 @Table(name="CLIENTE")
 public class Cliente {
     
-	@JsonbTransient
     @Id @GeneratedValue
+    @JsonbTransient
     private long id;
 	@JsonbTransient
     @Column(unique=true, nullable=false)
     private String identificacion;
+	@JsonbProperty("accountType")
     @Column(nullable=false)
     private String tipoCliente;
+    @JsonbProperty("status")
     @Column(nullable=false)
     private String estado;
+    @JsonbTransient
     @Column(nullable=false)
     @Temporal(TemporalType.DATE)
     private Date fechaAlta;
+    @JsonbTransient
     @Temporal(TemporalType.DATE)
     private Date fechaBaja;
-    @Column(nullable=false)
-    private String pais;
-    @Column(nullable=false)
-    private String ciudad;
-    @Column(nullable=false)
-    private String codigoPostal;
+    
+    // DIRECCION
+    @JsonbProperty("streetNumber")
     @Column(nullable=false)
     private String direccion;
+    @JsonbProperty("postalCode")
+    @Column(nullable=false)
+    private String codigoPostal;
+    @JsonbProperty("city")
+    @Column(nullable=false)
+    private String ciudad;
+    @JsonbProperty("country")
+    @Column(nullable=false)
+    private String pais;
 
     @JsonbTransient
     @OneToMany(mappedBy = "cliente")
@@ -163,6 +174,22 @@ public class Cliente {
 	public void setFechaBaja(Date fBaja) {
 		fechaBaja = fBaja;
 	}
+
+    public long getId() {
+        return this.id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Usuario getUsuario() {
+        return this.usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 
 
     @Override

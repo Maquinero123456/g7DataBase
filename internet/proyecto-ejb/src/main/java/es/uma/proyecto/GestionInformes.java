@@ -21,6 +21,7 @@ public interface GestionInformes {
 	 */
 	public List<String> informeCuentasPaisesBajos(boolean status, String productNumber);
 	public List<String> informeClientePaisesBajos(String apellidos, String direccion, String cp);
+	public List<String> informeClienteFechaPaisesBajos(String ape, Date alta, Date baja);
 	
 	
 	

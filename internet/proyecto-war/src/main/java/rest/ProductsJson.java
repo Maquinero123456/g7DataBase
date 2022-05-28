@@ -1,7 +1,4 @@
-
 package rest;
-
-import javax.annotation.Generated;
 
 public class ProductsJson {
 

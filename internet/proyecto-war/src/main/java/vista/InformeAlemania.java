@@ -5,13 +5,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletResponse;
-
 import es.uma.proyecto.GestionInformes;
 
 @Named(value = "infal")
@@ -31,8 +29,10 @@ public class InformeAlemania implements Serializable{
 		informes.informeMensualAlemania();
 		File file = new File("informeMensualAlemania.csv"); 
 		InputStream fis = new FileInputStream(file); 
-		byte[] buf = new byte[1024]; int offset = 0; 
-		int numRead = 0; while ((offset < buf.length) && ((numRead = fis.read(buf, offset, buf.length -offset)) >= 0)) { 
+		byte[] buf = new byte[1024]; 
+		int offset = 0; 
+		int numRead = 0; 
+		while ((offset < buf.length) && ((numRead = fis.read(buf, offset, buf.length -offset)) >= 0)) { 
 			offset += numRead; 
 		} 
 		
@@ -49,8 +49,10 @@ public class InformeAlemania implements Serializable{
 		informes.informeSemanalAlemania();
 		File file = new File("informeSemanalAlemania.csv"); 
 		InputStream fis = new FileInputStream(file); 
-		byte[] buf = new byte[1024]; int offset = 0; 
-		int numRead = 0; while ((offset < buf.length) && ((numRead = fis.read(buf, offset, buf.length -offset)) >= 0)) { 
+		byte[] buf = new byte[1024]; 
+		int offset = 0; 
+		int numRead = 0; 
+		while ((offset < buf.length) && ((numRead = fis.read(buf, offset, buf.length -offset)) >= 0)) { 
 			offset += numRead; 
 		} 
 		

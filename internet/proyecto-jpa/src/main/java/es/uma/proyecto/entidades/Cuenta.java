@@ -2,6 +2,9 @@ package es.uma.proyecto.entidades;
 
 import java.util.List;
 import java.util.Objects;
+
+import javax.json.bind.annotation.JsonbProperty;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,14 +17,20 @@ import javax.persistence.OneToMany;
 @Table(name = "CUENTA")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Cuenta {
+	
     @Id
+    @JsonbProperty("productNumber")
     @Column(nullable = false)
     private String iban;
+
+	@JsonbTransient
     private String swift;
 
+	@JsonbTransient
     @OneToMany(mappedBy = "destino")
     private List<Transaccion> destino;
 
+	@JsonbTransient
     @OneToMany(mappedBy = "origen")
     private List<Transaccion> origen;
 

@@ -1,6 +1,10 @@
 package rest;
 
 import java.net.URI;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ws.rs.ApplicationPath;
@@ -50,10 +54,11 @@ public class informeREST {
     @Path("/clients")
     @POST
     @Consumes ({MediaType.APPLICATION_JSON, "text/plain"})
-    public Response clients(ClientsJson json){
-		return Response.ok(json.toString()).build();
-		/*informes.informeClientePaisesBajos(json.getName().get(0), json.getStartPeriod(), json.getEndPeriod());
-        return Response.ok(informes.toString()).build();*/
+    public Response clients(ClientsJson json) throws ParseException{
+    	Date prim = new SimpleDateFormat("yyyy-MM-dd").parse(json.getSearchParameters().getStartPeriod());
+    	Date fin = new SimpleDateFormat("yyyy-MM-dd").parse(json.getSearchParameters().getEndPeriod());
+    	List<String> lol = informes.informeClienteFechaPaisesBajos(json.getSearchParameters().getName().getLastName(), prim, fin);
+        return Response.ok(lol.toString()).build();
     }
 
     //3
@@ -61,9 +66,12 @@ public class informeREST {
     @POST
     @Consumes (MediaType.APPLICATION_JSON)
 	public Response products(ProductsJson json){
-		return Response.ok(json.toString()).build();
-		/*informes.informeCuentasPaisesBajos(status, iban);
-		return Response.ok(informes.toString()).build();*/
+		boolean status = false;
+		if(json.getSearchParameters().getStatus().equalsIgnoreCase("active")) {
+			status = true;
+		}
+		List<String> lol = informes.informeCuentasPaisesBajos(status, json.getSearchParameters().getProductNumber());
+		return Response.ok(lol.toString()).build();
 	}
 
 }

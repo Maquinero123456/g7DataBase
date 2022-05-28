@@ -57,6 +57,29 @@ public class Segregada extends CuentaFintech {
 		this.cuentaReferencia = cuentaReferencia;
 	}
 
+	public String getIban(){
+		return super.getIBAN();
+	}
+	public String getSwift(){
+		return super.getSWIFT();
+	}
+
+	public Boolean getEstado(){
+		return super.getEstado();
+	}
+
+	public Date getFechaApertura(){
+		return super.getFechaApertura();
+	}
+
+	public Date getFechaCierre(){
+		return super.getFechaCierre();
+	}
+
+	public String getClasficicacion(){
+		return super.getClasificacion();
+	}
+
 
 	@Override
 	public String toString() {

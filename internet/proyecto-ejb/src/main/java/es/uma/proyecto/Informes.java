@@ -58,7 +58,7 @@ public class Informes implements GestionInformes{
 		
 	   	for(CuentaFintech cf: listCl) {
 	   		if(getFecha(cf.getCliente().getFechaBaja()) > 2019) {
-	   			informe.add("CLIENTE: "+builder.toJson(cf.getCliente())+"\n"+builder.toJson(cf)+"\n");
+	   			informe.add("accountHolder: "+builder.toJson(cf.getCliente())+"\n"+builder.toJson(cf)+"\n");
 	   		}
 	   	}
 	   	
@@ -68,21 +68,23 @@ public class Informes implements GestionInformes{
 	
 	@Override
 	public List<String> informeClientePaisesBajos(String ape, String dir, String cp) {
-		Jsonb builder = JsonbBuilder.create();
+		JsonbConfig config = new JsonbConfig().withPropertyOrderStrategy(PropertyOrderStrategy.ANY);
+		config.withNullValues(true);
+		Jsonb builder = JsonbBuilder.create(config);
 		List<String> informe = new ArrayList<String>();
 		informe.add("INDIVIDUALES: ");
 		String sentence = "SELECT cl FROM Individual cl WHERE cl.pais = :fpais";
 	    
 		if(ape != null) {
-			sentence = sentence.concat(" AND cl.apellidos = :fape");
+			sentence = sentence.concat(" AND cl.apellidos LIKE :fape");
 		}
 		
 		if(dir != null) {
-			sentence = sentence.concat(" AND cl.direccion = :fdir");
+			sentence = sentence.concat(" AND cl.direccion LIKE :fdir");
 		}
 		
 		if(cp != null) {
-			sentence = sentence.concat(" AND cl.codigoPostal = :fcp");
+			sentence = sentence.concat(" AND cl.codigoPostal LIKE :fcp");
 		}
 		
 		Query query = em.createQuery(sentence);
@@ -104,6 +106,43 @@ public class Informes implements GestionInformes{
 	    for(Individual ind: listCl) {
 	    	if(getFecha(ind.getFechaBaja()) > 2019) {
 	    	   	informe.add("CLIENTE: "+builder.toJson(ind)+"\n");
+	    	}
+	    }
+		
+		return informe;
+	}
+	
+	@Override
+	public List<String> informeClienteFechaPaisesBajos(String ape, Date alta, Date baja) {
+		JsonbConfig config = new JsonbConfig().withPropertyOrderStrategy(PropertyOrderStrategy.ANY);
+		config.withNullValues(true);
+		Jsonb builder = JsonbBuilder.create(config);
+		List<String> informe = new ArrayList<String>();
+		
+		informe.add("Clientes: ");
+		String sentence = "SELECT cl FROM Cliente cl, Individual ind, Empresa emp WHERE cl.pais = :fpais";
+	    
+		if(ape != null) {
+			sentence = sentence.concat(" AND (ind.apellidos LIKE :fape OR emp.razonSocial LIKE :fape)");
+		}
+		
+		Query query = em.createQuery(sentence);
+		query.setParameter("fpais", "PaisesBajos");
+		if(ape != null) {
+			query.setParameter("fape", ape);
+		}
+				
+		List<Cliente> listCl = query.getResultList();
+	    
+	    for(Cliente c: listCl) {
+	    	if(c.getFechaAlta().compareTo(alta) > 0 && c.getFechaAlta().compareTo(baja) < 0) {
+	    		if(c.getTipoCliente().equalsIgnoreCase("individual") || c.getTipoCliente().equalsIgnoreCase("fisica")) {
+	    			informe.add("Individual: "+builder.toJson(c)+"\n"+builder.toJson(c.getCuentas())+"\n");
+	    		}
+	    	   	
+	    		else {
+	    			informe.add("Empresa: "+builder.toJson(c)+"\n"+builder.toJson(c.getCuentas())+"\n");
+	    		}
 	    	}
 	    }
 		
