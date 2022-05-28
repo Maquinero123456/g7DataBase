@@ -13,8 +13,8 @@ import java.util.List;
 @Table(name="CLIENTE")
 public class Cliente {
     
-	@JsonbTransient
     @Id @GeneratedValue
+    @JsonbTransient
     private long id;
 	@JsonbTransient
     @Column(unique=true, nullable=false)
