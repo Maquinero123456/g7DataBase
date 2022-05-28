@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;700&display=swap');
 
+:root{
+    --rojo:rgb(179, 0, 39);
+    --naranja: #fb7e29;
+    --degradado: linear-gradient(90deg, var(--rojo), var(--naranja));
+}
 
 html {
     overflow: hidden;
@@ -55,7 +60,7 @@ html {
 }
 
 .titulo {
-    color: white;
+    color: rgb(255, 255, 255);
     padding: 1%;
     font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
     font-size: xx-large;
@@ -70,6 +75,7 @@ html {
     height: 30px;
     padding: 0 auto;
     offset: 3;
+    padding-left: 10px;
 }
 
 .boton{
@@ -87,11 +93,11 @@ html {
 
 .mensajes {
     font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
-    color: red;
-    font-size: medium;
+    color: rgb(110, 0, 0);
+    font-size: large;
     text-align: center;
     padding: 0px;
-    margin: 0px;
+    margin: 25px;
 }
 
 .intro-usu {
