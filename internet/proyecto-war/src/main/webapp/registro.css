@@ -14,8 +14,8 @@
 
 .backg-container {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: -15px;
+    left: 15px;
     width: 100%;
 }
 
