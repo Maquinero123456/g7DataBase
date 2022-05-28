@@ -49,19 +49,21 @@ public class informeREST {
 	//2
     @Path("/clients")
     @POST
-    @Consumes (MediaType.APPLICATION_JSON)
-    public Response clients(String name, String lastName, String alta, String baja){
-		informes.informeClientePaisesBajos(lastName, alta, baja);
-        return Response.ok(informes.toString()).build();
+    @Consumes ({MediaType.APPLICATION_JSON, "text/plain"})
+    public Response clients(ClientsJson json){
+		return Response.ok(json.toString()).build();
+		/*informes.informeClientePaisesBajos(json.getName().get(0), json.getStartPeriod(), json.getEndPeriod());
+        return Response.ok(informes.toString()).build();*/
     }
 
     //3
 	@Path("/products")
     @POST
     @Consumes (MediaType.APPLICATION_JSON)
-	public Response products(boolean status, String iban){
-		informes.informeCuentasPaisesBajos(status, iban);
-		return Response.ok(informes.toString()).build();
+	public Response products(ProductsJson json){
+		return Response.ok(json.toString()).build();
+		/*informes.informeCuentasPaisesBajos(status, iban);
+		return Response.ok(informes.toString()).build();*/
 	}
 
 }
