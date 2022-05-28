@@ -74,15 +74,15 @@ public class Informes implements GestionInformes{
 		String sentence = "SELECT cl FROM Individual cl WHERE cl.pais = :fpais";
 	    
 		if(ape != null) {
-			sentence = sentence.concat(" AND cl.apellidos = :fape");
+			sentence = sentence.concat(" AND cl.apellidos LIKE :fape");
 		}
 		
 		if(dir != null) {
-			sentence = sentence.concat(" AND cl.direccion = :fdir");
+			sentence = sentence.concat(" AND cl.direccion LIKE :fdir");
 		}
 		
 		if(cp != null) {
-			sentence = sentence.concat(" AND cl.codigoPostal = :fcp");
+			sentence = sentence.concat(" AND cl.codigoPostal LIKE :fcp");
 		}
 		
 		Query query = em.createQuery(sentence);
