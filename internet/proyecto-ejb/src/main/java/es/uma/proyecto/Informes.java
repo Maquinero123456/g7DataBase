@@ -132,7 +132,7 @@ public class Informes implements GestionInformes{
 		Query query = em.createQuery(sentence);
 		query.setParameter("fpais", "PaisesBajos");
 		Query query2;
-		
+		Query query3;
 				
 		List<Cliente> listCl = query.getResultList();
 		
@@ -157,15 +157,19 @@ public class Informes implements GestionInformes{
 		}
 	    
 		else {
-			query = em.createQuery("SELECT cl FROM Cliente cl, Individual ind WHERE cl.pais = :fpais && ind.apellidos LIKE :fape");
+			query = em.createQuery("SELECT ind Individual ind WHERE ind.pais = :fpais && ind.apellidos LIKE :fape");
 			query.setParameter("fpais", "PaisesBajos");
 			query.setParameter("fape", ape);
-			query2 = em.createQuery("SELECT cl FROM Cliente cl, PersonaAutorizada pa WHERE cl.pais = :fpais && pa.apellidos LIKE :fape");
+			query2 = em.createQuery("SELECT emp FROM Empresa emp, personaAutorizada pa WHERE emp.pais = :fpais && pa.apellidos LIKE :fape");
 			query2.setParameter("fpais", "PaisesBajos");
 			query2.setParameter("fape", ape);
+			query3 = em.createQuery("SELECT pa FROM Empresa emp, personaAutorizada pa WHERE emp.pais = :fpais && pa.apellidos LIKE :fape");
+			query3.setParameter("fpais", "PaisesBajos");
+			query3.setParameter("fape", ape);
 
 			Cliente c1 = (Cliente) query.getSingleResult();
-			Cliente c2 = (Cliente) query2.getSingleResult();
+			Empresa emp = (Empresa) query2.getSingleResult();
+			PersonaAutorizada pa = (PersonaAutorizada) query3.getSingleResult();
 			
 			if(c1!=null) {
 				if(c1.getFechaAlta().compareTo(alta) > 0 && c1.getFechaAlta().compareTo(baja) < 0) {
@@ -176,10 +180,10 @@ public class Informes implements GestionInformes{
 				}
 			}
 			
-			else if(c2!=null) {
-				if(c2.getFechaAlta().compareTo(alta) > 0 && c2.getFechaAlta().compareTo(baja) < 0) {
-			   		informe.add("Empresa: "+builder.toJson(c2)+"\n");
-			   		for(CuentaFintech cf: c2.getCuentas()) {
+			else if(emp!=null) {
+				if(emp.getFechaAlta().compareTo(alta) > 0 && emp.getFechaAlta().compareTo(baja) < 0) {
+			   		informe.add("Empresa: "+builder.toJson(pa)+"\n");
+			   		for(CuentaFintech cf: emp.getCuentas()) {
 			   			informe.add(builder.toJson(cf)+"\n");
 			   		}
 				}
