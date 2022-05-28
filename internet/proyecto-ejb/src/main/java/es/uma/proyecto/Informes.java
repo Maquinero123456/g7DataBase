@@ -15,6 +15,7 @@ import javax.json.bind.JsonbBuilder;
 import javax.json.bind.JsonbConfig;
 import javax.json.bind.config.PropertyOrderStrategy;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -163,19 +164,42 @@ public class Informes implements GestionInformes{
 		}
 	    
 		else {
-			query = em.createQuery("SELECT ind Individual ind WHERE ind.pais = :fpais && ind.apellidos LIKE :fape");
+			query = em.createQuery("SELECT ind FROM Individual ind WHERE ind.pais = :fpais AND ind.apellidos LIKE :fape");
 			query.setParameter("fpais", "PaisesBajos");
 			query.setParameter("fape", ape);
-			query2 = em.createQuery("SELECT emp FROM Empresa emp, personaAutorizada pa WHERE emp.pais = :fpais && pa.apellidos LIKE :fape");
+			query2 = em.createQuery("SELECT emp FROM Empresa emp, PersonaAutorizada pa WHERE emp.pais = :fpais AND pa.apellidos LIKE :fape");
 			query2.setParameter("fpais", "PaisesBajos");
 			query2.setParameter("fape", ape);
-			query3 = em.createQuery("SELECT pa FROM Empresa emp, personaAutorizada pa WHERE emp.pais = :fpais && pa.apellidos LIKE :fape");
+			query3 = em.createQuery("SELECT pa FROM Empresa emp, PersonaAutorizada pa WHERE emp.pais = :fpais AND pa.apellidos LIKE :fape");
 			query3.setParameter("fpais", "PaisesBajos");
 			query3.setParameter("fape", ape);
+			
+			Cliente c1 = null;
 
-			Cliente c1 = (Cliente) query.getSingleResult();
-			Empresa emp = (Empresa) query2.getSingleResult();
-			PersonaAutorizada pa = (PersonaAutorizada) query3.getSingleResult();
+			try{
+				c1 = (Cliente) query.getSingleResult();
+			}catch (NoResultException e){
+
+			}
+			
+			Empresa emp = null;
+
+			try{
+				emp = (Empresa) query2.getSingleResult();
+			}catch (NoResultException e){
+				
+			}
+
+			PersonaAutorizada pa = null;
+
+			try{
+				pa = (PersonaAutorizada) query3.getSingleResult();
+			}catch (NoResultException e){
+				
+			}
+
+			
+			
 			
 			if(c1!=null) {
 				if(c1.getFechaAlta().compareTo(alta) > 0 && c1.getFechaAlta().compareTo(baja) < 0) {
