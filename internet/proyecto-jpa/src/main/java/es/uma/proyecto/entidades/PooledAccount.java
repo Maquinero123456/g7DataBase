@@ -25,6 +25,22 @@ public class PooledAccount extends CuentaFintech {
 		return super.getSWIFT();
 	}
 
+	public Boolean getEstado(){
+		return super.getEstado();
+	}
+
+	public Date getFechaApertura(){
+		return super.getFechaApertura();
+	}
+
+	public Date getFechaCierre(){
+		return super.getFechaCierre();
+	}
+
+	public String getClasficicacion(){
+		return super.getClasificacion();
+	}
+
     public PooledAccount() {
         super();
     }
