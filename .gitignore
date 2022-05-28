@@ -20,3 +20,4 @@ buildNumber.properties
 **/*.classpath
 /proyecto-jpa/esquema.ddl
 *.bat
+*.csv
