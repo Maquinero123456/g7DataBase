@@ -55,7 +55,7 @@ html {
 }
 
 .titulo {
-    color: white;
+    color: rgb(255, 0, 0);
     padding: 1%;
     font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
     font-size: xx-large;
@@ -70,6 +70,7 @@ html {
     height: 30px;
     padding: 0 auto;
     offset: 3;
+    padding-left: 10px;
 }
 
 .boton{
@@ -87,11 +88,11 @@ html {
 
 .mensajes {
     font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
-    color: red;
-    font-size: medium;
+    color: rgb(175, 0, 0);
+    font-size: larger;
     text-align: center;
     padding: 0px;
-    margin: 0px;
+    margin: 25px;
 }
 
 .intro-usu {

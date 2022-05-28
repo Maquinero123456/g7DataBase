@@ -47,19 +47,13 @@
                                 <div class="intro-usu">
                                     <h:outputText value="Usuario:" styleClass="titulo"/>
                                     <h:inputText id="user" required="true" value="#{login.usuario.nombre}" styleClass="entrada" requiredMessage="Valor obligatorio"/>
-                                </div>
-
-                                <div class="mensajes">                                    
-                                    <h:message id="userMessage" for="user"/>
+                                    <h:message id="userMessage" for="user" styleClass="mensajes"/>
                                 </div>
 
                                 <div class="intro-contr">
                                     <h:outputText value="Contraseña:" styleClass="titulo"/>
                                     <h:inputSecret id="pass" required="true" value="#{login.usuario.password}" styleClass="entrada" requiredMessage="Valor obligatorio"/>
-                                </div>
-
-                                <div class="mensajes">
-                                    <h:message id="passwordMessage" for="pass"/>
+                                    <h:message id="passwordMessage" for="pass" styleClass="mensajes"/>
                                 </div>
 
                                 <div class="enter">
