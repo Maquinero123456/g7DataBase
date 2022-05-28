@@ -67,6 +67,48 @@ public class PersonaAutorizada {
         this.id = id;
     }
 
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getFechaNacimiento() {
+        return this.fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public Date getFechaInicio() {
+        return this.fechaInicio;
+    }
+
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public List<Autorizacion> getAutorizacion() {
+        return this.autorizacion;
+    }
+
+    public void setAutorizacion(List<Autorizacion> autorizacion) {
+        this.autorizacion = autorizacion;
+    }
+
+    public Usuario getUsuario() {
+        return this.usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+
     public String getIdentificacion() {
         return this.identificacion;
     }
