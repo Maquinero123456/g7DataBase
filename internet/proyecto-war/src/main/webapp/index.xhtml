@@ -36,6 +36,19 @@
                     <p>Buenas tardes <h:outputText value="#{infoSesion.usuario.nombre}"/>¿qué acción realizará?</p>
                 </div>
                 
+                <div class="Cuentas">
+                    <h:dataTable value="#{infoSesion.usuario.cliente.cuentas}" var="cuenta" >
+                        <h:column>                   
+                            <f:facet name="header">IBAN</f:facet>                 
+                            #{cuenta.iban}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">SWIFT</f:facet>
+                            #{cuenta.swift}
+                        </h:column>
+                    </h:dataTable>
+                </div>
+
                 <div class="transaccion">
                     <button onclick="mostrar('tranI'); cerrar('tranPA'); cerrar('cdd')">1</button>
                     <button onclick="mostrar('tranPA'); cerrar('tranI'); cerrar('cdd')">2</button>

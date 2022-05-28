@@ -18,6 +18,12 @@ public class PooledAccount extends CuentaFintech {
     	super(iban, swift, est, alta, baja, clasic);
     }
 
+	public String getIban(){
+		return super.getIBAN();
+	}
+	public String getSwift(){
+		return super.getSWIFT();
+	}
 
     public PooledAccount() {
         super();

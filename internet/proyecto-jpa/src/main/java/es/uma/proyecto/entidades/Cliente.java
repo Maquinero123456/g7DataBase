@@ -164,6 +164,22 @@ public class Cliente {
 		fechaBaja = fBaja;
 	}
 
+    public long getId() {
+        return this.id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Usuario getUsuario() {
+        return this.usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
 
     @Override
     public boolean equals(Object o) {

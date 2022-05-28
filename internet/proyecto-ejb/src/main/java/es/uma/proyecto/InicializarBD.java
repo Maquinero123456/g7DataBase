@@ -58,6 +58,10 @@ public class InicializarBD {
         em.persist(libra);
         em.persist(dolar);
 
+
+        Usuario ana = new Usuario("ana", "ana", false, "ana@ana.com");
+        em.persist(ana);
+
         Empresa emp = new Empresa();
         emp.setIdentificacion("P3310693A");
         emp.setTipoCliente("Empresa");
@@ -71,6 +75,10 @@ public class InicializarBD {
 
         em.persist(emp);
 
+        Usuario juan = new Usuario("juan", "juan", false, "juan@juan.com");
+        em.persist(juan);
+
+
         Individual client = new Individual();
         client.setIdentificacion("63937528N");
         client.setTipoCliente("Individual");
@@ -82,22 +90,19 @@ public class InicializarBD {
         client.setPais("Peninsula Balcanica");
         client.setNombre("Pablo");
         client.setApellidos("Vazquez");
+        client.setUsuario(juan);
         em.persist(client);
 
         PersonaAutorizada pers = new PersonaAutorizada("Y4001267V", "Victor", "Rodriguez", "una calle", utilDate, "Alta", utilDate, null);
+        pers.setUsuario(ana);
         em.persist(pers);
 
 
         Autorizacion aut = new Autorizacion(new EmpresaPersAutoPK(emp.getID(), pers.getID()), "No", pers, emp);
         em.persist(aut);
 
-        Usuario juan = new Usuario("juan", "juan", false, "juan@juan.com");
-        juan.setCliente(client);
-        em.persist(juan);
+       
 
-        Usuario ana = new Usuario("ana", "ana", false, "ana@ana.com");
-        ana.setPersonaAutorizada(pers);
-        em.persist(ana);
 
         CuentaReferencia vg57 = new CuentaReferencia();
         vg57.setIBAN("VG57DDVS5173214964983931");
