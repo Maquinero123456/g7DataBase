@@ -42,7 +42,7 @@ public class Informes implements GestionInformes{
 		config.withNullValues(true);
 		Jsonb builder = JsonbBuilder.create(config);
 		List<String> informe = new ArrayList<String>();
-		informe.add("PRODUCTOS: \n");
+		informe.add("PRODUCTOS: ");
 		String sentence = "SELECT cu FROM CuentaFintech cu WHERE cu.cliente.pais = :fpais AND cu.estado = :fstatus";
 	    
 		Date limite = new SimpleDateFormat("yyyy-MM-dd").parse("2019-05-28");
@@ -61,11 +61,13 @@ public class Informes implements GestionInformes{
 		List<CuentaFintech> listCl = query.getResultList();
 		
 	   	for(CuentaFintech cf: listCl) {
-	   		if(cf.getFechaCierre().compareTo(limite) > 0) {
+	   		if(cf.getFechaCierre() == null) {
+	   			cf.setFechaCierre(limite);
+	   		}
+	   		if(cf.getFechaCierre().compareTo(limite) >= 0) {
 	   			informe.add("accountHolder: "+builder.toJson(cf.getCliente())+"\n"+builder.toJson(cf)+"\n");
 	   		}
 	   	}
-	   	
 		return informe;
 	}
 	
@@ -124,37 +126,65 @@ public class Informes implements GestionInformes{
 		List<String> informe = new ArrayList<String>();
 		
 		informe.add("Clientes: ");
-		String sentence = "SELECT cl FROM Cliente cl, Individual ind, Empresa emp WHERE cl.pais = :fpais";
+		String sentence = "SELECT cl FROM Cliente cl WHERE cl.pais = :fpais";
 	    
-		if(ape != null) {
-			sentence = sentence.concat(" AND (ind.apellidos LIKE :fape OR emp.razonSocial LIKE :fape)");
-		}
 		
 		Query query = em.createQuery(sentence);
 		query.setParameter("fpais", "PaisesBajos");
-		if(ape != null) {
-			query.setParameter("fape", ape);
-		}
+		Query query2;
+		
 				
 		List<Cliente> listCl = query.getResultList();
+		
+		if(ape==null) {
+			for(Cliente c: listCl) {
+			   	if(c.getFechaAlta().compareTo(alta) > 0 && c.getFechaAlta().compareTo(baja) < 0) {
+			   		if(c.getTipoCliente().equalsIgnoreCase("individual") || c.getTipoCliente().equalsIgnoreCase("fisica")) {
+			   			informe.add("Individual: "+builder.toJson(c)+"\n");
+			   			for(CuentaFintech cf: c.getCuentas()) {
+			   				informe.add(builder.toJson(cf)+"\n");
+			   			}
+			   		}
+			    	   	
+			   		else {
+			   			informe.add("Empresa: "+builder.toJson(c)+"\n");
+			   			for(CuentaFintech cf: c.getCuentas()) {
+			   				informe.add(builder.toJson(cf)+"\n");
+			  			}
+			   		}
+			   	}
+			}
+		}
 	    
-	    for(Cliente c: listCl) {
-	    	if(c.getFechaAlta().compareTo(alta) > 0 && c.getFechaAlta().compareTo(baja) < 0) {
-	    		if(c.getTipoCliente().equalsIgnoreCase("individual") || c.getTipoCliente().equalsIgnoreCase("fisica")) {
-	    			informe.add("Individual: "+builder.toJson(c)+"\n");
-	    			for(CuentaFintech cf: c.getCuentas()) {
-	    				informe.add(builder.toJson(cf+"\n"));
-	    			}
-	    		}
-	    	   	
-	    		else {
-	    			informe.add("Empresa: "+builder.toJson(c)+"\n");
-	    			for(CuentaFintech cf: c.getCuentas()) {
-	    				informe.add(builder.toJson(cf+"\n"));
-	    			}
-	    		}
-	    	}
-	    }
+		else {
+			query = em.createQuery("SELECT cl FROM Cliente cl, Individual ind WHERE cl.pais = :fpais && ind.apellidos LIKE :fape");
+			query.setParameter("fpais", "PaisesBajos");
+			query.setParameter("fape", ape);
+			query2 = em.createQuery("SELECT cl FROM Cliente cl, PersonaAutorizada pa WHERE cl.pais = :fpais && pa.apellidos LIKE :fape");
+			query2.setParameter("fpais", "PaisesBajos");
+			query2.setParameter("fape", ape);
+
+			Cliente c1 = (Cliente) query.getSingleResult();
+			Cliente c2 = (Cliente) query2.getSingleResult();
+			
+			if(c1!=null) {
+				if(c1.getFechaAlta().compareTo(alta) > 0 && c1.getFechaAlta().compareTo(baja) < 0) {
+			   		informe.add("Individual: "+builder.toJson(c1)+"\n");
+			   		for(CuentaFintech cf: c1.getCuentas()) {
+			   			informe.add(builder.toJson(cf)+"\n");
+			   		}
+				}
+			}
+			
+			else if(c2!=null) {
+				if(c2.getFechaAlta().compareTo(alta) > 0 && c2.getFechaAlta().compareTo(baja) < 0) {
+			   		informe.add("Empresa: "+builder.toJson(c2)+"\n");
+			   		for(CuentaFintech cf: c2.getCuentas()) {
+			   			informe.add(builder.toJson(cf)+"\n");
+			   		}
+				}
+			}
+		}
 		
 		return informe;
 	}
