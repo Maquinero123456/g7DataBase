@@ -130,6 +130,7 @@ public class Informes implements GestionInformes{
 	    
 		
 		Query query = em.createQuery(sentence);
+		query.setParameter("fpais", "PaisesBajos");
 		Query query2;
 		
 				
