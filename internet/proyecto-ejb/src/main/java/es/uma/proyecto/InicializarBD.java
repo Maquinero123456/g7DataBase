@@ -42,7 +42,7 @@ public class InicializarBD {
             return;
         }
 
-        Date utilDate = new Date(System.currentTimeMillis());
+        Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse("2020-05-28");
 
         Usuario user = new Usuario("ponciano", "ponciano", true, "ponciano@gmail.com");
         em.persist(user);

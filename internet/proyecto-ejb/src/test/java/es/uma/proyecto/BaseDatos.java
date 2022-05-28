@@ -7,7 +7,6 @@ import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
 import es.uma.proyecto.entidades.*;
 
 public class BaseDatos {
@@ -19,20 +18,20 @@ public class BaseDatos {
 		em.getTransaction().begin();
 		//No tocar arriba
 		
-		Date utilDate = new Date(System.currentTimeMillis());
-		Date fechaPasada = new SimpleDateFormat("dd/MM/yyyy").parse("15/08/2015");
+		Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse("2020-05-28");
+		Date fechaPasada = new SimpleDateFormat("yyyy-MM-dd").parse("2015-08-15");
 		
-		Date f1 = new SimpleDateFormat("dd/MM/yyyy").parse("25/08/2019");
-		Date f2 = new SimpleDateFormat("dd/MM/yyyy").parse("27/06/2022");
-		Date f3 = new SimpleDateFormat("dd/MM/yyyy").parse("25/11/2020");
-		Date f4 = new SimpleDateFormat("dd/MM/yyyy").parse("15/08/2018");
-		Date f5 = new SimpleDateFormat("dd/MM/yyyy").parse("08/03/2017");
-		Date f6 = new SimpleDateFormat("dd/MM/yyyy").parse("16/05/2021");
-		Date f7 = new SimpleDateFormat("dd/MM/yyyy").parse("15/08/2020");
+		Date f1 = new SimpleDateFormat("yyyy-MM-dd").parse("2019-08-25");
+		Date f2 = new SimpleDateFormat("yyyy-MM-dd").parse("2022-06-27");
+		Date f3 = new SimpleDateFormat("yyyy-MM-dd").parse("2020-11-25");
+		Date f4 = new SimpleDateFormat("yyyy-MM-dd").parse("2018-08-15");
+		Date f5 = new SimpleDateFormat("yyyy-MM-dd").parse("2017-03-08");
+		Date f6 = new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-16");
+		Date f7 = new SimpleDateFormat("yyyy-MM-dd").parse("2020-08-15");
 		
-		Date nac1 = new SimpleDateFormat("dd/MM/yyyy").parse("08/03/1969");
-		Date nac2 = new SimpleDateFormat("dd/MM/yyyy").parse("16/05/1945");
-		Date nac3 = new SimpleDateFormat("dd/MM/yyyy").parse("15/08/2001");
+		Date nac1 = new SimpleDateFormat("yyyy-MM-dd").parse("1969-03-08");
+		Date nac2 = new SimpleDateFormat("yyyy-MM-dd").parse("1945-05-16");
+		Date nac3 = new SimpleDateFormat("yyyy-MM-dd").parse("2001-08-15");
 		
 		
 		Individual c1 = new Individual("uno", "fisica", "activa", f1, null, "Avenida 123", "Maracay", "0", "PaisesBajos", "Juan", "Perez Castillo");	
