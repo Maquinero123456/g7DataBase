@@ -7,6 +7,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -41,6 +42,9 @@ public class Administrador {
     @EJB
     private GestionInformes informes;
 	
+	@Inject
+	private InfoSesion sesion;
+
 	private String clienteMostrado;
 
 	private Cliente cliente;
