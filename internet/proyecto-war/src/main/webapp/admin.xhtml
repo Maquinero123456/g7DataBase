@@ -38,16 +38,39 @@
 					<c:when test="#{infoSesion.usuario.esAdministrativo}">
 						
 					<p>Buenas tardes <i><h:outputText value="#{infoSesion.usuario.nombre}"/></i>, ¿qué acción realizará?</p>
-
+					<h:outputText value="#{admin.clienteMostrado}" id="outputText"/>
 					<div>
 						
 						<h2>Administrar clientes</h2>
+
+						<button onclick="mostrar('MostrarCl')">Mostrar Cliente</button>
 
 						<button onclick="mostrar('Alta')">Alta Cliente</button>
 
 						<button onclick="mostrar('Mod')">Modificar Cliente</button>
 
 						<button onclick="mostrar('Baja')">Baja Cliente</button>
+
+						<div class="MostrarCl" style="display:none" >
+
+							<h:form id="mostrarCl">
+
+								<p>Indique el cliente a mostrar:</p>
+
+								<h:panelGrid columns="3"> 
+									<h:outputText value="Identificador del cliente: " styleClass="info-campo"/>
+									<h:inputText id="identMostrar" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}"/>
+									<h:message for="identMostrar" styleClass="info-campo"/>
+								</h:panelGrid>
+									
+								<div style="display: inline">
+									<h:commandButton styleClass="button" id="mostrarCliente" value="Mostrar" action="#{admin.mostrarCliente()}"/>
+									<button onclick="cerrar('MostrarCl');return false">Cancelar</button>
+								</div>
+									
+							</h:form>
+						</div>	
+
 
 						<div class="Alta" style="display:none" >
 

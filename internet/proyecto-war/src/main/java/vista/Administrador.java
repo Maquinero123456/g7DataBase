@@ -1,24 +1,32 @@
 package vista;
 
+import java.net.URI;
 import java.util.Date;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 
 import es.uma.proyecto.GestionAdministrativos;
+import es.uma.proyecto.GestionClientes;
 import es.uma.proyecto.GestionCuentasUsuarios;
 import es.uma.proyecto.GestionInformes;
 import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.entidades.CuentaReferencia;
+import es.uma.proyecto.entidades.Empresa;
+import es.uma.proyecto.entidades.Individual;
 import es.uma.proyecto.entidades.PersonaAutorizada;
 import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.exceptions.AutorizacionException;
 import es.uma.proyecto.exceptions.ClienteException;
 import es.uma.proyecto.exceptions.CuentaException;
 import es.uma.proyecto.exceptions.CuentaRefException;
+import es.uma.proyecto.exceptions.EmpresaException;
 import es.uma.proyecto.exceptions.PersonaAutorizadaException;
 
 @Named(value = "admin")
@@ -28,10 +36,17 @@ public class Administrador {
 	@EJB
 	private GestionAdministrativos admin;
 	@EJB
+	private GestionClientes clientes;
+	@EJB
 	private GestionCuentasUsuarios cuentas;
     @EJB
     private GestionInformes informes;
 	
+	@Inject
+	private InfoSesion sesion;
+
+	private String clienteMostrado;
+
 	private Cliente cliente;
 	private Usuario usuario;
 	private CuentaReferencia cuentaRef;
@@ -100,6 +115,48 @@ public class Administrador {
 
 	public void setIbanRef(String ibanRef) {
 		this.ibanRef = ibanRef;
+	}
+
+	public GestionClientes getClientes() {
+		return this.clientes;
+	}
+
+	public void setClientes(GestionClientes clientes) {
+		this.clientes = clientes;
+	}
+
+	public GestionInformes getInformes() {
+		return this.informes;
+	}
+
+	public void setInformes(GestionInformes informes) {
+		this.informes = informes;
+	}
+
+	public String getClienteMostrado() {
+		return this.clienteMostrado;
+	}
+
+	public void setClienteMostrado(String clienteMostrado) {
+		this.clienteMostrado = clienteMostrado;
+	}
+
+
+	public void mostrarCliente(){
+		try{
+			Cliente client = clientes.getCliente(ident);
+			if(client.getTipoCliente().equals("Individual")){
+				clienteMostrado = clientes.getIndividual(ident).toString();
+			}else{
+				clienteMostrado = clientes.getEmpresa(ident).toString();
+			}
+		} catch (ClienteException e){
+			FacesMessage fm = new FacesMessage("No existe el cliente solicitado.");
+	        FacesContext.getCurrentInstance().addMessage("administrador:identMostrar", fm);
+		} catch (EmpresaException e) {
+			FacesMessage fm = new FacesMessage("No existe el cliente solicitado.");
+	        FacesContext.getCurrentInstance().addMessage("administrador:identMostrar", fm);
+		}
 	}
 	
 	public String darAlta() {	

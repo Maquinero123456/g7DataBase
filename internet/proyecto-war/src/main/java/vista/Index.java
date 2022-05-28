@@ -4,6 +4,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import es.uma.proyecto.GestionCambioDivisa;
@@ -33,7 +34,10 @@ public class Index {
     private GestionClientes clientes;
     @EJB
     private GestionTransaccion trans;
-    
+
+	@Inject
+	private InfoSesion sesion;
+
     private Usuario usuario;
     
     private String ibanOrigen;

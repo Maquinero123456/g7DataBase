@@ -33,17 +33,13 @@
                 </header>
 
                 <div>
-                    <p>Buenas tardes <h:outputText value="#{infoSesion.usuario.nombre}"/>, ¿qué acción realizará?</p>
-                </div>
-
-                <div class="cuentas">
-                    <h:outputText value="#{index.getCuentas}s"></h:outputText>
+                    <p>Buenas tardes <h:outputText value="#{infoSesion.usuario.nombre}"/>¿qué acción realizará?</p>
                 </div>
                 
                 <div class="transaccion">
-                    <button onclick="mostrar('tranI')">1</button>
-                    <button onclick="mostrar('tranPA')">2</button>
-                    <button onclick="mostrar('cdd')">Realizar un Cambio de Divisa en la Cuenta</button>
+                    <button onclick="mostrar('tranI'); cerrar('tranPA'); cerrar('cdd')">1</button>
+                    <button onclick="mostrar('tranPA'); cerrar('tranI'); cerrar('cdd')">2</button>
+                    <button onclick="mostrar('cdd'); cerrar('tranI'); cerrar('tranPA')">Realizar un Cambio de Divisa en la Cuenta</button>
                 </div>
 
                 <div class="tranI" style="display:none">
@@ -156,7 +152,7 @@
                             
                         <div style="display: inline">
                             <h:commandButton id="cambio" value="Realizar cambio" action="#{index.cambiarDivisas()}" styleClass="button"/>
-                            <button onclick="cerrar('CDD')">Cancelar</button>
+                            <button onclick="cerrar('cdd')">Cancelar</button>
                         </div>
 
                     </h:form>
