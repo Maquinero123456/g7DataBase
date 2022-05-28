@@ -32,7 +32,7 @@
         
                 </header>
 
-                <div>
+                <div class="texto-bienvenida">
                     <p>Buenas tardes <h:outputText value="#{infoSesion.usuario.nombre}"/>¿qué acción realizará?</p>
                 </div>
 
@@ -41,23 +41,27 @@
                     <h:dataTable value="#{infoSesion.usuario.cliente.cuentas}" var="cuenta" rows="3">
                         
                         <h:column>                   
-                            <f:facet name="header">IBAN</f:facet>                 
+                            <f:facet name="header" styleClass="cuentas">IBAN</f:facet>                 
                             #{cuenta.iban}
                         </h:column>
 
                         <h:column>
-                            <f:facet name="header">Estado</f:facet>
+                            <f:facet name="header" styleClass="cuentas">Estado</f:facet>
                             #{cuenta.estado}
                         </h:column>
 
                         <h:column>
-                            <f:facet name="header">SWIFT</f:facet>
+                            <f:facet name="header" styleClass="cuentas">SWIFT</f:facet>
                             #{cuenta.swift}
                         </h:column>
 
                     </h:dataTable>
 
                 </div>
+
+                <div class="link-cuentas">
+                    <p>Pulsa <a  href="cuentas.xhtml">aqui</a> para ver todas las cuentas</p>
+                  </div>
 
                 <div class="transaccion">
                     <button onclick="mostrar('tranI'); cerrar('tranPA'); cerrar('cdd')">1</button>
