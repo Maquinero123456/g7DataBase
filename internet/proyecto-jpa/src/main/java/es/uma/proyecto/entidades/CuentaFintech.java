@@ -17,6 +17,8 @@ public class CuentaFintech extends Cuenta {
 	@JsonbProperty("status")
     @Column(nullable = false)
     private Boolean estado = false;
+	
+	@JsonbTransient
     private String clasificacion;
     @JsonbProperty("startDate")
     @Column(nullable = false)

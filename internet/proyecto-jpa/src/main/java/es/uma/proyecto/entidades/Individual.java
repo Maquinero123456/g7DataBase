@@ -14,6 +14,7 @@ public class Individual extends Cliente{
 	@JsonbProperty("lastName")
     @Column(nullable = false)
     private String apellidos;
+	@JsonbProperty("dateOfBirth")
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
 

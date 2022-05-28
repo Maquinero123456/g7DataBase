@@ -3,6 +3,8 @@ package es.uma.proyecto;
 import java.util.Date;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -35,7 +37,7 @@ public class Informes implements GestionInformes{
     
     
 	@Override
-	public List<String> informeCuentasPaisesBajos(boolean status, String productNumber) {
+	public List<String> informeCuentasPaisesBajos(boolean status, String productNumber) throws ParseException {
 		JsonbConfig config = new JsonbConfig().withPropertyOrderStrategy(PropertyOrderStrategy.ANY);
 		config.withNullValues(true);
 		Jsonb builder = JsonbBuilder.create(config);
@@ -43,6 +45,8 @@ public class Informes implements GestionInformes{
 		informe.add("PRODUCTOS: \n");
 		String sentence = "SELECT cu FROM CuentaFintech cu WHERE cu.cliente.pais = :fpais AND cu.estado = :fstatus";
 	    
+		Date limite = new SimpleDateFormat("yyyy-MM-dd").parse("2019-05-28");
+		
 		if(productNumber != null) {
 			sentence = sentence.concat(" AND cu.iban = :fiban");
 		}
@@ -57,7 +61,7 @@ public class Informes implements GestionInformes{
 		List<CuentaFintech> listCl = query.getResultList();
 		
 	   	for(CuentaFintech cf: listCl) {
-	   		if(getFecha(cf.getCliente().getFechaBaja()) > 2019) {
+	   		if(cf.getFechaCierre().compareTo(limite) > 0) {
 	   			informe.add("accountHolder: "+builder.toJson(cf.getCliente())+"\n"+builder.toJson(cf)+"\n");
 	   		}
 	   	}
@@ -137,11 +141,17 @@ public class Informes implements GestionInformes{
 	    for(Cliente c: listCl) {
 	    	if(c.getFechaAlta().compareTo(alta) > 0 && c.getFechaAlta().compareTo(baja) < 0) {
 	    		if(c.getTipoCliente().equalsIgnoreCase("individual") || c.getTipoCliente().equalsIgnoreCase("fisica")) {
-	    			informe.add("Individual: "+builder.toJson(c)+"\n"+builder.toJson(c.getCuentas())+"\n");
+	    			informe.add("Individual: "+builder.toJson(c)+"\n");
+	    			for(CuentaFintech cf: c.getCuentas()) {
+	    				informe.add(builder.toJson(cf+"\n"));
+	    			}
 	    		}
 	    	   	
 	    		else {
-	    			informe.add("Empresa: "+builder.toJson(c)+"\n"+builder.toJson(c.getCuentas())+"\n");
+	    			informe.add("Empresa: "+builder.toJson(c)+"\n");
+	    			for(CuentaFintech cf: c.getCuentas()) {
+	    				informe.add(builder.toJson(cf+"\n"));
+	    			}
 	    		}
 	    	}
 	    }

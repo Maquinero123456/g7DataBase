@@ -1,6 +1,7 @@
 package es.uma.proyecto;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
@@ -19,7 +20,7 @@ public interface GestionInformes {
 	 * hay que devolverlas todas indicando que su propietario es la FINTECH 
 	 * (no el cliente, puesto que esa cuenta no es suya).
 	 */
-	public List<String> informeCuentasPaisesBajos(boolean status, String productNumber);
+	public List<String> informeCuentasPaisesBajos(boolean status, String productNumber) throws ParseException;
 	public List<String> informeClientePaisesBajos(String apellidos, String direccion, String cp);
 	public List<String> informeClienteFechaPaisesBajos(String ape, Date alta, Date baja);
 	
