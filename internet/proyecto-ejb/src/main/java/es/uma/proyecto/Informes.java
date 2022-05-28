@@ -116,10 +116,10 @@ public class Informes implements GestionInformes{
 		List<String> informe = new ArrayList<String>();
 		
 		informe.add("Clientes: ");
-		String sentence = "SELECT cl FROM Cliente cl WHERE cl.pais = :fpais";
+		String sentence = "SELECT cl FROM Cliente cl, Individual ind, Empresa emp WHERE cl.pais = :fpais";
 	    
 		if(ape != null) {
-			sentence = sentence.concat(" AND (cl.apellidos LIKE :fape OR cl.razonsocial LIKE :fape)");
+			sentence = sentence.concat(" AND (ind.apellidos LIKE :fape OR emp.razonsocial LIKE :fape)");
 		}
 		
 		Query query = em.createQuery(sentence);
