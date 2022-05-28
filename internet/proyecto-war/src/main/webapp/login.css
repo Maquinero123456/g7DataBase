@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;700&display=swap');
 
-
 html {
     overflow: hidden;
 }
@@ -55,7 +54,7 @@ html {
 }
 
 .titulo {
-    color: rgb(255, 0, 0);
+    color: rgb(255, 255, 255);
     padding: 1%;
     font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
     font-size: xx-large;

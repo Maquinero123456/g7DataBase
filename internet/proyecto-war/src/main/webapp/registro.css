@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;700&display=swap');
+
 .registro-window {
     background-color: rgb(255, 255, 255);
     position: relative;
@@ -54,10 +56,48 @@
 .inside-context p, link {
     color: white;
     padding: 1%;
-    font-family: sans-serif, Arial, Helvetica;
+    font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
     font-size: large;
     text-align: center;
 }
+
+.titulo {
+    color: rgb(255, 255, 255);
+    padding: 1%;
+    font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
+    font-size: xx-large;
+}
+
+.entrada{
+    font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
+    font-size: xx-large;
+    border-radius: 5rem;
+    border: 0;
+    width: 250px;
+    height: 30px;
+    padding: 0 auto;
+    offset: 3;
+    padding-left: 10px;
+}
+
+.mensajes {
+    font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
+    color: rgb(175, 0, 0);
+    font-size: larger;
+    text-align: center;
+    padding: 0px;
+    margin: 25px;
+}
+
+.boton{
+    font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
+    font-size: x-large;
+    border-radius: 5rem;
+    border: 0;
+    width: 140px;
+    height: 30px;
+}
+
 
 
 
