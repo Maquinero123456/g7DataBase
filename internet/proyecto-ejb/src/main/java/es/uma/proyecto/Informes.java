@@ -61,11 +61,13 @@ public class Informes implements GestionInformes{
 		List<CuentaFintech> listCl = query.getResultList();
 		
 	   	for(CuentaFintech cf: listCl) {
-	   		if(cf.getFechaCierre().compareTo(limite) > 0) {
+	   		if(cf.getFechaCierre() == null) {
+	   			cf.setFechaCierre(limite);
+	   		}
+	   		if(cf.getFechaCierre().compareTo(limite) >= 0) {
 	   			informe.add("accountHolder: "+builder.toJson(cf.getCliente())+"\n"+builder.toJson(cf)+"\n");
 	   		}
 	   	}
-	   	
 		return informe;
 	}
 	
@@ -124,10 +126,10 @@ public class Informes implements GestionInformes{
 		List<String> informe = new ArrayList<String>();
 		
 		informe.add("Clientes: ");
-		String sentence = "SELECT cl FROM Cliente cl, Individual ind, Empresa emp WHERE cl.pais = :fpais";
+		String sentence = "SELECT cl FROM Cliente cl WHERE cl.pais = :fpais";
 	    
 		if(ape != null) {
-			sentence = sentence.concat(" AND (ind.apellidos LIKE :fape OR emp.razonSocial LIKE :fape)");
+			sentence = sentence.concat(" AND (cl.Individual.apellidos LIKE :fape OR cl.Empresa.razonSocial LIKE :fape)");
 		}
 		
 		Query query = em.createQuery(sentence);
@@ -143,14 +145,14 @@ public class Informes implements GestionInformes{
 	    		if(c.getTipoCliente().equalsIgnoreCase("individual") || c.getTipoCliente().equalsIgnoreCase("fisica")) {
 	    			informe.add("Individual: "+builder.toJson(c)+"\n");
 	    			for(CuentaFintech cf: c.getCuentas()) {
-	    				informe.add(builder.toJson(cf+"\n"));
+	    				informe.add(builder.toJson(cf)+"\n");
 	    			}
 	    		}
 	    	   	
 	    		else {
 	    			informe.add("Empresa: "+builder.toJson(c)+"\n");
 	    			for(CuentaFintech cf: c.getCuentas()) {
-	    				informe.add(builder.toJson(cf+"\n"));
+	    				informe.add(builder.toJson(cf)+"\n");
 	    			}
 	    		}
 	    	}

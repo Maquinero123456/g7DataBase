@@ -65,7 +65,7 @@ public class informeREST {
 	@Path("/products")
     @POST
     @Consumes (MediaType.APPLICATION_JSON)
-	public Response products(ProductsJson json){
+	public Response products(ProductsJson json) throws ParseException{
 		boolean status = false;
 		if(json.getSearchParameters().getStatus().equalsIgnoreCase("active")) {
 			status = true;
