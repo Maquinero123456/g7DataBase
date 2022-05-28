@@ -6,8 +6,20 @@
     --degradado: linear-gradient(90deg, var(--rojo), var(--naranja));
 }
 
+*{
+    font-family: 'Rajdhani', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    outline: none;
+    border: none;
+    text-transform: capitalize;
+}
+
 html {
     overflow: hidden;
+    font-size: 62.4%;
 }
 
 section{
@@ -24,6 +36,31 @@ section{
     color: #333;
     text-transform: uppercase;
 }
+
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #363232;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+    padding: 2rem 9%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+}
+
+/*LOGO*/
+header .logo{
+    font-size: 5rem;
+    color: var(--naranja);
+}
+
+header .logo span{
+    color: var(--rojo);
+}
+/*---------------------------*/
 
 /*SECCIONES CABECERA*/
 header .navbar a{
@@ -46,20 +83,6 @@ header label{
     cursor: pointer;
     visibility: hidden;
     opacity: 0;
-}
-
-/*CABECERA CON LOGO Y SECCIONES*/
-header{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: #363232;
-    padding: 2rem 9%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    z-index: 1000;
 }
 
 p{
@@ -153,4 +176,71 @@ button{
 
 button:hover{
     transform: scale(1.1);
+}
+
+/*ADAPTACIONES EN FUNCION DEL TAMAÑO DEL DISPOSITIVO*/
+@media(max-width:1200px){
+    html{
+        font-size: 55%;
+    }
+}
+
+@media(max-width:768px){
+    header label{
+        visibility: visible;
+        opacity: 1;
+    }
+
+    header .navbar{
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: white;
+        padding: 1rem 2rem;
+        border-top: .1rem solid rgba(0, 0, 0, .2);
+        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, rgba(0, 0, 0, .1));
+        transform-origin: top;
+        transform: scaleY(0);
+        opacity: 0;
+        transition: .2s linear;
+    }
+
+    header .navbar a{
+        display: block;
+        margin: 2rem 0;
+        font-size: 2rem;
+    }
+
+    header input:checked ~ .navbar{
+        transform: scaleY(1);
+        opacity: 1;
+    }
+
+    header input:checked ~ label::before{
+        content: '\f00d';
+    }
+
+    .inicio{
+        flex-flow: column-reverse;
+    }
+
+    .inicio .image img{
+        width: 50%;
+    }
+
+    .inicio .content h3{
+        font-size: 3.6rem;
+    }
+
+    .inicio .content p{
+        font-size: 2rem;
+        padding-bottom: 20px;
+    }
+}
+
+@media(max-width:450px){
+    hmtl{
+        font-size: 49%;
+    }
 }
