@@ -30,19 +30,23 @@
 
                             <h:panelGrid columns="3">
 
-                                <h:outputText value="Nombre:"/>
-                                <h:inputText id="nombre" value="#{registro.usuario.nombre}" required="true" requiredMessage="Valor obligatorio"/>
-                                <h:message for="nombre"/>
-                                <h:outputText value="Contraseña:"/>
-                                <h:inputSecret id="pass" value="#{registro.usuario.password}" required="true" requiredMessage="Valor obligatorio"/>
-                                <h:message for="pass"/>
-                                <h:outputText value="Repita contraseña:"/>
-                                <h:inputSecret id="repass" value="#{registro.repass}" required="true" requiredMessage="Valor obligatorio"/>
-                                <h:message for="repass"/>
-                                <h:outputText value="Email:"/>
-                                <h:inputText id="email" value="#{registro.usuario.email}" required="true" requiredMessage="Valor obligatorio"/>
-                                <h:message for="email"/>
-                                <h:commandButton value="Crear usuario" action="#{registro.registrarUsuario()}"/>
+                                <h:outputText value="Nombre:" styleClass="titulo"/>
+                                <h:inputText id="nombre" value="#{registro.usuario.nombre}" required="true" requiredMessage="Valor obligatorio" styleClass="entrada"/>
+                                <h:message for="nombre" styleClass="mensajes"/>
+
+                                <h:outputText value="Contraseña:" styleClass="titulo"/>
+                                <h:inputSecret id="pass" value="#{registro.usuario.password}" required="true" requiredMessage="Valor obligatorio" styleClass="entrada"/>
+                                <h:message for="pass" styleClass="mensajes"/>
+
+                                <h:outputText value="Repita contraseña:" styleClass="titulo"/>
+                                <h:inputSecret id="repass" value="#{registro.repass}" required="true" requiredMessage="Valor obligatorio" styleClass="entrada"/>
+                                <h:message for="repass" styleClass="mensajes"/>
+
+                                <h:outputText value="Email:" styleClass="titulo"/>
+                                <h:inputText id="email" value="#{registro.usuario.email}" required="true" requiredMessage="Valor obligatorio" styleClass="entrada"/>
+                                <h:message for="email" styleClass="mensajes"/>
+
+                                <h:commandButton value="Crear usuario" action="#{registro.registrarUsuario()}" styleClass="boton"/>
                                 <h:link outcome="login.xhtml">Volver a la página de login</h:link>
 
                             </h:panelGrid>

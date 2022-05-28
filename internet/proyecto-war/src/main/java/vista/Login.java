@@ -55,13 +55,13 @@ public class Login {
                 return "index.xhtml";
             }
 		} catch (UsuarioException e) {
-			FacesMessage fm = new FacesMessage("La cuenta indicada no existe");
+			FacesMessage fm = new FacesMessage("La cuenta no existe");
             FacesContext.getCurrentInstance().addMessage("login:user", fm);
 		} catch (AdministrativoException e) {
-            FacesMessage fm = new FacesMessage("El administrativo indicado no existe");
+            FacesMessage fm = new FacesMessage("El admin no existe");
             FacesContext.getCurrentInstance().addMessage("login:user", fm);
         } catch (NullPointerException e) {
-            FacesMessage fm = new FacesMessage("El usuario indicado no existe");
+            FacesMessage fm = new FacesMessage("El usuario no existe");
             FacesContext.getCurrentInstance().addMessage("login:userMessage", fm);
         } catch (PasswordException e) {
             FacesMessage fm = new FacesMessage("La contraseña no coincide");
