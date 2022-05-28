@@ -1,5 +1,6 @@
 package es.uma.proyecto.entidades;
 
+import javax.json.bind.annotation.JsonbProperty;
 import javax.persistence.*;
 import java.util.Date;
 
@@ -7,8 +8,10 @@ import java.util.Date;
 @Table(name="INDIVIDUAL")
 public class Individual extends Cliente{
     //Atributos
+	@JsonbProperty("firstName")
     @Column(nullable = false)
     private String nombre;
+	@JsonbProperty("lastName")
     @Column(nullable = false)
     private String apellidos;
     @Temporal(TemporalType.DATE)

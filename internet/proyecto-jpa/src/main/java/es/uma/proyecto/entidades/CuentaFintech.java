@@ -1,5 +1,6 @@
 package es.uma.proyecto.entidades;
 
+import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,12 +14,15 @@ import java.util.Date;
 @Entity
 @Table(name="CUENTAFINTECH")
 public class CuentaFintech extends Cuenta {
+	@JsonbProperty("status")
     @Column(nullable = false)
     private Boolean estado = false;
     private String clasificacion;
+    @JsonbProperty("startDate")
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     private Date fechaApertura;
+    @JsonbProperty("endDate")
     @Temporal(TemporalType.DATE)
     private Date fechaCierre;
 
