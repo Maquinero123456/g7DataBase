@@ -15,6 +15,7 @@ import javax.json.bind.JsonbBuilder;
 import javax.json.bind.JsonbConfig;
 import javax.json.bind.config.PropertyOrderStrategy;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -37,25 +38,29 @@ public class Informes implements GestionInformes{
     
     
 	@Override
-	public List<String> informeCuentasPaisesBajos(boolean status, String productNumber) throws ParseException {
+	public List<String> informeCuentasPaisesBajos(Boolean status, String productNumber) throws ParseException {
 		JsonbConfig config = new JsonbConfig().withPropertyOrderStrategy(PropertyOrderStrategy.ANY);
-		config.withNullValues(true);
 		Jsonb builder = JsonbBuilder.create(config);
 		List<String> informe = new ArrayList<String>();
 		informe.add("PRODUCTOS: ");
-		String sentence = "SELECT cu FROM CuentaFintech cu WHERE cu.cliente.pais = :fpais AND cu.estado = :fstatus";
+		String sentence = "SELECT cu FROM CuentaFintech cu WHERE cu.cliente.pais = :fpais";
 	    
 		Date limite = new SimpleDateFormat("yyyy-MM-dd").parse("2019-05-28");
 		
 		if(productNumber != null) {
 			sentence = sentence.concat(" AND cu.iban = :fiban");
 		}
+		if(status != null) {
+			sentence = sentence.concat(" AND cu.estado = :fstatus");
+		}
 		
 		Query query = em.createQuery(sentence);
 		query.setParameter("fpais", "PaisesBajos");
-		query.setParameter("fstatus", status);
 		if(productNumber != null) {
 			query.setParameter("fiban", productNumber);
+		}
+		if(status != null) {
+			query.setParameter("fstatus", status.booleanValue());
 		}
 
 		List<CuentaFintech> listCl = query.getResultList();
@@ -75,7 +80,6 @@ public class Informes implements GestionInformes{
 	@Override
 	public List<String> informeClientePaisesBajos(String ape, String dir, String cp) {
 		JsonbConfig config = new JsonbConfig().withPropertyOrderStrategy(PropertyOrderStrategy.ANY);
-		config.withNullValues(true);
 		Jsonb builder = JsonbBuilder.create(config);
 		List<String> informe = new ArrayList<String>();
 		informe.add("INDIVIDUALES: ");
@@ -121,7 +125,6 @@ public class Informes implements GestionInformes{
 	@Override
 	public List<String> informeClienteFechaPaisesBajos(String ape, Date alta, Date baja) {
 		JsonbConfig config = new JsonbConfig().withPropertyOrderStrategy(PropertyOrderStrategy.ANY);
-		config.withNullValues(true);
 		Jsonb builder = JsonbBuilder.create(config);
 		List<String> informe = new ArrayList<String>();
 		
@@ -132,7 +135,7 @@ public class Informes implements GestionInformes{
 		Query query = em.createQuery(sentence);
 		query.setParameter("fpais", "PaisesBajos");
 		Query query2;
-		
+		Query query3;
 				
 		List<Cliente> listCl = query.getResultList();
 		
@@ -140,7 +143,7 @@ public class Informes implements GestionInformes{
 			for(Cliente c: listCl) {
 			   	if(c.getFechaAlta().compareTo(alta) > 0 && c.getFechaAlta().compareTo(baja) < 0) {
 			   		if(c.getTipoCliente().equalsIgnoreCase("individual") || c.getTipoCliente().equalsIgnoreCase("fisica")) {
-			   			informe.add("Individual: "+builder.toJson(c)+"\n");
+			   			informe.add("Individual: "+builder.toJson(c));
 			   			for(CuentaFintech cf: c.getCuentas()) {
 			   				informe.add(builder.toJson(cf)+"\n");
 			   			}
@@ -157,15 +160,42 @@ public class Informes implements GestionInformes{
 		}
 	    
 		else {
-			query = em.createQuery("SELECT cl FROM Cliente cl, Individual ind WHERE cl.pais = :fpais && ind.apellidos LIKE :fape");
+			query = em.createQuery("SELECT ind FROM Individual ind WHERE ind.pais = :fpais AND ind.apellidos LIKE :fape");
 			query.setParameter("fpais", "PaisesBajos");
 			query.setParameter("fape", ape);
-			query2 = em.createQuery("SELECT cl FROM Cliente cl, PersonaAutorizada pa WHERE cl.pais = :fpais && pa.apellidos LIKE :fape");
+			query2 = em.createQuery("SELECT emp FROM Empresa emp, PersonaAutorizada pa WHERE emp.pais = :fpais AND pa.apellidos LIKE :fape");
 			query2.setParameter("fpais", "PaisesBajos");
 			query2.setParameter("fape", ape);
+			query3 = em.createQuery("SELECT pa FROM Empresa emp, PersonaAutorizada pa WHERE emp.pais = :fpais AND pa.apellidos LIKE :fape");
+			query3.setParameter("fpais", "PaisesBajos");
+			query3.setParameter("fape", ape);
+			
+			Cliente c1 = null;
 
-			Cliente c1 = (Cliente) query.getSingleResult();
-			Cliente c2 = (Cliente) query2.getSingleResult();
+			try{
+				c1 = (Cliente) query.getSingleResult();
+			}catch (NoResultException e){
+
+			}
+			
+			Empresa emp = null;
+
+			try{
+				emp = (Empresa) query2.getSingleResult();
+			}catch (NoResultException e){
+				
+			}
+
+			PersonaAutorizada pa = null;
+
+			try{
+				pa = (PersonaAutorizada) query3.getSingleResult();
+			}catch (NoResultException e){
+				
+			}
+
+			
+			
 			
 			if(c1!=null) {
 				if(c1.getFechaAlta().compareTo(alta) > 0 && c1.getFechaAlta().compareTo(baja) < 0) {
@@ -176,10 +206,10 @@ public class Informes implements GestionInformes{
 				}
 			}
 			
-			else if(c2!=null) {
-				if(c2.getFechaAlta().compareTo(alta) > 0 && c2.getFechaAlta().compareTo(baja) < 0) {
-			   		informe.add("Empresa: "+builder.toJson(c2)+"\n");
-			   		for(CuentaFintech cf: c2.getCuentas()) {
+			else if(emp!=null) {
+				if(emp.getFechaAlta().compareTo(alta) > 0 && emp.getFechaAlta().compareTo(baja) < 0) {
+			   		informe.add("Empresa: "+builder.toJson(pa)+"\n");
+			   		for(CuentaFintech cf: emp.getCuentas()) {
 			   			informe.add(builder.toJson(cf)+"\n");
 			   		}
 				}
