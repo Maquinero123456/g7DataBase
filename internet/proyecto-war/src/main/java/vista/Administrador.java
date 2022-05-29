@@ -1,6 +1,8 @@
 package vista;
 
 import java.net.URI;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.ejb.EJB;
@@ -14,6 +16,7 @@ import javax.ws.rs.core.UriInfo;
 
 import es.uma.proyecto.GestionAdministrativos;
 import es.uma.proyecto.GestionAutorizados;
+import es.uma.proyecto.GestionCambioDivisa;
 import es.uma.proyecto.GestionClientes;
 import es.uma.proyecto.GestionCuentas;
 import es.uma.proyecto.GestionCuentasUsuarios;
@@ -33,6 +36,7 @@ import es.uma.proyecto.exceptions.AutorizacionException;
 import es.uma.proyecto.exceptions.ClienteException;
 import es.uma.proyecto.exceptions.CuentaException;
 import es.uma.proyecto.exceptions.CuentaRefException;
+import es.uma.proyecto.exceptions.DivisaException;
 import es.uma.proyecto.exceptions.EmpresaException;
 import es.uma.proyecto.exceptions.PersonaAutorizadaException;
 
@@ -52,7 +56,8 @@ public class Administrador {
 	private GestionCuentas bCuentas;
 	@EJB
 	private GestionAutorizados autorizados;
-
+	@EJB
+	private GestionCambioDivisa cDivisa;
 
 	@Inject
 	private InfoSesion sesion;
@@ -146,6 +151,8 @@ public class Administrador {
 	private String idEmp;
 	private String tipo;
 	
+	private String abrevDivisa;
+
 	public Administrador() {
     }
 	
@@ -463,25 +470,27 @@ public class Administrador {
 	public void modificarClient() {
 		try {
 			cliente = admin.getCliente(ident);
+			System.out.println(cliente.toString());
 		} catch (ClienteException e1) {
 		}
 			
-		if(ciudad1 != null) {
+		if(ciudad1 != null && !ciudad1.equals("")) {
 			cliente.setCiudad(ciudad1);
 		}
 		
-		if(cp1 != null) {
+		if(cp1 != null && !cp1.equals("")) {
 			cliente.setCodigoPostal(cp1);
 		}
 		
-		if(dir1 != null) {
+		if(dir1 != null && !dir1.equals("")) {
 			cliente.setDireccion(dir1);
 		}
 		
-		if(pais1 != null){
+		if(pais1 != null && !pais1.equals("")){
 			cliente.setPais(pais1);
 		}
-		if(fecha1 != null) {
+	
+		if(fecha1 != null && !fecha1.equals("")) {
 			Date fecha = null;
 			cliente.setFechaBaja(fecha);
 		}
@@ -602,6 +611,61 @@ public class Administrador {
 		}
 	}
 	
+	public void crearCuentaReferencia(){
+		CuentaReferencia ref = new CuentaReferencia();
+		ref.setIBAN(ibanCuentaMostrada);
+		if(!swiftCuentaMostrada.equals("")){
+			ref.setSWIFT(swiftCuentaMostrada);
+		}else{
+			ref.setSWIFT(null);
+		}
+		
+		ref.setNombreBanco(nombreBancoCuentaMostrada);
+		if(!sucursalCuentaMostrada.equals("")){
+			ref.setSucursal(sucursalCuentaMostrada);
+		}else{
+			ref.setSucursal(null);
+		}
+		if(!paisCuentaMostrada.equals("")){
+			ref.setPais(paisCuentaMostrada);
+		}else{
+			ref.setPais(null);
+		}
+		
+		ref.setSaldo(Double.parseDouble(saldoCuentaMostrada));
+		if(!fechaRefCuentaMostrada.equals("")){
+			try {
+				ref.setFechaApertura(new SimpleDateFormat("yyyy-MM-dd").parse(fechaRefCuentaMostrada));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else{
+			ref.setFechaApertura(null);
+		}
+		
+		if(estadoRefCuentaMostrada.equalsIgnoreCase("active")){
+			ref.setEstado(true);
+		}else{
+			ref.setEstado(false);
+		}
+
+		try {
+			ref.setDivisa(cDivisa.getDivisa(abrevDivisa));
+		} catch (DivisaException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		try {
+			bCuentas.crearCuentaRef(ref);
+		} catch (CuentaException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
 	public GestionAdministrativos getAdmin() {
 		return admin;
 	}
@@ -1110,6 +1174,23 @@ public class Administrador {
 
 	public void setEmpresasPersonaMostrar(String empresasPersonaMostrar) {
 		this.empresasPersonaMostrar = empresasPersonaMostrar;
+	}
+
+
+	public GestionCambioDivisa getCDivisa() {
+		return this.cDivisa;
+	}
+
+	public void setCDivisa(GestionCambioDivisa cDivisa) {
+		this.cDivisa = cDivisa;
+	}
+
+	public String getAbrevDivisa() {
+		return this.abrevDivisa;
+	}
+
+	public void setAbrevDivisa(String abrevDivisa) {
+		this.abrevDivisa = abrevDivisa;
 	}
 
 	

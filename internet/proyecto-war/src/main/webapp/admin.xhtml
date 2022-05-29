@@ -226,7 +226,7 @@
 									<h:message for="cp1Mod" styleClass="info-campo"/>
 								</h:panelGrid>
 								<div style="display: inline">
-									<h:commandButton id="modificar" value="Modificar" action="#{admin.darBaja()}" styleClass="button"/>
+									<h:commandButton id="modificar" value="Modificar" action="#{admin.modificarClient()}" styleClass="button"/>
 									<button onclick="cerrar('Mod');return false">Cancelar</button>
 								</div>
 
@@ -269,6 +269,8 @@
 						<button onclick="mostrar('AS'); cerrar('Cer'); cerrar('AA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('EPA');  cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Aperturar Cuenta Segregada</button>
 
 						<button onclick="mostrar('Cer'); cerrar('AA'); cerrar('AS'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('EPA');  cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Cerrar Cuenta</button>
+
+						<button onclick="mostrar('CrearRef')">Crear Cuenta Referencia</button>
 
 						<div class="MostrarCuentas" style="display:none" >
 
@@ -379,6 +381,57 @@
 
 							</h:form>
 
+						</div>
+
+						<div class="CrearRef" style="display:none">
+							<h:form id="CrearRef">
+
+								<p>Introduzca los datos necesarios para crear una cuenta referencia:</p>
+
+								<h:panelGrid columns="3">
+									<h:outputText value="IBAN de la cuenta: " styleClass="info-campo"/>
+									<h:inputText id="ibanCR" required="true" requiredMessage="Valor obligatorio" value="#{admin.ibanCuentaMostrada}" styleClass="entrada"/>
+									<h:message for="ibanCR" styleClass="info-campo"/>
+
+									<h:outputText value="SWIFT de la cuenta: " styleClass="info-campo"/>
+									<h:inputText id="swiftCR" value="#{admin.swiftCuentaMostrada}" styleClass="entrada"/>
+									<h:message for="swiftCR" styleClass="info-campo"/>
+
+									<h:outputText value="Nombre del banco: " styleClass="info-campo"/>
+									<h:inputText id="bancoCR" required="true" requiredMessage="Valor obligatorio" value="#{admin.nombreBancoCuentaMostrada}" styleClass="entrada"/>
+									<h:message for="bancoCR" styleClass="info-campo"/>
+
+									<h:outputText value="Sucursal: " styleClass="info-campo"/>
+									<h:inputText id="sucursalCR" value="#{admin.sucursalCuentaMostrada}" styleClass="entrada"/>
+									<h:message for="sucursalCR" styleClass="info-campo"/>
+									
+									<h:outputText value="Pais: " styleClass="info-campo"/>
+									<h:inputText id="paisCR" value="#{admin.paisCuentaMostrada}" styleClass="entrada"/>
+									<h:message for="paisCR" styleClass="info-campo"/>
+
+									<h:outputText value="Saldo: " styleClass="info-campo"/>
+									<h:inputText id="saldoCR" required="true" requiredMessage="Valor obligatorio" value="#{admin.saldoCuentaMostrada}" styleClass="entrada"/>
+									<h:message for="ibanAS" styleClass="info-campo"/>
+
+									<h:outputText value="Fecha apertura: " styleClass="info-campo"/>
+									<h:inputText id="aperturaCR" value="#{admin.fechaRefCuentaMostrada}" styleClass="entrada"/>
+									<h:message for="aperturaCR" styleClass="info-campo"/>
+
+									<h:outputText value="Estado: " styleClass="info-campo"/>
+									<h:inputText id="estadoCR" value="#{admin.estadoRefCuentaMostrada}" styleClass="entrada"/>
+									<h:message for="estadoCR" styleClass="info-campo"/>
+
+									<h:outputText value="Divisa: " styleClass="info-campo"/>
+									<h:inputText id="divisaCR" required="true" requiredMessage="Valor obligatorio" value="#{admin.abrevDivisa}" styleClass="entrada"/>
+									<h:message for="divisaCR" styleClass="info-campo"/>
+									
+									
+								</h:panelGrid>
+								
+								<h:commandButton  id="aperturaSegreg" value="Aperturar" action="#{admin.crearCuentaReferencia()}" styleClass="button"/>
+								<button onclick="cerrar('CrearRef');return false">Cancelar</button>
+
+							</h:form>
 						</div>
 					
 

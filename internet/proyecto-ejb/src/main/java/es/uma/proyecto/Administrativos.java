@@ -105,7 +105,6 @@ public class Administrativos implements GestionAdministrativos{
 		client.setFechaBaja(cliente.getFechaBaja());
 		client.setCuentas(cliente.getCuentas());
 		client.setIdentificacion(cliente.getIdentificacion());
-		em.merge(client);
 	}
 
 	
