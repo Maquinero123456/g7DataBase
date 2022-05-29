@@ -70,7 +70,7 @@ public class InicializarBD {
         emp.setDireccion("Calle falsa 123");
         emp.setCiudad("Serbia");
         emp.setCodigoPostal("NoTiene");
-        emp.setPais("Peninsula Balcanica");
+        emp.setPais("Paises Bajos");
         emp.setRazonSocial("PabloNoToques S.A.");
         em.persist(emp);
 

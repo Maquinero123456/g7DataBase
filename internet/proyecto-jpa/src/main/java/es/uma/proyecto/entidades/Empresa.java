@@ -38,7 +38,7 @@ public class Empresa extends Cliente {
 
 	@Override
 	public String toString() {
-		return "Empresa [razonSocial=" + razonSocial + "]";
+		return super.toString()+" Empresa [razonSocial=" + razonSocial + "]";
 	}
 
 	@Override
