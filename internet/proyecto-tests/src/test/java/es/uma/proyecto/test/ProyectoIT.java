@@ -112,15 +112,26 @@ public class ProyectoIT {
 	@SuppressWarnings("deprecation")
 	@Test
 	public void registro() {
-		driver.get("http://0.0.0.0:8080/proyecto-war/registro.xhtml");
-		driver.manage().window().setSize(new Dimension(790, 866));
-		driver.findElement(By.id("registro:nombre")).click();
-		driver.findElement(By.id("registro:nombre")).sendKeys("David");
-		driver.findElement(By.id("registro:pass")).sendKeys("David123");
-		driver.findElement(By.id("registro:repass")).sendKeys("David123");
-		driver.findElement(By.id("registro:email")).sendKeys("david@david.com");
-		driver.findElement(By.name("registro:j_idt15")).click();
-		assertThat(driver.findElement(By.cssSelector("p:nth-child(1)")).getText(), is("El registro se ha realizado con éxito."));
+	  driver.get("http://0.0.0.0:8080/proyecto-war/");
+	  driver.manage().window().setSize(new Dimension(1920, 1048));
+	  driver.findElement(By.linkText("página de registro")).click();
+	  driver.findElement(By.id("registro:nombre")).click();
+	  driver.findElement(By.id("registro:nombre")).sendKeys("hola");
+	  driver.findElement(By.id("registro:pass")).click();
+	  driver.findElement(By.id("registro:pass")).sendKeys("Hola1234");
+	  driver.findElement(By.id("registro:repass")).click();
+	  driver.findElement(By.id("registro:repass")).sendKeys("Hola1234");
+	  driver.findElement(By.id("registro:email")).click();
+	  driver.findElement(By.id("registro:email")).sendKeys("hola@gmail.com");
+	  driver.findElement(By.name("registro:j_idt15")).click();
+	  driver.findElement(By.linkText("Ir a la página de login")).click();
+	  driver.findElement(By.id("login:user")).click();
+	  driver.findElement(By.id("login:user")).sendKeys("hola");
+	  driver.findElement(By.id("login:pass")).click();
+	  driver.findElement(By.id("login:pass")).sendKeys("Hola1234");
+	  driver.findElement(By.id("login:botonLogin")).click();
+	  driver.findElement(By.id("inicio")).click();
+	  assertThat(driver.findElement(By.cssSelector("p:nth-child(3)")).getText(), is("NO TIENES NADA QUE HACER AQUI. PIDE A ALGUN ADMINISTRADOR QUE AÑADA UNA CUENTA A TU USUARIO."));
 	}
 
 	@SuppressWarnings("deprecation")
