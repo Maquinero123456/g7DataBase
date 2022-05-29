@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.persistence.EntityManager;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -28,6 +29,10 @@ import es.uma.proyecto.GestionAutorizados;
 import es.uma.proyecto.GestionClientes;
 import es.uma.proyecto.GestionCuentas;
 import es.uma.proyecto.GestionInformes;
+import es.uma.proyecto.entidades.Cliente;
+import es.uma.proyecto.entidades.CuentaFintech;
+import es.uma.proyecto.entidades.Empresa;
+import es.uma.proyecto.entidades.Individual;
 
 @Path("/api")
 public class informeREST {
@@ -40,6 +45,16 @@ public class informeREST {
 	private GestionClientes clientes;
 	@EJB
 	private GestionInformes informes;
+	
+	private EntityManager em;
+	
+
+	private Address direc;
+	private Name name;
+	private Products product;
+	private Individuo indi;
+	
+	private ResponseProducts rp;
 
 
 	//1
@@ -61,8 +76,11 @@ public class informeREST {
     		fin = new SimpleDateFormat("yyyy-MM-dd").parse(json.getSearchParameters().getEndPeriod());
     	}
     	
-    	List<String> lol = informes.informeClienteFechaPaisesBajos(json.getSearchParameters().getName().getLastName(), prim, fin);
-        return Response.ok(lol.toString()).build();
+    	List<Cliente> listCl = informes.informeClienteFechaPaisesBajos(json.getSearchParameters().getName().getLastName(), prim, fin);
+        
+    	return Response.ok(listCl.toString()).build();
+        
+        
     }
 
     //3
@@ -77,9 +95,46 @@ public class informeREST {
 		}else if(act!=null){
 			status = false;
 		}
-
-		List<String> lol = informes.informeCuentasPaisesBajos(status, json.getSearchParameters().getProductNumber());
-		return Response.ok(lol.toString()).build();
+		
+		Date limite = new SimpleDateFormat("yyyy-MM-dd").parse("2019-05-28");
+		
+		List<CuentaFintech> listCf = informes.informeCuentasPaisesBajos(status, json.getSearchParameters().getProductNumber());
+		
+		for(CuentaFintech cf: listCf) {
+	   		if(cf.getFechaCierre().compareTo(limite) >= 0) {
+	   			Cliente c = cf.getCliente();
+	   			direc.setCity(c.getCiudad());
+	   			direc.setCountry(c.getPais());
+	   			direc.setPostalCode(c.getCodigoPostal());
+	   			direc.setStreetNumber(c.getDireccion());
+	   			
+	   			if(cf.getClasificacion().equalsIgnoreCase("fisica")) {
+	   				Individual ind = em.find(Individual.class, c.getId());
+	   				name.setFirstName(ind.getNombre());
+	   				name.setLastName(ind.getApellidos());
+					indi.setDateOfBirth(ind.getFechaNacimiento().toString());
+	   			}
+	   			product.setProductNumber(cf.getIBAN());
+		   		if(cf.getEstado()) {
+		   			product.setStatus("activa");
+		   		}
+		   		else {
+		   			product.setStatus("inactiva");
+		   		}
+		   		
+		   		product.setRelationship(cf.getClasificacion());
+		   		
+		   		indi.setAddress(direc);
+				indi.setName(name);
+				indi.setProducts(product);
+	   		}
+	   		
+	   		
+	   	}
+		
+		rp.setIndividual(indi);
+		
+		return Response.ok(rp.toString()).build();
 	}
 
 }
