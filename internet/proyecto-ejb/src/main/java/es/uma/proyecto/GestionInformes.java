@@ -23,9 +23,9 @@ public interface GestionInformes {
 	 * hay que devolverlas todas indicando que su propietario es la FINTECH 
 	 * (no el cliente, puesto que esa cuenta no es suya).
 	 */
-	public List<CuentaFintech> informeCuentasPaisesBajos(Boolean status, String productNumber) throws ParseException;
+	public List<String> informeCuentasPaisesBajos(Boolean status, String productNumber) throws ParseException;
 	public List<String> informeClientePaisesBajos(String apellidos, String direccion, String cp);
-	public List<Cliente> informeClienteFechaPaisesBajos(String ape, Date alta, Date baja);
+	public List<String> informeClienteFechaPaisesBajos(String ape, Date alta, Date baja);
 	
 	
 	
