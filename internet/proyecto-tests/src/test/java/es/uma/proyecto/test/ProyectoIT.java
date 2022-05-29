@@ -417,5 +417,52 @@ public class ProyectoIT {
 		assertThat(driver.findElement(By.cssSelector("p:nth-child(11) > i")).getText(), is("FRANCIA"));
 		assertThat(driver.findElement(By.cssSelector("p:nth-child(10) > i")).getText(), is("29003"));
 		assertThat(driver.findElement(By.cssSelector("p:nth-child(9) > i")).getText(), is("CUENCA"));
+
+		
+  }
+  @Test
+  public void altaCliente() {
+    driver.get("http://0.0.0.0:8080/proyecto-war/");
+    driver.manage().window().setSize(new Dimension(790, 866));
+    driver.findElement(By.id("login:user")).click();
+    driver.findElement(By.id("login:user")).sendKeys("ponciano");
+    driver.findElement(By.id("login:pass")).sendKeys("ponciano");
+    driver.findElement(By.id("login:botonLogin")).click();
+    driver.findElement(By.cssSelector("div:nth-child(4) > button:nth-child(5)")).click();
+    driver.findElement(By.id("fBaja:identBaja")).click();
+    driver.findElement(By.id("fBaja:identBaja")).click();
+    driver.findElement(By.id("fBaja:identBaja")).sendKeys("63937528N");
+    driver.findElement(By.id("fBaja:darBaja")).click();
+    driver.findElement(By.cssSelector(".content > div:nth-child(4) > button:nth-child(2)")).click();
+    driver.findElement(By.id("mostrarCl:mostrarCliente")).click();
+    assertThat(driver.findElement(By.cssSelector("p:nth-child(5) > i")).getText(), is("BAJA"));
+    driver.findElement(By.cssSelector("div:nth-child(5) > button:nth-child(3)")).click();
+    driver.findElement(By.cssSelector("div:nth-child(5) > button:nth-child(6)")).click();
+    driver.findElement(By.cssSelector("div:nth-child(5) > button:nth-child(3)")).click();
+    driver.findElement(By.id("fAlta:darAlta")).click();
+    driver.findElement(By.cssSelector(".content > div:nth-child(4) > button:nth-child(2)")).click();
+    driver.findElement(By.id("mostrarCl:mostrarCliente")).click();
+    assertThat(driver.findElement(By.cssSelector("p:nth-child(5) > i")).getText(), is("ALTA"));
+  }
+  @Test
+  public void cierreCuenta() {
+    driver.get("http://0.0.0.0:8080/proyecto-war/");
+    driver.manage().window().setSize(new Dimension(790, 866));
+    driver.findElement(By.id("login:user")).click();
+    driver.findElement(By.id("login:user")).sendKeys("ponciano");
+    driver.findElement(By.id("login:pass")).sendKeys("ponciano");
+    driver.findElement(By.id("login:botonLogin")).click();
+    driver.findElement(By.cssSelector("div:nth-child(5) > button:nth-child(6)")).click();
+    driver.findElement(By.id("fCer:ibanCer")).click();
+    driver.findElement(By.id("fCer:ibanCer")).sendKeys("NL63ABNA6548268733");
+    driver.findElement(By.id("fCer:cerra")).click();
+    driver.findElement(By.cssSelector("div:nth-child(5) > button:nth-child(2)")).click();
+    driver.findElement(By.id("mostrarCuentas:mostrarCuentas")).click();
+    assertThat(driver.findElement(By.cssSelector("p:nth-child(4) > i")).getText(), is("ACTIVE"));
+    driver.findElement(By.cssSelector("div:nth-child(6) > button:nth-child(3)")).click();
+    driver.findElement(By.cssSelector("#mostrarCuentasRef tr:nth-child(1)")).click();
+    driver.findElement(By.id("mostrarCuentasRef:iban")).sendKeys("VG57DDVS5173214964983931");
+    driver.findElement(By.id("mostrarCuentasRef:mostrarCuentas")).click();
+    assertThat(driver.findElement(By.cssSelector("p:nth-child(7) > i")).getText(), is("100.0"));
   }
 }
