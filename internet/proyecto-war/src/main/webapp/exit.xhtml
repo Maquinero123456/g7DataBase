@@ -3,31 +3,65 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      <link rel="stylesheet" type="text/css" href="exit.css" media="screen"/>
+
     <h:head>
+
         <title>
+
             <c:choose>
+
                 <c:when test="#{empty infoSesion.usuario}">
                     Sesión cerrada
                 </c:when>
+
                 <c:otherwise>
                     Sesión activa
                 </c:otherwise>
 
             </c:choose>
-        </title>
-    </h:head>
-    <h:body>
-        <c:choose>
-            <c:when test="#{empty infoSesion.usuario}">
-                <div>
-                    <p>La sesión se ha cerrado, para volver a acceder: </p>
-                    <p><h:link outcome="login.xhtml">Ir a la página de login</h:link></p>
-                </div>
-            </c:when>
-            <c:otherwise>
-                Su sesión sigue activa.
-            </c:otherwise>
 
-        </c:choose>
+        </title>
+
+    </h:head>
+
+    <h:body>
+
+        <div class="exit-window">
+
+            <div class="video-container">
+                <video autoplay="true" loop = "true" muted = "true">
+                    <source src="demo/Login.mp4" type="video/mp4"></source>
+                </video>
+            </div>
+
+            <div class="inside-context">
+
+                <c:choose>
+
+                    <c:when test="#{empty infoSesion.usuario}">
+
+                        <div>
+                            <p>La sesión se ha cerrado, para volver a acceder: </p>
+                            <p><h:link outcome="login.xhtml">Ir a la página de login</h:link></p>
+                        </div>
+
+                    </c:when>
+
+                    <c:otherwise>
+                        Su sesión sigue activa.
+                    </c:otherwise>
+
+                </c:choose>
+
+            </div>  
+
+            <div class="img-container">
+                <img src = "demo/logo_fondo_transparente.png"></img>
+            </div>
+
+        </div>
+
     </h:body>
+    
 </html>

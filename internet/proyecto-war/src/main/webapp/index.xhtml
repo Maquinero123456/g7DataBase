@@ -42,7 +42,7 @@
                 
                 <div class="cuentas">
 
-                    <h:dataTable value="#{infoSesion.usuario.cliente.cuentas}" var="cuenta" rows="3" headerClass="order-table-header">
+                    <h:dataTable value="#{index.retrieveCuentas()}" var="cuenta" rows="3" headerClass="order-table-header">
                         
                         <h:column>                   
                             <f:facet name="header" styleClass="cuentas">IBAN</f:facet>                 
@@ -67,6 +67,11 @@
                         <h:column>
                             <f:facet name="header" styleClass="cuentas">Clasificacion</f:facet>
                             #{cuenta.clasificacion}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header" styleClass="cuentas">Saldo</f:facet>
+                            #{cuenta.saldo}
                         </h:column>
 
                     </h:dataTable>
@@ -164,9 +169,49 @@
                 
                 <c:when test="#{index.entrada() == 2}">
                 
-                <div>
-                    <p>Buenas tardes autorizado <h:outputText value="#{infoSesion.usuario.nombre}"/>¿qué acción realizará?</p>
-                </div>
+                    <div>
+                        <p>Buenas tardes individual <h:outputText value="#{infoSesion.usuario.nombre}"/> ¿qué acción realizará?</p>
+                    </div>
+                    
+                    <div class="cuentas">
+    
+                        <h:dataTable value="#{index.retrieveCuentas()}" var="cuenta" rows="3" headerClass="order-table-header">
+                            
+                            <h:column>                   
+                                <f:facet name="header" styleClass="cuentas">IBAN</f:facet>                 
+                                #{cuenta.iban}
+                            </h:column>
+                            
+                            <h:column>
+                                <f:facet name="header" styleClass="cuentas">SWIFT</f:facet>
+                                #{cuenta.swift}
+                            </h:column>
+    
+                            <h:column>
+                                <f:facet name="header" styleClass="cuentas">Fecha de apertura</f:facet>
+                                #{cuenta.fechaApertura}
+                            </h:column>
+    
+                            <h:column>
+                                <f:facet name="header" styleClass="cuentas">Fecha de cierre</f:facet>
+                                #{cuenta.fechaCierre}
+                            </h:column>
+    
+                            <h:column>
+                                <f:facet name="header" styleClass="cuentas">Clasificacion</f:facet>
+                                #{cuenta.clasificacion}
+                            </h:column>
+    
+                            <h:column>
+                                <f:facet name="header" styleClass="cuentas">Saldo</f:facet>
+                                #{cuenta.saldo}
+                            </h:column>
+    
+                        </h:dataTable>
+    
+                        <p>Pulsa <a  href="cuentas.xhtml">AQUI</a> para ver todas las cuentas</p>
+    
+                    </div>
                 
                 <div>
                 <button onclick="mostrar('tranPA'); cerrar('cdd2')">Realizar Transaccion</button>
