@@ -83,7 +83,7 @@ public class Segregada extends CuentaFintech {
 
 	@Override
 	public String toString() {
-		return "Segregada [comision=" + comision + ", cuentaReferencia=" + cuentaReferencia + "]";
+		return "Segregada [iban="+getIBAN()+" comision=" + comision + ", cuentaReferencia=" + cuentaReferencia + "]";
 	}
 
 }

@@ -51,7 +51,6 @@ public class Index {
 	private InfoSesion sesion;
 
     private Usuario usuario;
-    
     private String ibanOrigen;
     private String ibanDestino;
     private String ori;
@@ -100,36 +99,97 @@ public class Index {
 			return cuentasBancarias;
 		}
 		for(CuentaFintech e : aux){
-			if(e.getClasificacion().equals("Pooled")){
+			System.out.print(e.toString());
+			if(e.getClasificacion().equalsIgnoreCase("Pooled")){
 				vistaCuentas aux2 = new vistaCuentas();
 				PooledAccount pool = null;
 				try{
 					pool = cuentas.getCuentaAgrupada(e.getIBAN());
+					for(DepositadaEn a : pool.getDepositadaEn()){
+						CuentaReferencia ref = a.getCuentaReferencia();
+						aux2.setIban(pool.getIBAN());
+						if(pool.getSWIFT()==null){
+							aux2.setSwift("No tiene");
+						}else{
+							aux2.setSwift(pool.getSWIFT());
+						}
+						if(pool.getEstado()){
+							aux2.setEstado("Active");
+						}else{
+							aux2.setEstado("Not active");
+						}
+						aux2.setFechaApertura(pool.getFechaApertura().toString());
+						if(pool.getFechaCierre()==null){
+							aux2.setFechaCierre("No tiene");
+						}else{
+							aux2.setFechaCierre(pool.getFechaCierre().toString());
+						}
+						
+						aux2.setClasificacion(pool.getClasficicacion());
+						aux2.setIbanRef(ref.getIBAN());
+						aux2.setNombreBanco(ref.getNombreBanco());
+						if(ref.getSucursal()==null){
+							aux2.setSucursal("No tiene");
+						}else{
+							aux2.setSucursal(ref.getSucursal());
+						}
+						if(ref.getPais()==null){
+	
+						}else{
+							aux2.setPais(ref.getPais());
+						}
+						
+						aux2.setSaldo(ref.getSaldo());
+						if(ref.getFechaApertura()==null){
+							aux2.setFechaApertura("No tiene");
+						}else{
+							aux2.setFechaAperturaRef(ref.getFechaApertura().toString());
+						}
+						
+						if(ref.getEstado()!=null && ref.getEstado()){
+							aux2.setEstadoRef("Active");
+						}else{
+							aux2.setEstadoRef("Not active");
+						}
+						aux2.setDivisa(ref.getDivisa().getNombre());
+						cuentasBancarias.add(aux2);
+	
+					}
 				} catch (CuentaException e1){
 
 				}
 
-				for(DepositadaEn a : pool.getDepositadaEn()){
-					CuentaReferencia ref = a.getCuentaReferencia();
-					aux2.setIban(pool.getIBAN());
-					if(pool.getSWIFT()==null){
+				
+			}else if(e.getClasificacion().equalsIgnoreCase("Segregada")){
+				vistaCuentas aux2 = new vistaCuentas();
+				Segregada seg = null;
+				try {
+					seg = cuentas.getCuentaSegregada(e.getIBAN());
+					aux2.setIban(seg.getIBAN());
+					if(seg.getSWIFT()==null){
 						aux2.setSwift("No tiene");
 					}else{
-						aux2.setSwift(pool.getSWIFT());
+						aux2.setSwift(seg.getSWIFT());
 					}
-					if(pool.getEstado()){
+					
+					if(seg.getEstado()){
 						aux2.setEstado("Active");
 					}else{
 						aux2.setEstado("Not active");
 					}
-					aux2.setFechaApertura(pool.getFechaApertura().toString());
-					if(pool.getFechaCierre()==null){
+					aux2.setFechaApertura(seg.getFechaApertura().toString());
+					if(seg.getFechaCierre()==null){
 						aux2.setFechaCierre("No tiene");
 					}else{
-						aux2.setFechaCierre(pool.getFechaCierre().toString());
+						aux2.setFechaCierre(seg.getFechaCierre().toString());
 					}
-					
-					aux2.setClasificacion(pool.getClasficicacion());
+					aux2.setClasificacion(seg.getClasficicacion());
+					if(seg.getComision()==null){
+						aux2.setComision(0.0);
+					}else{
+						aux2.setComision(seg.getComision());
+					}
+					CuentaReferencia ref = seg.getCuentaReferencia();
 					aux2.setIbanRef(ref.getIBAN());
 					aux2.setNombreBanco(ref.getNombreBanco());
 					if(ref.getSucursal()==null){
@@ -138,18 +198,18 @@ public class Index {
 						aux2.setSucursal(ref.getSucursal());
 					}
 					if(ref.getPais()==null){
-
+						aux2.setPais("No tiene");
 					}else{
 						aux2.setPais(ref.getPais());
 					}
-					
+						
 					aux2.setSaldo(ref.getSaldo());
 					if(ref.getFechaApertura()==null){
 						aux2.setFechaApertura("No tiene");
 					}else{
 						aux2.setFechaAperturaRef(ref.getFechaApertura().toString());
 					}
-					
+						
 					if(ref.getEstado()!=null && ref.getEstado()){
 						aux2.setEstadoRef("Active");
 					}else{
@@ -157,69 +217,10 @@ public class Index {
 					}
 					aux2.setDivisa(ref.getDivisa().getNombre());
 					cuentasBancarias.add(aux2);
-
-				}
-			}else{
-				vistaCuentas aux2 = new vistaCuentas();
-				Segregada seg = null;
-				try {
-					seg = cuentas.getCuentaSegregada(e.getIBAN());
 				} catch (CuentaException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				aux2.setIban(seg.getIBAN());
-				if(seg.getSWIFT()==null){
-					aux2.setSwift("No tiene");
-				}else{
-					aux2.setSwift(seg.getSWIFT());
-				}
-				
-				if(seg.getEstado()){
-					aux2.setEstado("Active");
-				}else{
-					aux2.setEstado("Not active");
-				}
-				aux2.setFechaApertura(seg.getFechaApertura().toString());
-				if(seg.getFechaCierre()==null){
-					aux2.setFechaCierre("No tiene");
-				}else{
-					aux2.setFechaCierre(seg.getFechaCierre().toString());
-				}
-				aux2.setClasificacion(seg.getClasficicacion());
-				if(seg.getComision()==null){
-					aux2.setComision(0.0);
-				}else{
-					aux2.setComision(seg.getComision());
-				}
-				CuentaReferencia ref = seg.getCuentaReferencia();
-				aux2.setIbanRef(ref.getIBAN());
-				aux2.setNombreBanco(ref.getNombreBanco());
-				if(ref.getSucursal()==null){
-					aux2.setSucursal("No tiene");
-				}else{
-					aux2.setSucursal(ref.getSucursal());
-				}
-				if(ref.getPais()==null){
-					aux2.setPais("No tiene");
-				}else{
-					aux2.setPais(ref.getPais());
-				}
-					
-				aux2.setSaldo(ref.getSaldo());
-				if(ref.getFechaApertura()==null){
-					aux2.setFechaApertura("No tiene");
-				}else{
-					aux2.setFechaAperturaRef(ref.getFechaApertura().toString());
-				}
-					
-				if(ref.getEstado()!=null && ref.getEstado()){
-					aux2.setEstadoRef("Active");
-				}else{
-					aux2.setEstadoRef("Not active");
-				}
-				aux2.setDivisa(ref.getDivisa().getNombre());
-				cuentasBancarias.add(aux2);
 			}
 		}
 
