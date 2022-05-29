@@ -56,7 +56,6 @@ public class Informes implements GestionInformes{
 		
 		Query query = em.createQuery(sentence);
 		query.setParameter("fpais", "PaisesBajos");
-		query.setParameter("fstatus", status);
 		if(productNumber != null) {
 			query.setParameter("fiban", productNumber);
 		}
