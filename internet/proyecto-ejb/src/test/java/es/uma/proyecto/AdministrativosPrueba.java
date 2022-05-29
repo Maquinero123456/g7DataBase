@@ -467,7 +467,7 @@ public class AdministrativosPrueba {
 		}
 
 		try {
-			gestionAdministrativos.addAutorizados(emp.getID(), pA.getID(), "tipo");
+			gestionAdministrativos.addAutorizados(emp.getId(), pA.getID(), "tipo");
 		} catch (ClienteException e) {
 			fail ("La empresa deberia existir");
 		} catch (AutorizacionException e) {
@@ -557,7 +557,7 @@ public class AdministrativosPrueba {
 		}
 
 		try {
-			gestionAdministrativos.addAutorizados(emp.getID(), pA.getID(), "tipo");
+			gestionAdministrativos.addAutorizados(emp.getId(), pA.getID(), "tipo");
 		} catch (ClienteException e) {
 			fail ("La empresa deberia existir");
 		} catch (AutorizacionException e) {
@@ -567,7 +567,7 @@ public class AdministrativosPrueba {
 		}
 		
 		try {
-			gestionAdministrativos.eliminarAutorizado(emp.getID(), pA.getID());
+			gestionAdministrativos.eliminarAutorizado(emp.getId(), pA.getID());
 		} catch (ClienteException e) {
 			fail ("La empresa deberia existir");
 		} catch (AutorizacionException e) {

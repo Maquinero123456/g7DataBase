@@ -62,7 +62,7 @@ public class Autorizados implements GestionAutorizados{
             throws PersonaAutorizadaException, EmpresaException, EmpresaPersAutoPKException, AutorizacionException {
         PersonaAutorizada persona = getPersonaAutorizada(pers);
         Empresa empresa = getEmpresa(emp);
-        EmpresaPersAutoPK fk = new EmpresaPersAutoPK(empresa.getID(), persona.getID());
+        EmpresaPersAutoPK fk = new EmpresaPersAutoPK(empresa.getId(), persona.getID());
         Autorizacion auto= em.find(Autorizacion.class, fk);
         if(auto != null){
             throw new AutorizacionException("Autorizacion ya existe");
@@ -78,7 +78,7 @@ public class Autorizados implements GestionAutorizados{
         PersonaAutorizada persona = getPersonaAutorizada(pers);
         Empresa empresa = getEmpresa(emp);
         
-        Autorizacion auto = em.find(Autorizacion.class, new EmpresaPersAutoPK(persona.getID(), empresa.getID()));
+        Autorizacion auto = em.find(Autorizacion.class, new EmpresaPersAutoPK(persona.getID(), empresa.getId()));
         if(auto == null){
             throw new AutorizacionException("Autorizacion no existe");
         }

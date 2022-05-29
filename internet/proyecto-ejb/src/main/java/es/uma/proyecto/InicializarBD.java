@@ -99,7 +99,7 @@ public class InicializarBD {
         em.persist(pers);
 
 
-        Autorizacion aut = new Autorizacion(new EmpresaPersAutoPK(emp.getID(), pers.getID()), "No", pers, emp);
+        Autorizacion aut = new Autorizacion(new EmpresaPersAutoPK(emp.getId(), pers.getID()), "No", pers, emp);
         em.persist(aut);
 
        

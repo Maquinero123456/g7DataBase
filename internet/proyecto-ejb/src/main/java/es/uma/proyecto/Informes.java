@@ -250,7 +250,7 @@ public class Informes implements GestionInformes{
 	    	Cliente cl = cf.getCliente();
 	    	
 	    		if((cl.getTipoCliente().equalsIgnoreCase("individual") || cl.getTipoCliente().equalsIgnoreCase("fisica")) && cl.getFechaAlta().compareTo(limite) > 0) {
-	    			Individual ind = em.find(Individual.class, cl.getID());
+	    			Individual ind = em.find(Individual.class, cl.getId());
 	    			
 	    			if(ind.getFechaNacimiento() != null) {
 	    				informe.add(new String[] {cf.getIBAN(), ind.getApellidos(), ind.getNombre(), ind.getDireccion(), ind.getCiudad(), ind.getCodigoPostal(), ind.getPais(), ind.getIdentificacion(), ind.getFechaNacimiento().toString()});
@@ -298,7 +298,7 @@ public class Informes implements GestionInformes{
 	    	Cliente cl = cf.getCliente();
 	    	
 	    		if((cl.getTipoCliente().equalsIgnoreCase("individual") || cl.getTipoCliente().equalsIgnoreCase("fisica")) && cl.getFechaAlta().compareTo(limite) > 0) {
-	    			Individual ind = em.find(Individual.class, cl.getID());
+	    			Individual ind = em.find(Individual.class, cl.getId());
 	    			
 	    			if(ind.getFechaNacimiento() != null) {
 	    				informe.add(new String[] {cf.getIBAN(), ind.getApellidos(), ind.getNombre(), ind.getDireccion(), ind.getCiudad(), ind.getCodigoPostal(), ind.getPais(), ind.getIdentificacion(), ind.getFechaNacimiento().toString()});
