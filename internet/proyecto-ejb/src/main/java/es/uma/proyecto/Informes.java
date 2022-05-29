@@ -39,14 +39,9 @@ public class Informes implements GestionInformes{
     
     
 	@Override
-	public List<String> informeCuentasPaisesBajos(Boolean status, String productNumber) throws ParseException {
-		JsonbConfig config = new JsonbConfig().withPropertyOrderStrategy(PropertyOrderStrategy.ANY);
-		Jsonb builder = JsonbBuilder.create(config);
-		List<String> informe = new ArrayList<String>();
-		informe.add("Productos: ");
+	public List<CuentaFintech> informeCuentasPaisesBajos(Boolean status, String productNumber) throws ParseException {
+		
 		String sentence = "SELECT cu FROM CuentaFintech cu WHERE cu.cliente.pais LIKE :fpais";
-	    
-		Date limite = new SimpleDateFormat("yyyy-MM-dd").parse("2019-05-28");
 		
 		if(productNumber != null) {
 			sentence = sentence.concat(" AND cu.iban = :fiban");
@@ -66,15 +61,8 @@ public class Informes implements GestionInformes{
 
 		List<CuentaFintech> listCl = query.getResultList();
 		
-	   	for(CuentaFintech cf: listCl) {
-	   		if(cf.getFechaCierre() == null) {
-	   			cf.setFechaCierre(limite);
-	   		}
-	   		if(cf.getFechaCierre().compareTo(limite) >= 0) {
-	   			informe.add("accountHolder: "+builder.toJson(cf.getCliente())+"\n"+builder.toJson(cf)+"\n");
-	   		}
-	   	}
-		return informe;
+	   	
+		return listCl;
 	}
 	
 	
@@ -124,7 +112,7 @@ public class Informes implements GestionInformes{
 	}
 	
 	@Override
-	public List<String> informeClienteFechaPaisesBajos(String ape, Date alta, Date baja) {
+	public List<Cliente> informeClienteFechaPaisesBajos(String ape, Date alta, Date baja) {
 		JsonbConfig config = new JsonbConfig().withPropertyOrderStrategy(PropertyOrderStrategy.ANY);
 		Jsonb builder = JsonbBuilder.create(config);
 		List<String> informe = new ArrayList<String>();
@@ -217,7 +205,7 @@ public class Informes implements GestionInformes{
 			}
 		}
 		
-		return informe;
+		return listCl;
 	}
 	
 		

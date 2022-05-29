@@ -60,6 +60,7 @@ public class Index {
     private String tipo;
 
     public Index() {
+    	
     }
     
     public int entrada() {
@@ -95,9 +96,12 @@ public class Index {
 		if(sesion.getUsuario().getCliente()!=null){
 			aux.addAll(sesion.getUsuario().getCliente().getCuentas());
 		}
+		
 		if(aux.isEmpty()){
 			return cuentasBancarias;
 		}
+		
+		System.out.println(aux.toString());
 		for(CuentaFintech e : aux){
 			if(e.getClasificacion().equalsIgnoreCase("Pooled")){
 				vistaCuentas aux2 = new vistaCuentas();
@@ -223,7 +227,7 @@ public class Index {
 			}
 		}
 
-		System.out.println(cuentasBancarias.toString());
+		//System.out.println(cuentasBancarias.toString());
 		return cuentasBancarias;
 	}
 
