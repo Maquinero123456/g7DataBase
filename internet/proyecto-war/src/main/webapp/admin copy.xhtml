@@ -153,7 +153,7 @@
 
 						<button onclick="mostrar('Baja'); cerrar('Alta'); cerrar('Mod'); cerrar('MostrarCl'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('EPA'); cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Baja Cliente</button>
 
-						<button onclick="mostrar('Crear'); cerrar('Baja'); cerrar('Alta'); cerrar('Mod'); cerrar('MostrarCl'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('EPA'); cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Crear Cliente</button>
+						<button onclick="mostrar('Crear'); cerrar('Baja'); cerrar('Alta'); cerrar('Mod'); cerrar('MostrarCl'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('EPA'); cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Crear Individual</button>
 
 						<div class="MostrarCl" style="display:none" >
 
@@ -260,57 +260,59 @@
 
 							<h:form id="fCrear">
 
-								<p>Indique el los datos del individual que quiere crear:</p>
+								<p>Indique el los datos del cliente que quiere crear:</p>
 								<h:panelGrid columns="3">
-									<h:outputText value="Identificador del cliente: " styleClass="info-campo"/>
-									<h:inputText id="identCrearInd" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}" styleClass="entrada"/>
+									<h:outputText value="Identificador del usuario: " styleClass="info-campo"/>
+									<h:inputText id="identCrear" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}" styleClass="entrada"/>
 									<h:message for="identBaja" styleClass="info-campo"/>
 
-									<h:outputText value="Identificador del usuario: " styleClass="info-campo"/>
-									<h:inputText id="identUsuCrearInd" required="true" requiredMessage="Valor obligatorio" value="#{admin.usuarioCrearCliente}" styleClass="entrada"/>
-									<h:message for="identBaja" styleClass="info-campo"/>
+									<h:outputText value="Usuario: " styleClass="info-campo"/>
+									<h:inputText id="userCrear" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}" styleClass="entrada"/>
+									<h:message for="userCrear" styleClass="info-campo"/>
 
 									<h:outputText value="Nombre del cliente: " styleClass="info-campo"/>
-									<h:inputText id="nombreCrearInd" required="true" requiredMessage="Valor obligatorio" value="#{admin.nombre}" styleClass="entrada"/>
+									<h:inputText id="nombreCrear" required="true" requiredMessage="Valor obligatorio" value="#{admin.nombre}" styleClass="entrada"/>
 									<h:message for="nombreCrear" styleClass="info-campo"/>
 										
 									<h:outputText value="Apellidos del cliente: " styleClass="info-campo"/>
-									<h:inputText id="apellidosCrearInd" required="true" requiredMessage="Valor obligatorio" value="#{admin.apellidos}" styleClass="entrada"/>
-									<h:message for="apellidosCrearInd" styleClass="info-campo"/>
+									<h:inputText id="apellidosCrear" required="true" requiredMessage="Valor obligatorio" value="#{admin.apellidos}" styleClass="entrada"/>
+									<h:message for="apellidosCrear" styleClass="info-campo"/>
 									
 									<h:outputText value="Fecha de nacimiento del cliente: " styleClass="info-campo"/>
-									<h:inputText id="fechaNacCrearInd" value="#{admin.fechaNacimiento}" styleClass="entrada"/>
-									<h:message for="FechaNacCrearInd" styleClass="info-campo"/>
+									<h:inputText id="fechaNacCrear" required="true" requiredMessage="Valor obligatorio" value="#{admin.fechaNacimiento}" styleClass="entrada"/>
+									<h:message for="FechaNacCrear" styleClass="info-campo"/>
 									
 									<h:outputText value="Direccion del cliente: " styleClass="info-campo"/>
-									<h:inputText id="direcCrearInd" required="true" requiredMessage="Valor obligatorio" value="#{admin.dir3}" styleClass="entrada"/>
-									<h:message for="direcCrearInd" styleClass="info-campo"/>
+									<h:inputText id="direcCrear" required="true" requiredMessage="Valor obligatorio" value="#{admin.dir3}" styleClass="entrada"/>
+									<h:message for="direcCrear" styleClass="info-campo"/>
 									
 									<h:outputText value="Ciudad del cliente: " styleClass="info-campo"/>
-									<h:inputText id="ciudadCrearInd" required="true" requiredMessage="Valor obligatorio" value="#{admin.ciudad2}" styleClass="entrada"/>
-									<h:message for="ciudadCrearInd" styleClass="info-campo"/>
+									<h:inputText id="ciudadCrear" required="true" requiredMessage="Valor obligatorio" value="#{admin.ciudad2}" styleClass="entrada"/>
+									<h:message for="ciudadCrear" styleClass="info-campo"/>
 									
 									<h:outputText value="Codigo postal del cliente: " styleClass="info-campo"/>
-									<h:inputText id="codPostCrearInd" required="true" requiredMessage="Valor obligatorio" value="#{admin.cp2}" styleClass="entrada"/>
-									<h:message for="codPostCrearInd" styleClass="info-campo"/>
+									<h:inputText id="codPostCrear" required="true" requiredMessage="Valor obligatorio" value="#{admin.cp2}" styleClass="entrada"/>
+									<h:message for="codPostCrear" styleClass="info-campo"/>
 									
 									<h:outputText value="Pais del cliente: " styleClass="info-campo"/>
-									<h:inputText id="PaisCrearInd" required="true" requiredMessage="Valor obligatorio" value="#{admin.pais2}" styleClass="entrada"/>
-									<h:message for="PaisCrearInd" styleClass="info-campo"/>
+									<h:inputText id="PaisCrear" required="true" requiredMessage="Valor obligatorio" value="#{admin.pais2}" styleClass="entrada"/>
+									<h:message for="PaisCrear" styleClass="info-campo"/>
 									
 									<h:outputText value="Fecha de baja del cliente: " styleClass="info-campo"/>
-									<h:inputText id="BajaCrearInd" value="#{admin.fechaBaja}" styleClass="entrada"/>
-									<h:message for="BajaCrearInd" styleClass="info-campo"/>
+									<h:inputText id="BajaCrear" required="false" value="#{admin.fechaBaja}" styleClass="entrada"/>
+									<h:message for="BajaCrear" styleClass="info-campo"/>
 								</h:panelGrid>
 									
 								<div style="display: inline">
-									<h:commandButton id="crearCliente" value="Crear cliente" action="#{admin.crearClienteIndividual()}" styleClass="button"/>
+									<h:commandButton id="crearCliente" value="Crear cliente individual" action="#" styleClass="button"/>
 									<button onclick="cerrar('Crear');return false">Cancelar</button>
 								</div>
 								
 							</h:form>
 
 						</div>
+
+
 
 					</div>
 					
@@ -544,34 +546,6 @@
 									<h:outputText value="Identificador de la persona a autorizar: " styleClass="info-campo"/>
 									<h:inputText id="idPerAPA" required="true" requiredMessage="Valor obligatorio" value="#{admin.idPer}" styleClass="entrada"/>
 									<h:message for="idPerAPA" styleClass="info-campo"/>
-
-									<h:outputText value="Nombre: " styleClass="info-campo"/>
-									<h:inputText id="tipoAPA1" required="true" requiredMessage="Valor obligatorio" value="#{admin.nombre}" styleClass="entrada"/>
-									<h:message for="tipoAPA" styleClass="info-campo"/>
-
-									<h:outputText value="Apellidos: " styleClass="info-campo"/>
-									<h:inputText id="tipoAPA2" required="true" requiredMessage="Valor obligatorio" value="#{admin.apellidos}" styleClass="entrada"/>
-									<h:message for="tipoAPA" styleClass="info-campo"/>
-
-									<h:outputText value="Direccion: " styleClass="info-campo"/>
-									<h:inputText id="tipoAPA3" required="true" requiredMessage="Valor obligatorio" value="#{admin.dir2}" styleClass="entrada"/>
-									<h:message for="tipoAPA" styleClass="info-campo"/>
-
-									<h:outputText value="Fecha de nacimiento: " styleClass="info-campo"/>
-									<h:inputText id="tipoAPA4" value="#{admin.fechaNac}" styleClass="entrada"/>
-									<h:message for="tipoAPA" styleClass="info-campo"/>
-
-									<h:outputText value="Estado: " styleClass="info-campo"/>
-									<h:inputText id="tipoAPA5" value="#{admin.estadoPA}" styleClass="entrada"/>
-									<h:message for="tipoAPA" styleClass="info-campo"/>
-
-									<h:outputText value="Fecha de inicio: " styleClass="info-campo"/>
-									<h:inputText id="tipoAPA6" required="false" value="#{admin.fechaInicio}" styleClass="entrada"/>
-									<h:message for="tipoAPA" styleClass="info-campo"/>
-
-									<h:outputText value="Fecha de fin: " styleClass="info-campo"/>
-									<h:inputText id="tipoAPA7" value="#{admin.fechaFin}" styleClass="entrada"/>
-									<h:message for="tipoAPA" styleClass="info-campo"/>
 									
 									<h:outputText value="Tipo de autorizacion: " styleClass="info-campo"/>
 									<h:inputText id="tipoAPA" required="true" requiredMessage="Valor obligatorio" value="#{admin.tipo}" styleClass="entrada"/>

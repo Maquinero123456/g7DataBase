@@ -1,6 +1,8 @@
 package vista;
 
 import java.net.URI;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.ejb.EJB;
@@ -14,6 +16,7 @@ import javax.ws.rs.core.UriInfo;
 
 import es.uma.proyecto.GestionAdministrativos;
 import es.uma.proyecto.GestionAutorizados;
+import es.uma.proyecto.GestionCambioDivisa;
 import es.uma.proyecto.GestionClientes;
 import es.uma.proyecto.GestionCuentas;
 import es.uma.proyecto.GestionCuentasUsuarios;
@@ -33,8 +36,11 @@ import es.uma.proyecto.exceptions.AutorizacionException;
 import es.uma.proyecto.exceptions.ClienteException;
 import es.uma.proyecto.exceptions.CuentaException;
 import es.uma.proyecto.exceptions.CuentaRefException;
+import es.uma.proyecto.exceptions.DivisaException;
 import es.uma.proyecto.exceptions.EmpresaException;
+import es.uma.proyecto.exceptions.IndividualException;
 import es.uma.proyecto.exceptions.PersonaAutorizadaException;
+import es.uma.proyecto.exceptions.UsuarioException;
 
 @Named(value = "admin")
 @RequestScoped
@@ -52,6 +58,8 @@ public class Administrador {
 	private GestionCuentas bCuentas;
 	@EJB
 	private GestionAutorizados autorizados;
+	@EJB
+	private GestionCambioDivisa cDivisa;
 
 
 	@Inject
@@ -149,14 +157,18 @@ public class Administrador {
 	// Atributos crearCliente
 	private String nombre;
 	private String apellidos;
-	private Date fechaNacimiento;
-	private Date fechaBaja;
+	private String fechaNacimiento;
+	private String fechaBaja;
 	private String pais2;
 	private String fecha2;
 	private String ciudad2;
 	private String dir3;
 	private String cp2;
 	
+	private String abrevDivisa;
+
+	private String usuarioCrearCliente;
+
 	public Administrador() {
     }
 	
@@ -474,25 +486,27 @@ public class Administrador {
 	public void modificarClient() {
 		try {
 			cliente = admin.getCliente(ident);
+			System.out.println(cliente.toString());
 		} catch (ClienteException e1) {
 		}
 			
-		if(ciudad1 != null) {
+		if(ciudad1 != null && !ciudad1.equals("")) {
 			cliente.setCiudad(ciudad1);
 		}
 		
-		if(cp1 != null) {
+		if(cp1 != null && !cp1.equals("")) {
 			cliente.setCodigoPostal(cp1);
 		}
 		
-		if(dir1 != null) {
+		if(dir1 != null && !dir1.equals("")) {
 			cliente.setDireccion(dir1);
 		}
 		
-		if(pais1 != null){
+		if(pais1 != null && !pais1.equals("")){
 			cliente.setPais(pais1);
 		}
-		if(fecha1 != null) {
+	
+		if(fecha1 != null && !fecha1.equals("")) {
 			Date fecha = null;
 			cliente.setFechaBaja(fecha);
 		}
@@ -613,6 +627,61 @@ public class Administrador {
 		}
 	}
 	
+	public void crearCuentaReferencia(){
+		CuentaReferencia ref = new CuentaReferencia();
+		ref.setIBAN(ibanCuentaMostrada);
+		if(!swiftCuentaMostrada.equals("")){
+			ref.setSWIFT(swiftCuentaMostrada);
+		}else{
+			ref.setSWIFT(null);
+		}
+		
+		ref.setNombreBanco(nombreBancoCuentaMostrada);
+		if(!sucursalCuentaMostrada.equals("")){
+			ref.setSucursal(sucursalCuentaMostrada);
+		}else{
+			ref.setSucursal(null);
+		}
+		if(!paisCuentaMostrada.equals("")){
+			ref.setPais(paisCuentaMostrada);
+		}else{
+			ref.setPais(null);
+		}
+		
+		ref.setSaldo(Double.parseDouble(saldoCuentaMostrada));
+		if(!fechaRefCuentaMostrada.equals("")){
+			try {
+				ref.setFechaApertura(new SimpleDateFormat("yyyy-MM-dd").parse(fechaRefCuentaMostrada));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else{
+			ref.setFechaApertura(null);
+		}
+		
+		if(estadoRefCuentaMostrada.equalsIgnoreCase("active")){
+			ref.setEstado(true);
+		}else{
+			ref.setEstado(false);
+		}
+
+		try {
+			ref.setDivisa(cDivisa.getDivisa(abrevDivisa));
+		} catch (DivisaException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		try {
+			bCuentas.crearCuentaRef(ref);
+		} catch (CuentaException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
 	public GestionAdministrativos getAdmin() {
 		return admin;
 	}
@@ -1123,14 +1192,78 @@ public class Administrador {
 		this.empresasPersonaMostrar = empresasPersonaMostrar;
 	}
 
+
+	public GestionCambioDivisa getCDivisa() {
+		return this.cDivisa;
+	}
+
+	public void setCDivisa(GestionCambioDivisa cDivisa) {
+		this.cDivisa = cDivisa;
+	}
+
+	public String getAbrevDivisa() {
+		return this.abrevDivisa;
+	}
+
+	public void setAbrevDivisa(String abrevDivisa) {
+		this.abrevDivisa = abrevDivisa;
+	}
+
 	public void crearClienteIndividual(){ //INCOMPLETO
 		Individual ind = new Individual();
+		ind.setIdentificacion(ident);
+		Usuario aux = null;
+		try {
+			aux = cuentas.getUsuario(usuarioCrearCliente);
+		} catch (UsuarioException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ind.setUsuario(aux);
 		ind.setNombre(nombre);
 		ind.setApellidos(apellidos);
-		ind.setCiudad(ciudad2);
-		ind.setPais(pais2);
+		if(!fechaNacimiento.equals("")){
+			try {
+				ind.setFechaNacimiento(new SimpleDateFormat("yyyy-MM-dd").parse(fechaNacimiento));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else{
+			ind.setFechaNacimiento(null);
+		}
+		
 		ind.setDireccion(dir3);
+		ind.setCiudad(ciudad2);
 		ind.setCodigoPostal(cp2);
+		ind.setPais(pais2);
+		if(!fechaBaja.equals("")){
+			try {
+				ind.setFechaBaja(new SimpleDateFormat("yyyy-MM-dd").parse(fechaBaja));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		}else{
+			ind.setFechaBaja(null);
+		}
+		ind.setEstado("Active");
+		try {
+			ind.setFechaAlta(new SimpleDateFormat("yyyy-MM-dd").parse("2020-05-28"));
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		System.out.println(ind.toString());
+		ind.setTipoCliente("Individual");
+		try {
+			clientes.crearIndividual(ind);
+		} catch (IndividualException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	public String getNombre() {
@@ -1149,21 +1282,30 @@ public class Administrador {
 		this.apellidos = apellidos;
 	}
 
-	public Date getFechaNacimiento() {
+	public String getFechaNacimiento() {
 		return this.fechaNacimiento;
 	}
 
-	public void setFechaNacimiento(Date fechaNacimiento) {
+	public void setFechaNacimiento(String fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
-	public Date getFechaBaja() {
+	public String getFechaBaja() {
 		return this.fechaBaja;
 	}
 
-	public void setFechaBaja(Date fechaBaja) {
+	public void setFechaBaja(String fechaBaja) {
 		this.fechaBaja = fechaBaja;
 	}
+
+	public String getUsuarioCrearCliente() {
+		return this.usuarioCrearCliente;
+	}
+
+	public void setUsuarioCrearCliente(String usuarioCrearCliente) {
+		this.usuarioCrearCliente = usuarioCrearCliente;
+	}
+
 
 	public String getPais2() {
 		return this.pais2;
@@ -1204,5 +1346,7 @@ public class Administrador {
 	public void setCp2(String cp2) {
 		this.cp2 = cp2;
 	}
+
+	
 	
 }
