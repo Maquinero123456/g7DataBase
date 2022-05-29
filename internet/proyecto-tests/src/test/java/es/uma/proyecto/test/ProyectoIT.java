@@ -18,6 +18,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -363,5 +364,60 @@ public class ProyectoIT {
 		driver.findElement(By.id("mostrarCl:mostrarCliente")).click();
 		assertThat(driver.findElement(By.cssSelector("p:nth-child(5) > i")).getText(), is("ALTA"));
 	}
-
+	@Test
+	public void addPersonaAutorizadaEmpresa() {
+		driver.get("http://0.0.0.0:8080/proyecto-war/");
+		driver.manage().window().setSize(new Dimension(790, 866));
+		driver.findElement(By.id("login:user")).click();
+		driver.findElement(By.id("login:user")).sendKeys("ponciano");
+		driver.findElement(By.id("login:pass")).sendKeys("ponciano");
+		driver.findElement(By.cssSelector(".centrar-elem")).click();
+		driver.findElement(By.id("login:botonLogin")).click();
+		driver.findElement(By.cssSelector("div:nth-child(6) > button:nth-child(3)")).click();
+		driver.findElement(By.id("fAPA:idEmpAPA")).click();
+		driver.findElement(By.id("fAPA:idEmpAPA")).sendKeys("P3310693A");
+		driver.findElement(By.id("fAPA:idPerAPA")).click();
+		driver.findElement(By.id("fAPA:idPerAPA")).sendKeys("Victor");
+		driver.findElement(By.id("fAPA:tipoAPA1")).sendKeys("Victor");
+		driver.findElement(By.id("fAPA:tipoAPA2")).sendKeys("Baki");
+		driver.findElement(By.id("fAPA:tipoAPA3")).sendKeys("Calle falsa");
+		driver.findElement(By.id("fAPA:tipoAPA7")).click();
+		driver.findElement(By.id("fAPA:tipoAPA")).click();
+		driver.findElement(By.id("fAPA:tipoAPA")).sendKeys("Ninguna");
+		driver.findElement(By.id("fAPA:addAutor")).click();
+		driver.findElement(By.cssSelector("div:nth-child(6) > button:nth-child(2)")).click();
+		driver.findElement(By.id("mostrarPersona:persMostrar")).click();
+		driver.findElement(By.id("mostrarPersona:persMostrar")).sendKeys("victor");
+		driver.findElement(By.id("mostrarPersona:mostrarCuentas")).click();
+		assertThat(driver.findElement(By.cssSelector("#DatosPersona > p:nth-child(3) > i")).getText(), is("VICTOR"));
+		driver.findElement(By.cssSelector("p:nth-child(11)")).click();
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(11) > i")).getText(), is("{PABLONOTOQUES S.A.(P3310693A)}"));
+	}
+	@Test
+	public void addPersonaAutorizadaEmpresaYaExiste() {
+		driver.get("http://0.0.0.0:8080/proyecto-war/");
+		driver.manage().window().setSize(new Dimension(790, 866));
+		driver.findElement(By.id("login:user")).click();
+		driver.findElement(By.id("login:user")).sendKeys("ponciano");
+		driver.findElement(By.id("login:pass")).sendKeys("ponciano");
+		driver.findElement(By.id("login:botonLogin")).click();
+		driver.findElement(By.cssSelector("div:nth-child(6) > button:nth-child(4)")).click();
+		driver.findElement(By.id("cAPA:idEmpCPA")).click();
+		driver.findElement(By.id("cAPA:idEmpCPA")).click();
+		driver.findElement(By.id("cAPA:idEmpCPA")).sendKeys("P3310693A");
+		driver.findElement(By.id("cAPA:idPerCPA")).click();
+		driver.findElement(By.id("cAPA:idPerCPA")).click();
+		driver.findElement(By.id("cAPA:idPerCPA")).sendKeys("PATest");
+		driver.findElement(By.id("cAPA:tipoCPA")).sendKeys("Ninguna");
+		driver.findElement(By.id("cAPA:addAutorC")).click();
+		driver.findElement(By.cssSelector("div:nth-child(6) > button:nth-child(2)")).click();
+		driver.findElement(By.cssSelector("#mostrarPersona > p")).click();
+		driver.findElement(By.id("mostrarPersona:persMostrar")).click();
+		driver.findElement(By.id("mostrarPersona:persMostrar")).sendKeys("PATest");
+		driver.findElement(By.id("mostrarPersona:persMostrar")).sendKeys(Keys.ENTER);
+		driver.findElement(By.cssSelector("#DatosPersona > p:nth-child(3)")).click();
+		assertThat(driver.findElement(By.cssSelector("#DatosPersona > p:nth-child(3) > i")).getText(), is("PATEST"));
+		driver.findElement(By.cssSelector("p:nth-child(11)")).click();
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(11) > i")).getText(), is("{PABLONOTOQUES S.A.(P3310693A)}"));
+	}
 }

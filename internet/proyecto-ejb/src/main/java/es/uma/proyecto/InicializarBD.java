@@ -96,6 +96,8 @@ public class InicializarBD {
         pers.setUsuario(ana);
         em.persist(pers);
 
+        PersonaAutorizada pers2 = new PersonaAutorizada("PATest", "Victor", "Rodriguez", "una calle", utilDate, "Alta", utilDate, null);
+        em.persist(pers2);
 
         Autorizacion aut = new Autorizacion(new EmpresaPersAutoPK(emp.getId(), pers.getID()), "No", pers, emp);
         em.persist(aut);
