@@ -69,11 +69,11 @@ public class Index {
     		return aux;
     	}
     	
-    	if(!sesion.getUsuario().getEsAdministrativo() && sesion.getUsuario().getCliente().getTipoCliente().equalsIgnoreCase("individual")) {
+    	if(!sesion.getUsuario().getEsAdministrativo() && sesion.getUsuario().getCliente()!=null) {
     		aux = 1;
     	}
     	
-    	if(!sesion.getUsuario().getEsAdministrativo() && sesion.getUsuario().getCliente().getTipoCliente().equalsIgnoreCase("empresa")) {
+    	if(!sesion.getUsuario().getEsAdministrativo() && sesion.getUsuario().getPersonaAutorizada()!=null) {
     		aux = 2;
     	}
     	
