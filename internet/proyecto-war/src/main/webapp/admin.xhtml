@@ -132,13 +132,13 @@
 						
 						<h2>Administrar clientes</h2>
 
-						<button onclick="mostrar('MostrarCl')">Mostrar Cliente</button>
+						<button onclick="mostrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('EPA'); cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Mostrar Cliente</button>
 
-						<button onclick="mostrar('Alta')">Alta Cliente</button>
+						<button onclick="mostrar('Alta'); cerrar('MostrarCl'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('EPA'); cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Alta Cliente</button>
 
-						<button onclick="mostrar('Mod')">Modificar Cliente</button>
+						<button onclick="mostrar('Mod'); cerrar('Alta'); cerrar('MostrarCl'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('EPA'); cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Modificar Cliente</button>
 
-						<button onclick="mostrar('Baja')">Baja Cliente</button>
+						<button onclick="mostrar('Baja'); cerrar('Alta'); cerrar('Mod'); cerrar('MostrarCl'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('EPA'); cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Baja Cliente</button>
 
 						<div class="MostrarCl" style="display:none" >
 
@@ -149,12 +149,12 @@
 								<h:panelGrid columns="3"> 
 									<div>
 										<h:outputText value="Identificador del cliente: " styleClass="info-campo"/>
-										<h:inputText id="identMostrar" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}"/>
+										<h:inputText id="identMostrar" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}" styleClass="entrada"/>
 										<h:message for="identMostrar" styleClass="info-campo"/>
 									</div>
 								</h:panelGrid>
 								<div class="mostrarButtons" style="display: inline">
-									<h:commandButton styleClass="mostrar" id="mostrarCliente" value="Mostrar" action="#{admin.mostrarCliente()}"/>
+									<h:commandButton id="mostrarCliente" value="Mostrar" action="#{admin.mostrarCliente()}" styleClass="button"/>
 									<button onclick="cerrar('MostrarCl');cerrar('DatosCliente');return false">Cancelar</button>
 								</div>
 							</h:form>
@@ -169,12 +169,12 @@
 
 								<h:panelGrid columns="3"> 
 									<h:outputText value="Identificador del cliente: " styleClass="info-campo"/>
-									<h:inputText id="identAlta" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}"/>
+									<h:inputText id="identAlta" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}" styleClass="entrada"/>
 									<h:message for="identAlta" styleClass="info-campo"/>
 								</h:panelGrid>
 									
 								<div style="display: inline">
-									<h:commandButton styleClass="button" id="darAlta" value="Dar de Alta" action="#{admin.darAlta()}"/>
+									<h:commandButton id="darAlta" value="Dar de Alta" action="#{admin.darAlta()}" styleClass="button"/>
 									<button onclick="cerrar('Alta');return false">Cancelar</button>
 								</div>
 
@@ -189,31 +189,31 @@
 								<p>Indique el cliente que busca modificar y los datos:</p>
 								<h:panelGrid columns="3"> 
 									<h:outputText value="Identificador del cliente: " styleClass="info-campo"/>
-									<h:inputText id="identMod" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}"/>
+									<h:inputText id="identMod" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}" styleClass="entrada"/>
 									<h:message for="identMod" styleClass="info-campo"/>
 
 									<h:outputText value="Nuevo pais: " styleClass="info-campo"/>
-									<h:inputText id="pais1Mod" value="#{admin.pais1}"/>
+									<h:inputText id="pais1Mod" value="#{admin.pais1}" styleClass="entrada"/>
 									<h:message for="pais1Mod" styleClass="info-campo"/>
 
 									<h:outputText value="Nueva fecha de baja: " styleClass="info-campo"/>
-									<h:inputText id="fecha1Mod" value="#{admin.fecha1}"/>
+									<h:inputText id="fecha1Mod" value="#{admin.fecha1}" styleClass="entrada"/>
 									<h:message for="fecha1Mod" styleClass="info-campo"/>
 
 									<h:outputText value="Nueva ciudad: " styleClass="info-campo"/>
-									<h:inputText id="ciudad1Mod" value="#{admin.ciudad1}"/>
+									<h:inputText id="ciudad1Mod" value="#{admin.ciudad1}" styleClass="entrada"/>
 									<h:message for="ciudad1Mod" styleClass="info-campo"/>
 
 									<h:outputText value="Nueva direccion: " styleClass="info-campo"/>
-									<h:inputText id="dir1Mod" value="#{admin.dir1}"/>
+									<h:inputText id="dir1Mod" value="#{admin.dir1}" styleClass="entrada"/>
 									<h:message for="dir1Mod" styleClass="info-campo"/>
 
 									<h:outputText value="Nuevo codigo postal: " styleClass="info-campo"/>
-									<h:inputText id="cp1Mod" value="#{admin.cp1}"/>
+									<h:inputText id="cp1Mod" value="#{admin.cp1}" styleClass="entrada"/>
 									<h:message for="cp1Mod" styleClass="info-campo"/>
 								</h:panelGrid>
 								<div style="display: inline">
-									<h:commandButton styleClass="button" id="modificar" value="Modificar" action="#{admin.darBaja()}"/>
+									<h:commandButton id="modificar" value="Modificar" action="#{admin.darBaja()}" styleClass="button"/>
 									<button onclick="cerrar('Mod');return false">Cancelar</button>
 								</div>
 
@@ -228,12 +228,12 @@
 
 								<h:panelGrid columns="3"> -->
 									<h:outputText value="Identificador del cliente: " styleClass="info-campo"/>
-									<h:inputText id="identBaja" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}"/>
+									<h:inputText id="identBaja" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}" styleClass="entrada"/>
 									<h:message for="identBaja" styleClass="info-campo"/>
 								</h:panelGrid>
 									
 								<div style="display: inline">
-									<h:commandButton styleClass="button" id="darBaja" value="Dar de Baja" action="#{admin.darBaja()}"/>
+									<h:commandButton id="darBaja" value="Dar de Baja" action="#{admin.darBaja()}" styleClass="button"/>
 									<button onclick="cerrar('Baja');return false">Cancelar</button>
 								</div>
 								
@@ -253,9 +253,9 @@
 
 						<button onclick="mostrar('AA')">Aperturar Cuenta Agrupada</button>
 
-						<button onclick="mostrar('AS')">Aperturar Cuenta Segregada</button>
+						<button onclick="mostrar('AS'); cerrar('Cer'); cerrar('AA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('EPA');  cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Aperturar Cuenta Segregada</button>
 
-						<button onclick="mostrar('Cer')">Cerrar Cuenta</button>
+						<button onclick="mostrar('Cer'); cerrar('AA'); cerrar('AS'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('EPA');  cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Cerrar Cuenta</button>
 
 						<div class="MostrarCuentas" style="display:none" >
 
@@ -305,16 +305,16 @@
 
 								<h:panelGrid columns="3">
 									<h:outputText value="IBAN de la cuenta: " styleClass="info-campo"/>
-									<h:inputText id="ibanAA" required="true" requiredMessage="Valor obligatorio" value="#{admin.iban}"/>
+									<h:inputText id="ibanAA" required="true" requiredMessage="Valor obligatorio" value="#{admin.iban}" styleClass="entrada"/>
 									<h:message for="ibanAA" styleClass="info-campo"/>
 			
 									<h:outputText value="Identificador del cliente: " styleClass="info-campo"/>
-									<h:inputText id="identAA" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}"/>
+									<h:inputText id="identAA" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}" styleClass="entrada"/>
 									<h:message for="identAA" styleClass="info-campo"/>
 								</h:panelGrid>
 								
 								<div style="display: inline">
-									<h:commandButton styleClass="button" id="AA" value="Apeturar" action="#{admin.aperturaCuentaAgrup()}"/>
+									<h:commandButton id="AA" value="Apeturar" action="#{admin.aperturaCuentaAgrup()}" styleClass="button"/>
 									<button onclick="cerrar('AA');return false">Cancelar</button>
 								</div>
 
@@ -329,19 +329,19 @@
 
 								<h:panelGrid columns="3">
 									<h:outputText value="IBAN de la cuenta: " styleClass="info-campo"/>
-									<h:inputText id="ibanAS" required="true" requiredMessage="Valor obligatorio" value="#{admin.iban}"/>
+									<h:inputText id="ibanAS" required="true" requiredMessage="Valor obligatorio" value="#{admin.iban}" styleClass="entrada"/>
 									<h:message for="ibanAS" styleClass="info-campo"/>
 									
 									<h:outputText value="Identificador del cliente: " styleClass="info-campo"/>
-									<h:inputText id="identAS" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}"/>
+									<h:inputText id="identAS" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}" styleClass="entrada"/>
 									<h:message for="identAS" styleClass="info-campo"/>
 									
 									<h:outputText value="IBAN de la Cuenta Referencia: " styleClass="info-campo"/>
-									<h:inputText id="ibanRef" required="true" requiredMessage="Valor obligatorio" value="#{admin.ibanRef}"/>
+									<h:inputText id="ibanRef" required="true" requiredMessage="Valor obligatorio" value="#{admin.ibanRef}" styleClass="entrada"/>
 									<h:message for="ibanRef" styleClass="info-campo"/>
 								</h:panelGrid>
 								
-								<h:commandButton styleClass="button" id="aperturaSegreg" value="Aperturar" action="#{admin.aperturaCuentaSegreg()}"/>
+								<h:commandButton  id="aperturaSegreg" value="Aperturar" action="#{admin.aperturaCuentaSegreg()}" styleClass="button"/>
 								<button onclick="cerrar('AS');return false">Cancelar</button>
 
 							</h:form>
@@ -355,12 +355,12 @@
 
 								<h:panelGrid columns="3">
 									<h:outputText value="IBAN de la cuenta: " styleClass="info-campo"/>
-									<h:inputText id="ibanCer" required="true" requiredMessage="Valor obligatorio" value="#{admin.iban}"/>
+									<h:inputText id="ibanCer" required="true" requiredMessage="Valor obligatorio" value="#{admin.iban}" styleClass="entrada"/>
 									<h:message for="ibanCer" styleClass="info-campo"/>
 								</h:panelGrid>
 								
 								<div style="display: inline">
-									<h:commandButton styleClass="button" id="cerra" value="Cerrar" action="#{admin.cerrarCuenta()}"/>
+									<h:commandButton id="cerra" value="Cerrar" action="#{admin.cerrarCuenta()}" styleClass="button"/>
 									<button onclick="cerrar('Cer');return false">Cancelar</button>
 								</div>
 
@@ -375,11 +375,11 @@
 
 						<h2>Administrar autorizaciones</h2>
 
-						<button onclick="mostrar('APA')">Añadir Persona Autorizada</button>
+						<button onclick="mostrar('APA'); cerrar('MPA'); cerrar('EPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Añadir Persona Autorizada</button>
 						
-						<button onclick="mostrar('MPA')">Modificar Persona Autorizada</button>
+						<button onclick="mostrar('MPA');  cerrar('APA'); cerrar('EPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Modificar Persona Autorizada</button>
 
-						<button onclick="mostrar('EPA')">Eliminar Persona Autorizada</button>
+						<button onclick="mostrar('EPA');  cerrar('MPA'); cerrar('MPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Eliminar Persona Autorizada</button>
 
 						<div class="APA" style="display:none">
 
@@ -389,20 +389,20 @@
 								
 								<h:panelGrid columns="3">
 									<h:outputText value="Identificador de la empresa: " styleClass="info-campo"/>
-									<h:inputText id="idEmpAPA" required="true" requiredMessage="Valor obligatorio" value="#{admin.idEmp}"/>
+									<h:inputText id="idEmpAPA" required="true" requiredMessage="Valor obligatorio" value="#{admin.idEmp}" styleClass="entrada"/>
 									<h:message for="idEmpAPA" styleClass="info-campo"/>
 									
 									<h:outputText value="Identificador de la persona a autorizar: " styleClass="info-campo"/>
-									<h:inputText id="idPerAPA" required="true" requiredMessage="Valor obligatorio" value="#{admin.idPer}"/>
+									<h:inputText id="idPerAPA" required="true" requiredMessage="Valor obligatorio" value="#{admin.idPer}" styleClass="entrada"/>
 									<h:message for="idPerAPA" styleClass="info-campo"/>
 									
 									<h:outputText value="Tipo de autorizacion: " styleClass="info-campo"/>
-									<h:inputText id="tipoAPA" required="true" requiredMessage="Valor obligatorio" value="#{admin.tipo}"/>
+									<h:inputText id="tipoAPA" required="true" requiredMessage="Valor obligatorio" value="#{admin.tipo}" styleClass="entrada"/>
 									<h:message for="tipoAPA" styleClass="info-campo"/>
 								</h:panelGrid>
 								
 								<div style="display: inline">
-									<h:commandButton styleClass="button" id="addAutor" value="Añadir" action="#{admin.addAutorizado()}"/>
+									<h:commandButton id="addAutor" value="Añadir" action="#{admin.addAutorizado()}" styleClass="button"/>
 									<button onclick="cerrar('APA');return false">Cancelar</button>
 								</div>
 
@@ -415,23 +415,23 @@
 							<p>Indique la persona autorizada a modificar:</p>	
 							<h:panelGrid columns="3"> 
 								<h:outputText value="Identificador de la Persona Autorizada: " styleClass="info-campo"/>
-								<h:inputText id="identModPer" required="true" requiredMessage="Valor obligatorio" value="#{admin.idPer}"/>
+								<h:inputText id="identModPer" required="true" requiredMessage="Valor obligatorio" value="#{admin.idPer}" styleClass="entrada"/>
 								<h:message for="identModPer" styleClass="info-campo"/>
 
 								<h:outputText value="Nueva fecha de baja: " styleClass="info-campo"/>
-								<h:inputText id="fechaFinModPer" value="#{admin.fechaFin}"/>
+								<h:inputText id="fechaFinModPer" value="#{admin.fechaFin}" styleClass="entrada"/>
 								<h:message for="fechaFinModPer" styleClass="info-campo"/>
 
 								<h:outputText value="Nuevo estado: " styleClass="info-campo"/>
-								<h:inputText id="estadoPAModPer" value="#{admin.estadoPA}"/>
+								<h:inputText id="estadoPAModPer" value="#{admin.estadoPA}" styleClass="entrada"/>
 								<h:message for="estadoPAModPer" styleClass="info-campo"/>
 
 								<h:outputText value="Nueva direccion: " styleClass="info-campo"/>
-								<h:inputText id="dir2ModPer" value="#{admin.dir2}"/>
+								<h:inputText id="dir2ModPer" value="#{admin.dir2}" styleClass="entrada"/>
 								<h:message for="dir2ModPer" styleClass="info-campo"/>
 							</h:panelGrid>
 							<div style="display: inline">
-								<h:commandButton styleClass="button" id="modificarAutor" value="Modificar" action="#{admin.modificarAutorizado()}"/>
+								<h:commandButton id="modificarAutor" value="Modificar" action="#{admin.modificarAutorizado()}" styleClass="button"/>
 								<button onclick="cerrar('MPA');return false">Cancelar</button>
 							</div>
 
@@ -445,16 +445,16 @@
 								
 								<h:panelGrid columns="3">
 									<h:outputText value="Identificador de la empresa: " styleClass="info-campo"/>
-									<h:inputText id="idEmpE" required="true" requiredMessage="Valor obligatorio" value="#{admin.idEmp}"/>
+									<h:inputText id="idEmpE" required="true" requiredMessage="Valor obligatorio" value="#{admin.idEmp}" styleClass="entrada"/>
 									<h:message for="idEmpE" styleClass="info-campo"/>
 									
 									<h:outputText value="Identificador de la persona a autorizar: " styleClass="info-campo"/>
-									<h:inputText id="idPerE" required="true" requiredMessage="Valor obligatorio" value="#{admin.idPer}"/>
+									<h:inputText id="idPerE" required="true" requiredMessage="Valor obligatorio" value="#{admin.idPer}" styleClass="entrada"/>
 									<h:message for="idPerE" styleClass="info-campo"/>
 								</h:panelGrid>
 								
 								<div style="display: inline">
-									<h:commandButton styleClass="button" id="eliminarAutor" value="Eliminar" action="#{admin.eliminarAutorizado()}"/>
+									<h:commandButton id="eliminarAutor" value="Eliminar" action="#{admin.eliminarAutorizado()}" styleClass="button"/>
 									<button onclick="cerrar('EPA');return false">Cancelar</button>
 								</div>
 
@@ -468,15 +468,15 @@
 
 						<h2>Generar Informes regulatorios</h2>
 
-						<button onclick="mostrar('HOLANDA')">Paises Bajos</button>
+						<button onclick="mostrar('HOLANDA'); cerrar('APA'); cerrar('MPA'); cerrar('EPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS')">Paises Bajos</button>
 						
-						<button onclick="mostrar('ALEMANIA')">Alemania</button>
+						<button onclick="mostrar('ALEMANIA'); cerrar('APA'); cerrar('MPA'); cerrar('EPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS')">Alemania</button>
 
 						<div class="ALEMANIA" style="display:none">
 							
     					<h:form id="fALEMANIA">
-       						<h:commandButton styleClass="button" id="aSem" value="Semanal" action="#{infal.descargaSemanal()}"/>
-							<h:commandButton styleClass="button" id="aMen" value="Mensual" action="#{infal.descargaMensual()}"/>
+       						<h:commandButton id="aSem" value="Semanal" action="#{infal.descargaSemanal()}" styleClass="button"/>
+							<h:commandButton id="aMen" value="Mensual" action="#{infal.descargaMensual()}" styleClass="button" />
 							<button onclick="cerrar('ALEMANIA');return false">Cancelar</button>
 						</h:form>
 
@@ -487,7 +487,7 @@
 					</c:when>
 					
 					<c:otherwise>
-						<p>NO TIENE PERMISO DE ENTRAR AQUÍ >:(((</p>
+						<p>NO TIENE PERMISO DE ENTRAR AQUÍ</p>
 					</c:otherwise>
 					
 				</c:choose>

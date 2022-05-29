@@ -21,7 +21,7 @@ import javax.persistence.TemporalType;
 @Table(name="PERSONAAUTORIZADA")
 public class PersonaAutorizada {
     
-	@JsonbTransient
+	
     @Id @GeneratedValue
     private Long id;
 	@JsonbTransient
@@ -72,6 +72,7 @@ public class PersonaAutorizada {
 
     }
 
+    @JsonbTransient
     public Long getID() {
         return this.id;
     }

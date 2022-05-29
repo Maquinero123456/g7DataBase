@@ -156,6 +156,19 @@ button{
     transition: all .3s linear;
 }
 
+.button{
+    display: inline-block;
+    margin: 1rem;
+    padding: .8rem 3rem;
+    border-radius: 5rem;
+    background: var(--degradado);
+    font-size: 2.5rem;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+    transition: all .3s linear;
+}
+
 .mostrarButtons .mostrar{
     display: inline-block;
     margin: 1rem;
@@ -176,6 +189,17 @@ button{
 
 button:hover{
     transform: scale(1.1);
+}
+
+.entrada{
+    font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
+    display: inline-block;
+    font-size: large;
+    border-radius: 5rem;
+    border: 0;
+    width: 200px;
+    height: 30px;
+    padding-left: 10px;
 }
 
 /*ADAPTACIONES EN FUNCION DEL TAMAÑO DEL DISPOSITIVO*/
