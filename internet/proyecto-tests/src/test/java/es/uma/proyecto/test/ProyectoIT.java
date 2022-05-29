@@ -60,69 +60,59 @@ public class ProyectoIT {
 		driver.quit();
 	}
 	
-	@SuppressWarnings("deprecation")
-	@Requisitos({"RF10"})
 	@Test
-	/**
-	 * Test para comprobar un correcto inicio de sesión por parte de un usuario normal 
-	 * En este caso, un cliente individual
-	 */
-	public void iniciarSesion() {
+	public void iniciarSesionAdmin() {
 		driver.get("http://0.0.0.0:8080/proyecto-war/");
-		driver.manage().window().setSize(new Dimension(790, 866));
+		driver.manage().window().setSize(new Dimension(670, 734));
 		driver.findElement(By.id("login:user")).click();
 		driver.findElement(By.id("login:user")).sendKeys("ponciano");
 		driver.findElement(By.id("login:pass")).sendKeys("ponciano");
 		driver.findElement(By.id("login:botonLogin")).click();
-		assertThat(driver.findElement(By.cssSelector("i")).getText(), is("Ponciano"));
+		assertThat(driver.findElement(By.cssSelector("h3 > span")).getText(), is("ADMINISTRADORES"));
 	}
-	
-	@SuppressWarnings("deprecation")
-	@Requisitos({"RF10"})
 	@Test
-	/**
-	 * Test para comprobar un incorrecto inicio de sesion con la contraseña que no es
-	 * En este caso, un cliente individual
-	 */
-	public void iniciarSesionPasswordMal() {
-		driver.get("http://0.0.0.0:8080/proyecto-war/");
-		driver.manage().window().setSize(new Dimension(790, 866));
-		driver.findElement(By.id("login:user")).click();
-		driver.findElement(By.id("login:user")).sendKeys("ponciano");
-		driver.findElement(By.id("login:pass")).sendKeys("poncianoNoEs");
-		driver.findElement(By.id("login:botonLogin")).click();
-		driver.findElement(By.id("login:passwordMessage")).click();
-		driver.findElement(By.cssSelector(".mensajes:nth-child(4)")).click();
-		assertThat(driver.findElement(By.id("login:passwordMessage")).getText(), is("La contraseña no coincide"));
-	}
-
-	@SuppressWarnings("deprecation")
-	@Requisitos({"RF10"})
-	@Test
-	/**
-	 * Test para comprobar un incorrecto inicio de sesion 
-	 * Cuando no se colocan los valores obligatorios
-	 */
-	public void iniciarSesionCamposVacios() {
+	public void inciarSesionCamposVacios() {
 		driver.get("http://0.0.0.0:8080/proyecto-war/");
 		driver.manage().window().setSize(new Dimension(790, 866));
 		driver.findElement(By.id("login:botonLogin")).click();
 		assertThat(driver.findElement(By.id("login:userMessage")).getText(), is("Valor obligatorio"));
 		assertThat(driver.findElement(By.id("login:passwordMessage")).getText(), is("Valor obligatorio"));
 	}
-
-	@SuppressWarnings("deprecation")
 	@Test
-	public void iniciarSesionNoExisteUsuario() {
+	public void iniciarSesionNoAdmin() {
 		driver.get("http://0.0.0.0:8080/proyecto-war/");
 		driver.manage().window().setSize(new Dimension(790, 866));
 		driver.findElement(By.id("login:user")).click();
-		driver.findElement(By.id("login:user")).sendKeys("Inventado");
-		driver.findElement(By.id("login:pass")).sendKeys("asdasd");
+		driver.findElement(By.id("login:user")).sendKeys("juan");
+		driver.findElement(By.id("login:pass")).sendKeys("juan");
+		driver.findElement(By.cssSelector("p")).click();
 		driver.findElement(By.id("login:botonLogin")).click();
-		assertThat(driver.findElement(By.id("login:userMessage")).getText(), is("La cuenta indicada no existe"));
+		driver.findElement(By.cssSelector("p:nth-child(1)")).click();
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(1)")).getText(), is("BUENAS TARDES INDIVIDUAL JUAN ¿QUÉ ACCIÓN REALIZARÁ?"));
 	}
-
+	@Test
+	public void iniciarSesionPasswordMal() {
+		driver.get("http://0.0.0.0:8080/proyecto-war/");
+		driver.manage().window().setSize(new Dimension(790, 866));
+		driver.findElement(By.id("login:user")).click();
+		driver.findElement(By.id("login:user")).sendKeys("ponciano");
+		driver.findElement(By.id("login:pass")).sendKeys("asdsa");
+		driver.findElement(By.id("login:botonLogin")).click();
+		driver.findElement(By.cssSelector(".intro-contr")).click();
+		assertThat(driver.findElement(By.id("login:passwordMessage")).getText(), is("La contraseña no coincide"));
+	}
+	@Test
+	public void iniciarSesionUsuarioNoExiste() {
+		driver.get("http://0.0.0.0:8080/proyecto-war/");
+		driver.manage().window().setSize(new Dimension(790, 866));
+		driver.findElement(By.id("login:user")).click();
+		driver.findElement(By.id("login:user")).sendKeys("adsfasf");
+		driver.findElement(By.id("login:pass")).click();
+		driver.findElement(By.id("login:pass")).sendKeys("fdasfa");
+		driver.findElement(By.id("login:botonLogin")).click();
+		driver.findElement(By.cssSelector(".intro-usu")).click();
+		assertThat(driver.findElement(By.id("login:userMessage")).getText(), is("La cuenta no existe"));
+	}
 	@SuppressWarnings("deprecation")
 	@Test
 	public void registro() {
@@ -219,8 +209,8 @@ public class ProyectoIT {
 		driver.findElement(By.id("mostrarCuentasRef:iban")).click();
 		driver.findElement(By.id("mostrarCuentasRef:iban")).sendKeys("VG57DDVS5173214964983931");
 		driver.findElement(By.id("mostrarCuentasRef:mostrarCuentas")).click();
-		assertThat(driver.findElement(By.cssSelector("p:nth-child(4) > i")).getText(), is("Bancos Pablo SA"));
-		assertThat(driver.findElement(By.cssSelector("p:nth-child(10) > i")).getText(), is("Dolar"));
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(4) > i")).getText(), is("BANCOS PABLO SA"));
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(10) > i")).getText(), is("DOLAR"));
 		assertThat(driver.findElement(By.cssSelector("p:nth-child(2) > i")).getText(), is("VG57DDVS5173214964983931"));
   	}
 
@@ -236,10 +226,10 @@ public class ProyectoIT {
 		driver.findElement(By.id("mostrarCuentas:iban")).click();
 		driver.findElement(By.id("mostrarCuentas:iban")).sendKeys("FR5514508000502273293129K55");
 		driver.findElement(By.id("mostrarCuentas:mostrarCuentas")).click();
-		assertThat(driver.findElement(By.cssSelector("p:nth-child(7) > i")).getText(), is("Segregada"));
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(7) > i")).getText(), is("SEGREGADA"));
 		assertThat(driver.findElement(By.cssSelector("p:nth-child(9) > i")).getText(), is("HN47QUXH11325678769785549996"));
-		assertThat(driver.findElement(By.cssSelector("p:nth-child(6) > i")).getText(), is("No Tiene"));
-		assertThat(driver.findElement(By.cssSelector("p:nth-child(4) > i")).getText(), is("Active"));
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(6) > i")).getText(), is("NO TIENE"));
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(4) > i")).getText(), is("ACTIVE"));
 	}
 
 	@Test @SuppressWarnings("deprecation")
@@ -255,9 +245,111 @@ public class ProyectoIT {
 		driver.findElement(By.id("mostrarCuentas:iban")).sendKeys("ES8400817251647192321264");
 		driver.findElement(By.id("mostrarCuentas:mostrarCuentas")).click();
 		assertThat(driver.findElement(By.cssSelector("p:nth-child(2) > i")).getText(), is("ES8400817251647192321264"));
-		assertThat(driver.findElement(By.cssSelector("p:nth-child(8) > i")).getText(), is("{ES7121007487367264321882(Euro), GB79BARC20040134265953(Libra), VG88HBIJ4257959912673134(Dolar)}"));
-		assertThat(driver.findElement(By.cssSelector("p:nth-child(7) > i")).getText(), is("Pooled"));
-		assertThat(driver.findElement(By.cssSelector("p:nth-child(6) > i")).getText(), is("No Tiene"));
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(7) > i")).getText(), is("POOLED"));
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(6) > i")).getText(), is("NO TIENE"));
 	}
 	
+	@Test
+	public void crearEmpresa() {
+	  driver.get("http://0.0.0.0:8080/proyecto-war/");
+	  driver.manage().window().setSize(new Dimension(1919, 1048));
+	  driver.findElement(By.id("login:user")).click();
+	  driver.findElement(By.id("login:user")).sendKeys("ponciano");
+	  driver.findElement(By.id("login:pass")).sendKeys("ponciano");
+	  driver.findElement(By.id("login:botonLogin")).click();
+	  driver.findElement(By.cssSelector("div:nth-child(4) > button:nth-child(7)")).click();
+	  driver.findElement(By.id("crearEmp:identCrearEmp")).click();
+	  driver.findElement(By.id("crearEmp:identCrearEmp")).sendKeys("654321");
+	  driver.findElement(By.id("crearEmp:nombreCrearEmp")).click();
+	  driver.findElement(By.id("crearEmp:nombreCrearEmp")).sendKeys("a");
+	  driver.findElement(By.id("crearEmp:direcCrearEmp")).click();
+	  driver.findElement(By.id("crearEmp:direcCrearEmp")).sendKeys("a");
+	  driver.findElement(By.id("crearEmp:ciudadCrearEmp")).click();
+	  driver.findElement(By.id("crearEmp:ciudadCrearEmp")).sendKeys("a");
+	  driver.findElement(By.id("crearEmp:codPostCrearEmp")).click();
+	  driver.findElement(By.id("crearEmp:codPostCrearEmp")).sendKeys("a");
+	  driver.findElement(By.id("crearEmp:PaisCrearEmp")).click();
+	  driver.findElement(By.id("crearEmp:PaisCrearEmp")).sendKeys("a");
+	  driver.findElement(By.id("crearEmp:crearEmpresa")).click();
+	  driver.findElement(By.cssSelector(".content > div:nth-child(4) > button:nth-child(2)")).click();
+	  driver.findElement(By.id("mostrarCl:mostrarCliente")).click();
+	}
+	@Test
+	public void crearIndividual() {
+	  driver.get("http://0.0.0.0:8080/proyecto-war/");
+	  driver.manage().window().setSize(new Dimension(1919, 1048));
+	  driver.findElement(By.id("login:user")).click();
+	  driver.findElement(By.id("login:user")).sendKeys("ponciano");
+	  driver.findElement(By.id("login:pass")).sendKeys("ponciano");
+	  driver.findElement(By.id("login:botonLogin")).click();
+	  driver.findElement(By.cssSelector("div:nth-child(4) > button:nth-child(6)")).click();
+	  driver.findElement(By.id("fCrear:identCrearInd")).click();
+	  driver.findElement(By.id("fCrear:identCrearInd")).sendKeys("12345");
+	  driver.findElement(By.id("fCrear:identCrearInd")).sendKeys("123456");
+	  driver.findElement(By.id("fCrear:identUsuCrearInd")).click();
+	  driver.findElement(By.id("fCrear:identUsuCrearInd")).sendKeys("Usuario");
+	  driver.findElement(By.id("fCrear:nombreCrearInd")).click();
+	  driver.findElement(By.id("fCrear:nombreCrearInd")).sendKeys("Usuario");
+	  driver.findElement(By.id("fCrear:apellidosCrearInd")).click();
+	  driver.findElement(By.id("fCrear:apellidosCrearInd")).sendKeys("Usuario");
+	  driver.findElement(By.id("fCrear:fechaNacCrearInd")).click();
+	  driver.findElement(By.id("fCrear:fechaNacCrearInd")).sendKeys("12/01/2001");
+	  driver.findElement(By.id("fCrear:direcCrearInd")).click();
+	  driver.findElement(By.id("fCrear:direcCrearInd")).sendKeys("Calles");
+	  driver.findElement(By.id("fCrear:ciudadCrearInd")).click();
+	  driver.findElement(By.id("fCrear:ciudadCrearInd")).sendKeys("Madrid");
+	  driver.findElement(By.id("fCrear:codPostCrearInd")).click();
+	  driver.findElement(By.id("fCrear:codPostCrearInd")).sendKeys("29100");
+	  driver.findElement(By.id("fCrear:PaisCrearInd")).click();
+	  driver.findElement(By.id("fCrear:PaisCrearInd")).sendKeys("España");
+	  driver.findElement(By.id("fCrear:crearCliente")).click();
+	  driver.findElement(By.cssSelector(".content > div:nth-child(4) > button:nth-child(2)")).click();
+	  driver.findElement(By.id("mostrarCl:mostrarCliente")).click();
+	}
+
+	@Test @SuppressWarnings("deprecation")
+	public void bajaCliente() {
+		driver.get("http://0.0.0.0:8080/proyecto-war/");
+		driver.manage().window().setSize(new Dimension(929, 918));
+		driver.findElement(By.id("login:user")).click();
+		driver.findElement(By.id("login:user")).sendKeys("ponciano");
+		driver.findElement(By.id("login:pass")).sendKeys("ponciano");
+		driver.findElement(By.id("login:botonLogin")).click();
+		driver.findElement(By.cssSelector(".content > div:nth-child(4) > button:nth-child(2)")).click();
+		driver.findElement(By.id("mostrarCl:identMostrar")).click();
+		driver.findElement(By.id("mostrarCl:identMostrar")).sendKeys("P3310693A");
+		driver.findElement(By.id("mostrarCl:mostrarCliente")).click();
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(5) > i")).getText(), is("ALTA"));
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(7) > i")).getText(), is("NO TIENE"));
+		driver.findElement(By.cssSelector("div:nth-child(5) > button:nth-child(5)")).click();
+		driver.findElement(By.id("fBaja:identBaja")).click();
+		driver.findElement(By.id("fBaja:identBaja")).sendKeys("P3310693A");
+		driver.findElement(By.id("fBaja:darBaja")).click();
+		driver.findElement(By.cssSelector(".content > div:nth-child(4) > button:nth-child(2)")).click();
+		driver.findElement(By.id("mostrarCl:mostrarCliente")).click();
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(5) > i")).getText(), is("BAJA"));
+	}
+
+	@Test @SuppressWarnings("deprecation")
+	public void altaClliente() {
+		driver.get("http://0.0.0.0:8080/proyecto-war/");
+		driver.manage().window().setSize(new Dimension(929, 918));
+		driver.findElement(By.id("login:user")).click();
+		driver.findElement(By.id("login:user")).sendKeys("ponciano");
+		driver.findElement(By.id("login:pass")).sendKeys("ponciano");
+		driver.findElement(By.id("login:botonLogin")).click();
+		driver.findElement(By.cssSelector(".content > div:nth-child(4) > button:nth-child(2)")).click();
+		driver.findElement(By.id("mostrarCl:identMostrar")).click();
+		driver.findElement(By.id("mostrarCl:identMostrar")).sendKeys("63937528N");
+		driver.findElement(By.id("mostrarCl:mostrarCliente")).click();
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(5) > i")).getText(), is("ALTA"));
+		driver.findElement(By.cssSelector("div:nth-child(5) > button:nth-child(3)")).click();
+		driver.findElement(By.id("fAlta")).click();
+		driver.findElement(By.id("fAlta:darAlta")).click();
+		driver.findElement(By.cssSelector(".content > div:nth-child(4) > button:nth-child(2)")).click();
+		driver.findElement(By.cssSelector("html")).click();
+		driver.findElement(By.id("mostrarCl:mostrarCliente")).click();
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(5) > i")).getText(), is("ALTA"));
+	}
+
 }

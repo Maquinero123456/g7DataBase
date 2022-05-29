@@ -81,7 +81,7 @@ public class InicializarBD {
         Individual client = new Individual();
         client.setIdentificacion("63937528N");
         client.setTipoCliente("Individual");
-        client.setEstado("Alta");
+        client.setEstado("Baja");
         client.setFechaAlta(utilDate);
         client.setDireccion("Calle no falsa 123");
         client.setCiudad("Serbia");
