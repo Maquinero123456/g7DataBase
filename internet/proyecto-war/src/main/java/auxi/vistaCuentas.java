@@ -1,4 +1,4 @@
-package vista;
+package auxi;
 
 import java.util.Objects;
 
@@ -184,6 +184,7 @@ public class vistaCuentas {
     }
 
     public vistaCuentas() {
+    	
     }
 
 

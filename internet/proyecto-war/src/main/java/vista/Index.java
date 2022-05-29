@@ -10,6 +10,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import auxi.vistaCuentas;
 import es.uma.proyecto.GestionAutorizados;
 import es.uma.proyecto.GestionCambioDivisa;
 import es.uma.proyecto.GestionClientes;
