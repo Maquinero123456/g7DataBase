@@ -51,7 +51,7 @@ public class informeREST {
     }
     
 	//2
-    @Path("/clients")
+    @Path("/clients")	
     @POST
     @Consumes (MediaType.APPLICATION_JSON)
     public Response clients(ClientsJson json) throws ParseException{
