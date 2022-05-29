@@ -42,7 +42,7 @@ public class Informes implements GestionInformes{
 		JsonbConfig config = new JsonbConfig().withPropertyOrderStrategy(PropertyOrderStrategy.ANY);
 		Jsonb builder = JsonbBuilder.create(config);
 		List<String> informe = new ArrayList<String>();
-		informe.add("PRODUCTOS: ");
+		informe.add("Productos: ");
 		String sentence = "SELECT cu FROM CuentaFintech cu WHERE cu.cliente.pais = :fpais";
 	    
 		Date limite = new SimpleDateFormat("yyyy-MM-dd").parse("2019-05-28");

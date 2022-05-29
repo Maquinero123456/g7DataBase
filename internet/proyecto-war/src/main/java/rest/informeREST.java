@@ -56,7 +56,11 @@ public class informeREST {
     @Consumes ({MediaType.APPLICATION_JSON, "text/plain"})
     public Response clients(ClientsJson json) throws ParseException{
     	Date prim = new SimpleDateFormat("yyyy-MM-dd").parse(json.getSearchParameters().getStartPeriod());
-    	Date fin = new SimpleDateFormat("yyyy-MM-dd").parse(json.getSearchParameters().getEndPeriod());
+    	Date fin = new SimpleDateFormat("yyyy-MM-dd").parse("2022-06-15");
+    	if(json.getSearchParameters().getEndPeriod() != null) {
+    		fin = new SimpleDateFormat("yyyy-MM-dd").parse(json.getSearchParameters().getEndPeriod());
+    	}
+    	
     	List<String> lol = informes.informeClienteFechaPaisesBajos(json.getSearchParameters().getName().getLastName(), prim, fin);
         return Response.ok(lol.toString()).build();
     }
