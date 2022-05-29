@@ -40,7 +40,6 @@ public class Informes implements GestionInformes{
 	@Override
 	public List<String> informeCuentasPaisesBajos(Boolean status, String productNumber) throws ParseException {
 		JsonbConfig config = new JsonbConfig().withPropertyOrderStrategy(PropertyOrderStrategy.ANY);
-		config.withNullValues(true);
 		Jsonb builder = JsonbBuilder.create(config);
 		List<String> informe = new ArrayList<String>();
 		informe.add("PRODUCTOS: ");
@@ -82,7 +81,6 @@ public class Informes implements GestionInformes{
 	@Override
 	public List<String> informeClientePaisesBajos(String ape, String dir, String cp) {
 		JsonbConfig config = new JsonbConfig().withPropertyOrderStrategy(PropertyOrderStrategy.ANY);
-		config.withNullValues(true);
 		Jsonb builder = JsonbBuilder.create(config);
 		List<String> informe = new ArrayList<String>();
 		informe.add("INDIVIDUALES: ");
@@ -128,7 +126,6 @@ public class Informes implements GestionInformes{
 	@Override
 	public List<String> informeClienteFechaPaisesBajos(String ape, Date alta, Date baja) {
 		JsonbConfig config = new JsonbConfig().withPropertyOrderStrategy(PropertyOrderStrategy.ANY);
-		config.withNullValues(true);
 		Jsonb builder = JsonbBuilder.create(config);
 		List<String> informe = new ArrayList<String>();
 		
