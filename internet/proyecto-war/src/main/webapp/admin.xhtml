@@ -121,7 +121,20 @@
 							</div>
 						</c:when>
 
-						<c:when test="${admin.cosaAmostrar == 'PersonaAutorizada'}">
+						<c:when test="${admin.cosaAmostrar == 'Persona'}">
+							<div class="DatosPersona" id="DatosPersona">
+								<p>Informacion de persona autorizada con identificador <i><h:outputText value="#{admin.identiPersonaMostrar}"/></i> :</p>
+								<p>ID: <i><h:outputText value="#{admin.idPersonaMostrar}"/></i></p>
+								<p>Identificador: <i><h:outputText value="#{admin.identiPersonaMostrar}"/></i></p>
+								<p>Nombre: <i><h:outputText value="#{admin.nombrePersonaMostrar}"/></i></p>
+								<p>Apellidos: <i><h:outputText value="#{admin.apellPersonaMostrar}"/></i></p>
+								<p>Direccion: <i><h:outputText value="#{admin.direccPersonaMostrar}"/></i></p>
+								<p>Fecha nacimiento: <i><h:outputText value="#{admin.fechaNacPersonaMostrar}"/></i></p>
+								<p>Estado: <i><h:outputText value="#{admin.estadoPersonaMostrar}"/></i></p>
+								<p>Fecha inicio: <i><h:outputText value="#{admin.fechaIniPersonaMostrar}"/></i></p>
+								<p>Fecha fin: <i><h:outputText value="#{admin.fechaFinPersonaMostrar}"/></i></p>
+								<p>Autorizaciones: <i><h:outputText value="#{admin.empresasPersonaMostrar}"/></i></p>
+							</div>
 						</c:when>
 
 						<c:otherwise>
@@ -375,11 +388,33 @@
 
 						<h2>Administrar autorizaciones</h2>
 
+						<button onclick="mostrar('MostrarPersona'); cerrar('MPA'); cerrar('EPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Mostrar Persona Autorizada</button>
+
 						<button onclick="mostrar('APA'); cerrar('MPA'); cerrar('EPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Añadir Persona Autorizada</button>
 						
 						<button onclick="mostrar('MPA');  cerrar('APA'); cerrar('EPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Modificar Persona Autorizada</button>
 
 						<button onclick="mostrar('EPA');  cerrar('MPA'); cerrar('MPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Eliminar Persona Autorizada</button>
+
+						<div class="MostrarPersona" style="display:none" >
+
+							<h:form id="mostrarPersona">
+
+								<p>Indique el identificador de la persona a mostrar:</p>
+
+								<h:panelGrid columns="3"> 
+									<div>
+										<h:outputText value="Identificador de la persona: " styleClass="info-campo"/>
+										<h:inputText id="persMostrar" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}"/>
+										<h:message for="persMostrar" styleClass="info-campo"/>
+									</div>
+								</h:panelGrid>
+								<div class="mostrarButtons" style="display: inline">
+									<h:commandButton styleClass="mostrar" id="mostrarCuentas" value="Mostrar" action="#{admin.mostrarPersonaAutorizada()}"/>
+									<button onclick="cerrar('MostrarPersona');cerrar('mostrarPersona');return false">Cancelar</button>
+								</div>
+							</h:form>
+						</div>
 
 						<div class="APA" style="display:none">
 

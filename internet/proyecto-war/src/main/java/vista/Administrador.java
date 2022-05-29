@@ -13,10 +13,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
 import es.uma.proyecto.GestionAdministrativos;
+import es.uma.proyecto.GestionAutorizados;
 import es.uma.proyecto.GestionClientes;
 import es.uma.proyecto.GestionCuentas;
 import es.uma.proyecto.GestionCuentasUsuarios;
 import es.uma.proyecto.GestionInformes;
+import es.uma.proyecto.entidades.Autorizacion;
 import es.uma.proyecto.entidades.Cliente;
 import es.uma.proyecto.entidades.CuentaFintech;
 import es.uma.proyecto.entidades.CuentaReferencia;
@@ -48,7 +50,10 @@ public class Administrador {
     private GestionInformes informes;
 	@EJB
 	private GestionCuentas bCuentas;
-	
+	@EJB
+	private GestionAutorizados autorizados;
+
+
 	@Inject
 	private InfoSesion sesion;
 
@@ -97,6 +102,18 @@ public class Administrador {
 	private String fechaRefCuentaMostrada;
 	private String estadoRefCuentaMostrada;
 	private String divisaCuentaMostrada;
+
+	//Persona Autorizada
+	private String idPersonaMostrar;
+	private String identiPersonaMostrar;
+	private String nombrePersonaMostrar;
+	private String apellPersonaMostrar;
+	private String direccPersonaMostrar;
+	private String fechaNacPersonaMostrar;
+	private String estadoPersonaMostrar;
+	private String fechaIniPersonaMostrar;
+	private String fechaFinPersonaMostrar;
+	private String empresasPersonaMostrar;
 
 
 	//Cosa a mostrar
@@ -370,6 +387,54 @@ public class Administrador {
 		} catch (NullPointerException e){
 			FacesMessage fm = new FacesMessage("La cuenta solicitada no existe o es CuentaReferencia.");
 	        FacesContext.getCurrentInstance().addMessage("administrador:ibanMostrar", fm);
+		}
+	}
+
+	public void mostrarPersonaAutorizada(){
+		try{
+			PersonaAutorizada pers = autorizados.getPersonaAutorizada(ident);
+			cosaAmostrar = "Persona";
+			idPersonaMostrar = String.valueOf(pers.getID());
+			identiPersonaMostrar = pers.getIdentificacion();
+			nombrePersonaMostrar = pers.getNombre();
+			apellPersonaMostrar = pers.getNombre();
+			direccPersonaMostrar = pers.getDireccion();
+			if(pers.getFechaNacimiento()==null){
+				fechaNacPersonaMostrar = "No tiene";
+			}else{
+				fechaNacPersonaMostrar = pers.getFechaNacimiento().toString();
+			}
+
+			if(pers.getEstado()!=null && pers.getEstado().equalsIgnoreCase("Alta")){
+				estadoPersonaMostrar = "Active";
+			}else{
+				estadoPersonaMostrar = "Not Active";
+			}
+
+			if(pers.getFechaInicio()==null){
+				fechaIniPersonaMostrar = "No tiene";
+			}else{
+				fechaIniPersonaMostrar = pers.getFechaInicio().toString();
+			}
+
+			if(pers.getFechaFin()==null){
+				fechaFinPersonaMostrar = "No tiene";
+			}else{
+				fechaFinPersonaMostrar = pers.getFechaFin().toString();
+			}
+			StringBuilder sb = new StringBuilder();
+			sb.append("{");
+			for(Autorizacion e : pers.getAutorizacion()){
+				sb.append(e.getEmpresa().getRazonSocial());
+				sb.append("("+e.getEmpresa().getIdentificacion()+")");
+				sb.append(", ");
+			}
+			sb.delete(sb.length()-2, sb.length());
+			sb.append("}");
+			empresasPersonaMostrar = sb.toString();
+		}catch (PersonaAutorizadaException e){
+			FacesMessage fm = new FacesMessage("La persona autorizada no existe");
+	        FacesContext.getCurrentInstance().addMessage("administrador:persMostrar", fm);
 		}
 	}
 
@@ -957,5 +1022,95 @@ public class Administrador {
 	public void setDivisaRefCuentaMostrada(String divisaRefCuentaMostrada) {
 		this.divisaRefCuentaMostrada = divisaRefCuentaMostrada;
 	}
+
+
+	public GestionAutorizados getAutorizados() {
+		return this.autorizados;
+	}
+
+	public void setAutorizados(GestionAutorizados autorizados) {
+		this.autorizados = autorizados;
+	}
+
+	public String getIdPersonaMostrar() {
+		return this.idPersonaMostrar;
+	}
+
+	public void setIdPersonaMostrar(String idPersonaMostrar) {
+		this.idPersonaMostrar = idPersonaMostrar;
+	}
+
+	public String getIdentiPersonaMostrar() {
+		return this.identiPersonaMostrar;
+	}
+
+	public void setIdentiPersonaMostrar(String identiPersonaMostrar) {
+		this.identiPersonaMostrar = identiPersonaMostrar;
+	}
+
+	public String getNombrePersonaMostrar() {
+		return this.nombrePersonaMostrar;
+	}
+
+	public void setNombrePersonaMostrar(String nombrePersonaMostrar) {
+		this.nombrePersonaMostrar = nombrePersonaMostrar;
+	}
+
+	public String getApellPersonaMostrar() {
+		return this.apellPersonaMostrar;
+	}
+
+	public void setApellPersonaMostrar(String apellPersonaMostrar) {
+		this.apellPersonaMostrar = apellPersonaMostrar;
+	}
+
+	public String getDireccPersonaMostrar() {
+		return this.direccPersonaMostrar;
+	}
+
+	public void setDireccPersonaMostrar(String direccPersonaMostrar) {
+		this.direccPersonaMostrar = direccPersonaMostrar;
+	}
+
+	public String getFechaNacPersonaMostrar() {
+		return this.fechaNacPersonaMostrar;
+	}
+
+	public void setFechaNacPersonaMostrar(String fechaNacPersonaMostrar) {
+		this.fechaNacPersonaMostrar = fechaNacPersonaMostrar;
+	}
+
+	public String getEstadoPersonaMostrar() {
+		return this.estadoPersonaMostrar;
+	}
+
+	public void setEstadoPersonaMostrar(String estadoPersonaMostrar) {
+		this.estadoPersonaMostrar = estadoPersonaMostrar;
+	}
+
+	public String getFechaIniPersonaMostrar() {
+		return this.fechaIniPersonaMostrar;
+	}
+
+	public void setFechaIniPersonaMostrar(String fechaIniPersonaMostrar) {
+		this.fechaIniPersonaMostrar = fechaIniPersonaMostrar;
+	}
+
+	public String getFechaFinPersonaMostrar() {
+		return this.fechaFinPersonaMostrar;
+	}
+
+	public void setFechaFinPersonaMostrar(String fechaFinPersonaMostrar) {
+		this.fechaFinPersonaMostrar = fechaFinPersonaMostrar;
+	}
+
+	public String getEmpresasPersonaMostrar() {
+		return this.empresasPersonaMostrar;
+	}
+
+	public void setEmpresasPersonaMostrar(String empresasPersonaMostrar) {
+		this.empresasPersonaMostrar = empresasPersonaMostrar;
+	}
+
 	
 }
