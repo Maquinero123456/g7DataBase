@@ -96,7 +96,9 @@ public class Index {
 		if(sesion.getUsuario().getCliente()!=null){
 			aux.addAll(sesion.getUsuario().getCliente().getCuentas());
 		}
-
+		if(aux.isEmpty()){
+			return cuentasBancarias;
+		}
 		for(CuentaFintech e : aux){
 			if(e.getClasificacion().equals("Pooled")){
 				vistaCuentas aux2 = new vistaCuentas();
