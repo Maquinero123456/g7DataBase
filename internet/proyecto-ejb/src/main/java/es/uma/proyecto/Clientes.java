@@ -84,6 +84,21 @@ public class Clientes implements GestionClientes{
         return cli;
     }
 
+    @Override
+    public void crearIndividual(Individual ind) throws IndividualException{
+        Query query = em.createQuery("SELECT cl from Empresa cl WHERE cl.identificacion = :fidentificacion");
+		query.setParameter("fidentificacion", ind.getIdentificacion()); 
+        Individual cli = null;
+        try{
+            cli = (Individual) query.getSingleResult();
+        }catch(NoResultException e){
+            em.persist(ind);
+        }
+        if(cli!=null){
+            throw new IndividualException("Cliente ya existe");
+        }
+    }
+
 
     @Override
     public Individual getIndividual(String identificacion) throws ClienteException{

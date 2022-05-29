@@ -21,6 +21,8 @@ public interface GestionClientes {
 
     public Empresa getEmpresa(String identificacion) throws EmpresaException;
 
+    public void crearIndividual(Individual ind) throws IndividualException;
+
     public Individual getIndividual(String identificacion) throws ClienteException;
 
     public List<Individual> getIndividualNombre(String nombre, String apellido) throws IndividualException;

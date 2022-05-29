@@ -38,7 +38,9 @@ import es.uma.proyecto.exceptions.CuentaException;
 import es.uma.proyecto.exceptions.CuentaRefException;
 import es.uma.proyecto.exceptions.DivisaException;
 import es.uma.proyecto.exceptions.EmpresaException;
+import es.uma.proyecto.exceptions.IndividualException;
 import es.uma.proyecto.exceptions.PersonaAutorizadaException;
+import es.uma.proyecto.exceptions.UsuarioException;
 
 @Named(value = "admin")
 @RequestScoped
@@ -58,6 +60,7 @@ public class Administrador {
 	private GestionAutorizados autorizados;
 	@EJB
 	private GestionCambioDivisa cDivisa;
+
 
 	@Inject
 	private InfoSesion sesion;
@@ -154,8 +157,8 @@ public class Administrador {
 	// Atributos crearCliente
 	private String nombre;
 	private String apellidos;
-	private Date fechaNacimiento;
-	private Date fechaBaja;
+	private String fechaNacimiento;
+	private String fechaBaja;
 	private String pais2;
 	private String fecha2;
 	private String ciudad2;
@@ -163,6 +166,8 @@ public class Administrador {
 	private String cp2;
 	
 	private String abrevDivisa;
+
+	private String usuarioCrearCliente;
 
 	public Administrador() {
     }
@@ -1206,12 +1211,59 @@ public class Administrador {
 
 	public void crearClienteIndividual(){ //INCOMPLETO
 		Individual ind = new Individual();
+		ind.setIdentificacion(ident);
+		Usuario aux = null;
+		try {
+			aux = cuentas.getUsuario(usuarioCrearCliente);
+		} catch (UsuarioException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ind.setUsuario(aux);
 		ind.setNombre(nombre);
 		ind.setApellidos(apellidos);
-		ind.setCiudad(ciudad2);
-		ind.setPais(pais2);
+		if(!fechaNacimiento.equals("")){
+			try {
+				ind.setFechaNacimiento(new SimpleDateFormat("yyyy-MM-dd").parse(fechaNacimiento));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else{
+			ind.setFechaNacimiento(null);
+		}
+		
 		ind.setDireccion(dir3);
+		ind.setCiudad(ciudad2);
 		ind.setCodigoPostal(cp2);
+		ind.setPais(pais2);
+		if(!fechaBaja.equals("")){
+			try {
+				ind.setFechaBaja(new SimpleDateFormat("yyyy-MM-dd").parse(fechaBaja));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		}else{
+			ind.setFechaBaja(null);
+		}
+		ind.setEstado("Active");
+		try {
+			ind.setFechaAlta(new SimpleDateFormat("yyyy-MM-dd").parse("2020-05-28"));
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		System.out.println(ind.toString());
+		ind.setTipoCliente("Individual");
+		try {
+			clientes.crearIndividual(ind);
+		} catch (IndividualException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	public String getNombre() {
@@ -1230,21 +1282,30 @@ public class Administrador {
 		this.apellidos = apellidos;
 	}
 
-	public Date getFechaNacimiento() {
+	public String getFechaNacimiento() {
 		return this.fechaNacimiento;
 	}
 
-	public void setFechaNacimiento(Date fechaNacimiento) {
+	public void setFechaNacimiento(String fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
-	public Date getFechaBaja() {
+	public String getFechaBaja() {
 		return this.fechaBaja;
 	}
 
-	public void setFechaBaja(Date fechaBaja) {
+	public void setFechaBaja(String fechaBaja) {
 		this.fechaBaja = fechaBaja;
 	}
+
+	public String getUsuarioCrearCliente() {
+		return this.usuarioCrearCliente;
+	}
+
+	public void setUsuarioCrearCliente(String usuarioCrearCliente) {
+		this.usuarioCrearCliente = usuarioCrearCliente;
+	}
+
 
 	public String getPais2() {
 		return this.pais2;
@@ -1285,5 +1346,7 @@ public class Administrador {
 	public void setCp2(String cp2) {
 		this.cp2 = cp2;
 	}
+
+	
 	
 }
