@@ -233,7 +233,7 @@ public class Informes implements GestionInformes{
 
 
 	@Override
-	public void informeSemanalAlemania() throws IOException {
+	public void informeSemanalAlemania() throws IOException, ParseException {
 		List<String[]> informe = new ArrayList<String[]>();
 		String sentence = "SELECT cf FROM CuentaFintech cf WHERE cf.cliente.pais = :fpais AND cf.estado = :fstatus AND cf.clasificacion = :fclas";
 	    
@@ -242,13 +242,14 @@ public class Informes implements GestionInformes{
 		query.setParameter("fstatus", true);
 		query.setParameter("fclas", "segregada");
 		
+		Date limite = new SimpleDateFormat("yyyy-MM-dd").parse("2017-05-28");
 		
 		List<CuentaFintech> listCF = query.getResultList();
 		
 		for(CuentaFintech cf: listCF) {
 	    	Cliente cl = cf.getCliente();
 	    	
-	    		if((cl.getTipoCliente().equalsIgnoreCase("individual") || cl.getTipoCliente().equalsIgnoreCase("fisica")) && getFecha(cl.getFechaBaja()) > 2017) {
+	    		if((cl.getTipoCliente().equalsIgnoreCase("individual") || cl.getTipoCliente().equalsIgnoreCase("fisica")) && cl.getFechaAlta().compareTo(limite) > 0) {
 	    			Individual ind = em.find(Individual.class, cl.getID());
 	    			
 	    			if(ind.getFechaNacimiento() != null) {
@@ -281,7 +282,7 @@ public class Informes implements GestionInformes{
 	}
 	
 	@Override
-	public void informeMensualAlemania() throws IOException {
+	public void informeMensualAlemania() throws IOException, ParseException {
 		List<String[]> informe = new ArrayList<String[]>();
 		String sentence = "SELECT cf FROM CuentaFintech cf WHERE cf.cliente.pais = :fpais AND cf.clasificacion = :fclas";
 	    
@@ -289,13 +290,14 @@ public class Informes implements GestionInformes{
 		query.setParameter("fpais", "Alemania");
 		query.setParameter("fclas", "segregada");
 		
+		Date limite = new SimpleDateFormat("yyyy-MM-dd").parse("2017-05-28");
 		
 		List<CuentaFintech> listCF = query.getResultList();
 		
 		for(CuentaFintech cf: listCF) {
 	    	Cliente cl = cf.getCliente();
 	    	
-	    		if((cl.getTipoCliente().equalsIgnoreCase("individual") || cl.getTipoCliente().equalsIgnoreCase("fisica")) && getFecha(cl.getFechaBaja()) > 2017) {
+	    		if((cl.getTipoCliente().equalsIgnoreCase("individual") || cl.getTipoCliente().equalsIgnoreCase("fisica")) && cl.getFechaAlta().compareTo(limite) > 0) {
 	    			Individual ind = em.find(Individual.class, cl.getID());
 	    			
 	    			if(ind.getFechaNacimiento() != null) {

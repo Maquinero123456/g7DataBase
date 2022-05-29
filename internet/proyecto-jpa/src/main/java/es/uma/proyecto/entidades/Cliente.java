@@ -14,17 +14,17 @@ import java.util.List;
 public class Cliente {
     
     @Id @GeneratedValue
-    @JsonbTransient
     private long id;
-	@JsonbTransient
     @Column(unique=true, nullable=false)
     private String identificacion;
-	@JsonbProperty("accountType")
-    @Column(nullable=false)
-    private String tipoCliente;
-    @JsonbProperty("status")
+	
+    @JsonbProperty("activeCustomer")
     @Column(nullable=false)
     private String estado;
+    @JsonbProperty("accountType")
+    @Column(nullable=false)
+    private String tipoCliente;
+    
     @JsonbTransient
     @Column(nullable=false)
     @Temporal(TemporalType.DATE)
@@ -95,9 +95,6 @@ public class Cliente {
 
     }
 
-    public long getID() {
-        return this.id;
-    }
 
     public String getIdentificacion() {
         return this.identificacion;
@@ -175,6 +172,7 @@ public class Cliente {
 		fechaBaja = fBaja;
 	}
 
+	@JsonbTransient
     public long getId() {
         return this.id;
     }

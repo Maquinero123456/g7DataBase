@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.text.ParseException;
+
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -25,7 +27,7 @@ public class InformeAlemania implements Serializable{
     	// INSTANCIA
     }
 
-	public void descargaMensual() throws IOException { 
+	public void descargaMensual() throws IOException, ParseException { 
 		informes.informeMensualAlemania();
 		File file = new File("informeMensualAlemania.csv"); 
 		InputStream fis = new FileInputStream(file); 
@@ -45,7 +47,7 @@ public class InformeAlemania implements Serializable{
 		response.getOutputStream().close(); FacesContext.getCurrentInstance().responseComplete(); 
 	} 
 	
-	public void descargaSemanal() throws IOException { 
+	public void descargaSemanal() throws IOException, ParseException { 
 		informes.informeSemanalAlemania();
 		File file = new File("informeSemanalAlemania.csv"); 
 		InputStream fis = new FileInputStream(file); 
