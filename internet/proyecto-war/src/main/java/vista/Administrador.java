@@ -397,7 +397,7 @@ public class Administrador {
 			idPersonaMostrar = String.valueOf(pers.getID());
 			identiPersonaMostrar = pers.getIdentificacion();
 			nombrePersonaMostrar = pers.getNombre();
-			apellPersonaMostrar = pers.getNombre();
+			apellPersonaMostrar = pers.getApellidos();
 			direccPersonaMostrar = pers.getDireccion();
 			if(pers.getFechaNacimiento()==null){
 				fechaNacPersonaMostrar = "No tiene";
