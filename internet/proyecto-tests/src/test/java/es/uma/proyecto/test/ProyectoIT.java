@@ -60,69 +60,60 @@ public class ProyectoIT {
 		driver.quit();
 	}
 	
-	@SuppressWarnings("deprecation")
-	@Requisitos({"RF10"})
 	@Test
-	/**
-	 * Test para comprobar un correcto inicio de sesión por parte de un usuario normal 
-	 * En este caso, un cliente individual
-	 */
-	public void iniciarSesion() {
-		driver.get("http://0.0.0.0:8080/proyecto-war/");
+	public void iniciarSesionAdmin() {
+		driver.get("http://0.0.0.0:8080/proyecto-war//proyecto-war/");
 		driver.manage().window().setSize(new Dimension(790, 866));
 		driver.findElement(By.id("login:user")).click();
 		driver.findElement(By.id("login:user")).sendKeys("ponciano");
 		driver.findElement(By.id("login:pass")).sendKeys("ponciano");
 		driver.findElement(By.id("login:botonLogin")).click();
-		assertThat(driver.findElement(By.cssSelector("i")).getText(), is("Ponciano"));
+		driver.findElement(By.cssSelector("h3")).click();
+		assertThat(driver.findElement(By.cssSelector("h3 > span")).getText(), is("ADMINISTRADORES"));
 	}
-	
-	@SuppressWarnings("deprecation")
-	@Requisitos({"RF10"})
 	@Test
-	/**
-	 * Test para comprobar un incorrecto inicio de sesion con la contraseña que no es
-	 * En este caso, un cliente individual
-	 */
-	public void iniciarSesionPasswordMal() {
-		driver.get("http://0.0.0.0:8080/proyecto-war/");
-		driver.manage().window().setSize(new Dimension(790, 866));
-		driver.findElement(By.id("login:user")).click();
-		driver.findElement(By.id("login:user")).sendKeys("ponciano");
-		driver.findElement(By.id("login:pass")).sendKeys("poncianoNoEs");
-		driver.findElement(By.id("login:botonLogin")).click();
-		driver.findElement(By.id("login:passwordMessage")).click();
-		driver.findElement(By.cssSelector(".mensajes:nth-child(4)")).click();
-		assertThat(driver.findElement(By.id("login:passwordMessage")).getText(), is("La contraseña no coincide"));
-	}
-
-	@SuppressWarnings("deprecation")
-	@Requisitos({"RF10"})
-	@Test
-	/**
-	 * Test para comprobar un incorrecto inicio de sesion 
-	 * Cuando no se colocan los valores obligatorios
-	 */
-	public void iniciarSesionCamposVacios() {
+	public void inciarSesionCamposVacios() {
 		driver.get("http://0.0.0.0:8080/proyecto-war/");
 		driver.manage().window().setSize(new Dimension(790, 866));
 		driver.findElement(By.id("login:botonLogin")).click();
 		assertThat(driver.findElement(By.id("login:userMessage")).getText(), is("Valor obligatorio"));
 		assertThat(driver.findElement(By.id("login:passwordMessage")).getText(), is("Valor obligatorio"));
 	}
-
-	@SuppressWarnings("deprecation")
 	@Test
-	public void iniciarSesionNoExisteUsuario() {
+	public void iniciarSesionNoAdmin() {
 		driver.get("http://0.0.0.0:8080/proyecto-war/");
 		driver.manage().window().setSize(new Dimension(790, 866));
 		driver.findElement(By.id("login:user")).click();
-		driver.findElement(By.id("login:user")).sendKeys("Inventado");
-		driver.findElement(By.id("login:pass")).sendKeys("asdasd");
+		driver.findElement(By.id("login:user")).sendKeys("juan");
+		driver.findElement(By.id("login:pass")).sendKeys("juan");
+		driver.findElement(By.cssSelector("p")).click();
 		driver.findElement(By.id("login:botonLogin")).click();
-		assertThat(driver.findElement(By.id("login:userMessage")).getText(), is("La cuenta indicada no existe"));
+		driver.findElement(By.cssSelector("p:nth-child(1)")).click();
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(1)")).getText(), is("BUENAS TARDES INDIVIDUAL JUAN ¿QUÉ ACCIÓN REALIZARÁ?"));
 	}
-
+	@Test
+	public void iniciarSesionPasswordMal() {
+		driver.get("http://0.0.0.0:8080/proyecto-war/");
+		driver.manage().window().setSize(new Dimension(790, 866));
+		driver.findElement(By.id("login:user")).click();
+		driver.findElement(By.id("login:user")).sendKeys("ponciano");
+		driver.findElement(By.id("login:pass")).sendKeys("asdsa");
+		driver.findElement(By.id("login:botonLogin")).click();
+		driver.findElement(By.cssSelector(".intro-contr")).click();
+		assertThat(driver.findElement(By.id("login:passwordMessage")).getText(), is("La contraseña no coincide"));
+	}
+	@Test
+	public void iniciarSesionUsuarioNoExiste() {
+		driver.get("http://0.0.0.0:8080/proyecto-war/");
+		driver.manage().window().setSize(new Dimension(790, 866));
+		driver.findElement(By.id("login:user")).click();
+		driver.findElement(By.id("login:user")).sendKeys("adsfasf");
+		driver.findElement(By.id("login:pass")).click();
+		driver.findElement(By.id("login:pass")).sendKeys("fdasfa");
+		driver.findElement(By.id("login:botonLogin")).click();
+		driver.findElement(By.cssSelector(".intro-usu")).click();
+		assertThat(driver.findElement(By.id("login:userMessage")).getText(), is("La cuenta no existe"));
+	}
 	@SuppressWarnings("deprecation")
 	@Test
 	public void registro() {
