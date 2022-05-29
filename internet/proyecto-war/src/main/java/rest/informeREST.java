@@ -101,6 +101,9 @@ public class informeREST {
 		List<CuentaFintech> listCf = informes.informeCuentasPaisesBajos(status, json.getSearchParameters().getProductNumber());
 		
 		for(CuentaFintech cf: listCf) {
+			if(cf.getFechaCierre() == null) {
+				cf.setFechaCierre(limite);
+			}
 	   		if(cf.getFechaCierre().compareTo(limite) >= 0) {
 	   			Cliente c = cf.getCliente();
 	   			direc.setCity(c.getCiudad());
