@@ -44,7 +44,7 @@ public class Informes implements GestionInformes{
 		Jsonb builder = JsonbBuilder.create(config);
 		List<String> informe = new ArrayList<String>();
 		informe.add("Productos: ");
-		String sentence = "SELECT cu FROM CuentaFintech cu WHERE cu.cliente.pais = :fpais";
+		String sentence = "SELECT cu FROM CuentaFintech cu WHERE cu.cliente.pais LIKE :fpais";
 	    
 		Date limite = new SimpleDateFormat("yyyy-MM-dd").parse("2019-05-28");
 		
@@ -130,7 +130,7 @@ public class Informes implements GestionInformes{
 		List<String> informe = new ArrayList<String>();
 		
 		informe.add("Clientes: ");
-		String sentence = "SELECT cl FROM Cliente cl WHERE cl.pais = :fpais";
+		String sentence = "SELECT cl FROM Cliente cl WHERE cl.pais LIKE :fpais";
 	    
 		
 		Query query = em.createQuery(sentence);
@@ -161,13 +161,13 @@ public class Informes implements GestionInformes{
 		}
 	    
 		else {
-			query = em.createQuery("SELECT ind FROM Individual ind WHERE ind.pais = :fpais AND ind.apellidos LIKE :fape");
+			query = em.createQuery("SELECT ind FROM Individual ind WHERE ind.pais LIKE :fpais AND ind.apellidos LIKE :fape");
 			query.setParameter("fpais", "PaisesBajos");
 			query.setParameter("fape", ape);
-			query2 = em.createQuery("SELECT emp FROM Empresa emp, PersonaAutorizada pa WHERE emp.pais = :fpais AND pa.apellidos LIKE :fape");
+			query2 = em.createQuery("SELECT emp FROM Empresa emp, PersonaAutorizada pa WHERE emp.pais LIKE :fpais AND pa.apellidos LIKE :fape");
 			query2.setParameter("fpais", "PaisesBajos");
 			query2.setParameter("fape", ape);
-			query3 = em.createQuery("SELECT pa FROM Empresa emp, PersonaAutorizada pa WHERE emp.pais = :fpais AND pa.apellidos LIKE :fape");
+			query3 = em.createQuery("SELECT pa FROM Empresa emp, PersonaAutorizada pa WHERE emp.pais LIKE :fpais AND pa.apellidos LIKE :fape");
 			query3.setParameter("fpais", "PaisesBajos");
 			query3.setParameter("fape", ape);
 			
