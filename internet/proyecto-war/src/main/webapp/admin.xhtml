@@ -263,7 +263,7 @@
 								<p>Indique el los datos del cliente que quiere crear:</p>
 								<h:panelGrid columns="3">
 									<h:outputText value="Identificador del usuario: " styleClass="info-campo"/>
-									<h:inputText id="identCrear" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}" styleClass="entrada"/>
+									<h:inputText id="identCrea" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}" styleClass="entrada"/>
 									<h:message for="identBaja" styleClass="info-campo"/>
 
 									<h:outputText value="Usuario: " styleClass="info-campo"/>
@@ -488,6 +488,34 @@
 									<h:outputText value="Identificador de la persona a autorizar: " styleClass="info-campo"/>
 									<h:inputText id="idPerAPA" required="true" requiredMessage="Valor obligatorio" value="#{admin.idPer}" styleClass="entrada"/>
 									<h:message for="idPerAPA" styleClass="info-campo"/>
+
+									<h:outputText value="Nombre: " styleClass="info-campo"/>
+									<h:inputText id="tipoAPA1" required="true" requiredMessage="Valor obligatorio" value="#{admin.nombre}" styleClass="entrada"/>
+									<h:message for="tipoAPA" styleClass="info-campo"/>
+
+									<h:outputText value="Apellidos: " styleClass="info-campo"/>
+									<h:inputText id="tipoAPA2" required="true" requiredMessage="Valor obligatorio" value="#{admin.apellidos}" styleClass="entrada"/>
+									<h:message for="tipoAPA" styleClass="info-campo"/>
+
+									<h:outputText value="Direccion: " styleClass="info-campo"/>
+									<h:inputText id="tipoAPA3" required="true" requiredMessage="Valor obligatorio" value="#{admin.dir2}" styleClass="entrada"/>
+									<h:message for="tipoAPA" styleClass="info-campo"/>
+
+									<h:outputText value="Fecha de nacimiento: " styleClass="info-campo"/>
+									<h:inputText id="tipoAPA4" value="#{admin.fechaNac}" styleClass="entrada"/>
+									<h:message for="tipoAPA" styleClass="info-campo"/>
+
+									<h:outputText value="Estado: " styleClass="info-campo"/>
+									<h:inputText id="tipoAPA5" value="#{admin.estadoPA}" styleClass="entrada"/>
+									<h:message for="tipoAPA" styleClass="info-campo"/>
+
+									<h:outputText value="Fecha de inicio: " styleClass="info-campo"/>
+									<h:inputText id="tipoAPA6" required="false" value="#{admin.fechaInicio}" styleClass="entrada"/>
+									<h:message for="tipoAPA" styleClass="info-campo"/>
+
+									<h:outputText value="Fecha de fin: " styleClass="info-campo"/>
+									<h:inputText id="tipoAPA7" value="#{admin.fechaFin}" styleClass="entrada"/>
+									<h:message for="tipoAPA" styleClass="info-campo"/>
 									
 									<h:outputText value="Tipo de autorizacion: " styleClass="info-campo"/>
 									<h:inputText id="tipoAPA" required="true" requiredMessage="Valor obligatorio" value="#{admin.tipo}" styleClass="entrada"/>
