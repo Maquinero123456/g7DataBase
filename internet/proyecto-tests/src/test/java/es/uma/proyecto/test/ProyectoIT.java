@@ -3,8 +3,6 @@ package es.uma.proyecto.test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import es.uma.informatica.sii.anotaciones.Requisitos;
-import es.uma.proyecto.test.BaseDatos;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
@@ -21,9 +19,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
 
 public class ProyectoIT {
 	private WebDriver driver;
@@ -249,63 +245,68 @@ public class ProyectoIT {
 		assertThat(driver.findElement(By.cssSelector("p:nth-child(6) > i")).getText(), is("NO TIENE"));
 	}
 	
-	@Test
-	public void crearEmpresa() {
-	  driver.get("http://0.0.0.0:8080/proyecto-war/");
-	  driver.manage().window().setSize(new Dimension(1919, 1048));
-	  driver.findElement(By.id("login:user")).click();
-	  driver.findElement(By.id("login:user")).sendKeys("ponciano");
-	  driver.findElement(By.id("login:pass")).sendKeys("ponciano");
-	  driver.findElement(By.id("login:botonLogin")).click();
-	  driver.findElement(By.cssSelector("div:nth-child(4) > button:nth-child(7)")).click();
-	  driver.findElement(By.id("crearEmp:identCrearEmp")).click();
-	  driver.findElement(By.id("crearEmp:identCrearEmp")).sendKeys("654321");
-	  driver.findElement(By.id("crearEmp:nombreCrearEmp")).click();
-	  driver.findElement(By.id("crearEmp:nombreCrearEmp")).sendKeys("a");
-	  driver.findElement(By.id("crearEmp:direcCrearEmp")).click();
-	  driver.findElement(By.id("crearEmp:direcCrearEmp")).sendKeys("a");
-	  driver.findElement(By.id("crearEmp:ciudadCrearEmp")).click();
-	  driver.findElement(By.id("crearEmp:ciudadCrearEmp")).sendKeys("a");
-	  driver.findElement(By.id("crearEmp:codPostCrearEmp")).click();
-	  driver.findElement(By.id("crearEmp:codPostCrearEmp")).sendKeys("a");
-	  driver.findElement(By.id("crearEmp:PaisCrearEmp")).click();
-	  driver.findElement(By.id("crearEmp:PaisCrearEmp")).sendKeys("a");
-	  driver.findElement(By.id("crearEmp:crearEmpresa")).click();
-	  driver.findElement(By.cssSelector(".content > div:nth-child(4) > button:nth-child(2)")).click();
-	  driver.findElement(By.id("mostrarCl:mostrarCliente")).click();
-	}
-	@Test
-	public void crearIndividual() {
-	  driver.get("http://0.0.0.0:8080/proyecto-war/");
-	  driver.manage().window().setSize(new Dimension(1919, 1048));
-	  driver.findElement(By.id("login:user")).click();
-	  driver.findElement(By.id("login:user")).sendKeys("ponciano");
-	  driver.findElement(By.id("login:pass")).sendKeys("ponciano");
-	  driver.findElement(By.id("login:botonLogin")).click();
-	  driver.findElement(By.cssSelector("div:nth-child(4) > button:nth-child(6)")).click();
-	  driver.findElement(By.id("fCrear:identCrearInd")).click();
-	  driver.findElement(By.id("fCrear:identCrearInd")).sendKeys("12345");
-	  driver.findElement(By.id("fCrear:identCrearInd")).sendKeys("123456");
-	  driver.findElement(By.id("fCrear:identUsuCrearInd")).click();
-	  driver.findElement(By.id("fCrear:identUsuCrearInd")).sendKeys("Usuario");
-	  driver.findElement(By.id("fCrear:nombreCrearInd")).click();
-	  driver.findElement(By.id("fCrear:nombreCrearInd")).sendKeys("Usuario");
-	  driver.findElement(By.id("fCrear:apellidosCrearInd")).click();
-	  driver.findElement(By.id("fCrear:apellidosCrearInd")).sendKeys("Usuario");
-	  driver.findElement(By.id("fCrear:fechaNacCrearInd")).click();
-	  driver.findElement(By.id("fCrear:fechaNacCrearInd")).sendKeys("12/01/2001");
-	  driver.findElement(By.id("fCrear:direcCrearInd")).click();
-	  driver.findElement(By.id("fCrear:direcCrearInd")).sendKeys("Calles");
-	  driver.findElement(By.id("fCrear:ciudadCrearInd")).click();
-	  driver.findElement(By.id("fCrear:ciudadCrearInd")).sendKeys("Madrid");
-	  driver.findElement(By.id("fCrear:codPostCrearInd")).click();
-	  driver.findElement(By.id("fCrear:codPostCrearInd")).sendKeys("29100");
-	  driver.findElement(By.id("fCrear:PaisCrearInd")).click();
-	  driver.findElement(By.id("fCrear:PaisCrearInd")).sendKeys("España");
-	  driver.findElement(By.id("fCrear:crearCliente")).click();
-	  driver.findElement(By.cssSelector(".content > div:nth-child(4) > button:nth-child(2)")).click();
-	  driver.findElement(By.id("mostrarCl:mostrarCliente")).click();
-	}
+	  @Test
+  public void crearEmpresa() {
+    driver.get("http://0.0.0.0:8080/proyecto-war/");
+    driver.manage().window().setSize(new Dimension(945, 1028));
+    driver.findElement(By.id("login:user")).click();
+    driver.findElement(By.id("login:user")).sendKeys("ponciano");
+    driver.findElement(By.id("login:pass")).sendKeys("ponciano");
+    driver.findElement(By.id("login:botonLogin")).click();
+    driver.findElement(By.cssSelector("div:nth-child(4) > button:nth-child(7)")).click();
+    driver.findElement(By.id("crearEmp:identCrearEmp")).click();
+    driver.findElement(By.id("crearEmp:identCrearEmp")).sendKeys("7654321");
+    driver.findElement(By.id("crearEmp:nombreCrearEmp")).click();
+    driver.findElement(By.id("crearEmp:nombreCrearEmp")).sendKeys("1");
+    driver.findElement(By.id("crearEmp:direcCrearEmp")).click();
+    driver.findElement(By.id("crearEmp:direcCrearEmp")).sendKeys("1");
+    driver.findElement(By.id("crearEmp:ciudadCrearEmp")).click();
+    driver.findElement(By.id("crearEmp:ciudadCrearEmp")).sendKeys("1");
+    driver.findElement(By.id("crearEmp:codPostCrearEmp")).click();
+    driver.findElement(By.id("crearEmp:codPostCrearEmp")).sendKeys("1");
+    driver.findElement(By.id("crearEmp:PaisCrearEmp")).click();
+    driver.findElement(By.id("crearEmp:PaisCrearEmp")).sendKeys("1");
+    driver.findElement(By.id("crearEmp:BajaCrearEmp")).click();
+    driver.findElement(By.id("crearEmp:crearEmpresa")).click();
+    driver.findElement(By.cssSelector(".content > div:nth-child(4) > button:nth-child(2)")).click();
+    driver.findElement(By.id("mostrarCl:mostrarCliente")).click();
+    assertThat(driver.findElement(By.cssSelector("#DatosEmpresa > p:nth-child(3) > i")).getText(), is("7654321"));
+  }
+  @Test
+  public void crearIndividual() {
+    driver.get("http://0.0.0.0:8080/proyecto-war/");
+    driver.manage().window().setSize(new Dimension(945, 1028));
+    driver.findElement(By.id("login:user")).click();
+    driver.findElement(By.id("login:user")).sendKeys("ponciano");
+    driver.findElement(By.id("login:pass")).sendKeys("ponciano");
+    driver.findElement(By.id("login:botonLogin")).click();
+    driver.findElement(By.cssSelector("div:nth-child(4) > button:nth-child(6)")).click();
+    driver.findElement(By.id("fCrear:identCrearInd")).click();
+    driver.findElement(By.id("fCrear:identCrearInd")).sendKeys("1234567");
+    driver.findElement(By.id("fCrear:identUsuCrearInd")).click();
+    driver.findElement(By.id("fCrear:identUsuCrearInd")).sendKeys("1234567");
+    driver.findElement(By.id("fCrear:nombreCrearInd")).click();
+    driver.findElement(By.id("fCrear:nombreCrearInd")).sendKeys("1");
+    driver.findElement(By.id("fCrear:apellidosCrearInd")).click();
+    driver.findElement(By.id("fCrear:apellidosCrearInd")).sendKeys("1");
+    driver.findElement(By.id("fCrear:fechaNacCrearInd")).click();
+    driver.findElement(By.id("fCrear:fechaNacCrearInd")).sendKeys("1");
+    driver.findElement(By.id("fCrear:direcCrearInd")).click();
+    driver.findElement(By.id("fCrear:ciudadCrearInd")).click();
+    driver.findElement(By.id("fCrear:ciudadCrearInd")).sendKeys("1");
+    driver.findElement(By.id("fCrear:direcCrearInd")).click();
+    driver.findElement(By.id("fCrear:direcCrearInd")).sendKeys("1");
+    driver.findElement(By.id("fCrear:codPostCrearInd")).click();
+    driver.findElement(By.id("fCrear:codPostCrearInd")).sendKeys("1");
+    driver.findElement(By.id("fCrear:PaisCrearInd")).click();
+    driver.findElement(By.id("fCrear:PaisCrearInd")).sendKeys("1");
+    driver.findElement(By.id("fCrear:BajaCrearInd")).click();
+    driver.findElement(By.id("fCrear:crearCliente")).click();
+    driver.findElement(By.cssSelector(".content > div:nth-child(4) > button:nth-child(2)")).click();
+    driver.findElement(By.id("mostrarCl:mostrarCliente")).click();
+    driver.findElement(By.cssSelector("#DatosInd > p:nth-child(3) > i")).click();
+    assertThat(driver.findElement(By.cssSelector("#DatosInd > p:nth-child(3) > i")).getText(), is("1234567"));
+  }
 
 	@Test @SuppressWarnings("deprecation")
 	public void bajaCliente() {
