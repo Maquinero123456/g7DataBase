@@ -145,6 +145,17 @@ public class Administrador {
 	private String idPer;
 	private String idEmp;
 	private String tipo;
+
+	// Atributos crearCliente
+	private String nombre;
+	private String apellidos;
+	private Date fechaNacimiento;
+	private Date fechaBaja;
+	private String pais2;
+	private String fecha2;
+	private String ciudad2;
+	private String dir3;
+	private String cp2;
 	
 	public Administrador() {
     }
@@ -1112,5 +1123,86 @@ public class Administrador {
 		this.empresasPersonaMostrar = empresasPersonaMostrar;
 	}
 
+	public void crearClienteIndividual(){ //INCOMPLETO
+		Individual ind = new Individual();
+		ind.setNombre(nombre);
+		ind.setApellidos(apellidos);
+		ind.setCiudad(ciudad2);
+		ind.setPais(pais2);
+		ind.setDireccion(dir3);
+		ind.setCodigoPostal(cp2);
+	}
+
+	public String getNombre() {
+		return this.nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getApellidos() {
+		return this.apellidos;
+	}
+
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
+	}
+
+	public Date getFechaNacimiento() {
+		return this.fechaNacimiento;
+	}
+
+	public void setFechaNacimiento(Date fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	public Date getFechaBaja() {
+		return this.fechaBaja;
+	}
+
+	public void setFechaBaja(Date fechaBaja) {
+		this.fechaBaja = fechaBaja;
+	}
+
+	public String getPais2() {
+		return this.pais2;
+	}
+
+	public void setPais2(String pais2) {
+		this.pais2 = pais2;
+	}
+
+	public String getFecha2() {
+		return this.fecha2;
+	}
+
+	public void setFecha2(String fecha2) {
+		this.fecha2 = fecha2;
+	}
+
+	public String getCiudad2() {
+		return this.ciudad2;
+	}
+
+	public void setCiudad2(String ciudad2) {
+		this.ciudad2 = ciudad2;
+	}
+
+	public String getDir3() {
+		return this.dir3;
+	}
+
+	public void setDir3(String dir3) {
+		this.dir3 = dir3;
+	}
+
+	public String getCp2() {
+		return this.cp2;
+	}
+
+	public void setCp2(String cp2) {
+		this.cp2 = cp2;
+	}
 	
 }

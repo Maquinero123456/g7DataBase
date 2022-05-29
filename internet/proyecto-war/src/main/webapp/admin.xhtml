@@ -153,6 +153,8 @@
 
 						<button onclick="mostrar('Baja'); cerrar('Alta'); cerrar('Mod'); cerrar('MostrarCl'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('EPA'); cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Baja Cliente</button>
 
+						<button onclick="mostrar('Crear'); cerrar('Baja'); cerrar('Alta'); cerrar('Mod'); cerrar('MostrarCl'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('EPA'); cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Crear Cliente</button>
+
 						<div class="MostrarCl" style="display:none" >
 
 							<h:form id="mostrarCl">
@@ -248,6 +250,62 @@
 								<div style="display: inline">
 									<h:commandButton id="darBaja" value="Dar de Baja" action="#{admin.darBaja()}" styleClass="button"/>
 									<button onclick="cerrar('Baja');return false">Cancelar</button>
+								</div>
+								
+							</h:form>
+
+						</div>
+
+						<div class="Crear" style="display:none">
+
+							<h:form id="fCrear">
+
+								<p>Indique el los datos del cliente que quiere crear:</p>
+								<h:panelGrid columns="3">
+									<h:outputText value="Identificador del usuario: " styleClass="info-campo"/>
+									<h:inputText id="identCrear" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}" styleClass="entrada"/>
+									<h:message for="identBaja" styleClass="info-campo"/>
+
+									<h:outputText value="Usuario: " styleClass="info-campo"/>
+									<h:inputText id="identCrear" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}" styleClass="entrada"/>
+									<h:message for="identBaja" styleClass="info-campo"/>
+
+									<h:outputText value="Nombre del cliente: " styleClass="info-campo"/>
+									<h:inputText id="nombreCrear" required="true" requiredMessage="Valor obligatorio" value="#{admin.nombre}" styleClass="entrada"/>
+									<h:message for="nombreCrear" styleClass="info-campo"/>
+										
+									<h:outputText value="Apellidos del cliente: " styleClass="info-campo"/>
+									<h:inputText id="apellidosCrear" required="true" requiredMessage="Valor obligatorio" value="#{admin.apellidos}" styleClass="entrada"/>
+									<h:message for="apellidosCrear" styleClass="info-campo"/>
+									
+									<h:outputText value="Fecha de nacimiento del cliente: " styleClass="info-campo"/>
+									<h:inputText id="fechaNacCrear" required="true" requiredMessage="Valor obligatorio" value="#{admin.fechaNacimiento}" styleClass="entrada"/>
+									<h:message for="FechaNacCrear" styleClass="info-campo"/>
+									
+									<h:outputText value="Direccion del cliente: " styleClass="info-campo"/>
+									<h:inputText id="direcCrear" required="true" requiredMessage="Valor obligatorio" value="#{admin.dir3}" styleClass="entrada"/>
+									<h:message for="direcCrear" styleClass="info-campo"/>
+									
+									<h:outputText value="Ciudad del cliente: " styleClass="info-campo"/>
+									<h:inputText id="ciudadCrear" required="true" requiredMessage="Valor obligatorio" value="#{admin.ciudad2}" styleClass="entrada"/>
+									<h:message for="ciudadCrear" styleClass="info-campo"/>
+									
+									<h:outputText value="Codigo postal del cliente: " styleClass="info-campo"/>
+									<h:inputText id="codPostCrear" required="true" requiredMessage="Valor obligatorio" value="#{admin.cp2}" styleClass="entrada"/>
+									<h:message for="codPostCrear" styleClass="info-campo"/>
+									
+									<h:outputText value="Pais del cliente: " styleClass="info-campo"/>
+									<h:inputText id="PaisCrear" required="true" requiredMessage="Valor obligatorio" value="#{admin.pais2}" styleClass="entrada"/>
+									<h:message for="PaisCrear" styleClass="info-campo"/>
+									
+									<h:outputText value="Fecha de baja del cliente: " styleClass="info-campo"/>
+									<h:inputText id="BajaCrear" required="false" value="#{admin.fechaBaja}" styleClass="entrada"/>
+									<h:message for="BajaCrear" styleClass="info-campo"/>
+								</h:panelGrid>
+									
+								<div style="display: inline">
+									<h:commandButton id="crearCliente" value="Crear cliente" action="#" styleClass="button"/>
+									<button onclick="cerrar('Crear');return false">Cancelar</button>
 								</div>
 								
 							</h:form>
