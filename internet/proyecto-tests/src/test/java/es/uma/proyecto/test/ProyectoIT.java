@@ -307,4 +307,49 @@ public class ProyectoIT {
 	  driver.findElement(By.id("mostrarCl:mostrarCliente")).click();
 	}
 
+	@Test @SuppressWarnings("deprecation")
+	public void bajaCliente() {
+		driver.get("http://0.0.0.0:8080/proyecto-war/");
+		driver.manage().window().setSize(new Dimension(929, 918));
+		driver.findElement(By.id("login:user")).click();
+		driver.findElement(By.id("login:user")).sendKeys("ponciano");
+		driver.findElement(By.id("login:pass")).sendKeys("ponciano");
+		driver.findElement(By.id("login:botonLogin")).click();
+		driver.findElement(By.cssSelector(".content > div:nth-child(4) > button:nth-child(2)")).click();
+		driver.findElement(By.id("mostrarCl:identMostrar")).click();
+		driver.findElement(By.id("mostrarCl:identMostrar")).sendKeys("P3310693A");
+		driver.findElement(By.id("mostrarCl:mostrarCliente")).click();
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(5) > i")).getText(), is("ALTA"));
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(7) > i")).getText(), is("NO TIENE"));
+		driver.findElement(By.cssSelector("div:nth-child(5) > button:nth-child(5)")).click();
+		driver.findElement(By.id("fBaja:identBaja")).click();
+		driver.findElement(By.id("fBaja:identBaja")).sendKeys("P3310693A");
+		driver.findElement(By.id("fBaja:darBaja")).click();
+		driver.findElement(By.cssSelector(".content > div:nth-child(4) > button:nth-child(2)")).click();
+		driver.findElement(By.id("mostrarCl:mostrarCliente")).click();
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(5) > i")).getText(), is("BAJA"));
+	}
+
+	@Test @SuppressWarnings("deprecation")
+	public void altaClliente() {
+		driver.get("http://0.0.0.0:8080/proyecto-war/");
+		driver.manage().window().setSize(new Dimension(929, 918));
+		driver.findElement(By.id("login:user")).click();
+		driver.findElement(By.id("login:user")).sendKeys("ponciano");
+		driver.findElement(By.id("login:pass")).sendKeys("ponciano");
+		driver.findElement(By.id("login:botonLogin")).click();
+		driver.findElement(By.cssSelector(".content > div:nth-child(4) > button:nth-child(2)")).click();
+		driver.findElement(By.id("mostrarCl:identMostrar")).click();
+		driver.findElement(By.id("mostrarCl:identMostrar")).sendKeys("63937528N");
+		driver.findElement(By.id("mostrarCl:mostrarCliente")).click();
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(5) > i")).getText(), is("ALTA"));
+		driver.findElement(By.cssSelector("div:nth-child(5) > button:nth-child(3)")).click();
+		driver.findElement(By.id("fAlta")).click();
+		driver.findElement(By.id("fAlta:darAlta")).click();
+		driver.findElement(By.cssSelector(".content > div:nth-child(4) > button:nth-child(2)")).click();
+		driver.findElement(By.cssSelector("html")).click();
+		driver.findElement(By.id("mostrarCl:mostrarCliente")).click();
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(5) > i")).getText(), is("ALTA"));
+	}
+
 }
