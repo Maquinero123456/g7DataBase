@@ -38,7 +38,7 @@ public class InformePrueba {
      * Estas cuentas deben tener minimo 3 años de actividad en el caso de Holanda
      * y 5 años en caso de el caso de Alemania
      */
-    public void informeHolanda() throws IOException {
+    public void informeHolanda() throws IOException, ParseException {
     	// Cuentas de Holanda activas y con iban 15
     	// Debe devolver la cuenta de "Perez Castillo", pues es el dueño de la cuenta con iban 15
        /* List<String> report1 = gestionInformes.informeCuentasPaisesBajos(true, "15");
@@ -77,8 +77,8 @@ public class InformePrueba {
         // Cuentas de Alemania   
         // Debe devolver solo a Navarro Jimena, pues es el unico aleman con una cuenta activa
         // en los ultimos cinco años en la base de datos
-        gestionInformes.informeSemanalAlemania();
-        gestionInformes.informeMensualAlemania();
+        //gestionInformes.informeSemanalAlemania();
+        //gestionInformes.informeMensualAlemania();
         // System.out.println(reporteAlemania.iterator());
         }
 

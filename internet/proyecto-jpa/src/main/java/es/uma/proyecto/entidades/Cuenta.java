@@ -62,11 +62,12 @@ public class Cuenta {
         this.origen = origen;
     }
 
-
+    @JsonbProperty("productNumber")
     public String getIBAN() {
         return iban;
     }
 
+    @JsonbProperty("productNumber")
     public void setIBAN(String iban) {
         this.iban = iban;
     }
