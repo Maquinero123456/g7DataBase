@@ -22,6 +22,8 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import es.uma.informatica.sii.anotaciones.Requisitos;
+
 public class ProyectoIT {
 	private WebDriver driver;
 	private Map<String, Object> vars;
@@ -57,7 +59,12 @@ public class ProyectoIT {
 		driver.quit();
 	}
 	
+	@Requisitos({"RF1"})
 	@Test
+	/**
+	 * Acceso a la aplicación por parte de un admnistrativo dado
+	 * un usuario y su contraseña
+	 */
 	public void iniciarSesionAdmin() {
 		driver.get("http://0.0.0.0:8080/proyecto-war/");
 		driver.manage().window().setSize(new Dimension(670, 734));
@@ -67,7 +74,13 @@ public class ProyectoIT {
 		driver.findElement(By.id("login:botonLogin")).click();
 		assertThat(driver.findElement(By.cssSelector("h3 > span")).getText(), is("ADMINISTRADORES"));
 	}
+	
+
 	@Test
+	/**
+	 * Error al intentar acceder a la aplicacion dejando los campos vacios,
+	 * se le indica al cliente que debe rellenarlos
+	 */
 	public void inciarSesionCamposVacios() {
 		driver.get("http://0.0.0.0:8080/proyecto-war/");
 		driver.manage().window().setSize(new Dimension(790, 866));
@@ -75,7 +88,15 @@ public class ProyectoIT {
 		assertThat(driver.findElement(By.id("login:userMessage")).getText(), is("Valor obligatorio"));
 		assertThat(driver.findElement(By.id("login:passwordMessage")).getText(), is("Valor obligatorio"));
 	}
+	
+	@Requisitos({"RF10"})
 	@Test
+	/*
+	 * Acceso a la aplicacion por parte de un cliente normal
+	 * es decir, aquel que no es administrativo y tendrá asociada una cuenta bancaria
+	 * Este accedera a index.xhtml y observara sus datos
+	 * Podra ser Persona autorizada o un Individuo
+	 */
 	public void iniciarSesionNoAdmin() {
 		driver.get("http://0.0.0.0:8080/proyecto-war/");
 		driver.manage().window().setSize(new Dimension(790, 866));
@@ -87,7 +108,13 @@ public class ProyectoIT {
 		driver.findElement(By.cssSelector("p:nth-child(1)")).click();
 		assertThat(driver.findElement(By.cssSelector("p:nth-child(1)")).getText(), is("BUENAS TARDES INDIVIDUAL JUAN ¿QUÉ ACCIÓN REALIZARÁ?"));
 	}
+	
+	
+	@Requisitos({"RF10"})
 	@Test
+	/*
+	 * Error al intentar acceder a la aplicacion con una mala contraseña
+	 */
 	public void iniciarSesionPasswordMal() {
 		driver.get("http://0.0.0.0:8080/proyecto-war/");
 		driver.manage().window().setSize(new Dimension(790, 866));
@@ -98,7 +125,12 @@ public class ProyectoIT {
 		driver.findElement(By.cssSelector(".intro-contr")).click();
 		assertThat(driver.findElement(By.id("login:passwordMessage")).getText(), is("La contraseña no coincide"));
 	}
+	
+	@Requisitos({"RF10"})
 	@Test
+	/*
+	 * Error al intentar acceder a la aplicacion con un usuario incorrecto
+	 */
 	public void iniciarSesionUsuarioNoExiste() {
 		driver.get("http://0.0.0.0:8080/proyecto-war/");
 		driver.manage().window().setSize(new Dimension(790, 866));
@@ -110,100 +142,7 @@ public class ProyectoIT {
 		driver.findElement(By.cssSelector(".intro-usu")).click();
 		assertThat(driver.findElement(By.id("login:userMessage")).getText(), is("La cuenta no existe"));
 	}
-	@SuppressWarnings("deprecation")
-	@Test
-	public void registro() {
-	  driver.get("http://0.0.0.0:8080/proyecto-war/");
-	  driver.manage().window().setSize(new Dimension(1920, 1048));
-	  driver.findElement(By.linkText("página de registro")).click();
-	  driver.findElement(By.id("registro:nombre")).click();
-	  driver.findElement(By.id("registro:nombre")).sendKeys("hola");
-	  driver.findElement(By.id("registro:pass")).click();
-	  driver.findElement(By.id("registro:pass")).sendKeys("Hola1234");
-	  driver.findElement(By.id("registro:repass")).click();
-	  driver.findElement(By.id("registro:repass")).sendKeys("Hola1234");
-	  driver.findElement(By.id("registro:email")).click();
-	  driver.findElement(By.id("registro:email")).sendKeys("hola@gmail.com");
-	  driver.findElement(By.name("registro:j_idt15")).click();
-	  driver.findElement(By.linkText("Ir a la página de login")).click();
-	  driver.findElement(By.id("login:user")).click();
-	  driver.findElement(By.id("login:user")).sendKeys("hola");
-	  driver.findElement(By.id("login:pass")).click();
-	  driver.findElement(By.id("login:pass")).sendKeys("Hola1234");
-	  driver.findElement(By.id("login:botonLogin")).click();
-	  driver.findElement(By.id("inicio")).click();
-	  assertThat(driver.findElement(By.cssSelector("p:nth-child(3)")).getText(), is("NO TIENES NADA QUE HACER AQUI. PIDE A ALGUN ADMINISTRADOR QUE AÑADA UNA CUENTA A TU USUARIO."));
-	}
-
-	@SuppressWarnings("deprecation")
-	@Test
-	public void registroCamposVacios() {
-		driver.get("http://0.0.0.0:8080/proyecto-war/registro.xhtml");
-		driver.manage().window().setSize(new Dimension(790, 866));
-		driver.findElement(By.name("registro:j_idt15")).click();
-		driver.findElement(By.cssSelector("tr:nth-child(1) > td:nth-child(3)")).click();
-		assertThat(driver.findElement(By.cssSelector("tr:nth-child(1) > td:nth-child(3)")).getText(), is("Valor obligatorio"));
-		assertThat(driver.findElement(By.cssSelector("tr:nth-child(2) > td:nth-child(3)")).getText(), is("Valor obligatorio"));
-		assertThat(driver.findElement(By.cssSelector("tr:nth-child(3) > td:nth-child(3)")).getText(), is("Valor obligatorio"));
-		assertThat(driver.findElement(By.cssSelector("tr:nth-child(4) > td:nth-child(3)")).getText(), is("Valor obligatorio"));
-	}
-
-	@SuppressWarnings("deprecation")
-	@Test
-	public void registroEmailNoValido() {
-		driver.get("http://0.0.0.0:8080/proyecto-war/registro.xhtml");
-		driver.manage().window().setSize(new Dimension(790, 866));
-		driver.findElement(By.id("registro:nombre")).click();
-		driver.findElement(By.id("registro:nombre")).sendKeys("Juanito");
-		driver.findElement(By.id("registro:pass")).sendKeys("Juanito123");
-		driver.findElement(By.id("registro:repass")).sendKeys("Juanito123");
-		driver.findElement(By.id("registro:email")).sendKeys("juanasdas");
-		driver.findElement(By.name("registro:j_idt15")).click();
-		driver.findElement(By.cssSelector("tr:nth-child(4) > td:nth-child(3)")).click();
-		assertThat(driver.findElement(By.cssSelector("tr:nth-child(4) > td:nth-child(3)")).getText(), is("El email debe ser valido"));
-	}
-
-	@SuppressWarnings("deprecation")
-	@Test
-  	public void registroPasswordNoCoinciden() {
-		driver.get("http://0.0.0.0:8080/proyecto-war/registro.xhtml");
-		driver.manage().window().setSize(new Dimension(790, 866));
-		driver.findElement(By.id("registro:nombre")).click();
-		driver.findElement(By.id("registro:nombre")).sendKeys("Juanito");
-		driver.findElement(By.id("registro:pass")).sendKeys("Juanito123");
-		driver.findElement(By.id("registro:repass")).sendKeys("asdasd");
-		driver.findElement(By.id("registro:email")).sendKeys("juan@juan.com");
-		driver.findElement(By.name("registro:j_idt15")).click();
-		driver.findElement(By.cssSelector("tr:nth-child(3) > td:nth-child(3)")).click();
-		assertThat(driver.findElement(By.cssSelector("tr:nth-child(3) > td:nth-child(3)")).getText(), is("Las contraseñas deben coincidir."));
-	}
-
-	@Test @SuppressWarnings("deprecation")
-	public void registroPasswordNoValida() {
-		driver.get("http://0.0.0.0:8080/proyecto-war/registro.xhtml");
-		driver.manage().window().setSize(new Dimension(790, 866));
-		driver.findElement(By.id("registro:nombre")).click();
-		driver.findElement(By.id("registro:nombre")).sendKeys("Juanito");
-		driver.findElement(By.id("registro:pass")).sendKeys("asdadd");
-		driver.findElement(By.id("registro:repass")).sendKeys("asdadd");
-		driver.findElement(By.id("registro:email")).sendKeys("juanito@juanito.com");
-		driver.findElement(By.name("registro:j_idt15")).click();
-		assertThat(driver.findElement(By.cssSelector("tr:nth-child(2) > td:nth-child(3)")).getText(), is("La contraseña debe ser valida"));
-	}
-
-  	@Test @SuppressWarnings("deprecation")
-  	public void registroUsuarioRepetido() {
-		driver.get("http://0.0.0.0:8080/proyecto-war/registro.xhtml");
-		driver.manage().window().setSize(new Dimension(790, 866));
-		driver.findElement(By.cssSelector("table")).click();
-		driver.findElement(By.id("registro:nombre")).click();
-		driver.findElement(By.id("registro:nombre")).sendKeys("ponciano");
-		driver.findElement(By.id("registro:pass")).sendKeys("Ponciano123");
-		driver.findElement(By.id("registro:repass")).sendKeys("Ponciano123");
-		driver.findElement(By.id("registro:email")).sendKeys("ponciano@ponciano.com");
-		driver.findElement(By.name("registro:j_idt15")).click();
-		assertThat(driver.findElement(By.cssSelector("tr:nth-child(1) > td:nth-child(3)")).getText(), is("Existe un usuario con la misma cuenta."));
-  	}
+	
 
 	@Test @SuppressWarnings("deprecation")
   	public void mostrarCuentaReferenciaTest() {
@@ -320,7 +259,11 @@ public class ProyectoIT {
     assertThat(driver.findElement(By.cssSelector("#DatosInd > p:nth-child(3) > i")).getText(), is("1234567"));
   }
 
+  	@Requisitos({"RF4"})
 	@Test @SuppressWarnings("deprecation")
+  	/*
+  	 * Dar de baja cliente
+  	 */
 	public void bajaCliente() {
 		driver.get("http://0.0.0.0:8080/proyecto-war/");
 		driver.manage().window().setSize(new Dimension(929, 918));
@@ -343,7 +286,11 @@ public class ProyectoIT {
 		assertThat(driver.findElement(By.cssSelector("p:nth-child(5) > i")).getText(), is("BAJA"));
 	}
 
+  	@Requisitos({"RF2"})
 	@Test @SuppressWarnings("deprecation")
+  	/*
+  	 * Dar de alta cliente
+  	 */
 	public void altaClliente() {
 		driver.get("http://0.0.0.0:8080/proyecto-war/");
 		driver.manage().window().setSize(new Dimension(929, 918));
@@ -364,7 +311,14 @@ public class ProyectoIT {
 		driver.findElement(By.id("mostrarCl:mostrarCliente")).click();
 		assertThat(driver.findElement(By.cssSelector("p:nth-child(5) > i")).getText(), is("ALTA"));
 	}
-	@Test
+  	
+  	@Requisitos({"RF6"})
+	@Test 
+  	/*
+  	 * La aplicación permitirá a un administrativo añadir 
+  	 * personas autorizadas a las cuentas que pertenezcan a 
+  	 * cliente que son personas jurídicas. 
+  	 */
 	public void addPersonaAutorizadaEmpresa() {
 		driver.get("http://0.0.0.0:8080/proyecto-war/");
 		driver.manage().window().setSize(new Dimension(790, 866));
@@ -393,7 +347,12 @@ public class ProyectoIT {
 		driver.findElement(By.cssSelector("p:nth-child(11)")).click();
 		assertThat(driver.findElement(By.cssSelector("p:nth-child(11) > i")).getText(), is("{PABLONOTOQUES S.A.(P3310693A)}"));
 	}
+  	
+  	@Requisitos({"RF6"})
 	@Test
+	/**
+	 * Test para la comprobación de que la persona 
+	 */
 	public void addPersonaAutorizadaEmpresaYaExiste() {
 		driver.get("http://0.0.0.0:8080/proyecto-war/");
 		driver.manage().window().setSize(new Dimension(790, 866));
@@ -421,7 +380,13 @@ public class ProyectoIT {
 		assertThat(driver.findElement(By.cssSelector("p:nth-child(11) > i")).getText(), is("{PABLONOTOQUES S.A.(P3310693A)}"));
 	}
 
+  	@Requisitos({"RF3"})
 	@Test
+	/**
+	 * Comprobacion de la correcta modificación de un cliente ya creado,
+	 * se introduce desde una cuenta admin los datos del cliente para modificar
+	 * y luego se comprueba que, en efecto, se han modificado
+	 */
   	public void modificarClienteTest() {
 		driver.get("http://0.0.0.0:8080/proyecto-war/");
 		driver.manage().window().setSize(new Dimension(929, 918));
