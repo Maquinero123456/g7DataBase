@@ -157,13 +157,13 @@ public class Informes implements GestionInformes{
 		}
 	    
 		else {
-			query = em.createQuery("SELECT ind Individual ind WHERE ind.pais = :fpais && ind.apellidos LIKE :fape");
+			query = em.createQuery("SELECT ind FROM Individual ind WHERE ind.pais = :fpais AND ind.apellidos LIKE :fape");
 			query.setParameter("fpais", "PaisesBajos");
 			query.setParameter("fape", ape);
-			query2 = em.createQuery("SELECT emp FROM Empresa emp, personaAutorizada pa WHERE emp.pais = :fpais && pa.apellidos LIKE :fape");
+			query2 = em.createQuery("SELECT emp FROM Empresa emp, PersonaAutorizada pa WHERE emp.pais = :fpais AND pa.apellidos LIKE :fape");
 			query2.setParameter("fpais", "PaisesBajos");
 			query2.setParameter("fape", ape);
-			query3 = em.createQuery("SELECT pa FROM Empresa emp, personaAutorizada pa WHERE emp.pais = :fpais && pa.apellidos LIKE :fape");
+			query3 = em.createQuery("SELECT pa FROM Empresa emp, PersonaAutorizada pa WHERE emp.pais = :fpais AND pa.apellidos LIKE :fape");
 			query3.setParameter("fpais", "PaisesBajos");
 			query3.setParameter("fape", ape);
 
