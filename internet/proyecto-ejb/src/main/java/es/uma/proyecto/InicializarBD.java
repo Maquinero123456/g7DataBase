@@ -118,6 +118,7 @@ public class InicializarBD {
         seg.setEstado(true);
         seg.setFechaApertura(utilDate);
         seg.setCuentaReferencia(vg57);
+        seg.setClasificacion("Segregada");
         em.persist(seg);
 
         CuentaReferencia hn47 = new CuentaReferencia();
@@ -133,6 +134,7 @@ public class InicializarBD {
         seg2.setEstado(true);
         seg2.setFechaApertura(utilDate);
         seg2.setCuentaReferencia(hn47);
+        seg2.setClasificacion("Segregada");
         em.persist(seg2);
 
         CuentaReferencia refFalsa = new CuentaReferencia();
@@ -149,6 +151,7 @@ public class InicializarBD {
         seg3.setEstado(false);
         seg3.setFechaApertura(utilDate);
         seg3.setCuentaReferencia(refFalsa);
+        seg3.setClasificacion("Segregada");
         em.persist(seg3);
 
         CuentaReferencia ES71 = new CuentaReferencia();
@@ -174,6 +177,7 @@ public class InicializarBD {
 
         PooledAccount pool = new PooledAccount("ES8400817251647192321264", null, true, utilDate, null, null);
         pool.setCliente(client);
+        pool.setClasificacion("Pooled");
         em.persist(pool);
 
         DepositadaEn dep1 = new DepositadaEn(new CuentaRefPoolAccPK(ES71.getIBAN(), pool.getIBAN()), ES71, pool, ES71.getSaldo());
