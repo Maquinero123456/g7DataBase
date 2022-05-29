@@ -15,6 +15,7 @@ import javax.json.bind.JsonbBuilder;
 import javax.json.bind.JsonbConfig;
 import javax.json.bind.config.PropertyOrderStrategy;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -166,10 +167,33 @@ public class Informes implements GestionInformes{
 			query3 = em.createQuery("SELECT pa FROM Empresa emp, PersonaAutorizada pa WHERE emp.pais = :fpais AND pa.apellidos LIKE :fape");
 			query3.setParameter("fpais", "PaisesBajos");
 			query3.setParameter("fape", ape);
+			
+			Cliente c1 = null;
 
-			Cliente c1 = (Cliente) query.getSingleResult();
-			Empresa emp = (Empresa) query2.getSingleResult();
-			PersonaAutorizada pa = (PersonaAutorizada) query3.getSingleResult();
+			try{
+				c1 = (Cliente) query.getSingleResult();
+			}catch (NoResultException e){
+
+			}
+			
+			Empresa emp = null;
+
+			try{
+				emp = (Empresa) query2.getSingleResult();
+			}catch (NoResultException e){
+				
+			}
+
+			PersonaAutorizada pa = null;
+
+			try{
+				pa = (PersonaAutorizada) query3.getSingleResult();
+			}catch (NoResultException e){
+				
+			}
+
+			
+			
 			
 			if(c1!=null) {
 				if(c1.getFechaAlta().compareTo(alta) > 0 && c1.getFechaAlta().compareTo(baja) < 0) {
