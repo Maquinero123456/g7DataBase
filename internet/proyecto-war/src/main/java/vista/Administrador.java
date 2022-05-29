@@ -1266,6 +1266,43 @@ public class Administrador {
 		
 	}
 
+	public void crearClienteEmpresa(){ //INCOMPLETO
+		Empresa ind = new Empresa();
+		ind.setIdentificacion(ident);
+		ind.setRazonSocial(nombre);
+		ind.setDireccion(dir3);
+		ind.setCiudad(ciudad2);
+		ind.setCodigoPostal(cp2);
+		ind.setPais(pais2);
+		if(!fechaBaja.equals("")){
+			try {
+				ind.setFechaBaja(new SimpleDateFormat("yyyy-MM-dd").parse(fechaBaja));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		}else{
+			ind.setFechaBaja(null);
+		}
+		ind.setEstado("Active");
+		try {
+			ind.setFechaAlta(new SimpleDateFormat("yyyy-MM-dd").parse("2020-05-28"));
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		System.out.println(ind.toString());
+		ind.setTipoCliente("Empresa");
+		try {
+			clientes.crearEmpresa(ind);
+		} catch (EmpresaException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
 	public String getNombre() {
 		return this.nombre;
 	}
