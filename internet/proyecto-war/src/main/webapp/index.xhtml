@@ -16,7 +16,7 @@
 
         <section class="inicio" id="inicio">
 
-            <div class="window">
+            <div class="content">
 
                 <header>
                     <a href="#" class="logo"><span>G</span>ualet</a>
@@ -37,12 +37,12 @@
 				<c:when test="#{index.entrada() == 1}">
                 
                 <div>
-                    <p>Buenas tardes individual <h:outputText value="#{infoSesion.usuario.nombre}"/>¿qué acción realizará?</p>
+                    <p>Buenas tardes individual <h:outputText value="#{infoSesion.usuario.nombre}"/> ¿qué acción realizará?</p>
                 </div>
                 
-                <div>
+                <div class="cuentas">
 
-                    <h:dataTable value="#{infoSesion.usuario.cliente.cuentas}" var="cuenta" rows="3">
+                    <h:dataTable value="#{infoSesion.usuario.cliente.cuentas}" var="cuenta" rows="3" headerClass="order-table-header">
                         
                         <h:column>                   
                             <f:facet name="header" styleClass="cuentas">IBAN</f:facet>                 
@@ -71,15 +71,12 @@
 
                     </h:dataTable>
 
-                </div>
+                    <p>Pulsa <a  href="cuentas.xhtml">AQUI</a> para ver todas las cuentas</p>
 
-                <div>
-                    <p>Pulsa <a  href="cuentas.xhtml">aqui</a> para ver todas las cuentas</p>
                 </div>
 
                 <div>
                     <button onclick="mostrar('tranI'); cerrar('cdd')">Realizar Transaccion</button>
-                    
                     <button onclick="mostrar('cdd'); cerrar('tranI');">Realizar un Cambio de Divisa en la Cuenta</button>
                 </div>
                     
@@ -165,9 +162,6 @@
                 </div>
                </c:when> 
                 
-                
-                
-                
                 <c:when test="#{index.entrada() == 2}">
                 
                 <div>
@@ -175,8 +169,8 @@
                 </div>
                 
                 <div>
-                <button onclick="mostrar('tranPA'); ; cerrar('cdd2')">Realizar Transaccion</button>
-                <button onclick="mostrar('cdd2'); cerrar('tranI'); cerrar('tranPA')">Realizar un Cambio de Divisa en la Cuenta</button>
+                <button onclick="mostrar('tranPA'); cerrar('cdd2')">Realizar Transaccion</button>
+                <button onclick="mostrar('cdd2'); cerrar('tranPA')">Realizar un Cambio de Divisa en la Cuenta</button>
                 
 					
                     <div class="tranPA" style="display:none">

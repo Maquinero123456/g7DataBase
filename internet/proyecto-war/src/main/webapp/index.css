@@ -6,43 +6,47 @@
     --degradado: linear-gradient(90deg, var(--rojo), var(--naranja));
 }
 
+*{
+    font-family: 'Rajdhani', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    outline: none;
+    border: none;
+    text-transform: capitalize;
+}
+
+*::selection{
+    background: var(--naranja);
+    color: rgb(255, 255, 255);
+}
+
+
 html {
     overflow: hidden;
     font-size: 62.4%;
 }
 
-.inicio{
+section{
     min-height: 100vh;
     padding: 0 9%;
     padding-top: 7.5rem;
     padding-bottom: 2rem;
-    justify-self: center;
 }
 
-.window {
-    display: block;
+body{
     background: #adadad;
-    position: absolute; /*relative*/
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    /*overflow: hidden;*/
-    /*background: linear-gradient(45deg, rgb(255, 0, 0) 0%, rgba(124,124,124,1) 50%, rgba(255,81,0,1) 100%);*/
 }
 
 /*CABECERA CON LOGO Y SECCIONES*/
 header{
+    font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     background-color: #363232;
-    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
     padding: 2rem 9%;
     display: flex;
     align-items: center;
@@ -52,69 +56,101 @@ header{
 
 /*LOGO*/
 header .logo{
+    font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
     font-size: 5rem;
     color: var(--naranja);
 }
 
 header .logo span{
+    font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
     color: var(--rojo);
 }
 /*---------------------------*/
 
 /*SECCIONES CABECERA*/
 header .navbar a{
+    font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
     font-size: 2rem;
     margin-left: 2rem;
     color: var(--naranja);
 }
 
 header .navbar a:hover{
+    font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
     color: var(--naranja);
 }
 
 header input{
+    font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
     display: none;
 }
 
 header label{
+    font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
     font-size: 3rem;
     color: var(--rojo);
     cursor: pointer;
     visibility: hidden;
     opacity: 0;
 }
+.inicio{
+    display: flex;
+    align-items: center;
+    justify-content:first baseline;
+    background: url(/home/alumno/Desktop/index/inicio_fondo.png);
+    background-size: cover;
+    background-position: center;
+}
 
 p {
+    font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
+    font-size: 3rem;
+    color: #333;
+    text-transform: uppercase;
+}
+
+.cuentas p{
+    font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
+    font-size: 1.5rem;
+    color: #333;
+    text-transform: uppercase;
+}
+
+.order-table-header{
+	text-align:center;
+	border-bottom:1px solid #BBBBBB;
+	padding:16px;
+    margin: 20px;
+}
+
+.cuentas {
+    margin: 0.75rem;
+    padding: 0.75rem;
+    background-color: rgb(206, 206, 206);
+    width: 125%;
+    border-radius: 25px;
     font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
     font-size: 2.5rem;
     color: #333;
     text-transform: uppercase;
 }
 
-.cuentas {
-    font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
-    font-size: large;
-    color: #333;
-    text-transform: uppercase;
-}
-
 .entrada{
     font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
+    display: inline-block;
     font-size: large;
     border-radius: 5rem;
     border: 0;
     width: 200px;
     height: 30px;
-    padding: 0 auto;
-    offset: 3;
     padding-left: 10px;
 }
 
 .titulo {
-    color: rgb(255, 255, 255);
-    padding: 1%;
+    color: #333;
     font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
     font-size: large;
+    padding: 10px
 }
 
 .mensajes {
