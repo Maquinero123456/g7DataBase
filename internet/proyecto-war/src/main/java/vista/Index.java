@@ -51,6 +51,24 @@ public class Index {
     public Index() {
     }
     
+    public int entrada() {
+    	int aux = 0;
+    	
+    	if(sesion.getUsuario() == null){
+    		return aux;
+    	}
+    	
+    	if(!sesion.getUsuario().getEsAdministrativo() && sesion.getUsuario().getCliente().getTipoCliente().equalsIgnoreCase("individual")) {
+    		aux = 1;
+    	}
+    	
+    	if(!sesion.getUsuario().getEsAdministrativo() && sesion.getUsuario().getCliente().getTipoCliente().equalsIgnoreCase("empresa")) {
+    		aux = 2;
+    	}
+    	
+    	return aux;
+    }
+    
     public void transaccionIndividual() {
     	double cant = Double.parseDouble(cantidad);
     	
@@ -225,6 +243,14 @@ public class Index {
 
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
+	}
+
+	public InfoSesion getSesion() {
+		return sesion;
+	}
+
+	public void setSesion(InfoSesion sesion) {
+		this.sesion = sesion;
 	}    
 
 }

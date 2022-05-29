@@ -72,6 +72,7 @@ public class InicializarBD {
         emp.setCodigoPostal("NoTiene");
         emp.setPais("Peninsula Balcanica");
         emp.setRazonSocial("PabloNoToques S.A.");
+        emp.setUsuario(ana);
 
         em.persist(emp);
 
