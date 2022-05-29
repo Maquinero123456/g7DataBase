@@ -420,4 +420,37 @@ public class ProyectoIT {
 		driver.findElement(By.cssSelector("p:nth-child(11)")).click();
 		assertThat(driver.findElement(By.cssSelector("p:nth-child(11) > i")).getText(), is("{PABLONOTOQUES S.A.(P3310693A)}"));
 	}
+
+	@Test
+  	public void modificarClienteTest() {
+		driver.get("http://0.0.0.0:8080/proyecto-war/");
+		driver.manage().window().setSize(new Dimension(929, 918));
+		driver.findElement(By.id("login:user")).click();
+		driver.findElement(By.id("login:user")).sendKeys("ponciano");
+		driver.findElement(By.id("login:pass")).sendKeys("ponciano");
+		driver.findElement(By.id("login:botonLogin")).click();
+		driver.findElement(By.cssSelector(".content > div:nth-child(4) > button:nth-child(2)")).click();
+		driver.findElement(By.id("mostrarCl:identMostrar")).click();
+		driver.findElement(By.id("mostrarCl:identMostrar")).sendKeys("P3310693A");
+		driver.findElement(By.id("mostrarCl:mostrarCliente")).click();
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(9) > i")).getText(), is("SERBIA"));
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(10) > i")).getText(), is("NOTIENE"));
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(11) > i")).getText(), is("PAISES BAJOS"));
+		driver.findElement(By.cssSelector("div:nth-child(5) > button:nth-child(2)")).click();
+		driver.findElement(By.cssSelector("#mostrarCl button")).click();
+		driver.findElement(By.cssSelector("div:nth-child(4) > button:nth-child(4)")).click();
+		driver.findElement(By.id("fMod:pais1Mod")).click();
+		driver.findElement(By.id("fMod:pais1Mod")).sendKeys("FRANCIA");
+		driver.findElement(By.id("fMod:ciudad1Mod")).click();
+		driver.findElement(By.id("fMod:ciudad1Mod")).sendKeys("CUENCA");
+		driver.findElement(By.id("fMod:dir1Mod")).click();
+		driver.findElement(By.id("fMod:cp1Mod")).click();
+		driver.findElement(By.id("fMod:cp1Mod")).sendKeys("29003");
+		driver.findElement(By.id("fMod:modificar")).click();
+		driver.findElement(By.cssSelector(".content > div:nth-child(4) > button:nth-child(2)")).click();
+		driver.findElement(By.id("mostrarCl:mostrarCliente")).click();
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(11) > i")).getText(), is("FRANCIA"));
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(10) > i")).getText(), is("29003"));
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(9) > i")).getText(), is("CUENCA"));
+  }
 }

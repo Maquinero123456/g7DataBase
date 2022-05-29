@@ -1,5 +1,7 @@
 package es.uma.proyecto;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Logger;
 
@@ -86,6 +88,7 @@ public class Administrativos implements GestionAdministrativos{
 		}
         
         cliente.setEstado("Baja");
+		cliente.setFechaBaja(Calendar.getInstance().getTime());
         em.persist(cliente);
 	}
 	
