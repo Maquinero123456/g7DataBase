@@ -27,6 +27,7 @@ import es.uma.proyecto.entidades.CuentaFintech;
 import es.uma.proyecto.entidades.CuentaReferencia;
 import es.uma.proyecto.entidades.DepositadaEn;
 import es.uma.proyecto.entidades.Empresa;
+import es.uma.proyecto.entidades.EmpresaPersAutoPK;
 import es.uma.proyecto.entidades.Individual;
 import es.uma.proyecto.entidades.PersonaAutorizada;
 import es.uma.proyecto.entidades.PooledAccount;
@@ -594,10 +595,8 @@ public class Administrador {
 	}
 	
 	public void addAutorizado() {
-		long idE = Long.parseLong(idEmp);
-		long idP = Long.parseLong(idPer);
 		try {
-			admin.addAutorizados(idE, idP, tipo);
+			admin.addAutorizados(clientes.getEmpresa(idEmp).getId(), autorizados.getPersonaAutorizada(idPer).getID(), tipo);
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("La empresa indicada no existe.");
 	        FacesContext.getCurrentInstance().addMessage("admin:idEmpAPA", fm);
@@ -607,14 +606,15 @@ public class Administrador {
 		} catch (AutorizacionException e) {
 			FacesMessage fm = new FacesMessage("Error al crear la autorizacion.");
 	        FacesContext.getCurrentInstance().addMessage("admin:tipoAPA", fm);
+		} catch (EmpresaException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
 	public void eliminarAutorizado() {
-		long idE = Long.parseLong(idEmp);
-		long idP = Long.parseLong(idPer);
 		try {
-			admin.eliminarAutorizado(idE, idP);
+			admin.eliminarAutorizado(clientes.getEmpresa(idEmp).getId(), autorizados.getPersonaAutorizada(idPer).getID());
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("La empresa indicada no existe.");
 	        FacesContext.getCurrentInstance().addMessage("admin:idEmpE", fm);
@@ -624,6 +624,9 @@ public class Administrador {
 		} catch (AutorizacionException e) {
 			FacesMessage fm = new FacesMessage("Error al eliminar la autorizacion.");
 	        FacesContext.getCurrentInstance().addMessage("admini:tipo", fm);
+		} catch (EmpresaException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
@@ -1384,6 +1387,73 @@ public class Administrador {
 		this.cp2 = cp2;
 	}
 
-	
+	public void crearAutorizado(){
+		PersonaAutorizada pers = new PersonaAutorizada();
+		pers.setIdentificacion(idPer);
+		pers.setNombre(nombre);
+		pers.setApellidos(apellidos);
+		pers.setDireccion(dir2);
+		if(!fechaNac.equals("")){
+			try {
+				pers.setFechaNacimiento(new SimpleDateFormat("yyyy-MM-dd").parse(fechaNac));
+			} catch (ParseException e3) {
+				// TODO Auto-generated catch block
+				e3.printStackTrace();
+			}
+		}else{
+			pers.setFechaNacimiento(null);
+		}
+		if(!estadoPA.equals("")){
+			pers.setEstado(estadoPA);
+		}else{
+			pers.setEstado(null);
+		}
+		
+		if(!fechaFin.equals("")){
+			try {
+				pers.setFechaFin(new SimpleDateFormat("yyyy-MM-dd").parse(fechaFin));
+			} catch (ParseException e3) {
+				// TODO Auto-generated catch block
+				e3.printStackTrace();
+			}
+		}else{
+			pers.setFechaFin(null);
+		}
+
+		try {
+			pers.setFechaInicio(new SimpleDateFormat("yyyy-MM-dd").parse("2020-05-28"));
+		} catch (ParseException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+
+		try {
+			autorizados.addPersonaAutorizada(pers);
+		} catch (PersonaAutorizadaException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			pers = autorizados.getPersonaAutorizada(idPer);
+		} catch (PersonaAutorizadaException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Empresa emp = null;
+		try {
+			emp = clientes.getEmpresa(idEmp);
+		} catch (EmpresaException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			admin.addAutorizados(emp.getId(), pers.getID(), tipo);
+		} catch (ClienteException | PersonaAutorizadaException | AutorizacionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 }

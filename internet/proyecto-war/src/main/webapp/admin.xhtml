@@ -550,8 +550,10 @@
 
 						<button onclick="mostrar('MostrarPersona'); cerrar('MPA'); cerrar('EPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Mostrar Persona Autorizada</button>
 
-						<button onclick="mostrar('APA'); cerrar('MPA'); cerrar('EPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Añadir Persona Autorizada</button>
+						<button onclick="mostrar('APA'); cerrar('MPA'); cerrar('EPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Crear Persona Autorizada</button>
 						
+						<button onclick="mostrar('CPA'); cerrar('MPA'); cerrar('EPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Añadir Persona Autorizada</button>
+
 						<button onclick="mostrar('MPA');  cerrar('APA'); cerrar('EPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Modificar Persona Autorizada</button>
 
 						<button onclick="mostrar('EPA');  cerrar('MPA'); cerrar('MPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Eliminar Persona Autorizada</button>
@@ -608,12 +610,11 @@
 									<h:message for="tipoAPA" styleClass="info-campo"/>
 
 									<h:outputText value="Estado: " styleClass="info-campo"/>
-									<h:inputText id="tipoAPA5" value="#{admin.estadoPA}" styleClass="entrada"/>
-									<h:message for="tipoAPA" styleClass="info-campo"/>
-
-									<h:outputText value="Fecha de inicio: " styleClass="info-campo"/>
-									<h:inputText id="tipoAPA6" required="false" value="#{admin.fechaInicio}" styleClass="entrada"/>
-									<h:message for="tipoAPA" styleClass="info-campo"/>
+									<h:selectOneMenu id="tipoAPAS" value="#{admin.estadoPA}">
+										<f:selectItem itemValue="Active" itemLabel="Active"/>
+										<f:selectItem itemValue="Not Active" itemLavel="Not Active"/>
+									</h:selectOneMenu>
+									<h:message for="tipoAPAS" styleClass="info-campo"/>
 
 									<h:outputText value="Fecha de fin: " styleClass="info-campo"/>
 									<h:inputText id="tipoAPA7" value="#{admin.fechaFin}" styleClass="entrada"/>
@@ -625,8 +626,37 @@
 								</h:panelGrid>
 								
 								<div style="display: inline">
-									<h:commandButton id="addAutor" value="Añadir" action="#{admin.addAutorizado()}" styleClass="button"/>
+									<h:commandButton id="addAutor" value="Añadir" action="#{admin.crearAutorizado()}" styleClass="button"/>
 									<button onclick="cerrar('APA');return false">Cancelar</button>
+								</div>
+
+							</h:form>
+
+						</div>
+
+						<div class="CPA" style="display:none">
+
+							<h:form id="cAPA">
+
+								<p>Indique la persona autorizada a añadir a la empresa:</p>
+								
+								<h:panelGrid columns="3">
+									<h:outputText value="Identificador de la empresa: " styleClass="info-campo"/>
+									<h:inputText id="idEmpCPA" required="true" requiredMessage="Valor obligatorio" value="#{admin.idEmp}" styleClass="entrada"/>
+									<h:message for="idEmpAPA" styleClass="info-campo"/>
+									
+									<h:outputText value="Identificador de la persona a autorizar: " styleClass="info-campo"/>
+									<h:inputText id="idPerCPA" required="true" requiredMessage="Valor obligatorio" value="#{admin.idPer}" styleClass="entrada"/>
+									<h:message for="idPerCPA" styleClass="info-campo"/>
+									
+									<h:outputText value="Tipo de autorizacion: " styleClass="info-campo"/>
+									<h:inputText id="tipoCPA" required="true" requiredMessage="Valor obligatorio" value="#{admin.tipo}" styleClass="entrada"/>
+									<h:message for="tipoCPA" styleClass="info-campo"/>
+								</h:panelGrid>
+								
+								<div style="display: inline">
+									<h:commandButton id="addAutorC" value="Añadir" action="#{admin.addAutorizado()}" styleClass="button"/>
+									<button onclick="cerrar('CPA');return false">Cancelar</button>
 								</div>
 
 							</h:form>
