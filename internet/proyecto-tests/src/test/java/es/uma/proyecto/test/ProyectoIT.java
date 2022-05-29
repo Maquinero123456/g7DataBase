@@ -62,13 +62,12 @@ public class ProyectoIT {
 	
 	@Test
 	public void iniciarSesionAdmin() {
-		driver.get("http://0.0.0.0:8080/proyecto-war//proyecto-war/");
-		driver.manage().window().setSize(new Dimension(790, 866));
+		driver.get("http://0.0.0.0:8080/proyecto-war/");
+		driver.manage().window().setSize(new Dimension(670, 734));
 		driver.findElement(By.id("login:user")).click();
 		driver.findElement(By.id("login:user")).sendKeys("ponciano");
 		driver.findElement(By.id("login:pass")).sendKeys("ponciano");
 		driver.findElement(By.id("login:botonLogin")).click();
-		driver.findElement(By.cssSelector("h3")).click();
 		assertThat(driver.findElement(By.cssSelector("h3 > span")).getText(), is("ADMINISTRADORES"));
 	}
 	@Test
@@ -210,8 +209,8 @@ public class ProyectoIT {
 		driver.findElement(By.id("mostrarCuentasRef:iban")).click();
 		driver.findElement(By.id("mostrarCuentasRef:iban")).sendKeys("VG57DDVS5173214964983931");
 		driver.findElement(By.id("mostrarCuentasRef:mostrarCuentas")).click();
-		assertThat(driver.findElement(By.cssSelector("p:nth-child(4) > i")).getText(), is("Bancos Pablo SA"));
-		assertThat(driver.findElement(By.cssSelector("p:nth-child(10) > i")).getText(), is("Dolar"));
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(4) > i")).getText(), is("BANCOS PABLO SA"));
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(10) > i")).getText(), is("DOLAR"));
 		assertThat(driver.findElement(By.cssSelector("p:nth-child(2) > i")).getText(), is("VG57DDVS5173214964983931"));
   	}
 
@@ -227,10 +226,10 @@ public class ProyectoIT {
 		driver.findElement(By.id("mostrarCuentas:iban")).click();
 		driver.findElement(By.id("mostrarCuentas:iban")).sendKeys("FR5514508000502273293129K55");
 		driver.findElement(By.id("mostrarCuentas:mostrarCuentas")).click();
-		assertThat(driver.findElement(By.cssSelector("p:nth-child(7) > i")).getText(), is("Segregada"));
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(7) > i")).getText(), is("SEGREGADA"));
 		assertThat(driver.findElement(By.cssSelector("p:nth-child(9) > i")).getText(), is("HN47QUXH11325678769785549996"));
-		assertThat(driver.findElement(By.cssSelector("p:nth-child(6) > i")).getText(), is("No Tiene"));
-		assertThat(driver.findElement(By.cssSelector("p:nth-child(4) > i")).getText(), is("Active"));
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(6) > i")).getText(), is("NO TIENE"));
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(4) > i")).getText(), is("ACTIVE"));
 	}
 
 	@Test @SuppressWarnings("deprecation")
@@ -246,9 +245,8 @@ public class ProyectoIT {
 		driver.findElement(By.id("mostrarCuentas:iban")).sendKeys("ES8400817251647192321264");
 		driver.findElement(By.id("mostrarCuentas:mostrarCuentas")).click();
 		assertThat(driver.findElement(By.cssSelector("p:nth-child(2) > i")).getText(), is("ES8400817251647192321264"));
-		assertThat(driver.findElement(By.cssSelector("p:nth-child(8) > i")).getText(), is("{ES7121007487367264321882(Euro), GB79BARC20040134265953(Libra), VG88HBIJ4257959912673134(Dolar)}"));
-		assertThat(driver.findElement(By.cssSelector("p:nth-child(7) > i")).getText(), is("Pooled"));
-		assertThat(driver.findElement(By.cssSelector("p:nth-child(6) > i")).getText(), is("No Tiene"));
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(7) > i")).getText(), is("POOLED"));
+		assertThat(driver.findElement(By.cssSelector("p:nth-child(6) > i")).getText(), is("NO TIENE"));
 	}
 	
 }
