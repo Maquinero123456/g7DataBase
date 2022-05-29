@@ -22,7 +22,6 @@ p{
     text-decoration: none;
     outline: none;
     border: none;
-    text-transform: capitalize;
 }
 
 *::selection{
