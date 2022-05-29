@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import javax.json.bind.annotation.JsonbNillable;
 import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;

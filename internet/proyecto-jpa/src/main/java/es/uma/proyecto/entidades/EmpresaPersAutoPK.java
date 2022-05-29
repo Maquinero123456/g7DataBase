@@ -6,6 +6,7 @@ import java.util.Objects;
 import javax.persistence.Embeddable;
 
 
+@SuppressWarnings("serial")
 @Embeddable
 public class EmpresaPersAutoPK implements Serializable{
     private long empresa;

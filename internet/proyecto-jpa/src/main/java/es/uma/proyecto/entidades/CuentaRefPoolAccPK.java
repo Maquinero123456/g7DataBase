@@ -6,6 +6,7 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+@SuppressWarnings("serial")
 @Embeddable
 public class CuentaRefPoolAccPK implements Serializable{
     @Column(name = "cuentaReferencia_pk")

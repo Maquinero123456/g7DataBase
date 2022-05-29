@@ -28,6 +28,7 @@ import es.uma.proyecto.entidades.Empresa;
 import es.uma.proyecto.entidades.Individual;
 import es.uma.proyecto.entidades.PersonaAutorizada;
 
+@SuppressWarnings("unchecked")
 @Stateless
 public class Informes implements GestionInformes{
 	@SuppressWarnings("unused")
