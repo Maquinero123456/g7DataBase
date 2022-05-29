@@ -20,7 +20,6 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="PERSONAAUTORIZADA")
-@JsonbNillable
 public class PersonaAutorizada {
     
 	@JsonbTransient
@@ -38,7 +37,7 @@ public class PersonaAutorizada {
 	@JsonbProperty("streetNumber")
     @Column(nullable=false)
     private String direccion;
-    @JsonbProperty("dateOfBirth")
+	@JsonbProperty(value="dateOfBirth", nillable=true)
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
     @JsonbProperty("status")

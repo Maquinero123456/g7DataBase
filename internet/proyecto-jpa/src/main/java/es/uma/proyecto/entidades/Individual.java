@@ -7,7 +7,6 @@ import java.util.Date;
 
 @Entity
 @Table(name="INDIVIDUAL")
-@JsonbNillable
 public class Individual extends Cliente{
     //Atributos
 	@JsonbProperty("firstName")
@@ -16,7 +15,7 @@ public class Individual extends Cliente{
 	@JsonbProperty("lastName")
     @Column(nullable = false)
     private String apellidos;
-	@JsonbProperty("dateOfBirth")
+	@JsonbProperty(value="dateOfBirth", nillable=true)
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
 
