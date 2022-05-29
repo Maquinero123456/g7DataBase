@@ -99,7 +99,6 @@ public class Index {
 			return cuentasBancarias;
 		}
 		for(CuentaFintech e : aux){
-			System.out.print(e.toString());
 			if(e.getClasificacion().equalsIgnoreCase("Pooled")){
 				vistaCuentas aux2 = new vistaCuentas();
 				PooledAccount pool = null;
@@ -224,7 +223,7 @@ public class Index {
 			}
 		}
 
-
+		System.out.println(cuentasBancarias.toString());
 		return cuentasBancarias;
 	}
 
