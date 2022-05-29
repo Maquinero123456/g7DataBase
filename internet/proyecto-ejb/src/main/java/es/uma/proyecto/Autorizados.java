@@ -124,7 +124,7 @@ public class Autorizados implements GestionAutorizados{
 
     @Override
     public List<CuentaFintech> getCuentasPersonaAutorizada(String id) throws PersonaAutorizadaException, CuentaException{
-        Query query = em.createQuery("SELECT cf from CuentasFintech cf, PersonaAutorizada pa WHERE pa.id = :fid");
+        Query query = em.createQuery("SELECT cf from CuentaFintech cf, PersonaAutorizada pa WHERE pa.id = :fid");
         query.setParameter("fid", id);
         
         if(query.getResultList() == null){
