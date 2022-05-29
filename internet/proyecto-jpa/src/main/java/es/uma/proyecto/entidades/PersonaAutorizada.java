@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import javax.json.bind.annotation.JsonbNillable;
 import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
@@ -19,6 +20,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="PERSONAAUTORIZADA")
+@JsonbNillable
 public class PersonaAutorizada {
     
 	@JsonbTransient
@@ -41,8 +43,10 @@ public class PersonaAutorizada {
     private Date fechaNacimiento;
     @JsonbProperty("status")
     private String estado;
+    @JsonbTransient
     @Temporal(TemporalType.DATE)
     private Date fechaInicio;
+    @JsonbTransient
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
 
