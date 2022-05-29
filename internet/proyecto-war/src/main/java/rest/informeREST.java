@@ -66,15 +66,14 @@ public class informeREST {
     @POST
     @Consumes (MediaType.APPLICATION_JSON)
 	public Response products(ProductsJson json) throws ParseException{
-		Boolean status = false;
+		Boolean status = null;
 		String act = json.getSearchParameters().getStatus();
-		if(act.equalsIgnoreCase("active") || act.equalsIgnoreCase("alta") || act.equalsIgnoreCase("activa")) {
+		if(act!=null && (act.equalsIgnoreCase("active") || act.equalsIgnoreCase("alta") || act.equalsIgnoreCase("activa"))) {
 			status = true;
+		}else if(act!=null){
+			status = false;
 		}
-		
-		else if(act.equals(null)){
-			status = null;
-		}
+
 		List<String> lol = informes.informeCuentasPaisesBajos(status, json.getSearchParameters().getProductNumber());
 		return Response.ok(lol.toString()).build();
 	}
