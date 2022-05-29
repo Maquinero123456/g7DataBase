@@ -14,13 +14,18 @@ import javax.ws.rs.core.UriInfo;
 
 import es.uma.proyecto.GestionAdministrativos;
 import es.uma.proyecto.GestionClientes;
+import es.uma.proyecto.GestionCuentas;
 import es.uma.proyecto.GestionCuentasUsuarios;
 import es.uma.proyecto.GestionInformes;
 import es.uma.proyecto.entidades.Cliente;
+import es.uma.proyecto.entidades.CuentaFintech;
 import es.uma.proyecto.entidades.CuentaReferencia;
+import es.uma.proyecto.entidades.DepositadaEn;
 import es.uma.proyecto.entidades.Empresa;
 import es.uma.proyecto.entidades.Individual;
 import es.uma.proyecto.entidades.PersonaAutorizada;
+import es.uma.proyecto.entidades.PooledAccount;
+import es.uma.proyecto.entidades.Segregada;
 import es.uma.proyecto.entidades.Usuario;
 import es.uma.proyecto.exceptions.AutorizacionException;
 import es.uma.proyecto.exceptions.ClienteException;
@@ -41,6 +46,8 @@ public class Administrador {
 	private GestionCuentasUsuarios cuentas;
     @EJB
     private GestionInformes informes;
+	@EJB
+	private GestionCuentas bCuentas;
 	
 	@Inject
 	private InfoSesion sesion;
@@ -65,6 +72,32 @@ public class Administrador {
 	private String nombreClienteMostrado;
 	private String apellidoClienteMostrado;
 	private String fechaNacClienteMostrado;
+
+	//Cuenta Fintech
+	private String ibanCuentaMostrada;
+	private String swiftCuentaMostrada;
+	private String estadoCuentaMostrado;
+	private String aperturaCuentaMostrado;
+	private String cierreCuentaMostrado;
+	private String clasificacionCuentaMostrado;
+
+	//Pooled
+	private String cuentasRefCuentaMostrada;
+
+	//Segregada
+	private String comisionCuentaMostrada;
+	private String cuentaIbanCuentaMostrada;
+	private String divisaRefCuentaMostrada;
+
+	//Referencia
+	private String nombreBancoCuentaMostrada;
+	private String sucursalCuentaMostrada;
+	private String paisCuentaMostrada;
+	private String saldoCuentaMostrada;
+	private String fechaRefCuentaMostrada;
+	private String estadoRefCuentaMostrada;
+	private String divisaCuentaMostrada;
+
 
 	//Cosa a mostrar
 	private String cosaAmostrar;
@@ -224,6 +257,122 @@ public class Administrador {
 		}
 	}
 	
+	public void mostrarCuenta(){
+		try{
+			CuentaFintech cuent = bCuentas.getCuentaFintech(iban);
+			if(cuent.getClasificacion().equalsIgnoreCase("Segregada")){
+				cosaAmostrar = "Segregada";
+				Segregada seg = bCuentas.getCuentaSegregada(iban);
+				ibanCuentaMostrada = seg.getIBAN();
+				if(seg.getSWIFT()==null){
+					swiftCuentaMostrada = "No tiene";
+				}else{
+					swiftCuentaMostrada = seg.getSWIFT();
+				}
+				if(seg.getEstado()){
+					estadoCuentaMostrado = "Active";
+				}else{
+					estadoCuentaMostrado = "Not Active";
+				}
+				aperturaCuentaMostrado = seg.getFechaApertura().toString();
+				if(seg.getFechaCierre()==null){
+					cierreCuentaMostrado = "No tiene";
+				}else{
+					cierreCuentaMostrado = seg.getFechaCierre().toString();
+				}
+				if(seg.getComision()==null){
+					comisionCuentaMostrada = "0.0";
+				}else{
+					comisionCuentaMostrada = String.valueOf(seg.getComision());
+				}
+				clasificacionCuentaMostrado = seg.getClasficicacion();
+				cuentaIbanCuentaMostrada = seg.getCuentaReferencia().getIBAN();
+				divisaRefCuentaMostrada = seg.getCuentaReferencia().getDivisa().getNombre();
+			}else{
+				cosaAmostrar = "Pooled";
+				PooledAccount seg = bCuentas.getCuentaAgrupada(iban);
+				ibanCuentaMostrada = seg.getIBAN();
+				if(seg.getSWIFT()==null){
+					swiftCuentaMostrada = "No tiene";
+				}else{
+					swiftCuentaMostrada = seg.getSWIFT();
+				}
+				if(seg.getEstado()){
+					estadoCuentaMostrado = "Active";
+				}else{
+					estadoCuentaMostrado = "Not Active";
+				}
+				aperturaCuentaMostrado = seg.getFechaApertura().toString();
+				if(seg.getFechaCierre()==null){
+					cierreCuentaMostrado = "No tiene";
+				}else{
+					cierreCuentaMostrado = seg.getFechaCierre().toString();
+				}
+
+				StringBuilder sb = new StringBuilder();
+				sb.append("{");
+				for(DepositadaEn e : seg.getDepositadaEn()){
+					sb.append(e.getCuentaReferencia().getIBAN());
+					sb.append("("+e.getCuentaReferencia().getDivisa().getNombre()+")");
+					sb.append(", ");
+				}
+				sb.delete(sb.length()-2, sb.length());
+				sb.append("}");
+				clasificacionCuentaMostrado = seg.getClasficicacion();
+				cuentasRefCuentaMostrada = sb.toString();
+			}
+		} catch (CuentaException e){
+			FacesMessage fm = new FacesMessage("La cuenta solicitada no existe o es CuentaReferencia.");
+	        FacesContext.getCurrentInstance().addMessage("administrador:ibanMostrar", fm);
+		} catch (NullPointerException e){
+			FacesMessage fm = new FacesMessage("La cuenta solicitada no existe o es CuentaReferencia.");
+	        FacesContext.getCurrentInstance().addMessage("administrador:ibanMostrar", fm);
+		}
+	}
+
+	public void mostrarCuentaRef(){
+		try{
+			cosaAmostrar = "Referencia";
+			CuentaReferencia seg = bCuentas.getCuentaReferencia(iban);
+			ibanCuentaMostrada = seg.getIBAN();
+			if(seg.getSWIFT()==null){
+				swiftCuentaMostrada = "No tiene";
+			}else{
+				swiftCuentaMostrada = seg.getSWIFT();
+			}
+			nombreBancoCuentaMostrada = seg.getNombreBanco();
+			if(seg.getSucursal()==null){
+				sucursalCuentaMostrada = "No tiene";
+			}else{
+				sucursalCuentaMostrada = seg.getSucursal();
+			}
+			if(seg.getPais()==null){
+				paisCuentaMostrada = "No tiene";
+			}else{
+				paisCuentaMostrada = seg.getPais();
+			}
+			saldoCuentaMostrada = String.valueOf(seg.getSaldo());
+			if(seg.getFechaApertura()==null){
+				fechaRefCuentaMostrada = "No tiene";
+			}else{
+				fechaRefCuentaMostrada = seg.getFechaApertura().toString();
+			}
+			
+			if(seg.getEstado()!=null && seg.getEstado()){
+				estadoRefCuentaMostrada = "Active";
+			}else{
+				estadoRefCuentaMostrada = "Not active";
+			}
+			divisaCuentaMostrada = seg.getDivisa().getNombre();
+		} catch (CuentaException e){
+			FacesMessage fm = new FacesMessage("La cuenta solicitada no existe o es CuentaReferencia.");
+	        FacesContext.getCurrentInstance().addMessage("administrador:ibanMostrar", fm);
+		} catch (NullPointerException e){
+			FacesMessage fm = new FacesMessage("La cuenta solicitada no existe o es CuentaReferencia.");
+	        FacesContext.getCurrentInstance().addMessage("administrador:ibanMostrar", fm);
+		}
+	}
+
 	public String darAlta() {	
 		try {
 			admin.darAltaCliente(ident);
@@ -632,6 +781,143 @@ public class Administrador {
 	}
 
 
+	public GestionCuentas getBCuentas() {
+		return this.bCuentas;
+	}
+
+	public void setBCuentas(GestionCuentas bCuentas) {
+		this.bCuentas = bCuentas;
+	}
+
+	public String getIbanCuentaMostrada() {
+		return this.ibanCuentaMostrada;
+	}
+
+	public void setIbanCuentaMostrada(String ibanCuentaMostrada) {
+		this.ibanCuentaMostrada = ibanCuentaMostrada;
+	}
+
+	public String getSwiftCuentaMostrada() {
+		return this.swiftCuentaMostrada;
+	}
+
+	public void setSwiftCuentaMostrada(String swiftCuentaMostrada) {
+		this.swiftCuentaMostrada = swiftCuentaMostrada;
+	}
+
+	public String getEstadoCuentaMostrado() {
+		return this.estadoCuentaMostrado;
+	}
+
+	public void setEstadoCuentaMostrado(String estadoCuentaMostrado) {
+		this.estadoCuentaMostrado = estadoCuentaMostrado;
+	}
+
+	public String getAperturaCuentaMostrado() {
+		return this.aperturaCuentaMostrado;
+	}
+
+	public void setAperturaCuentaMostrado(String aperturaCuentaMostrado) {
+		this.aperturaCuentaMostrado = aperturaCuentaMostrado;
+	}
+
+	public String getCierreCuentaMostrado() {
+		return this.cierreCuentaMostrado;
+	}
+
+	public void setCierreCuentaMostrado(String cierreCuentaMostrado) {
+		this.cierreCuentaMostrado = cierreCuentaMostrado;
+	}
+
+	public String getClasificacionCuentaMostrado() {
+		return this.clasificacionCuentaMostrado;
+	}
+
+	public void setClasificacionCuentaMostrado(String clasificacionCuentaMostrado) {
+		this.clasificacionCuentaMostrado = clasificacionCuentaMostrado;
+	}
+
+	public String getCuentasRefCuentaMostrada() {
+		return this.cuentasRefCuentaMostrada;
+	}
+
+	public void setCuentasRefCuentaMostrada(String cuentasRefCuentaMostrada) {
+		this.cuentasRefCuentaMostrada = cuentasRefCuentaMostrada;
+	}
+
+	public String getComisionCuentaMostrada() {
+		return this.comisionCuentaMostrada;
+	}
+
+	public void setComisionCuentaMostrada(String comisionCuentaMostrada) {
+		this.comisionCuentaMostrada = comisionCuentaMostrada;
+	}
+
+	public String getCuentaIbanCuentaMostrada() {
+		return this.cuentaIbanCuentaMostrada;
+	}
+
+	public void setCuentaIbanCuentaMostrada(String cuentaIbanCuentaMostrada) {
+		this.cuentaIbanCuentaMostrada = cuentaIbanCuentaMostrada;
+	}
+
+	public String getNombreBancoCuentaMostrada() {
+		return this.nombreBancoCuentaMostrada;
+	}
+
+	public void setNombreBancoCuentaMostrada(String nombreBancoCuentaMostrada) {
+		this.nombreBancoCuentaMostrada = nombreBancoCuentaMostrada;
+	}
+
+	public String getSucursalCuentaMostrada() {
+		return this.sucursalCuentaMostrada;
+	}
+
+	public void setSucursalCuentaMostrada(String sucursalCuentaMostrada) {
+		this.sucursalCuentaMostrada = sucursalCuentaMostrada;
+	}
+
+	public String getPaisCuentaMostrada() {
+		return this.paisCuentaMostrada;
+	}
+
+	public void setPaisCuentaMostrada(String paisCuentaMostrada) {
+		this.paisCuentaMostrada = paisCuentaMostrada;
+	}
+
+	public String getSaldoCuentaMostrada() {
+		return this.saldoCuentaMostrada;
+	}
+
+	public void setSaldoCuentaMostrada(String saldoCuentaMostrada) {
+		this.saldoCuentaMostrada = saldoCuentaMostrada;
+	}
+
+	public String getFechaRefCuentaMostrada() {
+		return this.fechaRefCuentaMostrada;
+	}
+
+	public void setFechaRefCuentaMostrada(String fechaRefCuentaMostrada) {
+		this.fechaRefCuentaMostrada = fechaRefCuentaMostrada;
+	}
+
+	public String getEstadoRefCuentaMostrada() {
+		return this.estadoRefCuentaMostrada;
+	}
+
+	public void setEstadoRefCuentaMostrada(String estadoRefCuentaMostrada) {
+		this.estadoRefCuentaMostrada = estadoRefCuentaMostrada;
+	}
+
+	public String getDivisaCuentaMostrada() {
+		return this.divisaCuentaMostrada;
+	}
+
+	public void setDivisaCuentaMostrada(String divisaCuentaMostrada) {
+		this.divisaCuentaMostrada = divisaCuentaMostrada;
+	}
+
+
 	public String getDir2() {
 		return dir2;
 	}
@@ -664,5 +950,12 @@ public class Administrador {
 		this.estadoPA = estadoPA;
 	}
 
+	public String getDivisaRefCuentaMostrada() {
+		return this.divisaRefCuentaMostrada;
+	}
+
+	public void setDivisaRefCuentaMostrada(String divisaRefCuentaMostrada) {
+		this.divisaRefCuentaMostrada = divisaRefCuentaMostrada;
+	}
 	
 }

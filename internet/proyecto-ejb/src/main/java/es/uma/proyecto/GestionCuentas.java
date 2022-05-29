@@ -3,6 +3,7 @@ package es.uma.proyecto;
 import javax.ejb.Local;
 
 import es.uma.proyecto.entidades.Cuenta;
+import es.uma.proyecto.entidades.CuentaFintech;
 import es.uma.proyecto.entidades.CuentaReferencia;
 import es.uma.proyecto.entidades.PooledAccount;
 import es.uma.proyecto.entidades.Segregada;
@@ -15,4 +16,5 @@ public interface GestionCuentas {
     public Segregada getCuentaSegregada(String iban) throws CuentaException;
     public PooledAccount getCuentaAgrupada(String iban) throws CuentaException;
     public CuentaReferencia getCuentaReferencia(String iban) throws CuentaException;
+    public CuentaFintech getCuentaFintech (String iban) throws CuentaException;
 }

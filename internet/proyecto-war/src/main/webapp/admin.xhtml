@@ -77,7 +77,48 @@
 					
 						</c:when>
 
-						<c:when test="${admin.cosaAmostrar =='Cuenta'}"> 
+						<c:when test="${admin.cosaAmostrar =='Segregada'}"> 
+							<div class="DatosSegregada" id="DatosSegregada">
+								<p>Informacion de cuenta segregada con iban <i><h:outputText value="#{admin.ibanCuentaMostrada}"/></i> :</p>
+								<p>IBAN: <i><h:outputText value="#{admin.ibanCuentaMostrada}"/></i></p>
+								<p>SWIFT: <i><h:outputText value="#{admin.swiftCuentaMostrada}"/></i></p>
+								<p>Estado: <i><h:outputText value="#{admin.estadoCuentaMostrado}"/></i></p>
+								<p>Fecha de apertura: <i><h:outputText value="#{admin.aperturaCuentaMostrado}"/></i></p>
+								<p>Fecha de cierre: <i><h:outputText value="#{admin.cierreCuentaMostrado}"/></i></p>
+								<p>Clasificacion: <i><h:outputText value="#{admin.clasificacionCuentaMostrado}"/></i></p>
+								<p>Comision: <i><h:outputText value="#{admin.comisionCuentaMostrada}"/></i></p>
+								<p>Cuenta de referencia: <i><h:outputText value="#{admin.cuentaIbanCuentaMostrada}"/></i></p>
+								<p>Divisa: <i><h:outputText value="#{admin.divisaRefCuentaMostrada}"/></i></p>
+							</div>
+						
+						</c:when>
+
+						<c:when test="${admin.cosaAmostrar =='Pooled'}"> 
+							<div class="DatosPooled" id="DatosPooled">
+								<p>Informacion de cuenta segregada con iban <i><h:outputText value="#{admin.ibanCuentaMostrada}"/></i> :</p>
+								<p>IBAN: <i><h:outputText value="#{admin.ibanCuentaMostrada}"/></i></p>
+								<p>SWIFT: <i><h:outputText value="#{admin.swiftCuentaMostrada}"/></i></p>
+								<p>Estado: <i><h:outputText value="#{admin.estadoCuentaMostrado}"/></i></p>
+								<p>Fecha de apertura: <i><h:outputText value="#{admin.aperturaCuentaMostrado}"/></i></p>
+								<p>Fecha de cierre: <i><h:outputText value="#{admin.cierreCuentaMostrado}"/></i></p>
+								<p>Clasificacion: <i><h:outputText value="#{admin.clasificacionCuentaMostrado}"/></i></p>
+								<p>Cuentas de referencia: <i><h:outputText value="#{admin.cuentasRefCuentaMostrada}"/></i></p>
+							</div>
+						</c:when>
+
+						<c:when test="${admin.cosaAmostrar =='Referencia'}"> 
+							<div class="DatosReferencia" id="DatosRerencia">
+								<p>Informacion de cuenta referencia con iban <i><h:outputText value="#{admin.ibanCuentaMostrada}"/></i> :</p>
+								<p>IBAN: <i><h:outputText value="#{admin.ibanCuentaMostrada}"/></i></p>
+								<p>SWIFT: <i><h:outputText value="#{admin.swiftCuentaMostrada}"/></i></p>
+								<p>Nombre de banco: <i><h:outputText value="#{admin.nombreBancoCuentaMostrada}"/></i></p>
+								<p>Sucursal: <i><h:outputText value="#{admin.sucursalCuentaMostrada}"/></i></p>
+								<p>Pais: <i><h:outputText value="#{admin.paisCuentaMostrada}"/></i></p>
+								<p>Saldo: <i><h:outputText value="#{admin.saldoCuentaMostrada}"/></i></p>
+								<p>Fecha de referencia: <i><h:outputText value="#{admin.fechaRefCuentaMostrada}"/></i></p>
+								<p>Estado: <i><h:outputText value="#{admin.estadoRefCuentaMostrada}"/></i></p>
+								<p>Divisa: <i><h:outputText value="#{admin.divisaCuentaMostrada}"/></i></p>
+							</div>
 						</c:when>
 
 						<c:when test="${admin.cosaAmostrar == 'PersonaAutorizada'}">
@@ -206,11 +247,55 @@
 
 						<h2>Administrar cuentas</h2>
 
+						<button onclick="mostrar('MostrarCuentas')">Mostrar cuenta</button>
+
+						<button onclick="mostrar('MostrarCuentasRef')">Mostrar cuenta referencia</button>
+
 						<button onclick="mostrar('AA')">Aperturar Cuenta Agrupada</button>
 
 						<button onclick="mostrar('AS')">Aperturar Cuenta Segregada</button>
 
 						<button onclick="mostrar('Cer')">Cerrar Cuenta</button>
+
+						<div class="MostrarCuentas" style="display:none" >
+
+							<h:form id="mostrarCuentas">
+
+								<p>Indique el IBAN de la cuenta a mostrar:</p>
+
+								<h:panelGrid columns="3"> 
+									<div>
+										<h:outputText value="IBAN de la cuenta: " styleClass="info-campo"/>
+										<h:inputText id="iban" required="true" requiredMessage="Valor obligatorio" value="#{admin.iban}"/>
+										<h:message for="ibanMostrar" styleClass="info-campo"/>
+									</div>
+								</h:panelGrid>
+								<div class="mostrarButtons" style="display: inline">
+									<h:commandButton styleClass="mostrar" id="mostrarCuentas" value="Mostrar" action="#{admin.mostrarCuenta()}"/>
+									<button onclick="cerrar('MostrarCuentas');cerrar('mostrarCuentas');return false">Cancelar</button>
+								</div>
+							</h:form>
+						</div>
+
+						<div class="MostrarCuentasRef" style="display:none" >
+
+							<h:form id="mostrarCuentasRef">
+
+								<p>Indique el IBAN de la cuenta referencia a mostrar:</p>
+
+								<h:panelGrid columns="3"> 
+									<div>
+										<h:outputText value="IBAN de la cuenta referencia: " styleClass="info-campo"/>
+										<h:inputText id="iban" required="true" requiredMessage="Valor obligatorio" value="#{admin.iban}"/>
+										<h:message for="ibanMostrar" styleClass="info-campo"/>
+									</div>
+								</h:panelGrid>
+								<div class="mostrarButtons" style="display: inline">
+									<h:commandButton styleClass="mostrar" id="mostrarCuentas" value="Mostrar" action="#{admin.mostrarCuentaRef()}"/>
+									<button onclick="cerrar('MostrarCuentasRef');cerrar('mostrarCuentasRef');return false">Cancelar</button>
+								</div>
+							</h:form>
+						</div>
 
 						<div class="AA" style="display:none">
 

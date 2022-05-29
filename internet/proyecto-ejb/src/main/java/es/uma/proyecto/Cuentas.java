@@ -1,6 +1,7 @@
 package es.uma.proyecto;
 
 import es.uma.proyecto.entidades.Cuenta;
+import es.uma.proyecto.entidades.CuentaFintech;
 import es.uma.proyecto.entidades.CuentaReferencia;
 import es.uma.proyecto.entidades.PooledAccount;
 import es.uma.proyecto.entidades.Segregada;
@@ -54,6 +55,15 @@ public class Cuentas implements GestionCuentas{
     @Override
     public CuentaReferencia getCuentaReferencia(String iban) throws CuentaException{
         CuentaReferencia ac = em.find(CuentaReferencia.class, iban);
+        if(ac == null){
+            throw new CuentaException("No existe la cuenta");
+        }
+        return ac;
+    }
+
+    @Override
+    public CuentaFintech getCuentaFintech(String iban) throws CuentaException {
+        CuentaFintech ac = em.find(CuentaFintech.class, iban);
         if(ac == null){
             throw new CuentaException("No existe la cuenta");
         }
