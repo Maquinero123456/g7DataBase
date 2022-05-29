@@ -43,7 +43,7 @@ public class informeREST {
 
 
 	//1
-	@Path("/healcheck")
+	@Path("/healthcheck")
     @GET
 	@Produces ("text/plain")
     public String healthCheck(){
@@ -53,7 +53,7 @@ public class informeREST {
 	//2
     @Path("/clients")
     @POST
-    @Consumes ({MediaType.APPLICATION_JSON, "text/plain"})
+    @Consumes (MediaType.APPLICATION_JSON)
     public Response clients(ClientsJson json) throws ParseException{
     	Date prim = new SimpleDateFormat("yyyy-MM-dd").parse(json.getSearchParameters().getStartPeriod());
     	Date fin = new SimpleDateFormat("yyyy-MM-dd").parse("2022-06-15");
