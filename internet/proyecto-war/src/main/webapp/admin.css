@@ -32,7 +32,7 @@ p{
 
 html{
     font-size: 62.4%;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 body{
