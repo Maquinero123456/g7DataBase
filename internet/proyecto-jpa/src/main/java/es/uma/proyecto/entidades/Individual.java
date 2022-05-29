@@ -1,11 +1,13 @@
 package es.uma.proyecto.entidades;
 
+import javax.json.bind.annotation.JsonbNillable;
 import javax.json.bind.annotation.JsonbProperty;
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name="INDIVIDUAL")
+@JsonbNillable
 public class Individual extends Cliente{
     //Atributos
 	@JsonbProperty("firstName")
