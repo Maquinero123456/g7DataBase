@@ -113,23 +113,6 @@ header label{
     background-position: center;
 }
 
-/*ICONO EURO*/
-.inicio .image img{
-    width: 20vw;
-    animation: float 3s linear infinite;
-}
-
-/*ANIMACION EURO*/
-@keyframes float{
-    0%, 100%{
-        transform: translateY(0rem)
-    }
-
-    50%{
-        transform: translateY(-3.5rem);
-    }
-}
-
 /*TITULO INICIO*/
 .inicio .content h3{
     font-size: 4.5rem;
@@ -200,6 +183,51 @@ button:hover{
     width: 200px;
     height: 30px;
     padding-left: 10px;
+}
+
+#DatosInd{
+    padding: 15px;
+    background-color: rgb(167, 167, 167);
+    border: solid;
+    border-width: 5px;
+    border-color: rgb(167, 167, 167);
+    border-radius: 25px;
+}
+
+#DatosSegregada{
+    padding: 15px;
+    background-color: rgb(167, 167, 167);
+    border: solid;
+    border-width: 5px;
+    border-color: rgb(167, 167, 167);
+    border-radius: 25px;
+}
+
+#DatosPooled{
+    padding: 15px;
+    background-color: rgb(167, 167, 167);
+    border: solid;
+    border-width: 5px;
+    border-color: rgb(167, 167, 167);
+    border-radius: 25px;
+}
+
+#DatosReferencia{
+    padding: 15px;
+    background-color: rgb(167, 167, 167);
+    border: solid;
+    border-width: 5px;
+    border-color: rgb(167, 167, 167);
+    border-radius: 25px;
+}
+
+#DatosPersona{
+    padding: 15px;
+    background-color: rgb(167, 167, 167);
+    border: solid;
+    border-width: 5px;
+    border-color: rgb(167, 167, 167);
+    border-radius: 25px;
 }
 
 /*ADAPTACIONES EN FUNCION DEL TAMAÑO DEL DISPOSITIVO*/
