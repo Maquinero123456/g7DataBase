@@ -200,7 +200,7 @@ public class Informes implements GestionInformes{
 			
 			if(c1!=null) {
 				if(c1.getFechaAlta().compareTo(alta) > 0 && c1.getFechaAlta().compareTo(baja) < 0) {
-			   		informe.add("Individual: "+builder.toJson(c1)+"\n");
+			   		informe.add("Individual: "+builder.toJson(c1)+"\n 'products':");
 			   		for(CuentaFintech cf: c1.getCuentas()) {
 			   			informe.add(builder.toJson(cf)+"\n");
 			   		}
@@ -209,9 +209,9 @@ public class Informes implements GestionInformes{
 			
 			else if(emp!=null) {
 				if(emp.getFechaAlta().compareTo(alta) > 0 && emp.getFechaAlta().compareTo(baja) < 0) {
-			   		informe.add("Empresa: "+builder.toJson(pa)+"\n");
+			   		informe.add("Persona Autorizada: "+builder.toJson(pa)+"\n");
 			   		for(CuentaFintech cf: emp.getCuentas()) {
-			   			informe.add(builder.toJson(cf)+"\n");
+			   			informe.add(builder.toJson(cf)+"\n 'products':");
 			   		}
 				}
 			}

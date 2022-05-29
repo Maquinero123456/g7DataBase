@@ -106,7 +106,7 @@ public class InicializarBD {
         CuentaReferencia vg57 = new CuentaReferencia();
         vg57.setIBAN("VG57DDVS5173214964983931");
         vg57.setSaldo(100.0);
-        vg57.setNombreBanco("Pablo Dineros");
+        vg57.setNombreBanco("Bancos Pablo SA");
         vg57.setDivisa(dolar);
         em.persist(vg57);
 
@@ -122,7 +122,7 @@ public class InicializarBD {
         CuentaReferencia hn47 = new CuentaReferencia();
         hn47.setIBAN("HN47QUXH11325678769785549996");
         hn47.setSaldo(100.0);
-        hn47.setNombreBanco("Pablo Dineros");
+        hn47.setNombreBanco("Santander");
         hn47.setDivisa(dolar);
         em.persist(hn47);
 
@@ -138,7 +138,7 @@ public class InicializarBD {
         CuentaReferencia refFalsa = new CuentaReferencia();
         refFalsa.setIBAN("HN47QUXH113256787697855");
         refFalsa.setSaldo(100.0);
-        refFalsa.setNombreBanco("Pablo Dineros");
+        refFalsa.setNombreBanco("BBVA");
         refFalsa.setDivisa(dolar);
         refFalsa.setEstado(false);
         em.persist(refFalsa);
@@ -155,21 +155,21 @@ public class InicializarBD {
         CuentaReferencia ES71 = new CuentaReferencia();
         ES71.setIBAN("ES7121007487367264321882");
         ES71.setSaldo(100.0);
-        ES71.setNombreBanco("Pablo Dineros");
+        ES71.setNombreBanco("Santander");
         ES71.setDivisa(euro);
         em.persist(ES71);
 
         CuentaReferencia VG88 = new CuentaReferencia();
         VG88.setIBAN("VG88HBIJ4257959912673134");
         VG88.setSaldo(200.0);
-        VG88.setNombreBanco("Pablo Dineros");
+        VG88.setNombreBanco("BBVA");
         VG88.setDivisa(dolar);
         em.persist(VG88);
 
         CuentaReferencia GB79 = new CuentaReferencia();
         GB79.setIBAN("GB79BARC20040134265953");
         GB79.setSaldo(134.0);
-        GB79.setNombreBanco("Pablo Dineros");
+        GB79.setNombreBanco("UniCaja");
         GB79.setDivisa(libra);
         em.persist(GB79);
 
