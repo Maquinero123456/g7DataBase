@@ -1,21 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;700&display=swap');
 
 body{
-    background: #adadad;
+    background-color: rgb(206, 206, 206);
 }
 
 .order-table-header{
 	text-align:center;
 	border-bottom:1px solid #BBBBBB;
-	padding:16px;
-    margin: 20px;
+	padding: 1 rem;
+    text-overflow: ellipsis;
+    white-space: pre;
+    text-align: center;
 }
 
 .cuentas {
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: pre;
+    margin: 1rem;
     padding: 0.75rem;
-    background-color: rgb(206, 206, 206);
-    width: 100%;
-    border-radius: 25px;
+    width: 0 auto;
     font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
     font-size: 1.5rem;
     color: #333;

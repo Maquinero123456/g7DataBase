@@ -38,7 +38,9 @@
 					<c:when test="#{infoSesion.usuario.esAdministrativo}">
 						
 					<p>Buenas tardes <i><h:outputText value="#{infoSesion.usuario.nombre}"/></i>, ¿qué acción realizará?</p>
-					<h:outputText value="#{admin.clienteMostrado}" id="outputText"/>
+					<div class="DatosCliente" id="DatosCliente">
+								<h:outputText value="#{admin.clienteMostrado}" style="font-size: 1.5rem"/>
+					</div>
 					<div>
 						
 						<h2>Administrar clientes</h2>
@@ -58,18 +60,35 @@
 								<p>Indique el cliente a mostrar:</p>
 
 								<h:panelGrid columns="3"> 
-									<h:outputText value="Identificador del cliente: " styleClass="info-campo"/>
-									<h:inputText id="identMostrar" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}"/>
-									<h:message for="identMostrar" styleClass="info-campo"/>
+									<div>
+										<h:outputText value="Identificador del cliente: " styleClass="info-campo"/>
+										<h:inputText id="identMostrar" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}"/>
+										<h:message for="identMostrar" styleClass="info-campo"/>
+									</div>
+									<fieldset>
+										<legend>Select a maintenance drone:</legend>
+										<div>
+										  <input type="radio" id="huey" name="drone" value="huey"/>
+										  <label for="huey">Huey</label>
+										</div>
+									
+										<div>
+										  <input type="radio" id="dewey" name="drone" value="dewey"/>
+										  <label for="dewey">Dewey</label>
+										</div>
+									
+										<div>
+										  <input type="radio" id="louie" name="drone" value="louie"/>
+										  <label for="louie">Louie</label>
+										</div>
+									</fieldset>
 								</h:panelGrid>
-									
-								<div style="display: inline">
-									<h:commandButton styleClass="button" id="mostrarCliente" value="Mostrar" action="#{admin.mostrarCliente()}"/>
-									<button onclick="cerrar('MostrarCl');return false">Cancelar</button>
+								<div class="mostrarButtons" style="display: inline">
+									<h:commandButton styleClass="mostrar" id="mostrarCliente" value="Mostrar" action="#{admin.mostrarCliente()}"/>
+									<button onclick="cerrar('MostrarCl');cerrar('DatosCliente');return false">Cancelar</button>
 								</div>
-									
 							</h:form>
-						</div>	
+						</div>
 
 
 						<div class="Alta" style="display:none" >
@@ -92,6 +111,7 @@
 							</h:form>
 						</div>	
 
+						
 						<div class="Mod" style="display:none">
 
 							<h:form id="fMod">
@@ -362,7 +382,7 @@
 
 					<script type="text/javascript"> 
 					const mostrar = elementByClass => {
-						document.querySelector('.' + elementByClass).toggleAttribute('style');
+						document.querySelector('.' + elementByClass).toggleAttribute('style');						
 					};
 					
 					const cerrar = elementByClass => {
