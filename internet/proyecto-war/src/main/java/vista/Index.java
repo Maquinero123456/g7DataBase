@@ -112,22 +112,45 @@ public class Index {
 				for(DepositadaEn a : pool.getDepositadaEn()){
 					CuentaReferencia ref = a.getCuentaReferencia();
 					aux2.setIban(pool.getIBAN());
-					aux2.setSwift(pool.getSWIFT());
+					if(pool.getSWIFT()==null){
+						aux2.setSwift("No tiene");
+					}else{
+						aux2.setSwift(pool.getSWIFT());
+					}
 					if(pool.getEstado()){
 						aux2.setEstado("Active");
 					}else{
 						aux2.setEstado("Not active");
 					}
 					aux2.setFechaApertura(pool.getFechaApertura().toString());
-					aux2.setFechaCierre(pool.getFechaCierre().toString());
+					if(pool.getFechaCierre()==null){
+						aux2.setFechaCierre("No tiene");
+					}else{
+						aux2.setFechaCierre(pool.getFechaCierre().toString());
+					}
+					
 					aux2.setClasificacion(pool.getClasficicacion());
 					aux2.setIbanRef(ref.getIBAN());
 					aux2.setNombreBanco(ref.getNombreBanco());
-					aux2.setSucursal(ref.getSucursal());
-					aux2.setPais(ref.getPais());
+					if(ref.getSucursal()==null){
+						aux2.setSucursal("No tiene");
+					}else{
+						aux2.setSucursal(ref.getSucursal());
+					}
+					if(ref.getPais()==null){
+
+					}else{
+						aux2.setPais(ref.getPais());
+					}
+					
 					aux2.setSaldo(ref.getSaldo());
-					aux2.setFechaAperturaRef(ref.getFechaApertura().toString());
-					if(ref.getEstado()){
+					if(ref.getFechaApertura()==null){
+						aux2.setFechaApertura("No tiene");
+					}else{
+						aux2.setFechaAperturaRef(ref.getFechaApertura().toString());
+					}
+					
+					if(ref.getEstado()!=null && ref.getEstado()){
 						aux2.setEstadoRef("Active");
 					}else{
 						aux2.setEstadoRef("Not active");
@@ -146,24 +169,51 @@ public class Index {
 					e1.printStackTrace();
 				}
 				aux2.setIban(seg.getIBAN());
-				aux2.setSwift(seg.getSWIFT());
+				if(seg.getSWIFT()==null){
+					aux2.setSwift("No tiene");
+				}else{
+					aux2.setSwift(seg.getSWIFT());
+				}
+				
 				if(seg.getEstado()){
 					aux2.setEstado("Active");
 				}else{
 					aux2.setEstado("Not active");
 				}
 				aux2.setFechaApertura(seg.getFechaApertura().toString());
-				aux2.setFechaCierre(seg.getFechaCierre().toString());
+				if(seg.getFechaCierre()==null){
+					aux2.setFechaCierre("No tiene");
+				}else{
+					aux2.setFechaCierre(seg.getFechaCierre().toString());
+				}
 				aux2.setClasificacion(seg.getClasficicacion());
-				aux2.setComision(seg.getComision());
+				if(seg.getComision()==null){
+					aux2.setComision(0.0);
+				}else{
+					aux2.setComision(seg.getComision());
+				}
 				CuentaReferencia ref = seg.getCuentaReferencia();
 				aux2.setIbanRef(ref.getIBAN());
 				aux2.setNombreBanco(ref.getNombreBanco());
-				aux2.setSucursal(ref.getSucursal());
-				aux2.setPais(ref.getPais());
+				if(ref.getSucursal()==null){
+					aux2.setSucursal("No tiene");
+				}else{
+					aux2.setSucursal(ref.getSucursal());
+				}
+				if(ref.getPais()==null){
+					aux2.setPais("No tiene");
+				}else{
+					aux2.setPais(ref.getPais());
+				}
+					
 				aux2.setSaldo(ref.getSaldo());
-				aux2.setFechaAperturaRef(ref.getFechaApertura().toString());
-				if(ref.getEstado()){
+				if(ref.getFechaApertura()==null){
+					aux2.setFechaApertura("No tiene");
+				}else{
+					aux2.setFechaAperturaRef(ref.getFechaApertura().toString());
+				}
+					
+				if(ref.getEstado()!=null && ref.getEstado()){
 					aux2.setEstadoRef("Active");
 				}else{
 					aux2.setEstadoRef("Not active");
