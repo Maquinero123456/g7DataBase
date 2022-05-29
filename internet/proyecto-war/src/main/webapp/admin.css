@@ -178,6 +178,17 @@ button:hover{
     transform: scale(1.1);
 }
 
+.entrada{
+    font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
+    display: inline-block;
+    font-size: large;
+    border-radius: 5rem;
+    border: 0;
+    width: 200px;
+    height: 30px;
+    padding-left: 10px;
+}
+
 /*ADAPTACIONES EN FUNCION DEL TAMAÑO DEL DISPOSITIVO*/
 @media(max-width:1200px){
     html{

@@ -12,89 +12,112 @@
     </h:head>
 
     <h:body>
-    
-        <div class="cuentas">
 
-            <h:dataTable value="#{index.retrieveCuentas()}" var="cuenta" headerClass="order-table-header">
-                
-                <h:column>                   
-                    <f:facet name="header" styleClass="cuentas">IBAN</f:facet>                 
-                    #{cuenta.iban}
-                </h:column>
+        <section class="inicio" id="inicio">
 
-                <h:column>
-                    <f:facet name="header" styleClass="cuentas">SWIFT</f:facet>
-                    #{cuenta.swift}
-                </h:column>
+            <div class="content">
 
-                <h:column>
-                    <f:facet name="header" styleClass="cuentas">Estado</f:facet>
-                    #{cuenta.estado}
-                </h:column>
+                <header>
+                    <a href="#" class="logo"><span>G</span>ualet</a>
+                    <input type="checkbox" id="menu-bar"></input>
+                    <label for="menu-bar" class="fa fa-bars"></label>
 
-                <h:column>
-                    <f:facet name="header" styleClass="cuentas">Fecha de apertura</f:facet>
-                    #{cuenta.fechaApertura}
-                </h:column>
+                    <nav class="navbar">
+                        <h:form>	
+                            <a href="login.xhtml">Inicio</a>
+                            <a href="admin.xhtml">Ajustes</a>
+                            <h:commandLink action="#{infoSesion.invalidarSesion()}">Cerrar Sesion</h:commandLink>
+                        </h:form>
+                    </nav>
 
-                <h:column>
-                    <f:facet name="header" styleClass="cuentas">Fecha de cierre</f:facet>
-                    #{cuenta.fechaCierre}
-                </h:column>
+                </header>
+            
+                <div class="cuentas">
 
-                <h:column>
-                    <f:facet name="header" styleClass="cuentas">Clasificacion</f:facet>
-                    #{cuenta.clasificacion}
-                </h:column>
+                    <h:dataTable value="#{index.retrieveCuentas()}" var="cuenta" styleClass="tabla" headerClass="order-table-header">
+                        
+                        <h:column>                   
+                            <f:facet name="header" styleClass="cuentas">IBAN</f:facet>                 
+                            #{cuenta.iban}
+                        </h:column>
 
-                <h:column>
-                    <f:facet name="header" styleClass="cuentas">Comision (Seg)</f:facet>
-                    #{cuenta.comision}
-                </h:column>
+                        <h:column>
+                            <f:facet name="header" styleClass="cuentas">SWIFT</f:facet>
+                            #{cuenta.swift}
+                        </h:column>
 
-                <h:column>
-                    <f:facet name="header" styleClass="cuentas">IBAN Referencia</f:facet>
-                    #{cuenta.ibanRef}
-                </h:column>
+                        <h:column>
+                            <f:facet name="header" styleClass="cuentas">Estado</f:facet>
+                            #{cuenta.estado}
+                        </h:column>
 
-                <h:column>
-                    <f:facet name="header" styleClass="cuentas">Nombre Banco</f:facet>
-                    #{cuenta.nombreBanco}
-                </h:column>
+                        <h:column>
+                            <f:facet name="header" styleClass="cuentas">Fecha de apertura</f:facet>
+                            #{cuenta.fechaApertura}
+                        </h:column>
 
-                <h:column>
-                    <f:facet name="header" styleClass="cuentas">Sucursal</f:facet>
-                    #{cuenta.sucursal}
-                </h:column>
+                        <h:column>
+                            <f:facet name="header" styleClass="cuentas">Fecha de cierre</f:facet>
+                            #{cuenta.fechaCierre}
+                        </h:column>
 
-                <h:column>
-                    <f:facet name="header" styleClass="cuentas">Pais</f:facet>
-                    #{cuenta.pais}
-                </h:column>
+                        <h:column>
+                            <f:facet name="header" styleClass="cuentas">Clasificacion</f:facet>
+                            #{cuenta.clasificacion}
+                        </h:column>
 
-                <h:column>
-                    <f:facet name="header" styleClass="cuentas">Saldo</f:facet>
-                    #{cuenta.saldo}
-                </h:column>
+                        <h:column>
+                            <f:facet name="header" styleClass="cuentas">Comision (Seg)</f:facet>
+                            #{cuenta.comision}
+                        </h:column>
 
-                <h:column>
-                    <f:facet name="header" styleClass="cuentas">Fecha apertura referencia</f:facet>
-                    #{cuenta.fechaAperturaRef}
-                </h:column>
+                        <h:column>
+                            <f:facet name="header" styleClass="cuentas">IBAN Referencia</f:facet>
+                            #{cuenta.ibanRef}
+                        </h:column>
 
-                <h:column>
-                    <f:facet name="header" styleClass="cuentas">Estado Referencia</f:facet>
-                    #{cuenta.estadoRef}
-                </h:column>
+                        <h:column>
+                            <f:facet name="header" styleClass="cuentas">Nombre Banco</f:facet>
+                            #{cuenta.nombreBanco}
+                        </h:column>
 
-                <h:column>
-                    <f:facet name="header" styleClass="cuentas">Divisa</f:facet>
-                    #{cuenta.divisa}
-                </h:column>
+                        <h:column>
+                            <f:facet name="header" styleClass="cuentas">Sucursal</f:facet>
+                            #{cuenta.sucursal}
+                        </h:column>
 
-            </h:dataTable>
+                        <h:column>
+                            <f:facet name="header" styleClass="cuentas">Pais</f:facet>
+                            #{cuenta.pais}
+                        </h:column>
 
-        </div>
+                        <h:column>
+                            <f:facet name="header" styleClass="cuentas">Saldo</f:facet>
+                            #{cuenta.saldo}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header" styleClass="cuentas">Fecha apertura referencia</f:facet>
+                            #{cuenta.fechaAperturaRef}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header" styleClass="cuentas">Estado Referencia</f:facet>
+                            #{cuenta.estadoRef}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header" styleClass="cuentas">Divisa</f:facet>
+                            #{cuenta.divisa}
+                        </h:column>
+
+                    </h:dataTable>
+
+                </div>
+
+            </div>
+
+        </section>
 
     </h:body>
 
