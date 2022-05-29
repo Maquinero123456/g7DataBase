@@ -62,7 +62,7 @@ public class Individual extends Cliente{
 
 	@Override
 	public String toString() {
-		return "Individual [nombre=" + nombre + ", apellidos=" + apellidos + ", fechaNacimiento=" + fechaNacimiento
+		return super.toString()+ " Individual [nombre=" + nombre + ", apellidos=" + apellidos + ", fechaNacimiento=" + fechaNacimiento
 				+ "]";
 	}
 

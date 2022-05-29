@@ -38,9 +38,55 @@
 					<c:when test="#{infoSesion.usuario.esAdministrativo}">
 						
 					<p>Buenas tardes <i><h:outputText value="#{infoSesion.usuario.nombre}"/></i>, ¿qué acción realizará?</p>
-					<div class="DatosCliente" id="DatosCliente">
-								<h:outputText value="#{admin.clienteMostrado}" style="font-size: 1.5rem"/>
-					</div>
+					
+					<c:choose>
+						<c:when test="${admin.cosaAmostrar =='Individual'}">
+							<div class="DatosInd" id="DatosInd">
+								<p>Informacion de individual con identificacion <i><h:outputText value="#{admin.identClienteMostrado}"/></i> :</p>
+								<p>ID: <i><h:outputText value="#{admin.idClienteMostrado}"/></i></p>
+								<p>Identificacion: <i><h:outputText value="#{admin.identClienteMostrado}"/></i></p>
+								<p>Tipo: <i><h:outputText value="#{admin.tipoClienteMostrado}"/></i></p>
+								<p>Estado: <i><h:outputText value="#{admin.estadoClienteMostrado}"/></i></p>
+								<p>Fecha de alta: <i><h:outputText value="#{admin.altaClienteMostrado}"/></i></p>
+								<p>Fecha de baja: <i><h:outputText value="#{admin.bajaClienteMostrado}"/></i></p>
+								<p>Direccion: <i><h:outputText value="#{admin.direClienteMostrado}"/></i></p>
+								<p>Ciudad: <i><h:outputText value="#{admin.ciuClienteMostrado}"/></i></p>
+								<p>Codigo postal: <i><h:outputText value="#{admin.cpClienteMostrado}"/></i></p>
+								<p>Pais: <i><h:outputText value="#{admin.paClienteMostrado}"/></i></p>
+								<p>Nombre: <i><h:outputText value="#{admin.nombreClienteMostrado}"/></i></p>
+								<p>Apellidos: <i><h:outputText value="#{admin.apellidoClienteMostrado}"/></i></p>
+								<p>Fecha de nacimiento: <i><h:outputText value="#{admin.fechaNacClienteMostrado}"/></i></p>
+							</div>
+						</c:when>
+						
+						<c:when test="${admin.cosaAmostrar =='Empresa'}"> 
+							<div class="DatosEmpresa" id="DatosEmpresa">
+								<p>Informacion de empresa con identificacion <i><h:outputText value="#{admin.identClienteMostrado}"/></i> :</p>
+								<p>ID: <i><h:outputText value="#{admin.idClienteMostrado}"/></i></p>
+								<p>Identificacion: <i><h:outputText value="#{admin.identClienteMostrado}"/></i></p>
+								<p>Tipo: <i><h:outputText value="#{admin.tipoClienteMostrado}"/></i></p>
+								<p>Estado: <i><h:outputText value="#{admin.estadoClienteMostrado}"/></i></p>
+								<p>Fecha de alta: <i><h:outputText value="#{admin.altaClienteMostrado}"/></i></p>
+								<p>Fecha de baja: <i><h:outputText value="#{admin.bajaClienteMostrado}"/></i></p>
+								<p>Direccion: <i><h:outputText value="#{admin.direClienteMostrado}"/></i></p>
+								<p>Ciudad: <i><h:outputText value="#{admin.ciuClienteMostrado}"/></i></p>
+								<p>Codigo postal: <i><h:outputText value="#{admin.cpClienteMostrado}"/></i></p>
+								<p>Pais: <i><h:outputText value="#{admin.paClienteMostrado}"/></i></p>
+								<p>Razon social: <i><h:outputText value="#{admin.razonClienteMostrado}"/></i></p>
+							</div>
+					
+						</c:when>
+
+						<c:when test="${admin.cosaAmostrar =='Cuenta'}"> 
+						</c:when>
+
+						<c:when test="${admin.cosaAmostrar == 'PersonaAutorizada'}">
+						</c:when>
+
+						<c:otherwise>
+						</c:otherwise>
+
+					</c:choose>
 					<div>
 						
 						<h2>Administrar clientes</h2>
@@ -65,23 +111,6 @@
 										<h:inputText id="identMostrar" required="true" requiredMessage="Valor obligatorio" value="#{admin.ident}" styleClass="entrada"/>
 										<h:message for="identMostrar" styleClass="info-campo"/>
 									</div>
-									<fieldset>
-										<legend>Select a maintenance drone:</legend>
-										<div>
-										  <input type="radio" id="huey" name="drone" value="huey"/>
-										  <label for="huey">Huey</label>
-										</div>
-									
-										<div>
-										  <input type="radio" id="dewey" name="drone" value="dewey"/>
-										  <label for="dewey">Dewey</label>
-										</div>
-									
-										<div>
-										  <input type="radio" id="louie" name="drone" value="louie"/>
-										  <label for="louie">Louie</label>
-										</div>
-									</fieldset>
 								</h:panelGrid>
 								<div class="mostrarButtons" style="display: inline">
 									<h:commandButton styleClass="mostrar" id="mostrarCliente" value="Mostrar" action="#{admin.mostrarCliente()}"/>

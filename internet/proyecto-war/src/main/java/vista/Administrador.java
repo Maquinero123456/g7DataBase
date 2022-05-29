@@ -46,6 +46,28 @@ public class Administrador {
 	private InfoSesion sesion;
 
 	private String clienteMostrado;
+	//Cliente mostrado
+	private String idClienteMostrado;
+	private String identClienteMostrado;
+	private String tipoClienteMostrado;
+	private String estadoClienteMostrado;
+	private String altaClienteMostrado;
+	private String bajaClienteMostrado;
+	private String direClienteMostrado;
+	private String ciuClienteMostrado;
+	private String cpClienteMostrado;
+	private String paClienteMostrado;
+
+	//Empresa mostrada
+	private String razonClienteMostrado;
+
+	//Individual
+	private String nombreClienteMostrado;
+	private String apellidoClienteMostrado;
+	private String fechaNacClienteMostrado;
+
+	//Cosa a mostrar
+	private String cosaAmostrar;
 
 	private Cliente cliente;
 	private Usuario usuario;
@@ -144,11 +166,54 @@ public class Administrador {
 
 	public void mostrarCliente(){
 		try{
+
 			Cliente client = clientes.getCliente(ident);
 			if(client.getTipoCliente().equals("Individual")){
-				clienteMostrado = clientes.getIndividual(ident).toString();
+				cosaAmostrar = "Individual";
+				Individual ind = clientes.getIndividual(ident);
+				idClienteMostrado = String.valueOf(ind.getId());
+				identClienteMostrado = ind.getIdentificacion();
+				tipoClienteMostrado = ind.getTipoCliente();
+				estadoClienteMostrado = ind.getEstado();
+				altaClienteMostrado = ind.getFechaAlta().toString();
+				if(ind.getFechaBaja()==null){
+					bajaClienteMostrado = "No tiene";
+				}else{
+					bajaClienteMostrado = ind.getFechaBaja().toString();
+				}	
+				
+				direClienteMostrado = ind.getDireccion();
+				ciuClienteMostrado = ind.getCiudad();
+				cpClienteMostrado = ind.getCodigoPostal();
+				paClienteMostrado = ind.getPais();
+				nombreClienteMostrado = ind.getNombre();
+				apellidoClienteMostrado = ind.getApellidos();
+				if(ind.getFechaNacimiento()==null){
+					fechaNacClienteMostrado = "No tiene";
+				}else{
+					fechaNacClienteMostrado = ind.getFechaNacimiento().toString();
+				}
+				
+				
 			}else{
-				clienteMostrado = clientes.getEmpresa(ident).toString();
+				cosaAmostrar = "Empresa";
+				Empresa emp = clientes.getEmpresa(ident);
+				idClienteMostrado = String.valueOf(emp.getId());
+				identClienteMostrado = emp.getIdentificacion();
+				tipoClienteMostrado = emp.getTipoCliente();
+				estadoClienteMostrado = emp.getEstado();
+				altaClienteMostrado = emp.getFechaAlta().toString();
+				if(emp.getFechaBaja()==null){
+					bajaClienteMostrado = "No tiene";
+				}else{
+					bajaClienteMostrado = emp.getFechaBaja().toString();
+				}	
+				
+				direClienteMostrado = emp.getDireccion();
+				ciuClienteMostrado = emp.getCiudad();
+				cpClienteMostrado = emp.getCodigoPostal();
+				paClienteMostrado = emp.getPais();
+				razonClienteMostrado = emp.getRazonSocial();
 			}
 		} catch (ClienteException e){
 			FacesMessage fm = new FacesMessage("No existe el cliente solicitado.");
@@ -347,6 +412,31 @@ public class Administrador {
 		this.perAu = perAu;
 	}
 
+	public String getIdClienteMostrado() {
+		return this.idClienteMostrado;
+	}
+
+	public void setIdClienteMostrado(String idClienteMostrado) {
+		this.idClienteMostrado = idClienteMostrado;
+	}
+
+
+	public InfoSesion getSesion() {
+		return this.sesion;
+	}
+
+	public void setSesion(InfoSesion sesion) {
+		this.sesion = sesion;
+	}
+
+	public String getCosaAmostrar() {
+		return this.cosaAmostrar;
+	}
+
+	public void setCosaAmostrar(String cosaAmostrar) {
+		this.cosaAmostrar = cosaAmostrar;
+	}
+
 	public String getIban() {
 		return iban;
 	}
@@ -434,6 +524,111 @@ public class Administrador {
 
 	public void setFechaInicio(String fechaInicio) {
 		this.fechaInicio = fechaInicio;
+	}
+
+
+	public String getIdentClienteMostrado() {
+		return this.identClienteMostrado;
+	}
+
+	public void setIdentClienteMostrado(String identClienteMostrado) {
+		this.identClienteMostrado = identClienteMostrado;
+	}
+
+	public String getTipoClienteMostrado() {
+		return this.tipoClienteMostrado;
+	}
+
+	public void setTipoClienteMostrado(String tipoClienteMostrado) {
+		this.tipoClienteMostrado = tipoClienteMostrado;
+	}
+
+	public String getEstadoClienteMostrado() {
+		return this.estadoClienteMostrado;
+	}
+
+	public void setEstadoClienteMostrado(String estadoClienteMostrado) {
+		this.estadoClienteMostrado = estadoClienteMostrado;
+	}
+
+	public String getAltaClienteMostrado() {
+		return this.altaClienteMostrado;
+	}
+
+	public void setAltaClienteMostrado(String altaClienteMostrado) {
+		this.altaClienteMostrado = altaClienteMostrado;
+	}
+
+	public String getBajaClienteMostrado() {
+		return this.bajaClienteMostrado;
+	}
+
+	public void setBajaClienteMostrado(String bajaClienteMostrado) {
+		this.bajaClienteMostrado = bajaClienteMostrado;
+	}
+
+	public String getDireClienteMostrado() {
+		return this.direClienteMostrado;
+	}
+
+	public void setDireClienteMostrado(String direClienteMostrado) {
+		this.direClienteMostrado = direClienteMostrado;
+	}
+
+	public String getCiuClienteMostrado() {
+		return this.ciuClienteMostrado;
+	}
+
+	public void setCiuClienteMostrado(String ciuClienteMostrado) {
+		this.ciuClienteMostrado = ciuClienteMostrado;
+	}
+
+	public String getCpClienteMostrado() {
+		return this.cpClienteMostrado;
+	}
+
+	public void setCpClienteMostrado(String cpClienteMostrado) {
+		this.cpClienteMostrado = cpClienteMostrado;
+	}
+
+	public String getPaClienteMostrado() {
+		return this.paClienteMostrado;
+	}
+
+	public void setPaClienteMostrado(String paClienteMostrado) {
+		this.paClienteMostrado = paClienteMostrado;
+	}
+
+	public String getRazonClienteMostrado() {
+		return this.razonClienteMostrado;
+	}
+
+	public void setRazonClienteMostrado(String razonClienteMostrado) {
+		this.razonClienteMostrado = razonClienteMostrado;
+	}
+
+	public String getNombreClienteMostrado() {
+		return this.nombreClienteMostrado;
+	}
+
+	public void setNombreClienteMostrado(String nombreClienteMostrado) {
+		this.nombreClienteMostrado = nombreClienteMostrado;
+	}
+
+	public String getApellidoClienteMostrado() {
+		return this.apellidoClienteMostrado;
+	}
+
+	public void setApellidoClienteMostrado(String apellidoClienteMostrado) {
+		this.apellidoClienteMostrado = apellidoClienteMostrado;
+	}
+
+	public String getFechaNacClienteMostrado() {
+		return this.fechaNacClienteMostrado;
+	}
+
+	public void setFechaNacClienteMostrado(String fechaNacClienteMostrado) {
+		this.fechaNacClienteMostrado = fechaNacClienteMostrado;
 	}
 
 
