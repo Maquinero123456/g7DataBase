@@ -27,7 +27,8 @@
 <ownerDesignName>modeloABDD</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT011</logicalDatatype>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
@@ -42,7 +43,8 @@
 <ownerDesignName>modeloABDD</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT011</logicalDatatype>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
@@ -65,7 +67,7 @@
 <colUsage columnID="31F9586C-D712-07AC-B06A-39244D250003"/>
 </indexColumnUsage>
 </ind_PK_UK>
-<ind_PK_UK id="DF7F71D1-0FE9-410E-6EF1-5FC16B5207CE" name="AUTORIZACION_PERSONA_AUTORIZADA_FK">
+<ind_PK_UK id="DF7F71D1-0FE9-410E-6EF1-5FC16B5207CE" name="AUTORIZACION_AUTORIZADA_FK">
 <createdBy>david</createdBy>
 <createdTime>2022-03-27 20:19:22 UTC</createdTime>
 <generatorID>B0DC85A6-1B4B-7A88-B8C0-DC9739DD8FC5</generatorID>

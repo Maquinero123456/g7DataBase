@@ -4,7 +4,7 @@
 <createdTime>2022-03-14 21:28:52 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
 <adequatelyNormalized>NO</adequatelyNormalized>
 <expectedVolumes>0</expectedVolumes>
@@ -20,19 +20,20 @@
 <createdTime>2022-03-14 21:29:06 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT011</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
 </Attribute>
 <Attribute name="Identificacion" id="A006E0AB-2EAA-BD3C-EC14-EADF871E618C">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:34:02 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -45,7 +46,7 @@
 <createdTime>2022-03-14 21:34:15 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -58,7 +59,7 @@
 <createdTime>2022-03-14 21:34:51 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -71,7 +72,7 @@
 <createdTime>2022-03-14 21:35:05 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -84,7 +85,7 @@
 <createdTime>2022-03-14 21:35:31 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
@@ -97,7 +98,7 @@
 <createdTime>2022-03-14 21:35:49 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
@@ -111,7 +112,7 @@
 <createdTime>2022-03-14 21:36:12 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
@@ -124,7 +125,7 @@
 <createdTime>2022-03-14 21:36:21 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
@@ -139,7 +140,7 @@
 <createdTime>2022-03-14 21:33:53 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
@@ -151,7 +152,7 @@
 <createdTime>2022-03-14 21:36:40 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
 </engineerTo>
 <newElementsIDs>A006E0AB-2EAA-BD3C-EC14-EADF871E618C</newElementsIDs>
 <usedAttributes>

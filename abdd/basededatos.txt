@@ -19,7 +19,7 @@ ALTER TABLE autorizacion ADD CONSTRAINT autorizacion_pk PRIMARY KEY ( persona_au
                                                                       empresa_id );
 
 CREATE TABLE cliente (
-    id             INTEGER NOT NULL,
+    id             VARCHAR2(40 CHAR) NOT NULL,
     identificacion VARCHAR2(40 CHAR) NOT NULL,
     tipo_cliente   VARCHAR2(20 CHAR) NOT NULL,
     estado         CHAR(1) NOT NULL,
@@ -85,14 +85,14 @@ CREATE TABLE divisa (
 ALTER TABLE divisa ADD CONSTRAINT divisa_pk PRIMARY KEY ( abreviatura );
 
 CREATE TABLE empresa (
-    id           INTEGER NOT NULL,
+    id           VARCHAR2(40 CHAR) NOT NULL,
     razon_social VARCHAR2(40 CHAR) NOT NULL
 );
 
 ALTER TABLE empresa ADD CONSTRAINT empresa_pk PRIMARY KEY ( id );
 
 CREATE TABLE individual (
-    id               INTEGER NOT NULL,
+    id               VARCHAR2(40 CHAR) NOT NULL,
     nombre           VARCHAR2(20 CHAR) NOT NULL,
     apellido         VARCHAR2(20 CHAR) NOT NULL,
     fecha_nacimiento CHAR(1)
@@ -120,7 +120,7 @@ ALTER TABLE movimientos ADD CONSTRAINT movimientos_pk PRIMARY KEY ( id,
                                                                     tarjeta_numero );
 
 CREATE TABLE persona_autorizada (
-    id               INTEGER NOT NULL,
+    id               VARCHAR2(40 CHAR) NOT NULL,
     identificacion   VARCHAR2(40 CHAR) NOT NULL,
     nombre           VARCHAR2(20 CHAR) NOT NULL,
     apellidos        VARCHAR2(40 CHAR) NOT NULL,
@@ -175,7 +175,7 @@ CREATE TABLE tarjeta (
 ALTER TABLE tarjeta ADD CONSTRAINT tarjeta_pk PRIMARY KEY ( numero );
 
 CREATE TABLE transaccion (
-    id_unico            INTEGER NOT NULL,
+    id_unico            VARCHAR2(40 CHAR) NOT NULL,
     fechainstruccion    DATE NOT NULL,
     cantidad            NUMBER NOT NULL,
     fechaejecucion      DATE,
