@@ -1,0 +1,162 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="98F68B75-FE7B-0138-029E-84C28131412D" name="TRANSACCION">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>1588407D-19AC-83D6-7B9A-2A121A76F255</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID_Unico" id="1E664C84-7FC2-0C4E-A9E3-34B9D418E118">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>2749FA8F-FB8B-56AE-5DD2-30B5AA12C13F</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="fechaInstruccion" id="F2A4B3E5-F4AF-DBE7-59B3-5A598EFD3716">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>2298C995-2A54-BA6B-F879-922CEF219206</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Cantidad" id="CC372135-0710-222D-CCCC-4185418C7279">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>61EC2791-5ED4-B2B6-6339-233061E28BD5</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT026</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="FechaEjecucion" id="D478C143-9AB9-2210-7973-A68B360DBEB3">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>8322A188-2133-D994-4EF8-F2A2CEEE9125</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Tipo" id="A3ED6A69-88D9-CF83-16AC-49EBCDAFF51A">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>11C50A51-3B84-8E59-C81E-7002C686458D</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Comision" id="25466AFE-BD79-4718-3DA2-740C440DEC0A">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>93AD0967-7C67-347E-7449-0DD818FC5B95</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT026</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Internacional" id="7D1AD3E8-A646-92C2-A919-FD0030F01861">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>BFAEB488-8FA3-5922-531C-A3BC6455302F</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1 BYTE</dataTypeSize>
+<ownDataTypeParameters>1 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="DIVISA_Abreviatura" id="997A8783-FBAE-A7FC-6278-E1BEE0341A1C">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>59C87D5B-00D7-8958-EAF8-DB446349FD9D</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>3 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="F08D5ECF-3270-74E8-9AB4-D8CCB1E5FB80" referredColumn="33AEFDF0-49E4-62F9-F180-51C1C5A6720E"/>
+</associations>
+</Column>
+<Column name="CUENTA_IBAN" id="3C470A0A-03DC-1D40-F4B8-F189DC390CB1">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>D537E205-069C-8FDA-BAEF-29A95A27B5A6</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="05D82776-36F8-139B-8B19-EA1798CAF9B4" referredColumn="B01E293A-A0DF-AC06-5A14-4DA4971BE74B"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="F2122E06-D610-0106-1DF7-7BEF54F406BB" name="TRANSACCION_PK">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>A138985A-AF2C-F5AC-3898-B0A217BADF5C</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="1E664C84-7FC2-0C4E-A9E3-34B9D418E118"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="B0EBAEB3-8775-6C2F-0EDE-A9F8E669A869" name="TRANSACCION_CUENTA_FK">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>71B6C45A-3F30-D704-3D50-868B577E48FF</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="3C470A0A-03DC-1D40-F4B8-F189DC390CB1"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="673EACB7-3A64-1870-5A4A-3DE34E51D9FE" name="TRANSACCION_DIVISA_FK">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>369131A6-A946-F9E7-540C-A4F8FD22C5E8</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="997A8783-FBAE-A7FC-6278-E1BEE0341A1C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

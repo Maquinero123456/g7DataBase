@@ -1,17 +1,17 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="CUENTA_TARJETA" directorySegmentName="seg_0" id="F5DB2B5E-F394-C20A-B6F4-7D8F460DCE5C">
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="CUENTAFINTECH_TARJETA" directorySegmentName="seg_0" id="956C74F8-199E-43C4-FBCB-7450E67E9697">
 <createdBy>Usuario</createdBy>
-<createdTime>2022-03-21 12:40:18 UTC</createdTime>
+<createdTime>2022-06-02 11:14:11 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
 <sourcePk>78774FD8-BA1F-F454-5689-6926D60B0BE2</sourcePk>
 <identifying>false</identifying>
 <optionalSource>false</optionalSource>
 <optionalTarget>true</optionalTarget>
 <sourceCardinality>1</sourceCardinality>
-<sourceEntity>F73E268F-1691-7336-75E6-24BB53D400BB</sourceEntity>
+<sourceEntity>11618577-81D3-F0C3-F103-A8EFEB0AF75B</sourceEntity>
 <targetCardinalityString>*</targetCardinalityString>
 <targetEntity>4CF401C5-A5A8-1B2B-9DA8-367660202CAF</targetEntity>
 <transferable>true</transferable>

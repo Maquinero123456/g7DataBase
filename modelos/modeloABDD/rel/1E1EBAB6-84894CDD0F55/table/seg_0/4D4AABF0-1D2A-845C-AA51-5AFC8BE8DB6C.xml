@@ -27,8 +27,8 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>40 CHAR</dataTypeSize>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
+<dataTypeSize>30 CHAR</dataTypeSize>
+<ownDataTypeParameters>30 CHAR,,</ownDataTypeParameters>
 <previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
 <associations>
@@ -43,8 +43,8 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>40 CHAR</dataTypeSize>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
+<dataTypeSize>30 CHAR</dataTypeSize>
+<ownDataTypeParameters>30 CHAR,,</ownDataTypeParameters>
 <previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
 <associations>
@@ -66,7 +66,7 @@
 <colUsage columnID="721BD5F9-CF9D-2490-020A-89380E1508F4"/>
 </indexColumnUsage>
 </ind_PK_UK>
-<ind_PK_UK id="A67EC9AB-01A3-99D1-D5BB-4B1BAB3C48A0" name="DEPOSITADA_CUENTA_FK">
+<ind_PK_UK id="A67EC9AB-01A3-99D1-D5BB-4B1BAB3C48A0" name="DEPOSITADA_EN_CUENTA_REFERENCIA_FK">
 <createdBy>david</createdBy>
 <createdTime>2022-03-27 20:19:22 UTC</createdTime>
 <generatorID>4F399B3C-D466-0050-FE4F-7417F94EDDD8</generatorID>
@@ -77,7 +77,7 @@
 <colUsage columnID="AAAF3BA3-750F-6059-E60C-97F4307A4D0F"/>
 </indexColumnUsage>
 </ind_PK_UK>
-<ind_PK_UK id="067D02E6-AED3-78AE-9FED-F6ECEE52714A" name="DEPOSITADA_POOLED_FK">
+<ind_PK_UK id="067D02E6-AED3-78AE-9FED-F6ECEE52714A" name="DEPOSITADA_EN_POOLED_ACCOUNT_FK">
 <createdBy>david</createdBy>
 <createdTime>2022-03-27 20:19:22 UTC</createdTime>
 <generatorID>A45B24E8-2755-B750-F8BA-851F491C5954</generatorID>

@@ -1,0 +1,18 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="CD131794-5E3C-2E7A-76CC-BE0462AEFBB1" containerWithKeyObject="FF3E9379-B31D-59B8-B7C3-D472019EAF8B" localFKIndex="349F71B7-41F0-9DAF-8E8A-4373D4AED0B5" name="Re21_TARJETA_FK">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>64C7E61F-FA9B-B49F-087D-4CC3C2A9C0B1</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<referredTableLongName>TARJETA</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>D4BF88AC-29CC-6F69-2BEB-BE3F9A2FA64E</referredTableID>
+<keyObject>8BE53F1C-2A02-3656-17FE-3135B09FF9AF</keyObject>
+<referredKeyID>8BE53F1C-2A02-3656-17FE-3135B09FF9AF</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>Numero</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<discriminatorColumn>4EFD20EE-885A-C107-FE90-66C2ADDA2999</discriminatorColumn>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

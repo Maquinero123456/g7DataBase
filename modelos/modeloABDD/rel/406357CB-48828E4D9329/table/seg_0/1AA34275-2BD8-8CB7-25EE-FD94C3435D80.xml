@@ -1,0 +1,52 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="1AA34275-2BD8-8CB7-25EE-FD94C3435D80" name="POOLED_ACCOUNT">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>31552E5E-98A0-6F1C-7D7E-9DE54E6D794A</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="IBAN" id="7133CFD2-801E-A71C-D987-E236A92ED705">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>36A3E848-ECAE-4CA0-9F88-ECFB760D7C08</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="7798AFB0-0A3B-EE94-F308-D8D3D71337FF" referredColumn="00F92E11-1626-E379-59BD-05E42C32259E"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="2DD094A1-26C8-4526-6FF0-5880E002F567" name="POOLED_ACCOUNT_PK">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>78774FD8-BA1F-F454-5689-6926D60B0BE2</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="7133CFD2-801E-A71C-D987-E236A92ED705"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="58481D8B-0D85-6F3C-AA5E-33F916B09C9C" name="POOL_FINTECH_FK">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>7986DEFF-4704-96A5-B9CD-6E8F57D9562D</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="7133CFD2-801E-A71C-D987-E236A92ED705"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

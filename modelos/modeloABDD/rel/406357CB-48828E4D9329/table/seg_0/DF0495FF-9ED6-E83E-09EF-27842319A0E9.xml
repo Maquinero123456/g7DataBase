@@ -1,0 +1,92 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="DF0495FF-9ED6-E83E-09EF-27842319A0E9" name="DEPOSITADA_EN">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:32 UTC</createdTime>
+<generatorID>5E18831C-7441-E137-74DD-2516E7F54171</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="Saldo" id="3A449F0F-CA8C-3364-234F-0FF523F00B19">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:32 UTC</createdTime>
+<generatorID>507D8228-2F11-3228-D8E5-A378077224EF</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT026</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="REFERENCIA_IBAN" id="D07D66F0-EBE4-81D8-4FCA-754EADFB7206">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:32 UTC</createdTime>
+<generatorID>0889D601-4228-752D-1E94-900CA2074E8C</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="FC3224A9-0F1E-48A0-6359-492A7C9EAF3C" referredColumn="84C53ECA-5257-1CB8-8B64-AC1C4C26BB19"/>
+</associations>
+</Column>
+<Column name="POOLED_IBAN" id="CBF1B81F-4987-7D57-9504-69A5F54E7AB2">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:32 UTC</createdTime>
+<generatorID>C36A51B9-7942-A08B-6ADA-ADFEE2FBDDF2</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="522FEFC6-356D-C1B9-79C5-915D922FCB1D" referredColumn="7133CFD2-801E-A71C-D987-E236A92ED705"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="8D1DDD31-BD3E-90E1-D132-43757638E005" name="DEPOSITADA_EN_PK">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:32 UTC</createdTime>
+<generatorID>B3265951-BE6D-5ED5-3E20-E69F1FB00989</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D07D66F0-EBE4-81D8-4FCA-754EADFB7206"/>
+<colUsage columnID="CBF1B81F-4987-7D57-9504-69A5F54E7AB2"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="BBCEDFE8-03B0-2E86-794C-E7F72A2E37A6" name="DEPOSITAD_REF_FK">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>4F399B3C-D466-0050-FE4F-7417F94EDDD8</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D07D66F0-EBE4-81D8-4FCA-754EADFB7206"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="F97F10E4-BF31-B29C-C707-3EBFF36EFB07" name="DEPO_POOLED_FK">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>A45B24E8-2755-B750-F8BA-851F491C5954</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="CBF1B81F-4987-7D57-9504-69A5F54E7AB2"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

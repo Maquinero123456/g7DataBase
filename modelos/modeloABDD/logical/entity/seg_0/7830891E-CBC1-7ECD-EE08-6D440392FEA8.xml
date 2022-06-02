@@ -4,7 +4,7 @@
 <createdTime>2022-03-21 12:26:06 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
 <adequatelyNormalized>NO</adequatelyNormalized>
 <expectedVolumes>0</expectedVolumes>
@@ -20,7 +20,7 @@
 <createdTime>2022-03-21 12:26:24 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -32,33 +32,45 @@
 <createdTime>2022-03-21 12:26:43 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
-<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>20 CHAR</dataTypeSize>
-<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<dataTypeSize>10 CHAR</dataTypeSize>
+<ownDataTypeParameters>10 CHAR,,</ownDataTypeParameters>
 </Attribute>
 <Attribute name="FechaOperacion" id="F559D358-4F21-3047-A905-9FC8FF75541C">
 <createdBy>Usuario</createdBy>
 <createdTime>2022-03-21 12:27:11 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT007</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
+<Attribute name="Estado" id="1F270991-E4CF-1267-AAB7-6C5D74924EB6">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:13:21 UTC</createdTime>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<engineerTo>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>10 CHAR</dataTypeSize>
+<ownDataTypeParameters>10 CHAR,,</ownDataTypeParameters>
+</Attribute>
 <Attribute name="Concepto" id="0BF89EB0-0F22-E846-8FD0-BA2D7AB93C5A">
 <createdBy>Usuario</createdBy>
 <createdTime>2022-03-21 12:28:21 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -71,7 +83,7 @@
 <createdTime>2022-03-21 12:28:34 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
@@ -85,7 +97,7 @@
 <createdTime>2022-03-21 12:27:41 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -98,7 +110,7 @@
 <createdTime>2022-03-21 12:28:49 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -111,7 +123,7 @@
 <createdTime>2022-03-21 12:29:12 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -125,7 +137,7 @@
 <createdTime>2022-03-21 12:35:16 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -139,7 +151,7 @@
 <createdTime>2022-03-21 12:37:11 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
@@ -154,7 +166,7 @@
 <createdTime>2022-03-21 12:37:23 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
@@ -170,7 +182,7 @@
 <generatorID>1E52EBC8-1A80-36B7-A501-9D3309DA0E0F</generatorID>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
 <referedAttribute>49AE9C19-A2E7-4402-A859-FB22234E0F3B</referedAttribute>
 <useDomainConstraints>false</useDomainConstraints>
@@ -185,7 +197,7 @@
 <generatorID>F6283544-1FE4-B6BA-240B-016A334DDFF3</generatorID>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
 <referedAttribute>8565745B-B5F9-FE1D-2FAA-4186A0AE6513</referedAttribute>
@@ -193,7 +205,7 @@
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
 <dataTypeSize>3 CHAR</dataTypeSize>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
+<ownDataTypeParameters>3 CHAR,,</ownDataTypeParameters>
 </Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
@@ -202,7 +214,7 @@
 <createdTime>2022-03-21 12:26:42 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>

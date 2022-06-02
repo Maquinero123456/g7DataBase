@@ -1,0 +1,126 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="ABF3D3F1-8B7F-F239-5782-69C57300EB22" name="CUENTA_FINTECH">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>11618577-81D3-F0C3-F103-A8EFEB0AF75B</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="IBAN" id="00F92E11-1626-E379-59BD-05E42C32259E">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>36A3E848-ECAE-4CA0-9F88-ECFB760D7C08</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="5ACC1E8B-9804-0B30-9BF9-B8052DB0AE34" referredColumn="B01E293A-A0DF-AC06-5A14-4DA4971BE74B"/>
+</associations>
+</Column>
+<Column name="Estado" id="A919BAC2-85B4-54CF-BB28-72817964AF35">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>88D7593B-DC2D-EC55-9268-B7D60699B6F6</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1 CHAR</dataTypeSize>
+<ownDataTypeParameters>1 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Fecha_Apertura" id="5A5D5A27-43C9-5D42-6BDA-5D96B5B22E1F">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>4226C785-752A-CCDC-9CEC-AB7AB7DA13E2</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Fecha_Cierre" id="D689F2A0-D915-85DF-B119-573209096238">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>F73391CC-A4A2-A29F-0D76-5FBA7A4B7A50</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Clasificacion" id="8769FA9E-6E54-099D-ECD1-D19495800CC4">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>2F0B430C-0747-F913-B845-7758359E16F5</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="CLIENTE_ID" id="D7C54327-5CA7-7FA7-2EEE-321284820DBE">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>2C632CFA-340D-BAD8-B2F1-D11BFF1C7FD6</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="18EE7372-88DE-C72C-F936-42BC359CB39E" referredColumn="0172D11F-82CB-E11F-B487-B3DD7BA1A9EB"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="16C9351D-9E6D-FF41-ACD8-39EE24E83CBD" name="CUENTA_FINTECH_PK">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>78774FD8-BA1F-F454-5689-6926D60B0BE2</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="00F92E11-1626-E379-59BD-05E42C32259E"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="68BC89B4-15EF-D058-CC21-D53C0D685E12" name="CUENTA_FINTECH_CUENTA_FK">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>D0A88A33-9634-A45D-AE20-1A95D07EE11D</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="00F92E11-1626-E379-59BD-05E42C32259E"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="8FF19B78-3C31-00EA-DA51-16259E098F0D" name="CUENTA_FINTECH_CLIENTE_FK">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-02 11:33:33 UTC</createdTime>
+<generatorID>74094137-5B14-1B75-1287-92D9254A3D39</generatorID>
+<ownerDesignName>modeloABDD</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D7C54327-5CA7-7FA7-2EEE-321284820DBE"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

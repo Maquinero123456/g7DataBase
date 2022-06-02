@@ -4,7 +4,7 @@
 <createdTime>2022-03-14 21:53:16 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
 <adequatelyNormalized>NO</adequatelyNormalized>
 <expectedVolumes>0</expectedVolumes>
@@ -20,20 +20,19 @@
 <createdTime>2022-03-14 21:53:23 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>40 CHAR</dataTypeSize>
-<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
 <Attribute name="fechaInstruccion" id="2298C995-2A54-BA6B-F879-922CEF219206">
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:53:45 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -45,7 +44,7 @@
 <createdTime>2022-03-14 21:53:55 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -57,7 +56,7 @@
 <createdTime>2022-03-14 21:54:03 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
@@ -70,7 +69,7 @@
 <createdTime>2022-03-14 21:54:13 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -83,7 +82,7 @@
 <createdTime>2022-03-14 21:54:30 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
@@ -96,7 +95,7 @@
 <createdTime>2022-03-14 21:54:40 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
@@ -111,7 +110,7 @@
 <generatorID>369131A6-A946-F9E7-540C-A4F8FD22C5E8</generatorID>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
 <referedAttribute>8565745B-B5F9-FE1D-2FAA-4186A0AE6513</referedAttribute>
 <useDomainConstraints>false</useDomainConstraints>
@@ -126,7 +125,7 @@
 <generatorID>71B6C45A-3F30-D704-3D50-868B577E48FF</generatorID>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
 <referedAttribute>36A3E848-ECAE-4CA0-9F88-ECFB760D7C08</referedAttribute>
 <useDomainConstraints>false</useDomainConstraints>
@@ -142,7 +141,7 @@
 <createdTime>2022-03-14 21:53:43 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="406357CB-25CE-715D-8089-48828E4D9329" value="true"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
