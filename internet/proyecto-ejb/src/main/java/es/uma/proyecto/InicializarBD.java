@@ -107,7 +107,7 @@ public class InicializarBD {
 
         CuentaReferencia vg57 = new CuentaReferencia();
         vg57.setIBAN("VG57DDVS5173214964983931");
-        vg57.setSaldo(100.0);
+        vg57.setSaldo(150.0);
         vg57.setNombreBanco("Bancos Pablo SA");
         vg57.setDivisa(dolar);
         em.persist(vg57);
@@ -139,9 +139,9 @@ public class InicializarBD {
 
         CuentaReferencia refFalsa = new CuentaReferencia();
         refFalsa.setIBAN("HN47QUXH113256787697855");
-        refFalsa.setSaldo(100.0);
+        refFalsa.setSaldo(0.0);
         refFalsa.setNombreBanco("BBVA");
-        refFalsa.setDivisa(dolar);
+        refFalsa.setDivisa(euro);
         refFalsa.setEstado(false);
         em.persist(refFalsa);
 

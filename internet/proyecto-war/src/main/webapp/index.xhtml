@@ -74,6 +74,11 @@
                             #{cuenta.saldo}
                         </h:column>
 
+                        <h:column>
+                                <f:facet name="header" styleClass="cuentas">Divisa</f:facet>
+                                #{cuenta.divisa}
+                        </h:column>
+
                     </h:dataTable>
 
                     <p><a  href="cuentas.xhtml">PULSA AQUI PARA VER TODAS LAS CUENTAS</a></p>
@@ -205,6 +210,11 @@
                             <h:column>
                                 <f:facet name="header" styleClass="cuentas">Saldo</f:facet>
                                 #{cuenta.saldo}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header" styleClass="cuentas">Divisa</f:facet>
+                                #{cuenta.divisa}
                             </h:column>
     
                         </h:dataTable>
