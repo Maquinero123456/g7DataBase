@@ -233,7 +233,7 @@ public class Index {
     	double cant = Double.parseDouble(cantidad);
     	
     	try {
-			trans.transaccionIndividual(usuario.getCliente().getIdentificacion(), ibanOrigen, ibanDestino, cant, tipo);
+			trans.transaccionIndividual(sesion.getUsuario().getCliente().getIdentificacion(), ibanOrigen, ibanDestino, cant, tipo);
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("El cliente indicado no existe o no es individual.");
             FacesContext.getCurrentInstance().addMessage(null, fm);
@@ -250,10 +250,9 @@ public class Index {
     }
     
     public void transaccionAutorizado() {
-    	double cant = Double.parseDouble(cantidad);
     	
     	try {
-			trans.transaccionAutorizado(usuario.getCliente().getIdentificacion(), ibanOrigen, ibanDestino, cant, tipo);
+			trans.transaccionAutorizado(sesion.getUsuario().getPersonaAutorizada().getIdentificacion(), ibanOrigen, ibanDestino, Double.parseDouble(cantidad), tipo);
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("El cliente indicado no existe o no es individual.");
             FacesContext.getCurrentInstance().addMessage(null, fm);
