@@ -581,11 +581,6 @@ public class Administrador {
 			perAu.setFechaFin(fecha);
 		}
 		
-		if(fechaNac != null) {
-			Date fecha = null;
-			perAu.setFecha_Nacimiento(fecha);
-		}
-		
 		if(estadoPA != null) {
 			perAu.setEstado(estadoPA);
 		}
