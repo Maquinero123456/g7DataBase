@@ -349,18 +349,22 @@ public class Administrador {
 				}else{
 					cierreCuentaMostrado = seg.getFechaCierre().toString();
 				}
-
-				StringBuilder sb = new StringBuilder();
-				sb.append("{");
-				for(DepositadaEn e : seg.getDepositadaEn()){
-					sb.append(e.getCuentaReferencia().getIBAN());
-					sb.append("("+e.getCuentaReferencia().getDivisa().getNombre()+")");
-					sb.append(", ");
+				if(!seg.getDepositadaEn().isEmpty()){
+					StringBuilder sb = new StringBuilder();
+					sb.append("{");
+					for(DepositadaEn e : seg.getDepositadaEn()){
+						sb.append(e.getCuentaReferencia().getIBAN());
+						sb.append("("+e.getCuentaReferencia().getDivisa().getNombre()+")");
+						sb.append(", ");
+					}
+					sb.delete(sb.length()-2, sb.length());
+					sb.append("}");
+					
+				}else{
+					cuentasRefCuentaMostrada ="{}";
 				}
-				sb.delete(sb.length()-2, sb.length());
-				sb.append("}");
 				clasificacionCuentaMostrado = seg.getClasficicacion();
-				cuentasRefCuentaMostrada = sb.toString();
+				
 			}
 		} catch (CuentaException e){
 			FacesMessage fm = new FacesMessage("La cuenta solicitada no existe o es CuentaReferencia.");
