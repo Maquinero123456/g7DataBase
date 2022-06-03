@@ -547,7 +547,7 @@ public class Administrador {
 	
 	public void aperturaCuentaSegreg() {
 		try {
-			admin.aperturaCuentaSegregada(iban, ident, cuentaRef);
+			admin.aperturaCuentaSegregada(iban, ident, bCuentas.getCuentaReferencia(ibanRef));
 		} catch (CuentaException e) {
 			FacesMessage fm = new FacesMessage("La cuenta no existe o ya está tomada.");
 	        FacesContext.getCurrentInstance().addMessage("admin:ibanAS", fm);
