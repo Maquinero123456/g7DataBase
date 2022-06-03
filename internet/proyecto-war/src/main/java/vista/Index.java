@@ -230,10 +230,20 @@ public class Index {
 
 
     public void transaccionIndividual() {
-    	double cant = Double.parseDouble(cantidad);
-    	
     	try {
-			trans.transaccionIndividual(sesion.getUsuario().getCliente().getIdentificacion(), ibanOrigen, ibanDestino, cant, tipo);
+			if(cuentas.getCuentaAgrupada(ibanOrigen)!=null || cuentas.getCuentaAgrupada(ibanDestino)!=null){
+				FacesMessage fm = new FacesMessage("Para las cuentas pooled usa la referencia");
+			    FacesContext.getCurrentInstance().addMessage("index:cantI", fm);
+			}
+			if(cuentas.getCuentaSegregada(ibanOrigen)!=null){
+				ibanOrigen=cuentas.getCuentaSegregada(ibanOrigen).getCuentaReferencia().getIBAN();
+			}
+			if(cuentas.getCuentaSegregada(ibanDestino)!=null){
+				ibanDestino=cuentas.getCuentaSegregada(ibanDestino).getCuentaReferencia().getIBAN();
+			}
+		} catch (CuentaException e1) {}
+    	try {
+			trans.transaccionIndividual(sesion.getUsuario().getCliente().getIdentificacion(), ibanOrigen, ibanDestino, Double.parseDouble(cantidad), tipo);
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("El cliente indicado no existe o no es individual.");
             FacesContext.getCurrentInstance().addMessage(null, fm);
@@ -251,6 +261,7 @@ public class Index {
     
     public void transaccionAutorizado() {
     	
+		
     	try {
 			trans.transaccionAutorizado(sesion.getUsuario().getPersonaAutorizada().getIdentificacion(), ibanOrigen, ibanDestino, Double.parseDouble(cantidad), tipo);
 		} catch (ClienteException e) {
