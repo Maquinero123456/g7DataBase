@@ -719,21 +719,11 @@
 						
 						<div>
 
-						<h2>Generar Informes regulatorios</h2>
-
-						<button onclick="mostrar('HOLANDA'); cerrar('APA'); cerrar('MPA'); cerrar('EPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS')">Paises Bajos</button>
-						
-						<button onclick="mostrar('ALEMANIA'); cerrar('APA'); cerrar('MPA'); cerrar('EPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS')">Alemania</button>
-
-						<div class="ALEMANIA" style="display:none">
-							
-    					<h:form id="fALEMANIA">
-       						<h:commandButton id="aSem" value="Semanal" action="#{infal.descargaSemanal()}" styleClass="button"/>
-							<h:commandButton id="aMen" value="Mensual" action="#{infal.descargaMensual()}" styleClass="button" />
-							<button onclick="cerrar('ALEMANIA');return false">Cancelar</button>
+						<h2>Generar Informes ALEMANIA</h2>
+						<h:form id="fALEMANIA">   					
+       						<h:commandButton id="aSem" value="Semanal" action="#{infal.descargaSemanal()}" styleClass="button" style="background-image: linear-gradient(to right top, #0b0207, #361122, #651031, #960536, #c60031, #dc2e2a, #ef4d1d, #ff6a00, #ff9200, #ffb700, #fadc00, #ecff1c);"/>
+							<h:commandButton id="aMen" value="Mensual" action="#{infal.descargaMensual()}" styleClass="button" style="background-image: linear-gradient(to right top, #0b0207, #361122, #651031, #960536, #c60031, #dc2e2a, #ef4d1d, #ff6a00, #ff9200, #ffb700, #fadc00, #ecff1c);"/>
 						</h:form>
-
-						</div>
 						
 						</div>	
 						
