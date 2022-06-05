@@ -145,17 +145,17 @@
 						
 						<h2>Administrar clientes</h2>
 
-						<button onclick="mostrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('EPA'); cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Mostrar Cliente</button>
+						<button class="Normalbutton" onclick="mostrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('EPA'); cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Mostrar Cliente</button>
 
-						<button onclick="mostrar('Alta'); cerrar('MostrarCl'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('EPA'); cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Alta Cliente</button>
+						<button class="Normalbutton" onclick="mostrar('Alta'); cerrar('MostrarCl'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('EPA'); cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Alta Cliente</button>
 
-						<button onclick="mostrar('Mod'); cerrar('Alta'); cerrar('MostrarCl'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('EPA'); cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Modificar Cliente</button>
+						<button class="Normalbutton" onclick="mostrar('Mod'); cerrar('Alta'); cerrar('MostrarCl'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('EPA'); cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Modificar Cliente</button>
 
-						<button onclick="mostrar('Baja'); cerrar('Alta'); cerrar('Mod'); cerrar('MostrarCl'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('EPA'); cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Baja Cliente</button>
+						<button class="Normalbutton" onclick="mostrar('Baja'); cerrar('Alta'); cerrar('Mod'); cerrar('MostrarCl'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('EPA'); cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Baja Cliente</button>
 
-						<button onclick="mostrar('Crear'); cerrar('Baja'); cerrar('Alta'); cerrar('Mod'); cerrar('MostrarCl'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('EPA'); cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Crear Individual</button>
+						<button class="Normalbutton" onclick="mostrar('Crear'); cerrar('Baja'); cerrar('Alta'); cerrar('Mod'); cerrar('MostrarCl'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('EPA'); cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Crear Individual</button>
 
-						<button onclick="mostrar('CrearEmp'); cerrar('Baja'); cerrar('Alta'); cerrar('Mod'); cerrar('MostrarCl'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('EPA'); cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Crear Empresa</button>
+						<button class="Normalbutton" onclick="mostrar('CrearEmp'); cerrar('Baja'); cerrar('Alta'); cerrar('Mod'); cerrar('MostrarCl'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('EPA'); cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Crear Empresa</button>
 						
 						<div class="MostrarCl" style="display:none" >
 
@@ -171,8 +171,8 @@
 									</div>
 								</h:panelGrid>
 								<div class="mostrarButtons" style="display: inline">
-									<h:commandButton id="mostrarCliente" value="Mostrar" action="#{admin.mostrarCliente()}" styleClass="button"/>
-									<button onclick="cerrar('MostrarCl');cerrar('DatosCliente');return false">Cancelar</button>
+									<h:commandButton id="mostrarCliente" value="Mostrar" action="#{admin.mostrarCliente()}" styleClass="Mbutton"/>
+									<button class="bCancelar" onclick="cerrar('MostrarCl');cerrar('DatosCliente');return false">Cancelar</button>
 								</div>
 							</h:form>
 						</div>
@@ -191,8 +191,8 @@
 								</h:panelGrid>
 									
 								<div style="display: inline">
-									<h:commandButton id="darAlta" value="Dar de Alta" action="#{admin.darAlta()}" styleClass="button"/>
-									<button onclick="cerrar('Alta');return false">Cancelar</button>
+									<h:commandButton id="darAlta" value="Dar de Alta" action="#{admin.darAlta()}" styleClass="Mbutton"/>
+									<button class="bCancelar" onclick="cerrar('Alta');return false">Cancelar</button>
 								</div>
 
 							</h:form>
@@ -230,8 +230,8 @@
 									<h:message for="cp1Mod" styleClass="info-campo"/>
 								</h:panelGrid>
 								<div style="display: inline">
-									<h:commandButton id="modificar" value="Modificar" action="#{admin.modificarClient()}" styleClass="button"/>
-									<button onclick="cerrar('Mod');return false">Cancelar</button>
+									<h:commandButton id="modificar" value="Modificar" action="#{admin.modificarClient()}" styleClass="Mbutton"/>
+									<button class="bCancelar" onclick="cerrar('Mod');return false">Cancelar</button>
 								</div>
 
 							</h:form>
@@ -250,8 +250,8 @@
 								</h:panelGrid>
 									
 								<div style="display: inline">
-									<h:commandButton id="darBaja" value="Dar de Baja" action="#{admin.darBaja()}" styleClass="button"/>
-									<button onclick="cerrar('Baja');return false">Cancelar</button>
+									<h:commandButton id="darBaja" value="Dar de Baja" action="#{admin.darBaja()}" styleClass="Mbutton"/>
+									<button class="bCancelar" onclick="cerrar('Baja');return false">Cancelar</button>
 								</div>
 								
 							</h:form>
@@ -306,8 +306,8 @@
 								</h:panelGrid>
 									
 								<div style="display: inline">
-									<h:commandButton id="crearCliente" value="Crear cliente" action="#{admin.crearClienteIndividual()}" styleClass="button"/>
-									<button onclick="cerrar('fCrear');return false">Cancelar</button>
+									<h:commandButton id="crearCliente" value="Crear cliente" action="#{admin.crearClienteIndividual()}" styleClass="Mbutton"/>
+									<button class="bCancelar" onclick="cerrar('fCrear');return false">Cancelar</button>
 								</div>
 								
 							</h:form>
@@ -350,8 +350,8 @@
 								</h:panelGrid>
 									
 								<div style="display: inline">
-									<h:commandButton id="crearEmpresa" value="Crear empresa" action="#{admin.crearClienteEmpresa()}" styleClass="button"/>
-									<button onclick="cerrar('CrearEmp');return false">Cancelar</button>
+									<h:commandButton id="crearEmpresa" value="Crear empresa" action="#{admin.crearClienteEmpresa()}" styleClass="Mbutton"/>
+									<button class="bCancelar" onclick="cerrar('CrearEmp');return false">Cancelar</button>
 								</div>
 								
 							</h:form>
@@ -364,17 +364,17 @@
 
 						<h2>Administrar cuentas</h2>
 
-						<button onclick="mostrar('MostrarCuentas')">Mostrar cuenta</button>
+						<button class="Normalbutton" onclick="mostrar('MostrarCuentas')">Mostrar cuenta</button>
 
-						<button onclick="mostrar('MostrarCuentasRef')">Mostrar cuenta referencia</button>
+						<button class="Normalbutton" onclick="mostrar('MostrarCuentasRef')">Mostrar cuenta referencia</button>
 
-						<button onclick="mostrar('AA')">Aperturar Cuenta Agrupada</button>
+						<button class="Normalbutton" onclick="mostrar('AA')">Aperturar Cuenta Agrupada</button>
 
-						<button onclick="mostrar('AS'); cerrar('Cer'); cerrar('AA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('EPA');  cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Aperturar Cuenta Segregada</button>
+						<button class="Normalbutton" onclick="mostrar('AS'); cerrar('Cer'); cerrar('AA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('EPA');  cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Aperturar Cuenta Segregada</button>
 
-						<button onclick="mostrar('Cer'); cerrar('AA'); cerrar('AS'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('EPA');  cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Cerrar Cuenta</button>
+						<button class="Normalbutton" onclick="mostrar('Cer'); cerrar('AA'); cerrar('AS'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('EPA');  cerrar('MPA'); cerrar('MPA'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Cerrar Cuenta</button>
 
-						<button onclick="mostrar('CrearRef')">Crear Cuenta Referencia</button>
+						<button class="Normalbutton" onclick="mostrar('CrearRef')">Crear Cuenta Referencia</button>
 
 						<div class="MostrarCuentas" style="display:none" >
 
@@ -390,8 +390,8 @@
 									</div>
 								</h:panelGrid>
 								<div class="mostrarButtons" style="display: inline">
-									<h:commandButton styleClass="mostrar" id="mostrarCuentas" value="Mostrar" action="#{admin.mostrarCuenta()}"/>
-									<button onclick="cerrar('MostrarCuentas');cerrar('mostrarCuentas');return false">Cancelar</button>
+									<h:commandButton styleClass="Mbutton" id="mostrarCuentas" value="Mostrar" action="#{admin.mostrarCuenta()}"/>
+									<button class="bCancelar" onclick="cerrar('MostrarCuentas');cerrar('mostrarCuentas');return false">Cancelar</button>
 								</div>
 							</h:form>
 						</div>
@@ -410,8 +410,8 @@
 									</div>
 								</h:panelGrid>
 								<div class="mostrarButtons" style="display: inline">
-									<h:commandButton styleClass="mostrar" id="mostrarCuentas" value="Mostrar" action="#{admin.mostrarCuentaRef()}"/>
-									<button onclick="cerrar('MostrarCuentasRef');cerrar('mostrarCuentasRef');return false">Cancelar</button>
+									<h:commandButton styleClass="Mbutton" id="mostrarCuentas" value="Mostrar" action="#{admin.mostrarCuentaRef()}"/>
+									<button class="bCancelar" onclick="cerrar('MostrarCuentasRef');cerrar('mostrarCuentasRef');return false">Cancelar</button>
 								</div>
 							</h:form>
 						</div>
@@ -433,8 +433,8 @@
 								</h:panelGrid>
 								
 								<div style="display: inline">
-									<h:commandButton id="AA" value="Apeturar" action="#{admin.aperturaCuentaAgrup()}" styleClass="button"/>
-									<button onclick="cerrar('AA');return false">Cancelar</button>
+									<h:commandButton id="AA" value="Apeturar" action="#{admin.aperturaCuentaAgrup()}" styleClass="Mbutton"/>
+									<button class="bCancelar" onclick="cerrar('AA');return false">Cancelar</button>
 								</div>
 
 							</h:form>
@@ -460,8 +460,8 @@
 									<h:message for="ibanRef" styleClass="info-campo"/>
 								</h:panelGrid>
 								
-								<h:commandButton  id="aperturaSegreg" value="Aperturar" action="#{admin.aperturaCuentaSegreg()}" styleClass="button"/>
-								<button onclick="cerrar('AS');return false">Cancelar</button>
+								<h:commandButton  id="aperturaSegreg" value="Aperturar" action="#{admin.aperturaCuentaSegreg()}" styleClass="Mbutton"/>
+								<button class="bCancelar" onclick="cerrar('AS');return false">Cancelar</button>
 
 							</h:form>
 						</div>
@@ -479,8 +479,8 @@
 								</h:panelGrid>
 								
 								<div style="display: inline">
-									<h:commandButton id="cerra" value="Cerrar" action="#{admin.cerrarCuenta()}" styleClass="button"/>
-									<button onclick="cerrar('Cer');return false">Cancelar</button>
+									<h:commandButton id="cerra" value="Cerrar" action="#{admin.cerrarCuenta()}" styleClass="Mbutton"/>
+									<button class="bCancelar" onclick="cerrar('Cer');return false">Cancelar</button>
 								</div>
 
 							</h:form>
@@ -535,8 +535,8 @@
 									
 								</h:panelGrid>
 								
-								<h:commandButton  id="aperturaSegreg" value="Aperturar" action="#{admin.crearCuentaReferencia()}" styleClass="button"/>
-								<button onclick="cerrar('CrearRef');return false">Cancelar</button>
+								<h:commandButton  id="aperturaSegreg" value="Aperturar" action="#{admin.crearCuentaReferencia()}" styleClass="Mbutton"/>
+								<button class="bCancelar" onclick="cerrar('CrearRef');return false">Cancelar</button>
 
 							</h:form>
 						</div>
@@ -548,15 +548,15 @@
 
 						<h2>Administrar autorizaciones</h2>
 
-						<button onclick="mostrar('MostrarPersona'); cerrar('MPA'); cerrar('EPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Mostrar Persona Autorizada</button>
+						<button class="Normalbutton" onclick="mostrar('MostrarPersona'); cerrar('MPA'); cerrar('EPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Mostrar Persona Autorizada</button>
 
-						<button onclick="mostrar('APA'); cerrar('MPA'); cerrar('EPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Crear Persona Autorizada</button>
+						<button class="Normalbutton" onclick="mostrar('APA'); cerrar('MPA'); cerrar('EPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Crear Persona Autorizada</button>
 						
-						<button onclick="mostrar('CPA'); cerrar('MPA'); cerrar('EPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Añadir Persona Autorizada</button>
+						<button class="Normalbutton" onclick="mostrar('CPA'); cerrar('MPA'); cerrar('EPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Añadir Persona Autorizada</button>
 
-						<button onclick="mostrar('MPA');  cerrar('APA'); cerrar('EPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Modificar Persona Autorizada</button>
+						<button class="Normalbutton" onclick="mostrar('MPA');  cerrar('APA'); cerrar('EPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Modificar Persona Autorizada</button>
 
-						<button onclick="mostrar('EPA');  cerrar('MPA'); cerrar('MPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Eliminar Persona Autorizada</button>
+						<button class="Normalbutton" onclick="mostrar('EPA');  cerrar('MPA'); cerrar('MPA'); cerrar('MostrarCl'); cerrar('Alta'); cerrar('Mod'); cerrar('Baja'); cerrar('AA'); cerrar('Cer'); cerrar('AS'); cerrar('ALEMANIA'); cerrar('HOLANDA')">Eliminar Persona Autorizada</button>
 
 						<div class="MostrarPersona" style="display:none" >
 
@@ -572,8 +572,8 @@
 									</div>
 								</h:panelGrid>
 								<div class="mostrarButtons" style="display: inline">
-									<h:commandButton styleClass="mostrar" id="mostrarCuentas" value="Mostrar" action="#{admin.mostrarPersonaAutorizada()}"/>
-									<button onclick="cerrar('MostrarPersona');cerrar('mostrarPersona');return false">Cancelar</button>
+									<h:commandButton styleClass="Mbutton" id="mostrarCuentas" value="Mostrar" action="#{admin.mostrarPersonaAutorizada()}"/>
+									<button class="bCancelar" onclick="cerrar('MostrarPersona');cerrar('mostrarPersona');return false">Cancelar</button>
 								</div>
 							</h:form>
 						</div>
@@ -626,8 +626,8 @@
 								</h:panelGrid>
 								
 								<div style="display: inline">
-									<h:commandButton id="addAutor" value="Añadir" action="#{admin.crearAutorizado()}" styleClass="button"/>
-									<button onclick="cerrar('APA');return false">Cancelar</button>
+									<h:commandButton id="addAutor" value="Añadir" action="#{admin.crearAutorizado()}" styleClass="Mbutton"/>
+									<button class="bCancelar" onclick="cerrar('APA');return false">Cancelar</button>
 								</div>
 
 							</h:form>
@@ -655,8 +655,8 @@
 								</h:panelGrid>
 								
 								<div style="display: inline">
-									<h:commandButton id="addAutorC" value="Añadir" action="#{admin.addAutorizado()}" styleClass="button"/>
-									<button onclick="cerrar('CPA');return false">Cancelar</button>
+									<h:commandButton id="addAutorC" value="Añadir" action="#{admin.addAutorizado()}" styleClass="Mbutton"/>
+									<button class="bCancelar" onclick="cerrar('CPA');return false">Cancelar</button>
 								</div>
 
 							</h:form>
@@ -684,8 +684,8 @@
 								<h:message for="dir2ModPer" styleClass="info-campo"/>
 							</h:panelGrid>
 							<div style="display: inline">
-								<h:commandButton id="modificarAutor" value="Modificar" action="#{admin.modificarAutorizado()}" styleClass="button"/>
-								<button onclick="cerrar('MPA');return false">Cancelar</button>
+								<h:commandButton id="modificarAutor" value="Modificar" action="#{admin.modificarAutorizado()}" styleClass="Mbutton"/>
+								<button class="bCancelar" onclick="cerrar('MPA');return false">Cancelar</button>
 							</div>
 						</h:form>
 						</div>
@@ -707,8 +707,8 @@
 								</h:panelGrid>
 								
 								<div style="display: inline">
-									<h:commandButton id="eliminarAutor" value="Eliminar" action="#{admin.eliminarAutorizado()}" styleClass="button"/>
-									<button onclick="cerrar('EPA');return false">Cancelar</button>
+									<h:commandButton id="eliminarAutor" value="Eliminar" action="#{admin.eliminarAutorizado()}" styleClass="Mbutton"/>
+									<button class="bCancelar" onclick="cerrar('EPA');return false">Cancelar</button>
 								</div>
 
 							</h:form>
@@ -721,8 +721,8 @@
 
 						<h2>Generar Informes ALEMANIA</h2>
 						<h:form id="fALEMANIA">   					
-       						<h:commandButton id="aSem" value="Semanal" action="#{infal.descargaSemanal()}" styleClass="button" style="background-image: linear-gradient(to right top, #0b0207, #361122, #651031, #960536, #c60031, #dc2e2a, #ef4d1d, #ff6a00, #ff9200, #ffb700, #fadc00, #ecff1c);"/>
-							<h:commandButton id="aMen" value="Mensual" action="#{infal.descargaMensual()}" styleClass="button" style="background-image: linear-gradient(to right top, #0b0207, #361122, #651031, #960536, #c60031, #dc2e2a, #ef4d1d, #ff6a00, #ff9200, #ffb700, #fadc00, #ecff1c);"/>
+       						<h:commandButton id="aSem" value="Semanal" action="#{infal.descargaSemanal()}" styleClass="Mbutton" style="background-image: linear-gradient(to right top, #0b0207, #361122, #651031, #960536, #c60031, #dc2e2a, #ef4d1d, #ff6a00, #ff9200, #ffb700, #fadc00, #ecff1c);"/>
+							<h:commandButton id="aMen" value="Mensual" action="#{infal.descargaMensual()}" styleClass="Mbutton" style="background-image: linear-gradient(to right top, #0b0207, #361122, #651031, #960536, #c60031, #dc2e2a, #ef4d1d, #ff6a00, #ff9200, #ffb700, #fadc00, #ecff1c);"/>
 						</h:form>
 						
 						</div>	
