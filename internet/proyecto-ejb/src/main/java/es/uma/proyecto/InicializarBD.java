@@ -43,6 +43,7 @@ public class InicializarBD {
         }
 
         Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse("2020-05-28");
+        Date nac = new SimpleDateFormat("yyyy-MM-dd").parse("1969-05-28");
 
         Usuario user = new Usuario("ponciano", "ponciano", true, "ponciano@gmail.com");
         em.persist(user);
@@ -71,7 +72,7 @@ public class InicializarBD {
         emp.setCiudad("Serbia");
         emp.setCodigoPostal("NoTiene");
         emp.setPais("Paises Bajos");
-        emp.setRazonSocial("PabloNoToques S.A.");
+        emp.setRazonSocial("Hidrocarburos Pablo S.A.");
         em.persist(emp);
 
         Usuario juan = new Usuario("juan", "juan", false, "juan@juan.com");
@@ -92,11 +93,11 @@ public class InicializarBD {
         client.setUsuario(juan);
         em.persist(client);
 
-        PersonaAutorizada pers = new PersonaAutorizada("Y4001267V", "Victor", "Rodriguez", "una calle", utilDate, "Alta", utilDate, null);
+        PersonaAutorizada pers = new PersonaAutorizada("Y4001267V", "Victor", "Rodriguez", "una calle", nac, "Alta", utilDate, null);
         pers.setUsuario(ana);
         em.persist(pers);
 
-        PersonaAutorizada pers2 = new PersonaAutorizada("PATest", "Victor", "Rodriguez", "una calle", utilDate, "Alta", utilDate, null);
+        PersonaAutorizada pers2 = new PersonaAutorizada("PATest", "Victor", "Rodriguez", "una calle", nac, "Alta", utilDate, null);
         em.persist(pers2);
 
         Autorizacion aut = new Autorizacion(new EmpresaPersAutoPK(emp.getId(), pers.getID()), "No", pers, emp);

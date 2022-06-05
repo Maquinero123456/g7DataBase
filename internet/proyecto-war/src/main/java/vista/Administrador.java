@@ -435,12 +435,16 @@ public class Administrador {
 				estadoPersonaMostrar = "Not Active";
 			}
 
-			if(fechaIniPersonaMostrar==null){
+			if(pers.getFechaInicio()==null){
 				fechaIniPersonaMostrar = "No tiene";
+			}else{
+				fechaIniPersonaMostrar = pers.getFechaInicio().toString();
 			}
 
-			if(fechaFinPersonaMostrar==null){
+			if(pers.getFechaFin()==null){
 				fechaFinPersonaMostrar = "No tiene";
+			}else{
+				fechaFinPersonaMostrar = pers.getFechaFin().toString();
 			}
 			StringBuilder sb = new StringBuilder();
 			sb.append("{");
@@ -592,8 +596,10 @@ public class Administrador {
 	public void addAutorizado() {
 		try {
 			admin.addAutorizados(clientes.getEmpresa(idEmp).getId(), autorizados.getPersonaAutorizada(idPer).getID(), tipo);
-			setFechaFinPersonaMostrar(null);
-			setFechaIniPersonaMostrar(new Date(System.currentTimeMillis()).toString());
+			PersonaAutorizada pa = autorizados.getPersonaAutorizada(idPer);
+			pa.setFechaInicio(new Date(System.currentTimeMillis()));
+			pa.setFechaFin(null);
+			admin.modificarAutorizado(pa);
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("La empresa indicada no existe.");
 	        FacesContext.getCurrentInstance().addMessage("admin:idEmpAPA", fm);
@@ -612,7 +618,9 @@ public class Administrador {
 	public void eliminarAutorizado() {
 		try {
 			admin.eliminarAutorizado(clientes.getEmpresa(idEmp).getId(), autorizados.getPersonaAutorizada(idPer).getID());
-			setFechaFinPersonaMostrar(new Date(System.currentTimeMillis()).toString());
+			PersonaAutorizada pa = autorizados.getPersonaAutorizada(idPer);
+			pa.setFechaFin(new Date(System.currentTimeMillis()));
+			admin.modificarAutorizado(pa);
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("La empresa indicada no existe.");
 	        FacesContext.getCurrentInstance().addMessage("admin:idEmpE", fm);
