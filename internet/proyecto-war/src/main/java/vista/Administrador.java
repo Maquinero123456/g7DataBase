@@ -1,6 +1,5 @@
 package vista;
 
-import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,8 +10,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
 
 import es.uma.proyecto.GestionAdministrativos;
 import es.uma.proyecto.GestionAutorizados;
@@ -27,7 +24,6 @@ import es.uma.proyecto.entidades.CuentaFintech;
 import es.uma.proyecto.entidades.CuentaReferencia;
 import es.uma.proyecto.entidades.DepositadaEn;
 import es.uma.proyecto.entidades.Empresa;
-import es.uma.proyecto.entidades.EmpresaPersAutoPK;
 import es.uma.proyecto.entidades.Individual;
 import es.uma.proyecto.entidades.PersonaAutorizada;
 import es.uma.proyecto.entidades.PooledAccount;
@@ -596,8 +592,8 @@ public class Administrador {
 	public void addAutorizado() {
 		try {
 			admin.addAutorizados(clientes.getEmpresa(idEmp).getId(), autorizados.getPersonaAutorizada(idPer).getID(), tipo);
-			fechaFinPersonaMostrar = null;
-			fechaIniPersonaMostrar = new Date(System.currentTimeMillis()).toString();
+			setFechaFinPersonaMostrar(null);
+			setFechaIniPersonaMostrar(new Date(System.currentTimeMillis()).toString());
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("La empresa indicada no existe.");
 	        FacesContext.getCurrentInstance().addMessage("admin:idEmpAPA", fm);
@@ -616,7 +612,7 @@ public class Administrador {
 	public void eliminarAutorizado() {
 		try {
 			admin.eliminarAutorizado(clientes.getEmpresa(idEmp).getId(), autorizados.getPersonaAutorizada(idPer).getID());
-			fechaFinPersonaMostrar = new Date(System.currentTimeMillis()).toString();
+			setFechaFinPersonaMostrar(new Date(System.currentTimeMillis()).toString());
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("La empresa indicada no existe.");
 	        FacesContext.getCurrentInstance().addMessage("admin:idEmpE", fm);
