@@ -1,5 +1,6 @@
 package es.uma.proyecto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -124,13 +125,11 @@ public class Autorizados implements GestionAutorizados{
 
     @Override
     public List<CuentaFintech> getCuentasPersonaAutorizada(String id) throws PersonaAutorizadaException, CuentaException{
-        Query query = em.createQuery("SELECT cf from PersonaAutorizada pa, CuentaFintech cf WHERE pa.identificacion = :fid");
-        query.setParameter("fid", id);
-        
-        if(query.getResultList() == null){
-            throw new PersonaAutorizadaException("No existen personas autorizadas con esos apellidos o nombres");
+        PersonaAutorizada pa = getPersonaAutorizada(id);
+        List<CuentaFintech> cuentas = new ArrayList<>();
+        for(Autorizacion e : pa.getAutorizacion()){
+            cuentas.addAll(e.getEmpresa().getCuentas());
         }
-
-        return query.getResultList();
+        return cuentas;
     }
 }

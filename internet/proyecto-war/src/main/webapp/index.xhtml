@@ -74,6 +74,11 @@
                             #{cuenta.saldo}
                         </h:column>
 
+                        <h:column>
+                                <f:facet name="header" styleClass="cuentas">Divisa</f:facet>
+                                #{cuenta.divisa}
+                        </h:column>
+
                     </h:dataTable>
 
                     <p><a  href="cuentas.xhtml">PULSA AQUI PARA VER TODAS LAS CUENTAS</a></p>
@@ -206,6 +211,11 @@
                                 <f:facet name="header" styleClass="cuentas">Saldo</f:facet>
                                 #{cuenta.saldo}
                             </h:column>
+
+                            <h:column>
+                                <f:facet name="header" styleClass="cuentas">Divisa</f:facet>
+                                #{cuenta.divisa}
+                            </h:column>
     
                         </h:dataTable>
     
@@ -249,7 +259,7 @@
                             </h:panelGrid>
                                 
                             <div style="display: inline">
-                                <h:commandButton id="TransPA" value="Realizar transacción" action="#{index.transaccionIndividual()}" styleClass="button"/>
+                                <h:commandButton id="TransPA" value="Realizar transacción" action="#{index.transaccionAutorizado()}" styleClass="button"/>
                                 <button onclick="cerrar('tranPA')">Cancelar</button>
                             </div>
                             
@@ -299,7 +309,7 @@
                 </c:when>
                 
                 <c:otherwise>
-                    <p>Buenas tardes <h:outputText value="#{infoSesion.usuario.nombre}"/> ¿qué acción realizará?</p>
+                    <p>Buenas tardes <h:outputText value="#{infoSesion.usuario.nombre}"/>.</p>
 					<p>NO TIENES NADA QUE HACER AQUI. PIDE A ALGUN ADMINISTRADOR QUE AÑADA UNA CUENTA A TU USUARIO.</p>
 				</c:otherwise>
                
