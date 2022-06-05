@@ -86,29 +86,27 @@ public class Index {
 		List<CuentaFintech> aux = new ArrayList<>();
 		if(sesion.getUsuario().getPersonaAutorizada()!=null){
 			try {
-				aux.addAll(autori.getCuentasPersonaAutorizada(sesion.getUsuario().getPersonaAutorizada().getIdentificacion()));
-			} catch (PersonaAutorizadaException | CuentaException e) {
+					aux.addAll(autori.getCuentasPersonaAutorizada(sesion.getUsuario().getPersonaAutorizada().getIdentificacion()));
+			} catch (PersonaAutorizadaException | CuentaException e1) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				e1.printStackTrace();
 			}
 		}
-
+	
 		if(sesion.getUsuario().getCliente()!=null){
-			aux.addAll(sesion.getUsuario().getCliente().getCuentas());
+				aux.addAll(sesion.getUsuario().getCliente().getCuentas());
 		}
 		
 		if(aux.isEmpty()){
 			return cuentasBancarias;
 		}
-		
-		System.out.println(aux.toString());
 		for(CuentaFintech e : aux){
 			if(e.getClasificacion().equalsIgnoreCase("Pooled")){
-				vistaCuentas aux2 = new vistaCuentas();
 				PooledAccount pool = null;
 				try{
 					pool = cuentas.getCuentaAgrupada(e.getIBAN());
 					for(DepositadaEn a : pool.getDepositadaEn()){
+						vistaCuentas aux2 = new vistaCuentas();
 						CuentaReferencia ref = a.getCuentaReferencia();
 						aux2.setIban(pool.getIBAN());
 						if(pool.getSWIFT()==null){
@@ -156,7 +154,6 @@ public class Index {
 						}
 						aux2.setDivisa(ref.getDivisa().getNombre());
 						cuentasBancarias.add(aux2);
-	
 					}
 				} catch (CuentaException e1){
 
@@ -233,10 +230,20 @@ public class Index {
 
 
     public void transaccionIndividual() {
-    	double cant = Double.parseDouble(cantidad);
-    	
     	try {
-			trans.transaccionIndividual(usuario.getCliente().getIdentificacion(), ibanOrigen, ibanDestino, cant, tipo);
+			if(cuentas.getCuentaAgrupada(ibanOrigen)!=null || cuentas.getCuentaAgrupada(ibanDestino)!=null){
+				FacesMessage fm = new FacesMessage("Para las cuentas pooled usa la referencia");
+			    FacesContext.getCurrentInstance().addMessage("index:cantI", fm);
+			}
+			if(cuentas.getCuentaSegregada(ibanOrigen)!=null){
+				ibanOrigen=cuentas.getCuentaSegregada(ibanOrigen).getCuentaReferencia().getIBAN();
+			}
+			if(cuentas.getCuentaSegregada(ibanDestino)!=null){
+				ibanDestino=cuentas.getCuentaSegregada(ibanDestino).getCuentaReferencia().getIBAN();
+			}
+		} catch (CuentaException e1) {}
+    	try {
+			trans.transaccionIndividual(sesion.getUsuario().getCliente().getIdentificacion(), ibanOrigen, ibanDestino, Double.parseDouble(cantidad), tipo);
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("El cliente indicado no existe o no es individual.");
             FacesContext.getCurrentInstance().addMessage(null, fm);
@@ -253,10 +260,10 @@ public class Index {
     }
     
     public void transaccionAutorizado() {
-    	double cant = Double.parseDouble(cantidad);
     	
+		
     	try {
-			trans.transaccionAutorizado(usuario.getCliente().getIdentificacion(), ibanOrigen, ibanDestino, cant, tipo);
+			trans.transaccionAutorizado(sesion.getUsuario().getPersonaAutorizada().getIdentificacion(), ibanOrigen, ibanDestino, Double.parseDouble(cantidad), tipo);
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("El cliente indicado no existe o no es individual.");
             FacesContext.getCurrentInstance().addMessage(null, fm);

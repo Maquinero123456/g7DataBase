@@ -68,12 +68,14 @@ public class GenerarTransaccion implements GestionTransaccion {
 			throw new SaldoException("No hay suficiente dinero");
 		}
 		CuentaReferencia cuentaDestino = em.find(CuentaReferencia.class, ibanDestino);
-
+		if(cuentaDestino == null){
+			throw new CuentaException("No existe la cuenta de destino");
+		}
 		cuentaOrigen.setSaldo(cuentaOrigen.getSaldo() - cantidad);
 		cuentaDestino.setSaldo(cuentaDestino.getSaldo()
 				+ cantidad * cuentaOrigen.getDivisa().getCambioEuro() / cuentaDestino.getDivisa().getCambioEuro());
-		em.merge(cuentaOrigen);
-		em.merge(cuentaDestino);
+		em.persist(cuentaOrigen);
+		em.persist(cuentaDestino);
 		Date utilDate = new Date(System.currentTimeMillis());
 		Transaccion trans = new Transaccion(utilDate, cantidad, tipo, cuentaDestino, cuentaOrigen,
 				cuentaDestino.getDivisa(), cuentaOrigen.getDivisa());

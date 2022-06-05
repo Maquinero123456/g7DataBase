@@ -349,18 +349,22 @@ public class Administrador {
 				}else{
 					cierreCuentaMostrado = seg.getFechaCierre().toString();
 				}
-
-				StringBuilder sb = new StringBuilder();
-				sb.append("{");
-				for(DepositadaEn e : seg.getDepositadaEn()){
-					sb.append(e.getCuentaReferencia().getIBAN());
-					sb.append("("+e.getCuentaReferencia().getDivisa().getNombre()+")");
-					sb.append(", ");
+				if(!seg.getDepositadaEn().isEmpty()){
+					StringBuilder sb = new StringBuilder();
+					sb.append("{");
+					for(DepositadaEn e : seg.getDepositadaEn()){
+						sb.append(e.getCuentaReferencia().getIBAN());
+						sb.append("("+e.getCuentaReferencia().getDivisa().getNombre()+")");
+						sb.append(", ");
+					}
+					sb.delete(sb.length()-2, sb.length());
+					sb.append("}");
+					
+				}else{
+					cuentasRefCuentaMostrada ="{}";
 				}
-				sb.delete(sb.length()-2, sb.length());
-				sb.append("}");
 				clasificacionCuentaMostrado = seg.getClasficicacion();
-				cuentasRefCuentaMostrada = sb.toString();
+				
 			}
 		} catch (CuentaException e){
 			FacesMessage fm = new FacesMessage("La cuenta solicitada no existe o es CuentaReferencia.");
@@ -435,25 +439,25 @@ public class Administrador {
 				estadoPersonaMostrar = "Not Active";
 			}
 
-			if(pers.getFechaInicio()==null){
+			if(fechaIniPersonaMostrar==null){
 				fechaIniPersonaMostrar = "No tiene";
-			}else{
-				fechaIniPersonaMostrar = pers.getFechaInicio().toString();
 			}
 
-			if(pers.getFechaFin()==null){
+			if(fechaFinPersonaMostrar==null){
 				fechaFinPersonaMostrar = "No tiene";
-			}else{
-				fechaFinPersonaMostrar = pers.getFechaFin().toString();
 			}
 			StringBuilder sb = new StringBuilder();
 			sb.append("{");
+			int i=0;
 			for(Autorizacion e : pers.getAutorizacion()){
 				sb.append(e.getEmpresa().getRazonSocial());
+				i+=1;
 				sb.append("("+e.getEmpresa().getIdentificacion()+")");
-				sb.append(", ");
+				if(pers.getAutorizacion().size() > 1 &&  i < pers.getAutorizacion().size()){
+					sb.append(", ");
+				}
+				
 			}
-			sb.delete(sb.length()-2, sb.length());
 			sb.append("}");
 			empresasPersonaMostrar = sb.toString();
 		}catch (PersonaAutorizadaException e){
@@ -547,7 +551,7 @@ public class Administrador {
 	
 	public void aperturaCuentaSegreg() {
 		try {
-			admin.aperturaCuentaSegregada(iban, ident, cuentaRef);
+			admin.aperturaCuentaSegregada(iban, ident, bCuentas.getCuentaReferencia(ibanRef));
 		} catch (CuentaException e) {
 			FacesMessage fm = new FacesMessage("La cuenta no existe o ya está tomada.");
 	        FacesContext.getCurrentInstance().addMessage("admin:ibanAS", fm);
@@ -577,11 +581,6 @@ public class Administrador {
 			perAu.setFechaFin(fecha);
 		}
 		
-		if(fechaNac != null) {
-			Date fecha = null;
-			perAu.setFecha_Nacimiento(fecha);
-		}
-		
 		if(estadoPA != null) {
 			perAu.setEstado(estadoPA);
 		}
@@ -597,6 +596,8 @@ public class Administrador {
 	public void addAutorizado() {
 		try {
 			admin.addAutorizados(clientes.getEmpresa(idEmp).getId(), autorizados.getPersonaAutorizada(idPer).getID(), tipo);
+			fechaFinPersonaMostrar = null;
+			fechaIniPersonaMostrar = new Date(System.currentTimeMillis()).toString();
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("La empresa indicada no existe.");
 	        FacesContext.getCurrentInstance().addMessage("admin:idEmpAPA", fm);
@@ -615,6 +616,7 @@ public class Administrador {
 	public void eliminarAutorizado() {
 		try {
 			admin.eliminarAutorizado(clientes.getEmpresa(idEmp).getId(), autorizados.getPersonaAutorizada(idPer).getID());
+			fechaFinPersonaMostrar = new Date(System.currentTimeMillis()).toString();
 		} catch (ClienteException e) {
 			FacesMessage fm = new FacesMessage("La empresa indicada no existe.");
 	        FacesContext.getCurrentInstance().addMessage("admin:idEmpE", fm);

@@ -123,7 +123,7 @@ public class Administrativos implements GestionAdministrativos{
 		
 		
 		Date utilDate = new Date(System.currentTimeMillis());
-		account = new PooledAccount(iban, null, true, utilDate, null, "Agrupada");
+		account = new PooledAccount(iban, null, true, utilDate, null, "Pooled");
 		account.setCliente(c1);
 		em.persist(account);
 	}
@@ -243,7 +243,7 @@ public class Administrativos implements GestionAdministrativos{
 			}
 		}
 		
-		else if(account.getClasificacion().equalsIgnoreCase("agrupada")) {
+		else if(account.getClasificacion().equalsIgnoreCase("pooled")) {
 			PooledAccount paccount = em.find(PooledAccount.class, iban);
 			if(paccount != null){
 				boolean sinSaldo = true;

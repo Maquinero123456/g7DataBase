@@ -4,8 +4,9 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-      <link rel="stylesheet" type="text/css" href="registro.css" media="screen"/>
-
+	
+	<link rel="stylesheet" href="registroUser.css"></link>
+	
     <h:head>
         <title>Registro de usuario</title>
     </h:head>
@@ -15,9 +16,11 @@
         <div class="registro-window">
 
             <div class="backg-container">
-                <div class="color-overlay">
-                </div>
-                <img src = "demo/edificios.jpg"></img>
+                
+                <img src = "demo/edificios.jpg">
+                    <div class="color-overlay">
+                    </div>
+                </img>
             </div>
 
             <div class="inside-context">
@@ -28,7 +31,7 @@
 
                         <h:form id="registro">
 
-                            <h:panelGrid columns="3">
+                            <h:panelGrid columns="3" styleClass="jajant">
 
                                 <h:outputText value="Nombre:" styleClass="titulo"/>
                                 <h:inputText id="nombre" value="#{registro.usuario.nombre}" required="true" requiredMessage="Valor obligatorio" styleClass="entrada"/>
@@ -47,7 +50,7 @@
                                 <h:message for="email" styleClass="mensajes"/>
 
                                 <h:commandButton value="Crear usuario" action="#{registro.registrarUsuario()}" styleClass="boton"/>
-                                <h:link outcome="login.xhtml">Volver a la página de login</h:link>
+                                <h:link outcome="login.xhtml" style="font-family: 'Rajdhani', sans-serif; text-decoration: none;">Volver a la página de login</h:link>
 
                             </h:panelGrid>
                             
