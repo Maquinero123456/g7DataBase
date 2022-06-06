@@ -23,7 +23,6 @@ INCREMENT BY 1;
     procedimientos de los siguientes apartados.
 */
 CREATE OR REPLACE PACKAGE PK_GESTION_CLIENTES IS
-    CuentasAlta EXCEPTION;
     ModificarCuenta EXCEPTION;
     CuentasBaja EXCEPTION;
     AutorizadoExiste EXCEPTION;
@@ -74,6 +73,10 @@ CREATE OR REPLACE PACKAGE BODY PK_GESTION_CLIENTES IS
             ELSE RAISE TipoException;
             END IF;
         END IF;
+    EXCEPTION
+        WHEN TipoException THEN dbms_output.put_line('Los clientes solo pueden ser FISICO o JURIDICO');
+    END;
+
     END;
 
     /*  2. RF3) Modificar Cliente:
@@ -92,6 +95,8 @@ CREATE OR REPLACE PACKAGE BODY PK_GESTION_CLIENTES IS
             UPDATE CLIENTE SET ESTADO = EST, FECHA_BAJA = BAJA, DIRECCION = DIREC, CIUDAD = CIU, CODIGOPOSTAL = COD, PAIS = PA WHERE IDENTIFICACION = IDENT;
         ELSE RAISE ModificarCuenta;
         END IF;
+    EXCEPTION
+        WHEN ModificarCuenta THEN dbms_output.put_line('No existe el cliente indicado.');
     END;
 
 
@@ -112,14 +117,16 @@ CREATE OR REPLACE PACKAGE BODY PK_GESTION_CLIENTES IS
             UPDATE CLIENTE SET ESTADO = '0', FECHA_BAJA = SYSDATE WHERE ID = PK;
         ELSE RAISE CuentasBaja;
         END IF;
+
+    EXCEPTION
+        WHEN CuentasBaja THEN dbms_output.put_line('No existe el cliente indicado o la cuenta no esta de alta.');
+
     END;
 
     /*  4. RF6) Aniadir autorizados:
         Procedimiento para anadir un autorizado a la(s) cuentas de una persona Juridica (empresa)
             - Solo hay dos tipos de autorizacion; CONSULTA u OPERACION, si no se indica alguno de estos
               saltara la respectiva excepcion
-            
-
     */
     PROCEDURE ADD_AUTORIZADO(TIPO VARCHAR2, PK INT, EMP INT, IDENTIFICACION VARCHAR2, NOMBRE VARCHAR2, APELLIDOS VARCHAR2, DIRECCION VARCHAR2, FECHA_NACIMIENTO DATE, ESTADO CHAR, FECHAFIN DATE) AS
     personaAutorizadaExiste INTEGER;
@@ -135,13 +142,17 @@ CREATE OR REPLACE PACKAGE BODY PK_GESTION_CLIENTES IS
 	SELECT COUNT(*) INTO autorizacionNoExiste FROM AUTORIZACION WHERE PERSONA_AUTORIZADA_ID = PK AND EMPRESA_ID = EMP;
         IF personaAutorizadaExiste=1 AND empresaExiste=1 AND autorizacionNoExiste=0 THEN
             INSERT INTO AUTORIZACION VALUES(TIPO, PK, EMP);
-        ELSIF empresaExiste=1 AND autorizacionNoExiste = 0 THEN
+        ELSE IF empresaExiste=1 AND autorizacionNoExiste = 0 THEN
             ID_UNICO := SQ_PERSONA.NEXTVAL;
             INSERT INTO PERSONA_AUTORIZADA VALUES (ID_UNICO, IDENTIFICACION, NOMBRE, APELLIDOS, DIRECCION, FECHA_NACIMIENTO, ESTADO, SYSDATE, FECHAFIN);
             INSERT INTO AUTORIZACION VALUES(TIPO, ID_UNICO, EMP);
+        ELSE RAISE AutorizadoExiste;
         END IF;
+    
+    EXCEPTION
+        WHEN AutorizadoExiste THEN dbms_output.put_line('No existe el autorizado o la empresa indicada.');
+        WHEN TipoException THEN dbms_output.put_line('El tipo de autorizacion solo puede ser: CONSULTA u OPERACION');
     END;
-
 
     /*  5. RF7) Modificar Persona Autorizada:
         Procedimiento para modificar los datos de una Persona Autorizada ya existente en la Base de datos.
@@ -167,6 +178,7 @@ CREATE OR REPLACE PACKAGE BODY PK_GESTION_CLIENTES IS
         SELECT COUNT(*) INTO personaAutorizadaExiste FROM PERSONA_AUTORIZADA WHERE ID = PK;
         IF personaAutorizadaExiste=1 THEN
             UPDATE PERSONA_AUTORIZADA SET NOMBRE = NOM, APELLIDOS = APEL, DIRECCION = DIREC, FECHA_NACIMIENTO = NACI, ESTADO = EST, FECHAFIN = FIN WHERE ID = PK;
+        END IF;
         ELSE RAISE AutorizadoModificar;
 	END IF;
 	SELECT COUNT(*) INTO empresaExiste FROM EMPRESA WHERE ID = EMP;
@@ -174,6 +186,10 @@ CREATE OR REPLACE PACKAGE BODY PK_GESTION_CLIENTES IS
  	IF personaAutorizadaExiste=1 AND empresaExiste=1 AND autorizacionExiste=1 THEN
             UPDATE AUTORIZACION SET TIPO = TIP WHERE PERSONA_AUTORIZADA_ID = PK AND EMPRESA_ID = EMP;
         END IF;
+
+    EXCEPTION
+        WHEN AutorizadoModificar THEN dbms_output.put_line('La persona autorizada debe tener una empresa y una autorizacion en ella. Todos deben existir.');
+        WHEN TipoException THEN dbms_output.put_line('El tipo de autorizacion solo puede ser: CONSULTA u OPERACION');
     END;
 
 
@@ -181,16 +197,13 @@ CREATE OR REPLACE PACKAGE BODY PK_GESTION_CLIENTES IS
         Procedimiento para eliminar a personas autorizadas de una empresa, esto NO significa que se eliminen de la BD.
         Lo que se borra es la Autorizacion en la empresa.
 
-            - Si existe la autorizacion de la persona PK y la empresa EMP, entonces se borra.
-
-            
-    
+            - Si existe la autorizacion de la persona PK y la empresa EMP, entonces se borra.      
     */
     PROCEDURE ELIMINAR_AUTORIZADO(PK INT, EMP INT) AS
     autorizacionExiste INTEGER;
     personaExiste INTEGER;
     BEGIN
-	SELECT COUNT(*) INTO personaExiste FROM AUTORIZACION WHERE PERSONA_AUTORIZADA_ID = PK;
+	    SELECT COUNT(*) INTO personaExiste FROM AUTORIZACION WHERE PERSONA_AUTORIZADA_ID = PK;
         SELECT COUNT(*) INTO autorizacionExiste FROM AUTORIZACION WHERE PERSONA_AUTORIZADA_ID LIKE PK AND EMPRESA_ID LIKE EMP;
         IF autorizacionExiste=1 THEN
             DELETE FROM AUTORIZACION WHERE PERSONA_AUTORIZADA_ID = PK AND EMPRESA_ID = EMP;
@@ -200,6 +213,10 @@ CREATE OR REPLACE PACKAGE BODY PK_GESTION_CLIENTES IS
             UPDATE PERSONA_AUTORIZADA SET ESTADO = '0', FECHAFIN = SYSDATE WHERE ID = PK;
         ELSE RAISE AutorizadoEliminar;
         END IF;
+
+    EXCEPTION
+        WHEN AutorizadoEliminar THEN dbms_output.put_line('No existe la persona autorizada indicada.');
+        WHEN AutorizacionNoExiste THEN dbms_output.put_line('La persona no tiene autorizacion en la empresa indicada.');
     END;
 
 
@@ -365,7 +382,6 @@ END;
 
 
 
-<<<<<<< HEAD:abdd/plsql_completo.sql
 -----------------------------------------------------------
 --                    EJERCICIO 3
 -----------------------------------------------------------
@@ -374,13 +390,9 @@ END;
     una de sus tarjetas agrupado por divisa. CREATE OR REPLACE VIEW V_TARJETA_MENSUAL"
     ("IDENTIFICACION", "NUMERO_TARJETA", "GASTO", "ABREVIATURA").
 */
-CREATE OR REPLACE VIEW V_TARJETA_MENSUAL(IDENTIFICACION, NUMERO_TARJETA, GASTO, ABREVIATURA) AS 
-SELECT CLIENTE.IDENTIFICACION, TARJETA.NUMERO, SUM(TRANSACCION.CANTIDAD), TRANSACCION.DIVISA_ABREVIATURA FROM CLIENTE, TRANSACCION, TARJETA, CUENTA_FINTECH WHERE CLIENTE.ID = CUENTA_FINTECH.CLIENTE_ID AND CUENTA_FINTECH.IBAN = TARJETA.CUENTA_IBAN AND CUENTA_FINTECH.IBAN = TRANSACCION.CUENTA_IBAN GROUP BY TRANSACCION.DIVISA_ABREVIATURA, CLIENTE.IDENTIFICACION, TARJETA.NUMERO;
-=======
 CREATE OR REPLACE VIEW V_TARJETA_MENSUAL
 (IDENTIFICACION, NUMERO_TARJETA, GASTO, ABREVIATURA) AS 
 SELECT CLIENTE.IDENTIFICACION, MOVIMIENTOS.TARJETA_NUMERO, SUM(MOVIMIENTOS.CANTIDAD), MOVIMIENTOS.DIVISA_ABREVIATURA FROM CLIENTE, TARJETA, CUENTA_FINTECH, MOVIMIENTOS WHERE MOVIMIENTOS.STATUS LIKE 'PENDIENTE' AND MOVIMIENTOS.TARJETA_NUMERO = TARJETA.NUMERO AND TARJETA.CUENTA_IBAN = CUENTA_FINTECH.IBAN AND CUENTA_FINTECH.CLIENTE_ID = CLIENTE.ID GROUP BY MOVIMIENTOS.DIVISA_ABREVIATURA, CLIENTE.IDENTIFICACION, MOVIMIENTOS.TARJETA_NUMERO;
->>>>>>> 1f4748da3a2b261b8541860ac8de45f1345909bf:abdd/plsql_completo.txt
 
 
 /*  b) Crear una vista V_PAGOS_PENDIENTES que permita ver el total de pagos pendientes (campo Estado) para
