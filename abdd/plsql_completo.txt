@@ -73,9 +73,6 @@ CREATE OR REPLACE PACKAGE BODY PK_GESTION_CLIENTES IS
             ELSE RAISE TipoException;
             END IF;
         END IF;
-    EXCEPTION
-        WHEN TipoException THEN dbms_output.put_line('Los clientes solo pueden ser FISICO o JURIDICO');
-    END;
 
     END;
 
@@ -95,8 +92,6 @@ CREATE OR REPLACE PACKAGE BODY PK_GESTION_CLIENTES IS
             UPDATE CLIENTE SET ESTADO = EST, FECHA_BAJA = BAJA, DIRECCION = DIREC, CIUDAD = CIU, CODIGOPOSTAL = COD, PAIS = PA WHERE IDENTIFICACION = IDENT;
         ELSE RAISE ModificarCuenta;
         END IF;
-    EXCEPTION
-        WHEN ModificarCuenta THEN dbms_output.put_line('No existe el cliente indicado.');
     END;
 
 
@@ -117,9 +112,6 @@ CREATE OR REPLACE PACKAGE BODY PK_GESTION_CLIENTES IS
             UPDATE CLIENTE SET ESTADO = '0', FECHA_BAJA = SYSDATE WHERE ID = PK;
         ELSE RAISE CuentasBaja;
         END IF;
-
-    EXCEPTION
-        WHEN CuentasBaja THEN dbms_output.put_line('No existe el cliente indicado o la cuenta no esta de alta.');
 
     END;
 
@@ -148,10 +140,7 @@ CREATE OR REPLACE PACKAGE BODY PK_GESTION_CLIENTES IS
             INSERT INTO AUTORIZACION VALUES(TIPO, ID_UNICO, EMP);
         ELSE RAISE AutorizadoExiste;
         END IF;
-    
-    EXCEPTION
-        WHEN AutorizadoExiste THEN dbms_output.put_line('No existe el autorizado o la empresa indicada.');
-        WHEN TipoException THEN dbms_output.put_line('El tipo de autorizacion solo puede ser: CONSULTA u OPERACION');
+
     END;
 
     /*  5. RF7) Modificar Persona Autorizada:
@@ -186,10 +175,6 @@ CREATE OR REPLACE PACKAGE BODY PK_GESTION_CLIENTES IS
  	IF personaAutorizadaExiste=1 AND empresaExiste=1 AND autorizacionExiste=1 THEN
             UPDATE AUTORIZACION SET TIPO = TIP WHERE PERSONA_AUTORIZADA_ID = PK AND EMPRESA_ID = EMP;
         END IF;
-
-    EXCEPTION
-        WHEN AutorizadoModificar THEN dbms_output.put_line('La persona autorizada debe tener una empresa y una autorizacion en ella. Todos deben existir.');
-        WHEN TipoException THEN dbms_output.put_line('El tipo de autorizacion solo puede ser: CONSULTA u OPERACION');
     END;
 
 
@@ -214,9 +199,6 @@ CREATE OR REPLACE PACKAGE BODY PK_GESTION_CLIENTES IS
         ELSE RAISE AutorizadoEliminar;
         END IF;
 
-    EXCEPTION
-        WHEN AutorizadoEliminar THEN dbms_output.put_line('No existe la persona autorizada indicada.');
-        WHEN AutorizacionNoExiste THEN dbms_output.put_line('La persona no tiene autorizacion en la empresa indicada.');
     END;
 
 
