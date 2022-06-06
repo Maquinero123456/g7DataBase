@@ -27,7 +27,7 @@ CREATE TABLE cliente (
     fecha_baja     DATE,
     direccion      VARCHAR2(40 CHAR) NOT NULL,
     ciudad         VARCHAR2(40 CHAR) NOT NULL,
-    codigopostal   INTEGER NOT NULL,
+    codigopostal   VARCHAR2(40 CHAR) NOT NULL,
     pais           VARCHAR2(40 CHAR) NOT NULL
 );
 
@@ -285,7 +285,7 @@ CREATE OR REPLACE TRIGGER arc_fkarc_3_cuenta_fintech BEFORE
 DECLARE
     d VARCHAR2(40 CHAR);
 BEGIN
-    SELECT
+    /*SELECT
         a.iban
     INTO d
     FROM
@@ -301,7 +301,8 @@ EXCEPTION
     WHEN no_data_found THEN
         NULL;
     WHEN OTHERS THEN
-        RAISE;
+        RAISE;*/
+NULL;
 END;
 /
 
@@ -311,7 +312,7 @@ CREATE OR REPLACE TRIGGER arc_fkarc_3_cuenta_referencia BEFORE
 DECLARE
     d VARCHAR2(40 CHAR);
 BEGIN
-    SELECT
+   /* SELECT
         a.iban
     INTO d
     FROM
@@ -327,7 +328,8 @@ EXCEPTION
     WHEN no_data_found THEN
         NULL;
     WHEN OTHERS THEN
-        RAISE;
+        RAISE;*/
+	NULL;
 END;
 /
 
@@ -337,7 +339,7 @@ CREATE OR REPLACE TRIGGER arc_fkarc_2_segregada BEFORE
 DECLARE
     d VARCHAR2(40 CHAR);
 BEGIN
-    SELECT
+   /* SELECT
         a.iban
     INTO d
     FROM
@@ -353,7 +355,8 @@ EXCEPTION
     WHEN no_data_found THEN
         NULL;
     WHEN OTHERS THEN
-        RAISE;
+        RAISE;*/
+	NULL;
 END;
 /
 
@@ -363,7 +366,7 @@ CREATE OR REPLACE TRIGGER arc_fkarc_2_pooled_account BEFORE
 DECLARE
     d VARCHAR2(40 CHAR);
 BEGIN
-    SELECT
+    /*SELECT
         a.iban
     INTO d
     FROM
@@ -379,7 +382,8 @@ EXCEPTION
     WHEN no_data_found THEN
         NULL;
     WHEN OTHERS THEN
-        RAISE;
+        RAISE;*/
+	NULL;
 END;
 /
 
@@ -389,7 +393,7 @@ CREATE OR REPLACE TRIGGER arc_fkarc_1_empresa BEFORE
 DECLARE
     d INTEGER;
 BEGIN
-    SELECT
+    /*SELECT
         a.id
     INTO d
     FROM
@@ -405,7 +409,8 @@ EXCEPTION
     WHEN no_data_found THEN
         NULL;
     WHEN OTHERS THEN
-        RAISE;
+        RAISE;*/
+	NULL;
 END;
 /
 
@@ -415,7 +420,7 @@ CREATE OR REPLACE TRIGGER arc_fkarc_1_individual BEFORE
 DECLARE
     d INTEGER;
 BEGIN
-    SELECT
+    /*SELECT
         a.id
     INTO d
     FROM
@@ -431,7 +436,8 @@ EXCEPTION
     WHEN no_data_found THEN
         NULL;
     WHEN OTHERS THEN
-        RAISE;
+        RAISE;*/
+	NULL;
 END;
 /
 
