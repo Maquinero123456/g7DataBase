@@ -107,3 +107,57 @@ CREATE MATERIALIZED VIEW VM_COTIZA
 CREATE SYNONYM COTIZACION
    FOR VM_COTIZA;
 
+/* Uso del TDE */
+ALTER SYSTEM SET "WALLET_ROOT" = 'C:\Users\app\alumnos\Oracle_instalacion\wallet' scope=SPFILE;
+ALTER SYSTEM SET TDE_CONFIGURATION="KEYSTORE_CONFIGURATION=FILE" scope=both;
+
+
+/* Creacion de un TABLESPACE */
+CREATE TABLESPACE TS_FINTECH
+    DATAFILE 'C:\USERS\APP\ALUMNOS\ORADATA\ORCL\ts_fintech' 
+    SIZE 10M AUTOEXTEND ON;                                  
+-- Crea un tablespace con un fichero de tamano 10M  autoextensible. 
+-- Para que un usuario pueda usarlo debe asignarsele una quota de uso.
+
+
+/* Creacion de un perfil administrativo de la aplicacion */ 
+CREATE PROFILE PERF_ADMINISTRATIVO LIMIT
+    SESSIONS_PER_USER                -- Máximo numero de sesiones para el usuario
+    FAILED_LOGIN_ATTEMPTS 3          -- Intentos para bloquear cuenta
+    CONNECT_TIME 5                   -- Desconecta tras 5 minutos de inactividad
+    IDLE_TIME 10                     -- 10 minutos de tiempo muerto en una sesion
+    PASSWORD_LIFE_TIME 50            -- 50 dias de contraseña antes de expiracion
+    PASSWORD_GRACE_TIME 3            -- Periodo de gracia luego de la expiracion
+    ;
+
+
+/* Creación de perfil cliente */
+CREATE PROFILE PERF_CLIENTE LIMIT 
+    SESSIONS_PER_USER 4             -- Maximo numero de sesiones del usuario
+    CONNECT_TIME 60                  -- Tiempo maximo de conexion en minutos
+    ; 
+   
+
+/* Creacion de rol super administrador, para el personal de la aplicacion*/
+CREATE ROLE R_ADMINISTRADOR_SUPER;
+GRANT CONNECT, CREATE TABLE TO R_ADMINISTRADOR_SUPER;
+
+CREATE ROLE R_CLIENTE;
+GRANT CONNECT, VIEW TABLE TO R_ADMINISTRADOR_SUPER;
+
+
+/* Creacion de usuarios con contrasea 'usuario' */
+CREATE USER adminn IDENTIFIED BY adminastrador
+    DEFAULT TABLESPACE TS_FINTECH           -- Tablespace 'ts_fintech' por defecto
+    QUOTA 1M ON TS_FINTECH                  -- Con 1Mega de espacio
+    ;
+
+CREATE USER cliente IDENTIFIED BY cliente123
+    DEFAULT TABLESPACE TS_FINTECH           
+    QUOTA 1M ON TS_FINTECH          
+    PROFILE PERF_CLIENTE 
+    ;
+
+GRANT R_ADMINISTRADOR_SUPER TO adminn;    -- Asignamos rol admin a admin
+GRANT R_CLIENTE TO cliente;    
+
