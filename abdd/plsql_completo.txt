@@ -135,13 +135,12 @@ CREATE OR REPLACE PACKAGE BODY PK_GESTION_CLIENTES IS
 	SELECT COUNT(*) INTO autorizacionNoExiste FROM AUTORIZACION WHERE PERSONA_AUTORIZADA_ID = PK AND EMPRESA_ID = EMP;
         IF personaAutorizadaExiste=1 AND empresaExiste=1 AND autorizacionNoExiste=0 THEN
             INSERT INTO AUTORIZACION VALUES(TIPO, PK, EMP);
-        ELSIF autorizacionNoExiste = 0 THEN
+        ELSE IF autorizacionNoExiste = 0 THEN
             ID_UNICO := SQ_PERSONA.NEXTVAL;
             INSERT INTO PERSONA_AUTORIZADA VALUES (ID_UNICO, IDENTIFICACION, NOMBRE, APELLIDOS, DIRECCION, FECHA_NACIMIENTO, ESTADO, SYSDATE, FECHAFIN);
             INSERT INTO AUTORIZACION VALUES(TIPO, ID_UNICO, EMP);
         END IF;
     END;
-
 
     /*  5. RF7) Modificar Persona Autorizada:
         Procedimiento para modificar los datos de una Persona Autorizada ya existente en la Base de datos.
