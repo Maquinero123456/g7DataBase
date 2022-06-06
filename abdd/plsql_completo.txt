@@ -150,8 +150,8 @@ CREATE OR REPLACE PACKAGE BODY PK_GESTION_CLIENTES IS
         END IF;
     
     EXCEPTION
-        WHEN AutorizadoExiste THEN dbms_output.put_line('No existe el autorizado o la empresa indicada.' || DBMS_UTILITY.format_error_stack);
-        WHEN TipoException THEN dbms_output.put_line('El tipo de autorizacion solo puede ser: CONSULTA u OPERACION' || DBMS_UTILITY.format_error_stack);
+        WHEN AutorizadoExiste THEN dbms_output.put_line('No existe el autorizado o la empresa indicada.');
+        WHEN TipoException THEN dbms_output.put_line('El tipo de autorizacion solo puede ser: CONSULTA u OPERACION');
     END;
 
     /*  5. RF7) Modificar Persona Autorizada:
@@ -188,8 +188,8 @@ CREATE OR REPLACE PACKAGE BODY PK_GESTION_CLIENTES IS
         END IF;
 
     EXCEPTION
-        WHEN AutorizadoModificar THEN dbms_output.put_line('La persona autorizada debe tener una empresa y una autorizacion en ella. Todos deben existir.' || DBMS_UTILITY.format_error_stack);
-        WHEN TipoException THEN dbms_output.put_line('El tipo de autorizacion solo puede ser: CONSULTA u OPERACION' || DBMS_UTILITY.format_error_stack);
+        WHEN AutorizadoModificar THEN dbms_output.put_line('La persona autorizada debe tener una empresa y una autorizacion en ella. Todos deben existir.');
+        WHEN TipoException THEN dbms_output.put_line('El tipo de autorizacion solo puede ser: CONSULTA u OPERACION');
     END;
 
 
@@ -232,8 +232,8 @@ CREATE OR REPLACE PACKAGE PK_GESTION_CUENTAS AS
     CuentaException EXCEPTION;
     ReferenciaException EXCEPTION;
     SaldoException EXCEPTION;
-    PROCEDURE APERTURA_CUENTA_POOLED(ID_CLIENTE INTEGER, IBN VARCHAR2, SWFT VARCHAR2, ESTA CHAR, CIERRE DATE, CLASI VARCHAR2);
-    PROCEDURE APERTURA_CUENTA_SEGREGATED(ID_CLIENTE INTEGER, IBN VARCHAR2, SWFT VARCHAR2, ESTA CHAR, CIERRE DATE, CLASI VARCHAR2, COMISION DECIMAL, REFERENCIA VARCHAR2);
+    PROCEDURE APERTURA_CUENTA_POOLED(ID_CLIENTE INTEGER, IBN VARCHAR2, SWFT VARCHAR2, CIERRE DATE);
+    PROCEDURE APERTURA_CUENTA_SEGREGATED(ID_CLIENTE INTEGER, IBN VARCHAR2, SWFT VARCHAR2, CIERRE DATE, COMISION DECIMAL, REFERENCIA VARCHAR2);
     PROCEDURE CIERRE_CUENTA_POOLED(IBN VARCHAR2);
     PROCEDURE CIERRE_CUENTA_SEGREGADA(IBN VARCHAR2);
     
@@ -248,7 +248,7 @@ CREATE OR REPLACE PACKAGE BODY PK_GESTION_CUENTAS AS
 
     En el caso correcto, se creara la cuenta, luego la cuenta fintech y finalmente la correspondiente pooled.
     */
-    PROCEDURE APERTURA_CUENTA_POOLED(ID_CLIENTE INTEGER, IBN VARCHAR2, SWFT VARCHAR2, ESTA CHAR, CIERRE DATE, CLASI VARCHAR2) IS
+    PROCEDURE APERTURA_CUENTA_POOLED(ID_CLIENTE INTEGER, IBN VARCHAR2, SWFT VARCHAR2, CIERRE DATE) IS
     clienteNoAlta INTEGER;
     cuentaExiste INTEGER;
     BEGIN
@@ -262,7 +262,7 @@ CREATE OR REPLACE PACKAGE BODY PK_GESTION_CUENTAS AS
         END IF;
 
         INSERT INTO CUENTA VALUES(IBN, SWFT);
-        INSERT INTO CUENTA_FINTECH VALUES(IBN, ESTA, SYSDATE, CIERRE, CLASI, ID_CLIENTE);
+        INSERT INTO CUENTA_FINTECH VALUES(IBN, '1', SYSDATE, CIERRE, 'POOLED', ID_CLIENTE);
         INSERT INTO POOLED_ACCOUNT VALUES(IBN);
 
     END;
@@ -273,7 +273,7 @@ CREATE OR REPLACE PACKAGE BODY PK_GESTION_CUENTAS AS
 
     En el caso correcto, se creara la cuenta, luego la cuenta fintech y finalmente la correspondiente segregada.
     */
-    PROCEDURE APERTURA_CUENTA_SEGREGATED(ID_CLIENTE INTEGER, IBN VARCHAR2, SWFT VARCHAR2, ESTA CHAR, CIERRE DATE, CLASI VARCHAR2, COMISION DECIMAL, REFERENCIA VARCHAR2) IS
+    PROCEDURE APERTURA_CUENTA_SEGREGATED(ID_CLIENTE INTEGER, IBN VARCHAR2, SWFT VARCHAR2, CIERRE DATE, COMISION DECIMAL, REFERENCIA VARCHAR2) IS
     clienteNoAlta INTEGER;
     cuentaExiste INTEGER;
     cuentaRefNoExiste INTEGER;
@@ -291,7 +291,7 @@ CREATE OR REPLACE PACKAGE BODY PK_GESTION_CUENTAS AS
             RAISE ReferenciaException;
         END IF;
         INSERT INTO CUENTA VALUES(IBN, SWFT);
-        INSERT INTO CUENTA_FINTECH VALUES(IBN, ESTA, SYSDATE, CIERRE, CLASI, ID_CLIENTE);
+        INSERT INTO CUENTA_FINTECH VALUES(IBN, '1', SYSDATE, CIERRE, 'SEGREGADA', ID_CLIENTE);
         INSERT INTO SEGREGADA VALUES(IBN, COMISION, REFERENCIA);
 
     END;
@@ -310,13 +310,14 @@ CREATE OR REPLACE PACKAGE BODY PK_GESTION_CUENTAS AS
     PROCEDURE CIERRE_CUENTA_POOLED(IBN VARCHAR2) IS
     cuentaNoExiste INTEGER;
     saldo FLOAT;
+    cantidad INTEGER;
     BEGIN       
         SELECT COUNT(*) INTO cuentaNoExiste FROM CUENTA WHERE IBAN LIKE IBN;
         IF cuentaNoExiste = 0 THEN
             RAISE CuentaException;
         END IF;
-        SELECT SUM(SALDO) INTO saldo FROM DEPOSITADA_EN WHERE POOLED_ACCOUNT_IBAN LIKE IBN;
-        IF saldo = 0 THEN
+        SELECT SUM(SALDO), COUNT(*) INTO saldo, cantidad FROM DEPOSITADA_EN WHERE POOLED_ACCOUNT_IBAN LIKE IBN;
+        IF saldo = 0 OR cantidad = 0 THEN
             UPDATE CUENTA_FINTECH SET ESTADO = '0', FECHA_CIERRE = SYSDATE WHERE IBAN = IBN;
         ELSE RAISE SaldoException;
         END IF;
