@@ -150,8 +150,8 @@ CREATE OR REPLACE PACKAGE BODY PK_GESTION_CLIENTES IS
         END IF;
     
     EXCEPTION
-        WHEN AutorizadoExiste THEN dbms_output.put_line('No existe el autorizado o la empresa indicada.');
-        WHEN TipoException THEN dbms_output.put_line('El tipo de autorizacion solo puede ser: CONSULTA u OPERACION');
+        WHEN AutorizadoExiste THEN dbms_output.put_line('No existe el autorizado o la empresa indicada.' || DBMS_UTILITY.format_error_stack);
+        WHEN TipoException THEN dbms_output.put_line('El tipo de autorizacion solo puede ser: CONSULTA u OPERACION' || DBMS_UTILITY.format_error_stack);
     END;
 
     /*  5. RF7) Modificar Persona Autorizada:
@@ -188,8 +188,8 @@ CREATE OR REPLACE PACKAGE BODY PK_GESTION_CLIENTES IS
         END IF;
 
     EXCEPTION
-        WHEN AutorizadoModificar THEN dbms_output.put_line('La persona autorizada debe tener una empresa y una autorizacion en ella. Todos deben existir.');
-        WHEN TipoException THEN dbms_output.put_line('El tipo de autorizacion solo puede ser: CONSULTA u OPERACION');
+        WHEN AutorizadoModificar THEN dbms_output.put_line('La persona autorizada debe tener una empresa y una autorizacion en ella. Todos deben existir.' || DBMS_UTILITY.format_error_stack);
+        WHEN TipoException THEN dbms_output.put_line('El tipo de autorizacion solo puede ser: CONSULTA u OPERACION' || DBMS_UTILITY.format_error_stack);
     END;
 
 
