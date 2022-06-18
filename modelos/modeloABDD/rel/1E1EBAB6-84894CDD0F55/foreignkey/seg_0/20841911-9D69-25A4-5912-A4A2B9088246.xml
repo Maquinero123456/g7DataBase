@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="F51FA4FE-43C0-A9CF-F590-2A45018DEBB6" containerWithKeyObject="F2D4496C-AB9E-E254-C41A-82B073CF3FE1" localFKIndex="9B2604BB-9F12-7E4F-4775-6A39281ABBAF" name="SEGREGADA_CUENTA_REFERENCIA_FK">
-<createdBy>david</createdBy>
-<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="20841911-9D69-25A4-5912-A4A2B9088246" containerWithKeyObject="F2D4496C-AB9E-E254-C41A-82B073CF3FE1" localFKIndex="0BB7E5CB-76B5-FF98-ED36-9A4B6341AA0D" name="SEGREGADA_CUENTA_REFERENCIA_FK">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-05 13:27:38 UTC</createdTime>
 <generatorID>4005F740-FFD7-4DCC-D844-C569A2614C6C</generatorID>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <referredTableLongName>CUENTA_REFERENCIA</referredTableLongName>

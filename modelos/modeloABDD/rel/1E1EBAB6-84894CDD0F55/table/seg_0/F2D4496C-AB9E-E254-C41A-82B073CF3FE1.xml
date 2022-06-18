@@ -43,12 +43,12 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>40 CHAR</dataTypeSize>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
+<dataTypeSize>30 CHAR</dataTypeSize>
+<ownDataTypeParameters>30 CHAR,,</ownDataTypeParameters>
 <previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
 <associations>
-<colAssociation fkAssociation="F51FA4FE-43C0-A9CF-F590-2A45018DEBB6" referredColumn="624E10FB-9DBD-2DEC-D6BA-ED5F468630D5"/>
+<colAssociation fkAssociation="20841911-9D69-25A4-5912-A4A2B9088246" referredColumn="624E10FB-9DBD-2DEC-D6BA-ED5F468630D5"/>
 </associations>
 </Column>
 </columns>
@@ -87,9 +87,9 @@
 <colUsage columnID="BD769A31-A414-FC09-6425-2D13BD6E30A0"/>
 </indexColumnUsage>
 </ind_PK_UK>
-<ind_PK_UK id="9B2604BB-9F12-7E4F-4775-6A39281ABBAF" name="SEGREGADA_CUENTA_REFERENCIA_FK">
-<createdBy>david</createdBy>
-<createdTime>2022-03-27 20:19:22 UTC</createdTime>
+<ind_PK_UK id="0BB7E5CB-76B5-FF98-ED36-9A4B6341AA0D" name="SEGREGADA_CUENTA_REFERENCIA_FK">
+<createdBy>Usuario</createdBy>
+<createdTime>2022-06-05 13:27:38 UTC</createdTime>
 <generatorID>4005F740-FFD7-4DCC-D844-C569A2614C6C</generatorID>
 <ownerDesignName>modeloABDD</ownerDesignName>
 <indexState>Foreign Key</indexState>

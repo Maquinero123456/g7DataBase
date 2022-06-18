@@ -1,14 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;700&display=swap');
 
-html {
+html{
     overflow: hidden;
 }
 
 .registro-window {
-    background-color: rgb(255, 255, 255);
-    position: relative;
-    width: 100%;
-    height: 100vh;
+    top: -10px;
+    left: -10px;
+    position: absolute;
+    width: 110%;
+    height: 110vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -18,7 +19,8 @@ html {
 
 .backg-container {
     position: absolute;
-    width: 100%;
+    top: -15px;
+    left: -15px;
 }
 
 .color-overlay {
@@ -26,14 +28,14 @@ html {
     top: 0;
     left: 0;
     background: linear-gradient(45deg, rgba(0, 0, 0, 0.725) 0%, rgba(114, 114, 114, 0.226) 100%);
-    width: 100%;
-    height: 100vh;
+    width: 103%;
+    height: 103vh;
 }
 
 .img-container img{
     position: absolute;
     display: block;
-    bottom: -180px;
+    bottom: -90px;
     left: 0;
     z-index: 1;
     width:450px;
@@ -42,12 +44,10 @@ html {
 .inside-context {
     position: absolute;
     z-index: 1;
-    background: rgb(73, 73, 73); 
     background: linear-gradient(45deg, rgb(66, 66, 66) 0%, rgb(137, 137, 137) 100%);
     width: 1000px;
-    height: 200px;
+    height: 325px;
     text-align: center;
-    margin: 0 auto;
     border-radius: 25px;
     padding: 1%;
     border: solid;
@@ -56,7 +56,7 @@ html {
 }
 
 .inside-context p, link {
-    color: white;
+    color: #ffffff;
     padding: 1%;
     font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
     font-size: large;
@@ -65,7 +65,7 @@ html {
 
 .titulo {
     color: rgb(255, 255, 255);
-    padding: 1%;
+
     font-family: 'Rajdhani', sans-serif, Arial, Helvetica;
     font-size: xx-large;
 }
@@ -81,6 +81,11 @@ html {
     offset: 3;
     padding-left: 10px;
     padding-top: 20px;
+    margin: 8px;
+}
+
+.jajant {
+    margin: 0 auto;
 }
 
 .mensajes{
@@ -100,7 +105,5 @@ html {
     width: 140px;
     height: 30px;
 }
-
-
 
 

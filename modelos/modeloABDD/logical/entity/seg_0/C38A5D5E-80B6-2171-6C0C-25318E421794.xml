@@ -24,9 +24,8 @@
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>40 CHAR</dataTypeSize>
-<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
 <Attribute name="Identificacion" id="A006E0AB-2EAA-BD3C-EC14-EADF871E618C">
 <createdBy>david</createdBy>
@@ -139,8 +138,9 @@
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:33:53 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="false"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
