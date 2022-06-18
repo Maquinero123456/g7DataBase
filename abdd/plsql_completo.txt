@@ -1,0 +1,2840 @@
+/*  
+    Ejercicio 2 - b) Modificar los procedimientos de alta de clientes y personas autorizadas. 
+    El parametro P_ID se ignorara y se tomara su valor de las secuencias 
+    (SQ_CLIENTE y SQ_PERSONA).
+
+    Creamos las secuencias que se incrementan de uno en uno
+    con la intencion de asignar un ID unico a cada cliente 
+    y persona autorizada. Al crear uno nuevo, se le asignara
+    la secuencia actual en la BD y se incrementa uno.    
+*/
+CREATE SEQUENCE SQ_CLIENTE START WITH 1
+INCREMENT BY 1;
+
+CREATE SEQUENCE SQ_PERSONA START WITH 1
+INCREMENT BY 1;
+
+
+-----------------------------------------------------------
+--                    EJERCICIO 1
+-----------------------------------------------------------
+/*  a) Creamos un paquete de gestion de clientes, 
+    declarando las excepciones necesarias y los respectivos
+    procedimientos de los siguientes apartados.
+*/
+CREATE OR REPLACE PACKAGE PK_GESTION_CLIENTES IS
+    ModificarCuenta EXCEPTION;
+    CuentasBaja EXCEPTION;
+    AutorizadoExiste EXCEPTION;
+    AutorizadoModificar EXCEPTION;
+    AutorizadoEliminar EXCEPTION;
+    TipoException EXCEPTION;
+    AutorizacionNoExiste EXCEPTION;
+    PROCEDURE ALTA_CLIENTE(IDENT VARCHAR2, TIPO VARCHAR2, ESTADO CHAR, FECHABAJA DATE, DIRE VARCHAR2, CIU VARCHAR2, CP VARCHAR2, PAIS VARCHAR2, RAZON VARCHAR2, NOM VARCHAR2, APE VARCHAR2, FECHANAC DATE);
+    PROCEDURE MODIFICAR_CLIENTE(IDENT VARCHAR2, EST CHAR, BAJA DATE, DIREC VARCHAR2, CIU VARCHAR2, COD VARCHAR2, PA VARCHAR2);
+    PROCEDURE BAJA_CLIENTE(PK INT);
+    PROCEDURE ADD_AUTORIZADO(TIPO VARCHAR2, PK INT, EMP INT, IDENTIFICACION VARCHAR2, NOMBRE VARCHAR2, APELLIDOS VARCHAR2, DIRECCION VARCHAR2, FECHA_NACIMIENTO DATE, ESTADO CHAR, FECHAFIN DATE);
+    PROCEDURE MODIFICAR_AUTORIZADO(PK INT, EMP INT, NOM VARCHAR2, APEL VARCHAR2, DIREC VARCHAR2, NACI DATE, EST CHAR, FIN DATE, TIP VARCHAR2);
+    PROCEDURE ELIMINAR_AUTORIZADO(PK INT, EMP INT);
+    
+END PK_GESTION_CLIENTES;
+
+
+
+-- Creamos cuerpo del paquete
+CREATE OR REPLACE PACKAGE BODY PK_GESTION_CLIENTES IS
+
+    /*  1. RF2) Alta del cliente: 
+        Se busca dar de alta un cliente (tanto empresa como individual) en el sistema 
+            - Si el cliente existe -> se hace UPDATE de su campo ESTADO a '1' indicando el alta
+              y se actualiza la fecha de alta a la actual
+
+            - Si el cliente no existe -> se creara en la base de datos con los datos pasados por 
+              parametros en el procedimiento, teniendo en cuenta si se trata de un
+              individual o una empresa. En caso de que el tipo no sea "JURIDICO" O "FISICO"
+              saltara la correspondiente excepcion
+    */
+    PROCEDURE ALTA_CLIENTE(IDENT VARCHAR2, TIPO VARCHAR2, ESTADO CHAR, FECHABAJA DATE, DIRE VARCHAR2, CIU VARCHAR2, CP VARCHAR2, PAIS VARCHAR2, RAZON VARCHAR2, NOM VARCHAR2, APE VARCHAR2, FECHANAC DATE) IS
+    existe INTEGER;
+    ID_UNICO  INTEGER;
+    BEGIN
+        SELECT COUNT(*) INTO existe FROM CLIENTE WHERE IDENTIFICACION = IDENT;
+        IF existe=1 THEN
+            UPDATE CLIENTE SET ESTADO = '1', FECHA_ALTA = SYSDATE WHERE IDENTIFICACION = IDENT;
+        ELSE 
+            IF (TIPO = 'JURIDICO') THEN
+                ID_UNICO := SQ_CLIENTE.NEXTVAL;
+                INSERT INTO CLIENTE VALUES(ID_UNICO, IDENT, TIPO, ESTADO, SYSDATE, FECHABAJA, DIRE, CIU, CP, PAIS);
+                INSERT INTO EMPRESA VALUES(ID_UNICO, RAZON);
+            ELSIF (TIPO = 'FISICO') THEN
+                 ID_UNICO := SQ_CLIENTE.NEXTVAL;
+                INSERT INTO CLIENTE VALUES(ID_UNICO, IDENT, TIPO, ESTADO, SYSDATE, FECHABAJA, DIRE, CIU, CP, PAIS);
+                INSERT INTO INDIVIDUAL VALUES(ID_UNICO, NOM, APE, FECHANAC);
+            ELSE RAISE TipoException;
+            END IF;
+        END IF;
+
+    END;
+
+    /*  2. RF3) Modificar Cliente:
+        Procedimiento para modificar los datos de un Cliente en la base de datos
+        dada su identificacion. Si el cliente existe, se hace un UPDATE con los datos
+        pasados como parametros en el procedimiento.
+
+        Si el cliente no existe, salta la correspondiente excepcion de que no se pudo modificar
+    
+    */
+    PROCEDURE MODIFICAR_CLIENTE(IDENT VARCHAR2, EST CHAR, BAJA DATE, DIREC VARCHAR2, CIU VARCHAR2, COD VARCHAR2, PA VARCHAR2) IS
+    clienteExiste INTEGER;
+    BEGIN
+        SELECT COUNT(*) INTO clienteExiste FROM CLIENTE WHERE IDENTIFICACION = IDENT;
+        IF clienteExiste=1 THEN
+            UPDATE CLIENTE SET ESTADO = EST, FECHA_BAJA = BAJA, DIRECCION = DIREC, CIUDAD = CIU, CODIGOPOSTAL = COD, PAIS = PA WHERE IDENTIFICACION = IDENT;
+        ELSE RAISE ModificarCuenta;
+        END IF;
+    END;
+
+
+    /*  3. RF4) Baja de un Cliente:
+        Procedimiento para dar de baja al cliente. Esto no significa que el cliente sea
+        eliminado de la BD, si no que su ESTADO pasa a '0'.
+            - Si el cliente exitse Y su cuenta esta de alta, entonces se actualiza a '0'
+
+            - En caso contrario salta la respectiva excepcion
+    */
+    PROCEDURE BAJA_CLIENTE(PK INT) IS
+    cuentasAlta INTEGER;
+    clienteExiste INTEGER;
+    BEGIN
+        SELECT COUNT(*) INTO cuentasAlta FROM CUENTA_FINTECH WHERE ESTADO = '1' AND CLIENTE_ID = PK;
+        SELECT COUNT(*) INTO clienteExiste FROM CLIENTE WHERE IDENTIFICACION = PK;
+        IF cuentasAlta=0 AND clienteExiste=1 THEN
+            UPDATE CLIENTE SET ESTADO = '0', FECHA_BAJA = SYSDATE WHERE ID = PK;
+        ELSE RAISE CuentasBaja;
+        END IF;
+
+    END;
+
+    /*  4. RF6) Aniadir autorizados:
+        Procedimiento para anadir un autorizado a la(s) cuentas de una persona Juridica (empresa)
+            - Solo hay dos tipos de autorizacion; CONSULTA u OPERACION, si no se indica alguno de estos
+              saltara la respectiva excepcion
+    */
+    PROCEDURE ADD_AUTORIZADO(TIPO VARCHAR2, PK INT, EMP INT, IDENTIFICACION VARCHAR2, NOMBRE VARCHAR2, APELLIDOS VARCHAR2, DIRECCION VARCHAR2, FECHA_NACIMIENTO DATE, ESTADO CHAR, FECHAFIN DATE) AS
+    personaAutorizadaExiste INTEGER;
+    empresaExiste INTEGER;
+    autorizacionNoExiste INTEGER;
+    ID_UNICO  INTEGER;
+    BEGIN
+        IF(TIPO NOT LIKE 'CONSULTA' AND TIPO NOT LIKE 'OPERACION') THEN
+            RAISE TipoException;
+        END IF;
+        SELECT COUNT(*) INTO personaAutorizadaExiste FROM PERSONA_AUTORIZADA WHERE ID = PK;
+        SELECT COUNT(*) INTO empresaExiste FROM EMPRESA WHERE ID = EMP;
+	SELECT COUNT(*) INTO autorizacionNoExiste FROM AUTORIZACION WHERE PERSONA_AUTORIZADA_ID = PK AND EMPRESA_ID = EMP;
+        IF personaAutorizadaExiste=1 AND empresaExiste=1 AND autorizacionNoExiste=0 THEN
+            INSERT INTO AUTORIZACION VALUES(TIPO, PK, EMP);
+        ELSE IF empresaExiste=1 AND autorizacionNoExiste = 0 THEN
+            ID_UNICO := SQ_PERSONA.NEXTVAL;
+            INSERT INTO PERSONA_AUTORIZADA VALUES (ID_UNICO, IDENTIFICACION, NOMBRE, APELLIDOS, DIRECCION, FECHA_NACIMIENTO, ESTADO, SYSDATE, FECHAFIN);
+            INSERT INTO AUTORIZACION VALUES(TIPO, ID_UNICO, EMP);
+        ELSE RAISE AutorizadoExiste;
+        END IF;
+
+    END;
+
+    /*  5. RF7) Modificar Persona Autorizada:
+        Procedimiento para modificar los datos de una Persona Autorizada ya existente en la Base de datos.
+        Estas personas deben estar en alguna Empresa, y también se puede cambiar su autorizacion.
+
+            - Si el tipo de autorizacion no es vacio, CONSULTA u OPERACION, saltara la respectiva excepcion de Tipo.
+
+            - Si la persona y la empresa existen, y esta autorizada en ella, se hace UPDATE de los datos pasados por parametro
+            a la tabla de Persona Autorizada, y de la autorizacion en la propia empresa.
+
+            - En caso de que no exista la empresa, o la pertsona, o no haya autorizacion NO se hace UPDATE y salta la correspondiente
+            excepcion de AutorizadoModificar
+    
+    */
+    PROCEDURE MODIFICAR_AUTORIZADO(PK INT, EMP INT, NOM VARCHAR2, APEL VARCHAR2, DIREC VARCHAR2, NACI DATE, EST CHAR, FIN DATE, TIP VARCHAR2) IS
+    personaAutorizadaExiste INTEGER;
+    empresaExiste INTEGER;
+    autorizacionExiste INTEGER;
+    BEGIN
+        IF(TIP NOT LIKE 'CONSULTA' AND TIP NOT LIKE 'OPERACION') THEN
+            RAISE TipoException;
+        END IF;
+        SELECT COUNT(*) INTO personaAutorizadaExiste FROM PERSONA_AUTORIZADA WHERE ID = PK;
+        IF personaAutorizadaExiste=1 THEN
+            UPDATE PERSONA_AUTORIZADA SET NOMBRE = NOM, APELLIDOS = APEL, DIRECCION = DIREC, FECHA_NACIMIENTO = NACI, ESTADO = EST, FECHAFIN = FIN WHERE ID = PK;
+        END IF;
+        ELSE RAISE AutorizadoModificar;
+	END IF;
+	SELECT COUNT(*) INTO empresaExiste FROM EMPRESA WHERE ID = EMP;
+        SELECT COUNT(*) INTO autorizacionExiste FROM AUTORIZACION WHERE PERSONA_AUTORIZADA_ID = PK AND EMPRESA_ID = EMP;
+ 	IF personaAutorizadaExiste=1 AND empresaExiste=1 AND autorizacionExiste=1 THEN
+            UPDATE AUTORIZACION SET TIPO = TIP WHERE PERSONA_AUTORIZADA_ID = PK AND EMPRESA_ID = EMP;
+        END IF;
+    END;
+
+
+    /*  6. RF8) Eliminar autorizados de una empresa:
+        Procedimiento para eliminar a personas autorizadas de una empresa, esto NO significa que se eliminen de la BD.
+        Lo que se borra es la Autorizacion en la empresa.
+
+            - Si existe la autorizacion de la persona PK y la empresa EMP, entonces se borra.      
+    */
+    PROCEDURE ELIMINAR_AUTORIZADO(PK INT, EMP INT) AS
+    autorizacionExiste INTEGER;
+    personaExiste INTEGER;
+    BEGIN
+	    SELECT COUNT(*) INTO personaExiste FROM AUTORIZACION WHERE PERSONA_AUTORIZADA_ID = PK;
+        SELECT COUNT(*) INTO autorizacionExiste FROM AUTORIZACION WHERE PERSONA_AUTORIZADA_ID LIKE PK AND EMPRESA_ID LIKE EMP;
+        IF autorizacionExiste=1 THEN
+            DELETE FROM AUTORIZACION WHERE PERSONA_AUTORIZADA_ID = PK AND EMPRESA_ID = EMP;
+        ELSE RAISE AutorizacionNoExiste;
+        END IF;
+        IF personaExiste=1 THEN
+            UPDATE PERSONA_AUTORIZADA SET ESTADO = '0', FECHAFIN = SYSDATE WHERE ID = PK;
+        ELSE RAISE AutorizadoEliminar;
+        END IF;
+
+    END;
+
+
+END PK_GESTION_CLIENTES;
+/
+
+/*  b) Creamos un paquete de gestion para las cuentas, 
+    declarando las excepciones necesarias y los respectivos
+    procedimientos de los siguientes apartados.
+*/
+CREATE OR REPLACE PACKAGE PK_GESTION_CUENTAS AS
+    ClienteException EXCEPTION;
+    CuentaException EXCEPTION;
+    ReferenciaException EXCEPTION;
+    SaldoException EXCEPTION;
+    PROCEDURE APERTURA_CUENTA_POOLED(ID_CLIENTE INTEGER, IBN VARCHAR2, SWFT VARCHAR2, CIERRE DATE);
+    PROCEDURE APERTURA_CUENTA_SEGREGATED(ID_CLIENTE INTEGER, IBN VARCHAR2, SWFT VARCHAR2, CIERRE DATE, COMISION DECIMAL, REFERENCIA VARCHAR2);
+    PROCEDURE CIERRE_CUENTA_POOLED(IBN VARCHAR2);
+    PROCEDURE CIERRE_CUENTA_SEGREGADA(IBN VARCHAR2);
+    
+END PK_GESTION_CUENTAS;
+/
+
+-- Creamos el body del apartado b
+CREATE OR REPLACE PACKAGE BODY PK_GESTION_CUENTAS AS
+
+    /* 1. RF5) Apertura de una cuenta agrupada (Pooled), para ello, el cliente NO puede estar dado de baja, en caso contrario
+    saltara la respectiva excepcion de Cliente. Al igual que si la cuenta ya existe, esta no se creara y dara excepcion Cuenta.
+
+    En el caso correcto, se creara la cuenta, luego la cuenta fintech y finalmente la correspondiente pooled.
+    */
+    PROCEDURE APERTURA_CUENTA_POOLED(ID_CLIENTE INTEGER, IBN VARCHAR2, SWFT VARCHAR2, CIERRE DATE) IS
+    clienteNoAlta INTEGER;
+    cuentaExiste INTEGER;
+    BEGIN
+        SELECT COUNT(*) INTO clienteNoAlta FROM CLIENTE WHERE ID = ID_CLIENTE AND ESTADO LIKE '1';
+        IF clienteNoAlta=0 THEN
+            RAISE ClienteException;
+        END IF;
+        SELECT COUNT(*) INTO cuentaExiste FROM CUENTA WHERE IBAN LIKE IBN;
+        IF cuentaExiste=1 THEN
+            RAISE CuentaException;
+        END IF;
+
+        INSERT INTO CUENTA VALUES(IBN, SWFT);
+        INSERT INTO CUENTA_FINTECH VALUES(IBN, '1', SYSDATE, CIERRE, 'POOLED', ID_CLIENTE);
+        INSERT INTO POOLED_ACCOUNT VALUES(IBN);
+
+    END;
+
+    /* 1. RF5) Apertura de una cuenta segregada, para ello, el cliente NO puede estar dado de baja, en caso contrario
+    saltara la respectiva excepcion de Cliente. Al igual que si la cuenta ya existe, esta no se creara y dara excepcion Cuenta.
+    Al ser segregada necesitara que exista una cuenta referencia.
+
+    En el caso correcto, se creara la cuenta, luego la cuenta fintech y finalmente la correspondiente segregada.
+    */
+    PROCEDURE APERTURA_CUENTA_SEGREGATED(ID_CLIENTE INTEGER, IBN VARCHAR2, SWFT VARCHAR2, CIERRE DATE, COMISION DECIMAL, REFERENCIA VARCHAR2) IS
+    clienteNoAlta INTEGER;
+    cuentaExiste INTEGER;
+    cuentaRefNoExiste INTEGER;
+    BEGIN
+        SELECT COUNT(*) INTO clienteNoAlta FROM CLIENTE WHERE ID = ID_CLIENTE AND ESTADO LIKE '1';
+        IF clienteNoAlta=0 THEN
+            RAISE ClienteException;
+        END IF;
+        SELECT COUNT(*) INTO cuentaExiste FROM CUENTA WHERE IBAN LIKE IBN;
+        IF cuentaExiste=1 THEN
+            RAISE CuentaException;
+        END IF;
+        SELECT COUNT(*) INTO cuentaRefNoExiste FROM CUENTA WHERE IBAN LIKE REFERENCIA;
+        IF cuentaRefNoExiste=0 THEN
+            RAISE ReferenciaException;
+        END IF;
+        INSERT INTO CUENTA VALUES(IBN, SWFT);
+        INSERT INTO CUENTA_FINTECH VALUES(IBN, '1', SYSDATE, CIERRE, 'SEGREGADA', ID_CLIENTE);
+        INSERT INTO SEGREGADA VALUES(IBN, COMISION, REFERENCIA);
+
+    END;
+
+
+    /* 2. RF9) Cierre de una cuenta Pooled, para ello, debe tener 0 en todos los saldos de sus divisas.
+    NO se elimina la cuenta, si no que se coloca el estado y la fecha de cierre correspondientes.
+
+        - Si la cuenta no existe, no ocurre nada y salta excepcion
+
+        - Si todos los saldos son 0, en cada una de las divisas, se coloca el ESTADO como '0' y la fecha de cierre
+        como la de la hora en la que se ejecuta el procedimiento
+
+        - En caso de que el saldo no sea 0, salta la excepcion
+    */
+    PROCEDURE CIERRE_CUENTA_POOLED(IBN VARCHAR2) IS
+    cuentaNoExiste INTEGER;
+    saldo FLOAT;
+    cantidad INTEGER;
+    BEGIN       
+        SELECT COUNT(*) INTO cuentaNoExiste FROM CUENTA WHERE IBAN LIKE IBN;
+        IF cuentaNoExiste = 0 THEN
+            RAISE CuentaException;
+        END IF;
+        SELECT SUM(SALDO), COUNT(*) INTO saldo, cantidad FROM DEPOSITADA_EN WHERE POOLED_ACCOUNT_IBAN LIKE IBN;
+        IF saldo = 0 OR cantidad = 0 THEN
+            UPDATE CUENTA_FINTECH SET ESTADO = '0', FECHA_CIERRE = SYSDATE WHERE IBAN = IBN;
+        ELSE RAISE SaldoException;
+        END IF;
+    END;
+
+    /* 2. RF9) Cierre de una cuenta segregada, para ello, debe tener 0 en su saldo
+    NO se elimina la cuenta, si no que se coloca el estado y la fecha de cierre correspondientes.
+
+        - Si la cuenta no existe, no ocurre nada y salta excepcion
+
+        - Si todos los saldos son 0, en cada una de las divisas, se coloca el ESTADO como '0' y la fecha de cierre
+        como la de la hora en la que se ejecuta el procedimiento
+
+        - En caso de que el saldo no sea 0, salta la excepcion
+    */
+    PROCEDURE CIERRE_CUENTA_SEGREGADA(IBN VARCHAR2) IS
+    cuentaNoExiste INTEGER;
+    saldo FLOAT;
+    BEGIN 
+        SELECT COUNT(*) INTO cuentaNoExiste FROM CUENTA WHERE IBAN LIKE IBN;
+        IF cuentaNoExiste = 0 THEN
+            RAISE CuentaException;
+        END IF;
+        SELECT SALDO INTO saldo FROM CUENTA_REFERENCIA WHERE IBAN LIKE (SELECT CUENTA_REFERENCIA_IBAN FROM SEGREGADA WHERE IBAN LIKE IBN);
+        IF saldo = 0 THEN
+            UPDATE CUENTA_FINTECH SET ESTADO = '0', FECHA_CIERRE = SYSDATE WHERE IBAN = IBN;
+        ELSE RAISE SaldoException;
+        END IF;
+    END;
+
+END PK_GESTION_CUENTAS;
+
+
+-----------------------------------------------------------
+--                    EJERCICIO 2
+-----------------------------------------------------------
+/*  a. RF11) Crear una vista denominada V_SALDOS que permita ver los datos para cada cliente de todas sus
+    cuentas con sus saldos. Si es necesario se pueden crear 2 vistas, una para clientes individuales y otra para
+    autorizados.
+*/
+CREATE OR REPLACE VIEW V_SALDO_INDIVIDUAL(IDENTIFICACION, IBAN, SALDO, ABREVIATURA, CAMBIOEURO) AS 
+SELECT INDIVIDUAL.ID, CUENTA_REFERENCIA.IBAN, CUENTA_REFERENCIA.SALDO, CUENTA_REFERENCIA.DIVISA_ABREVIATURA, DIVISA.CAMBIOEURO
+FROM INDIVIDUAL, CUENTA_FINTECH, SEGREGADA, CUENTA_REFERENCIA, DIVISA WHERE INDIVIDUAL.ID = CUENTA_FINTECH.CLIENTE_ID AND CUENTA_FINTECH.IBAN = SEGREGADA.IBAN AND SEGREGADA.CUENTA_REFERENCIA_IBAN = SEGREGADA.IBAN AND DIVISA.ABREVIATURA = CUENTA_REFERENCIA.DIVISA_ABREVIATURA;
+
+CREATE OR REPLACE VIEW V_SALDO_AUTORIZADO(IDENTIFICACION, IBAN, SALDO, ABREVIATURA, CAMBIOEURO) AS 
+SELECT PERSONA_AUTORIZADA.ID, CUENTA_REFERENCIA.IBAN, CUENTA_REFERENCIA.SALDO, CUENTA_REFERENCIA.DIVISA_ABREVIATURA, DIVISA.CAMBIOEURO
+FROM PERSONA_AUTORIZADA, AUTORIZACION, EMPRESA, CUENTA_FINTECH, SEGREGADA, CUENTA_REFERENCIA, DIVISA WHERE AUTORIZACION.PERSONA_AUTORIZADA_ID = PERSONA_AUTORIZADA.ID AND AUTORIZACION.EMPRESA_ID = EMPRESA.ID AND EMPRESA.ID = CUENTA_FINTECH.CLIENTE_ID AND CUENTA_FINTECH.IBAN = SEGREGADA.IBAN AND SEGREGADA.CUENTA_REFERENCIA_IBAN = SEGREGADA.IBAN AND DIVISA.ABREVIATURA = CUENTA_REFERENCIA.DIVISA_ABREVIATURA;
+
+
+/*  c) Crear un trigger TR_TRANSACCION que tome el valor id_unico de una secuencia. 
+    Creamos una secuencia para ir llevando el numero de transacciones 
+*/
+CREATE SEQUENCE SQ_TRANSACCION START WITH 1
+INCREMENT BY 1;
+
+/*  Creamos un trigger de transaccion para que, antes de generar la respectiva transaccion, 
+    se coja el id correspondiente a la siguiente transaccion de la secuencia anterior.
+*/
+CREATE OR REPLACE TRIGGER TR_TRANSACCION BEFORE INSERT ON TRANSACCION FOR EACH ROW
+BEGIN
+    SELECT SQ_TRANSACCION.NEXTVAL INTO :NEW.ID_UNICO FROM DUAL;
+END;
+
+
+
+-----------------------------------------------------------
+--                    EJERCICIO 3
+-----------------------------------------------------------
+/*
+    a) Crear una vista V_TARJETA_MENSUAL que permita ver el total de movimientos para cada cliente de cada
+    una de sus tarjetas agrupado por divisa. CREATE OR REPLACE VIEW V_TARJETA_MENSUAL"
+    ("IDENTIFICACION", "NUMERO_TARJETA", "GASTO", "ABREVIATURA").
+*/
+CREATE OR REPLACE VIEW V_TARJETA_MENSUAL
+(IDENTIFICACION, NUMERO_TARJETA, GASTO, ABREVIATURA) AS 
+SELECT CLIENTE.IDENTIFICACION, MOVIMIENTOS.TARJETA_NUMERO, SUM(MOVIMIENTOS.CANTIDAD), MOVIMIENTOS.DIVISA_ABREVIATURA FROM CLIENTE, TARJETA, CUENTA_FINTECH, MOVIMIENTOS WHERE MOVIMIENTOS.STATUS LIKE 'PENDIENTE' AND MOVIMIENTOS.TARJETA_NUMERO = TARJETA.NUMERO AND TARJETA.CUENTA_IBAN = CUENTA_FINTECH.IBAN AND CUENTA_FINTECH.CLIENTE_ID = CLIENTE.ID GROUP BY MOVIMIENTOS.DIVISA_ABREVIATURA, CLIENTE.IDENTIFICACION, MOVIMIENTOS.TARJETA_NUMERO;
+
+
+/*  b) Crear una vista V_PAGOS_PENDIENTES que permita ver el total de pagos pendientes (campo Estado) para
+    cada cliente de cada una de sus tarjetas agrupado por divisa. CREATE OR REPLACE VIEW
+    V_PAGOS_PENDIENTES" ("IDENTIFICACION", "NUMERO_TARJETA", "PENDIENTES", "ABREVIATURA").
+*/
+CREATE OR REPLACE VIEW V_TARJETA_PENDIENTES(IDENTIFICACION, NUMERO_TARJETA, PENDIENTES, ABREVIATURA) AS 
+SELECT CLIENTE.IDENTIFICACION, MOVIMIENTOS.TARJETA_NUMERO, COUNT(MOVIMIENTOS.STATUS), MOVIMIENTOS.DIVISA_ABREVIATURA FROM CLIENTE, TARJETA, CUENTA_FINTECH, MOVIMIENTOS WHERE MOVIMIENTOS.STATUS LIKE 'PENDIENTE' AND MOVIMIENTOS.TARJETA_NUMERO = TARJETA.NUMERO AND TARJETA.CUENTA_IBAN = CUENTA_FINTECH.IBAN AND CUENTA_FINTECH.CLIENTE_ID = CLIENTE.ID GROUP BY MOVIMIENTOS.DIVISA_ABREVIATURA, CLIENTE.IDENTIFICACION, MOVIMIENTOS.TARJETA_NUMERO;
+
+
+/*  c) Crear un procedimiento P_COBRO que recorra todos los Movimientos de tarjeta y para aquellos con un
+    Estado Pendiente y modo debito, cambie su Estado a Cobrado y actualice el Saldo de las cuentas
+    convenientemente.
+*/
+CREATE OR REPLACE PROCEDURE P_COBRO AS
+        ibanCuenta VARCHAR2(20);
+        tipoCuenta VARCHAR2(20);
+        saldoCuenta FLOAT;
+        saldoException EXCEPTION;
+        tipoException EXCEPTION;
+    BEGIN 
+        FOR i IN (SELECT * FROM MOVIMIENTOS WHERE MODOOPERACION LIKE 'DEBITO' AND STATUS LIKE 'PENDIENTE') LOOP
+            SELECT CUENTA_IBAN INTO ibanCuenta FROM TARJETA WHERE NUMERO = i.TARJETA_NUMERO;
+            SELECT CLASIFICACION INTO tipoCuenta FROM CUENTA_FINTECH WHERE IBAN = ibanCuenta;
+            IF tipoCuenta = 'SEGREGADA' THEN
+                SELECT CUENTA_REFERENCIA_IBAN INTO ibanCuenta FROM SEGREGADA WHERE IBAN LIKE ibanCuenta;
+                SELECT SALDO INTO saldoCuenta FROM CUENTA_REFERENCIA WHERE IBAN LIKE ibanCuenta;
+                IF saldoCuenta < i.CANTIDAD THEN
+                    RAISE saldoException;
+                END IF;
+                UPDATE CUENTA_REFERENCIA SET SALDO = saldoCuenta-i.CANTIDAD WHERE IBAN LIKE ibanCuenta;
+                UPDATE MOVIMIENTOS SET STATUS = 'COBRADO' WHERE ID LIKE i.ID;
+            ELSIF tipoCuenta = 'POOLED' THEN
+                SELECT IBAN, SALDO INTO ibanCuenta,saldoCuenta FROM CUENTA_REFERENCIA WHERE IBAN IN (SELECT CUENTA_REFERENCIA_IBAN FROM DEPOSITADA_EN WHERE POOLED_ACCOUNT_IBAN LIKE ibanCuenta) AND DIVISA_ABREVIATURA LIKE i.DIVISA_ABREVIATURA;
+                IF saldoCuenta < i.CANTIDAD THEN
+                    RAISE saldoException;
+                END IF;
+                UPDATE CUENTA_REFERENCIA SET SALDO = saldoCuenta-i.CANTIDAD WHERE IBAN LIKE ibanCuenta;
+                UPDATE MOVIMIENTOS SET STATUS = 'COBRADO' WHERE ID LIKE i.ID;
+            ELSE
+                RAISE tipoException;
+            END IF;
+        END LOOP;  
+END;
+
+/*  d) Crear un Job denominado J_LIQUIDAR que llame a P_COBRO el primer dia de cada mes a las 0:00
+    Una vez terminado el procedimeinto de cobro, establecemos un job J_LIQUIDAR
+    que tenga una repeticion mensual a las 00:00 para realizar automaticamente el procedimiento P_COBRO
+*/
+BEGIN
+    DBMS_SCHEDULER.CREATE_JOB (
+        job_name => 'J_LIQUIDAR',
+        job_type => 'STORED_PROCEDURE',
+        job_action => 'P_COBRO',
+        start_date => sysdate,
+        repeat_interval => 'FREQ=MONTHLY;BYMONTHDAY=1;BYHOUR=00',
+        end_date => null,
+        enabled =>true,
+        comments => 'Se ejecuta el primer dia de cada mes');
+END;
+    
+
+
+-----------------------------------------------------------
+--                    EJERCICIO 4
+-----------------------------------------------------------
+/*  a) Crear un paquete de operativa (PK_OPERATIVA) que incorpore distintos procesos de gestion de divisas,
+    pagos, movimientos y transacciones para proporcionar la funcionalidad necesaria de los distintos requisitos de
+    la aplicacion.
+    
+    1. (RF13) Insertar transacciones. El procedimiento permitira registrar transacciones entre cuentas
+    bancarias. Las cuentas pueden ser ambas de eBury o una puede ser de eBury y la otra externa. Los
+    saldos deberan actualizarse adecuadamente en las cuentas de eBury y en las cuentas asociadas a las
+    de eBury.
+    
+    2. (RF18) Cambio de divisas. El procedimiento permitira realizar un cambio de divisas en una cuenta
+    agrupada (pooled). El cambio de divisas se considerara una transaccion especial donde el origen y
+    destino es la misma cuenta. Para poder realizar un cambio de divisas sera necesario que la cuenta
+    tenga saldos en las divisas de origen y destino. Los saldos de las cuentas asociadas con la cuenta
+    agrupada debera actualizarse tambien. No sera posible realizar un cambio de divisas en cuentas
+    segregadas.
+*/
+CREATE OR REPLACE PACKAGE PK_OPERATIVA IS
+    PROCEDURE INSERT_TRANSACCION(IBAN_ORIGEN VARCHAR2, IBAN_DESTINO VARCHAR2, DINERITO DOUBLE);
+    PROCEDURE CAMBIO_DIVISA(IBAN VARCHAR2, DIVISA_ORIGEN VARCHAR2, DIVISA_DESTINO VARCHAR2, DINERITO DOUBLE);
+    
+END PK_OPERATIVA;
+
+
+CREATE OR REPLACE PACKAGE BODY PK_OPERATIVA IS
+    PROCEDURE INSERT_TRANSACCION(IBAN_ORIGEN VARCHAR2, IBAN_DESTINO VARCHAR2, DINERITO DOUBLE) AS
+    BEGIN
+        NULL;
+    END;
+END PK_OPERATIVA;
+
+
+/*  c) Crear un procedimiento denominado P_COBRO_APLAZADO que recorra todos los Movimientos de tarjeta y
+    para aquellos con un Estado Pendiente y modo credito o aplazado, cambie su Estado a Cobrado y
+    actualice el Saldo de las cuentas convenientemente.
+*/
+CREATE OR REPLACE PROCEDURE P_COBRO_APLAZADO AS
+        ibanCuenta VARCHAR2(20);
+        tipoCuenta VARCHAR2(20);
+        saldoCuenta FLOAT;
+        saldoException EXCEPTION;
+        tipoException EXCEPTION;
+    BEGIN 
+        FOR i IN (SELECT * FROM MOVIMIENTOS WHERE MODOOPERACION NOT LIKE 'DEBITO' AND STATUS LIKE 'PENDIENTE') LOOP
+            SELECT CUENTA_IBAN INTO ibanCuenta FROM TARJETA WHERE NUMERO = i.TARJETA_NUMERO;
+            SELECT CLASIFICACION INTO tipoCuenta FROM CUENTA_FINTECH WHERE IBAN = ibanCuenta;
+            IF tipoCuenta = 'SEGREGADA' THEN
+                SELECT CUENTA_REFERENCIA_IBAN INTO ibanCuenta FROM SEGREGADA WHERE IBAN LIKE ibanCuenta;
+                SELECT SALDO INTO saldoCuenta FROM CUENTA_REFERENCIA WHERE IBAN LIKE ibanCuenta;
+                IF saldoCuenta < i.CANTIDAD THEN
+                    RAISE saldoException;
+                END IF;
+                UPDATE CUENTA_REFERENCIA SET SALDO = saldoCuenta-i.CANTIDAD WHERE IBAN LIKE ibanCuenta;
+                UPDATE MOVIMIENTOS SET STATUS = 'COBRADO' WHERE ID LIKE i.ID;
+            ELSIF tipoCuenta = 'POOLED' THEN
+                SELECT IBAN, SALDO INTO ibanCuenta,saldoCuenta FROM CUENTA_REFERENCIA WHERE IBAN IN (SELECT CUENTA_REFERENCIA_IBAN FROM DEPOSITADA_EN WHERE POOLED_ACCOUNT_IBAN LIKE ibanCuenta) AND DIVISA_ABREVIATURA LIKE i.DIVISA_ABREVIATURA;
+                IF saldoCuenta < i.CANTIDAD THEN
+                    RAISE saldoException;
+                END IF;
+                UPDATE CUENTA_REFERENCIA SET SALDO = saldoCuenta-i.CANTIDAD WHERE IBAN LIKE ibanCuenta;
+                UPDATE MOVIMIENTOS SET STATUS = 'COBRADO' WHERE ID LIKE i.ID;
+            ELSE
+                RAISE tipoException;
+            END IF;
+        END LOOP;  
+END;
+
+BEGIN
+    DBMS_SCHEDULER.CREATE_JOB (
+        job_name => 'J_LIQUIDAR_APLAZADO',
+        job_type => 'STORED_PROCEDURE',
+        job_action => 'P_COBRO_APLAZADO',
+        start_date => sysdate,
+        repeat_interval => 'FREQ=MONTHLY;BYMONTHDAY=1;BYHOUR=00',
+        end_date => null,
+        enabled =>true,
+        comments => 'Se ejecuta el primer dia de cada mes');
+END;
+
+
+
+-- Procedimiento para el apartado b, se encarga de actualizar el valor real
+-- de las divisas con relacion al EURO con ayuda de la vista de cotizaciones
+CREATE OR REPLACE PROCEDURE P_CAMBIO_EURO AS
+    BEGIN 
+        FOR i IN (SELECT * FROM V_COTIZACIONES) LOOP
+            UPDATE DIVISA SET CAMBIOEURO=i.CAMBIOEURO WHERE ABREVIATURA LIKE i.ABREVIATURA;
+        END LOOP;
+END;
+
+
+/*  b) Crear un Job que se denomine J_CAMBIO_EURO que actualice el atributo CambioEuro de la tabla DIVISA
+    tomando el valor de la Vista V_COTIZACIONES. 
+        - Aplica el procedimiento P_CAMBIO_EURO
+        - El job se repeti en un intervalo diario a las las 00:05.
+*/
+BEGIN
+    DBMS_SCHEDULER.CREATE_JOB (
+        job_name => 'J_CAMBIO_EURO',
+        job_type => 'STORED_PROCEDURE',
+        job_action => 'P_CAMBIO_EURO',
+        start_date => sysdate,
+        repeat_interval => 'FREQ=DAILY;BYHOUR=00;BYMINUTE=5',
+        end_date => null,
+        enabled =>true,
+        comments => 'Se ejecuta cada dia a las 00:05');
+END;
+
+
+
+
+
+
+/*
+DDL
+*/
+
+-- Generado por Oracle SQL Developer Data Modeler 21.4.2.059.0838
+--   en:        2022-06-05 09:32:45 VET
+--   sitio:      Oracle Database 11g
+--   tipo:      Oracle Database 11g
+
+
+
+-- predefined type, no DDL - MDSYS.SDO_GEOMETRY
+
+-- predefined type, no DDL - XMLTYPE
+
+CREATE TABLE autorizacion (
+    tipo                  VARCHAR2(40 CHAR) NOT NULL,
+    persona_autorizada_id INTEGER NOT NULL,
+    empresa_id            INTEGER NOT NULL
+);
+
+ALTER TABLE autorizacion ADD CONSTRAINT autorizacion_pk PRIMARY KEY ( persona_autorizada_id,
+                                                                      empresa_id );
+
+CREATE TABLE cliente (
+    id             INTEGER NOT NULL,
+    identificacion VARCHAR2(40 CHAR) NOT NULL,
+    tipo_cliente   VARCHAR2(20 CHAR) NOT NULL,
+    estado         CHAR(1) NOT NULL,
+    fecha_alta     DATE NOT NULL,
+    fecha_baja     DATE,
+    direccion      VARCHAR2(40 CHAR) NOT NULL,
+    ciudad         VARCHAR2(40 CHAR) NOT NULL,
+    codigopostal   VARCHAR2(40 CHAR) NOT NULL,
+    pais           VARCHAR2(40 CHAR) NOT NULL
+);
+
+ALTER TABLE cliente ADD CONSTRAINT cliente_pk PRIMARY KEY ( id );
+
+ALTER TABLE cliente ADD CONSTRAINT cliente_identificacion_un UNIQUE ( identificacion );
+
+CREATE TABLE cuenta (
+    iban  VARCHAR2(40 CHAR) NOT NULL,
+    swift VARCHAR2(40 CHAR)
+);
+
+ALTER TABLE cuenta ADD CONSTRAINT cuenta_pk PRIMARY KEY ( iban );
+
+CREATE TABLE cuenta_fintech (
+    iban           VARCHAR2(40 CHAR) NOT NULL,
+    estado         CHAR(1) NOT NULL,
+    fecha_apertura DATE NOT NULL,
+    fecha_cierre   DATE,
+    clasificacion  VARCHAR2(40 CHAR),
+    cliente_id     INTEGER NOT NULL
+);
+
+ALTER TABLE cuenta_fintech ADD CONSTRAINT cuenta_fintech_pk PRIMARY KEY ( iban );
+
+CREATE TABLE cuenta_referencia (
+    iban               VARCHAR2(40 CHAR) NOT NULL,
+    nombrebanco        VARCHAR2(40 CHAR) NOT NULL,
+    sucursal           VARCHAR2(40 CHAR),
+    pais               VARCHAR2(40 CHAR),
+    saldo              NUMBER NOT NULL,
+    fecha_apertura     DATE,
+    estado             CHAR(1),
+    divisa_abreviatura VARCHAR2(20 CHAR) NOT NULL
+);
+
+ALTER TABLE cuenta_referencia ADD CONSTRAINT cuenta_referencia_pk PRIMARY KEY ( iban );
+
+CREATE TABLE depositada_en (
+    saldo                  NUMBER NOT NULL,
+    cuenta_referencia_iban VARCHAR2(30 CHAR) NOT NULL,
+    pooled_account_iban    VARCHAR2(30 CHAR) NOT NULL
+);
+
+ALTER TABLE depositada_en ADD CONSTRAINT depositada_en_pk PRIMARY KEY ( cuenta_referencia_iban,
+                                                                        pooled_account_iban );
+
+CREATE TABLE divisa (
+    abreviatura VARCHAR2(3 CHAR) NOT NULL,
+    nombre      VARCHAR2(40 CHAR) NOT NULL,
+    simbolo     VARCHAR2(5 CHAR),
+    cambioeuro  NUMBER NOT NULL
+);
+
+ALTER TABLE divisa ADD CONSTRAINT divisa_pk PRIMARY KEY ( abreviatura );
+
+CREATE TABLE empresa (
+    id           INTEGER NOT NULL,
+    razon_social VARCHAR2(40 CHAR) NOT NULL
+);
+
+ALTER TABLE empresa ADD CONSTRAINT empresa_pk PRIMARY KEY ( id );
+
+CREATE TABLE individual (
+    id               INTEGER NOT NULL,
+    nombre           VARCHAR2(20 CHAR) NOT NULL,
+    apellido         VARCHAR2(20 CHAR) NOT NULL,
+    fecha_nacimiento CHAR(1)
+);
+
+ALTER TABLE individual ADD CONSTRAINT individual_pk PRIMARY KEY ( id );
+
+CREATE TABLE movimientos (
+    id                  INTEGER NOT NULL,
+    modooperacion       VARCHAR2(20 CHAR) NOT NULL,
+    status		VARCHAR2(20 CHAR) NOT NULL,
+    fechaoperacion      DATE NOT NULL,
+    concepto            VARCHAR2(20 CHAR) NOT NULL,
+    descripcion         VARCHAR2(80 CHAR),
+    nombreemisor        CHAR(60 CHAR) NOT NULL,
+    tipoemisor          VARCHAR2(20 CHAR) NOT NULL,
+    cantidad            NUMBER(10, 3) NOT NULL,
+    limitefisicomensual NUMBER(5, 3) NOT NULL,
+    limitecajero        NUMBER(5, 3),
+    limiteonlinemensual NUMBER(5, 3),
+    tarjeta_numero      VARCHAR2(40 CHAR) NOT NULL,
+    divisa_abreviatura  VARCHAR2(3 CHAR) NOT NULL
+);
+
+ALTER TABLE movimientos ADD CONSTRAINT movimientos_pk PRIMARY KEY ( id,
+                                                                    tarjeta_numero );
+
+CREATE TABLE persona_autorizada (
+    id               INTEGER NOT NULL,
+    identificacion   VARCHAR2(40 CHAR) NOT NULL,
+    nombre           VARCHAR2(20 CHAR) NOT NULL,
+    apellidos        VARCHAR2(40 CHAR) NOT NULL,
+    direccion        VARCHAR2(40 CHAR) NOT NULL,
+    fecha_nacimiento DATE,
+    estado           CHAR(1),
+    fechainicio      DATE,
+    fechafin         DATE
+);
+
+ALTER TABLE persona_autorizada ADD CONSTRAINT persona_autorizada_pk PRIMARY KEY ( id );
+
+ALTER TABLE persona_autorizada ADD CONSTRAINT pa_unique UNIQUE ( identificacion );
+
+CREATE TABLE pooled_account (
+    iban VARCHAR2(40 CHAR) NOT NULL
+);
+
+ALTER TABLE pooled_account ADD CONSTRAINT pooled_account_pk PRIMARY KEY ( iban );
+
+CREATE TABLE relation_21 (
+    persona_autorizada_id INTEGER NOT NULL,
+    tarjeta_numero        VARCHAR2(60 CHAR) NOT NULL
+);
+
+ALTER TABLE relation_21 ADD CONSTRAINT relation_21_pk PRIMARY KEY ( persona_autorizada_id,
+                                                                    tarjeta_numero );
+
+CREATE TABLE segregada (
+    iban                   VARCHAR2(40 CHAR) NOT NULL,
+    comision               NUMBER,
+    cuenta_referencia_iban VARCHAR2(30 CHAR) NOT NULL
+);
+
+CREATE UNIQUE INDEX segregada__idx ON
+    segregada (
+        cuenta_referencia_iban
+    ASC );
+
+ALTER TABLE segregada ADD CONSTRAINT segregada_pk PRIMARY KEY ( iban );
+
+CREATE TABLE tarjeta (
+    numero          VARCHAR2(60 CHAR) NOT NULL,
+    nombre          VARCHAR2(60 CHAR) NOT NULL,
+    fechacaducidad  DATE NOT NULL,
+    ccv             VARCHAR2(5 CHAR) NOT NULL,
+    fechaactivision DATE,
+    modo            VARCHAR2(10 CHAR),
+    cuenta_iban     VARCHAR2(40 CHAR)
+);
+
+ALTER TABLE tarjeta ADD CONSTRAINT tarjeta_pk PRIMARY KEY ( numero );
+
+CREATE TABLE transaccion (
+    id_unico            INTEGER NOT NULL,
+    fechainstruccion    DATE NOT NULL,
+    cantidad            NUMBER NOT NULL,
+    fechaejecucion      DATE,
+    tipo                VARCHAR2(40 CHAR) NOT NULL,
+    comision            NUMBER,
+    internacional       CHAR(1),
+    divisa_abreviatura  VARCHAR2(20 CHAR) NOT NULL,
+    divisa_abreviatura2 VARCHAR2(3 CHAR) NOT NULL,
+    cuenta_iban         VARCHAR2(40 CHAR) NOT NULL,
+    cuenta_iban2        VARCHAR2(30 CHAR) NOT NULL
+);
+
+ALTER TABLE transaccion ADD CONSTRAINT transaccion_pk PRIMARY KEY ( id_unico );
+
+ALTER TABLE autorizacion
+    ADD CONSTRAINT autorizacion_empresa_fk FOREIGN KEY ( empresa_id )
+        REFERENCES empresa ( id );
+
+ALTER TABLE cuenta_fintech
+    ADD CONSTRAINT cuenta_fintech_cliente_fk FOREIGN KEY ( cliente_id )
+        REFERENCES cliente ( id );
+
+ALTER TABLE cuenta_fintech
+    ADD CONSTRAINT cuenta_fintech_cuenta_fk FOREIGN KEY ( iban )
+        REFERENCES cuenta ( iban );
+
+ALTER TABLE cuenta_referencia
+    ADD CONSTRAINT cuenta_referencia_cuenta_fk FOREIGN KEY ( iban )
+        REFERENCES cuenta ( iban );
+
+ALTER TABLE cuenta_referencia
+    ADD CONSTRAINT cuenta_referencia_divisa_fk FOREIGN KEY ( divisa_abreviatura )
+        REFERENCES divisa ( abreviatura );
+
+ALTER TABLE depositada_en
+    ADD CONSTRAINT depos_pooled_fk FOREIGN KEY ( pooled_account_iban )
+        REFERENCES pooled_account ( iban );
+
+ALTER TABLE depositada_en
+    ADD CONSTRAINT depos_ref_fk FOREIGN KEY ( cuenta_referencia_iban )
+        REFERENCES cuenta_referencia ( iban );
+
+ALTER TABLE empresa
+    ADD CONSTRAINT empresa_cliente_fk FOREIGN KEY ( id )
+        REFERENCES cliente ( id );
+
+ALTER TABLE individual
+    ADD CONSTRAINT individual_cliente_fk FOREIGN KEY ( id )
+        REFERENCES cliente ( id );
+
+ALTER TABLE movimientos
+    ADD CONSTRAINT movimientos_divisa_fk FOREIGN KEY ( divisa_abreviatura )
+        REFERENCES divisa ( abreviatura );
+
+ALTER TABLE movimientos
+    ADD CONSTRAINT movimientos_tarjeta_fk FOREIGN KEY ( tarjeta_numero )
+        REFERENCES tarjeta ( numero );
+
+ALTER TABLE autorizacion
+    ADD CONSTRAINT persona_autora_fk FOREIGN KEY ( persona_autorizada_id )
+        REFERENCES persona_autorizada ( id );
+
+ALTER TABLE pooled_account
+    ADD CONSTRAINT pooled_fintech_fk FOREIGN KEY ( iban )
+        REFERENCES cuenta_fintech ( iban );
+
+ALTER TABLE relation_21
+    ADD CONSTRAINT relation_21_autorizada_fk FOREIGN KEY ( persona_autorizada_id )
+        REFERENCES persona_autorizada ( id );
+
+ALTER TABLE relation_21
+    ADD CONSTRAINT relation_21_tarjeta_fk FOREIGN KEY ( tarjeta_numero )
+        REFERENCES tarjeta ( numero );
+
+ALTER TABLE segregada
+    ADD CONSTRAINT segregada_cuenta_fintech_fk FOREIGN KEY ( iban )
+        REFERENCES cuenta_fintech ( iban );
+
+ALTER TABLE segregada
+    ADD CONSTRAINT segregada_cuenta_referencia_fk FOREIGN KEY ( cuenta_referencia_iban )
+        REFERENCES cuenta_referencia ( iban );
+
+ALTER TABLE tarjeta
+    ADD CONSTRAINT tarjeta_cuenta_fk FOREIGN KEY ( cuenta_iban )
+        REFERENCES cuenta ( iban );
+
+ALTER TABLE transaccion
+    ADD CONSTRAINT transaccion_cuenta_fk FOREIGN KEY ( cuenta_iban )
+        REFERENCES cuenta ( iban );
+
+ALTER TABLE transaccion
+    ADD CONSTRAINT transaccion_cuenta_fkv2 FOREIGN KEY ( cuenta_iban2 )
+        REFERENCES cuenta ( iban );
+
+ALTER TABLE transaccion
+    ADD CONSTRAINT transaccion_divisa_fk FOREIGN KEY ( divisa_abreviatura )
+        REFERENCES divisa ( abreviatura );
+
+ALTER TABLE transaccion
+    ADD CONSTRAINT transaccion_divisa_fkv2 FOREIGN KEY ( divisa_abreviatura2 )
+        REFERENCES divisa ( abreviatura );
+
+CREATE OR REPLACE TRIGGER arc_fkarc_3_cuenta_fintech BEFORE
+    INSERT OR UPDATE OF iban ON cuenta_fintech
+    FOR EACH ROW
+DECLARE
+    d VARCHAR2(40 CHAR);
+BEGIN
+    /*SELECT
+        a.iban
+    INTO d
+    FROM
+        cuenta a
+    WHERE
+        a.iban = :new.iban;
+
+    IF ( d IS NULL OR d <> 'FINTECH' ) THEN
+        raise_application_error(-20223, 'FK CUENTA_FINTECH_CUENTA_FK in Table CUENTA_FINTECH violates Arc constraint on Table CUENTA - discriminator column IBAN doesn''t have value ''FINTECH''');
+    END IF;
+
+EXCEPTION
+    WHEN no_data_found THEN
+        NULL;
+    WHEN OTHERS THEN
+        RAISE;*/
+NULL;
+END;
+/
+
+CREATE OR REPLACE TRIGGER arc_fkarc_3_cuenta_referencia BEFORE
+    INSERT OR UPDATE OF iban ON cuenta_referencia
+    FOR EACH ROW
+DECLARE
+    d VARCHAR2(40 CHAR);
+BEGIN
+   /* SELECT
+        a.iban
+    INTO d
+    FROM
+        cuenta a
+    WHERE
+        a.iban = :new.iban;
+
+    IF ( d IS NULL OR d <> 'REFERENCIA' ) THEN
+        raise_application_error(-20223, 'FK CUENTA_REFERENCIA_CUENTA_FK in Table CUENTA_REFERENCIA violates Arc constraint on Table CUENTA - discriminator column IBAN doesn''t have value ''REFERENCIA''');
+    END IF;
+
+EXCEPTION
+    WHEN no_data_found THEN
+        NULL;
+    WHEN OTHERS THEN
+        RAISE;*/
+	NULL;
+END;
+/
+
+CREATE OR REPLACE TRIGGER arc_fkarc_2_segregada BEFORE
+    INSERT OR UPDATE OF iban ON segregada
+    FOR EACH ROW
+DECLARE
+    d VARCHAR2(40 CHAR);
+BEGIN
+   /* SELECT
+        a.iban
+    INTO d
+    FROM
+        cuenta_fintech a
+    WHERE
+        a.iban = :new.iban;
+
+    IF ( d IS NULL OR d <> 'SEGREGADA' ) THEN
+        raise_application_error(-20223, 'FK SEGREGADA_CUENTA_FINTECH_FK in Table SEGREGADA violates Arc constraint on Table CUENTA_FINTECH - discriminator column IBAN doesn''t have value ''SEGREGADA''');
+    END IF;
+
+EXCEPTION
+    WHEN no_data_found THEN
+        NULL;
+    WHEN OTHERS THEN
+        RAISE;*/
+	NULL;
+END;
+/
+
+CREATE OR REPLACE TRIGGER arc_fkarc_2_pooled_account BEFORE
+    INSERT OR UPDATE OF iban ON pooled_account
+    FOR EACH ROW
+DECLARE
+    d VARCHAR2(40 CHAR);
+BEGIN
+    /*SELECT
+        a.iban
+    INTO d
+    FROM
+        cuenta_fintech a
+    WHERE
+        a.iban = :new.iban;
+
+    IF ( d IS NULL OR d <> 'POOLED' ) THEN
+        raise_application_error(-20223, 'FK POOLED_FINTECH_FK in Table POOLED_ACCOUNT violates Arc constraint on Table CUENTA_FINTECH - discriminator column IBAN doesn''t have value ''POOLED''');
+    END IF;
+
+EXCEPTION
+    WHEN no_data_found THEN
+        NULL;
+    WHEN OTHERS THEN
+        RAISE;*/
+	NULL;
+END;
+/
+
+CREATE OR REPLACE TRIGGER arc_fkarc_1_empresa BEFORE
+    INSERT OR UPDATE OF id ON empresa
+    FOR EACH ROW
+DECLARE
+    d INTEGER;
+BEGIN
+    /*SELECT
+        a.id
+    INTO d
+    FROM
+        cliente a
+    WHERE
+        a.id = :new.id;
+
+    IF ( d IS NULL OR d <> empresa ) THEN
+        raise_application_error(-20223, 'FK EMPRESA_CLIENTE_FK in Table EMPRESA violates Arc constraint on Table CLIENTE - discriminator column ID doesn''t have value EMPRESA');
+    END IF;
+
+EXCEPTION
+    WHEN no_data_found THEN
+        NULL;
+    WHEN OTHERS THEN
+        RAISE;*/
+	NULL;
+END;
+/
+
+CREATE OR REPLACE TRIGGER arc_fkarc_1_individual BEFORE
+    INSERT OR UPDATE OF id ON individual
+    FOR EACH ROW
+DECLARE
+    d INTEGER;
+BEGIN
+    /*SELECT
+        a.id
+    INTO d
+    FROM
+        cliente a
+    WHERE
+        a.id = :new.id;
+
+    IF ( d IS NULL OR d <> individual ) THEN
+        raise_application_error(-20223, 'FK INDIVIDUAL_CLIENTE_FK in Table INDIVIDUAL violates Arc constraint on Table CLIENTE - discriminator column ID doesn''t have value INDIVIDUAL');
+    END IF;
+
+EXCEPTION
+    WHEN no_data_found THEN
+        NULL;
+    WHEN OTHERS THEN
+        RAISE;*/
+	NULL;
+END;
+/
+
+
+
+-- Informe de Resumen de Oracle SQL Developer Data Modeler: 
+-- 
+-- CREATE TABLE                            16
+-- CREATE INDEX                             1
+-- ALTER TABLE                             40
+-- CREATE VIEW                              0
+-- ALTER VIEW                               0
+-- CREATE PACKAGE                           0
+-- CREATE PACKAGE BODY                      0
+-- CREATE PROCEDURE                         0
+-- CREATE FUNCTION                          0
+-- CREATE TRIGGER                           6
+-- ALTER TRIGGER                            0
+-- CREATE COLLECTION TYPE                   0
+-- CREATE STRUCTURED TYPE                   0
+-- CREATE STRUCTURED TYPE BODY              0
+-- CREATE CLUSTER                           0
+-- CREATE CONTEXT                           0
+-- CREATE DATABASE                          0
+-- CREATE DIMENSION                         0
+-- CREATE DIRECTORY                         0
+-- CREATE DISK GROUP                        0
+-- CREATE ROLE                              0
+-- CREATE ROLLBACK SEGMENT                  0
+-- CREATE SEQUENCE                          0
+-- CREATE MATERIALIZED VIEW                 0
+-- CREATE MATERIALIZED VIEW LOG             0
+-- CREATE SYNONYM                           0
+-- CREATE TABLESPACE                        0
+-- CREATE USER                              0
+-- 
+-- DROP TABLESPACE                          0
+-- DROP DATABASE                            0
+-- 
+-- REDACTION POLICY                         0
+-- 
+-- ORDS DROP SCHEMA                         0
+-- ORDS ENABLE SCHEMA                       0
+-- ORDS ENABLE OBJECT                       0
+-- 
+-- ERRORS                                   0
+-- WARNINGS                                 0
+
+
+
+/*
+	EXPORTACION DE DATOS
+*/
+
+--------------------------------------------------------
+-- Archivo creado  - lunes-junio-06-2022   
+--------------------------------------------------------
+--------------------------------------------------------
+--  DDL for View V_COTIZACIONES
+--------------------------------------------------------
+
+  CREATE OR REPLACE FORCE EDITIONABLE VIEW "FINTECH"."V_COTIZACIONES" ("ABREVIATURA", "NOMBRE", "SIMBOLO", "CAMBIOEURO", "FECHA") AS 
+  select d.abreviatura, d.nombre, d.simbolo,
+to_number( c.valoreneuros) cambioeuro, to_date (fecha,'dd/mm/yyyy') fecha
+from cotizacion_ext c join divisa d on c.nombre = d.nombre
+where (d.nombre,to_date (fecha,'dd/mm/yyyy')) in (select nombre, max ( to_date
+(fecha,'dd/mm/yyyy')) from cotizacion_ext group by nombre)
+;
+--------------------------------------------------------
+--  DDL for View V_SALDO_AUTORIZADO
+--------------------------------------------------------
+
+  CREATE OR REPLACE FORCE EDITIONABLE VIEW "FINTECH"."V_SALDO_AUTORIZADO" ("IDENTIFICACION", "IBAN", "SALDO", "ABREVIATURA", "CAMBIOEURO") AS 
+  SELECT PERSONA_AUTORIZADA.ID, CUENTA_REFERENCIA.IBAN, CUENTA_REFERENCIA.SALDO, CUENTA_REFERENCIA.DIVISA_ABREVIATURA, DIVISA.CAMBIOEURO
+FROM PERSONA_AUTORIZADA, AUTORIZACION, EMPRESA, CUENTA_FINTECH, SEGREGADA, CUENTA_REFERENCIA, DIVISA, POOLED_ACCOUNT, DEPOSITADA_EN WHERE AUTORIZACION.PERSONA_AUTORIZADA_ID = PERSONA_AUTORIZADA.ID AND AUTORIZACION.EMPRESA_ID = EMPRESA.ID AND EMPRESA.ID = CUENTA_FINTECH.CLIENTE_ID AND ((CUENTA_FINTECH.IBAN = SEGREGADA.IBAN AND SEGREGADA.CUENTA_REFERENCIA_IBAN = CUENTA_REFERENCIA.IBAN)
+OR (CUENTA_FINTECH.IBAN = POOLED_ACCOUNT.IBAN AND DEPOSITADA_EN.POOLED_ACCOUNT_IBAN=POOLED_ACCOUNT.IBAN AND CUENTA_REFERENCIA.IBAN=DEPOSITADA_EN.CUENTA_REFERENCIA_IBAN))
+AND DIVISA.ABREVIATURA = CUENTA_REFERENCIA.DIVISA_ABREVIATURA
+;
+--------------------------------------------------------
+--  DDL for View V_SALDO_INDIVIDUAL
+--------------------------------------------------------
+
+  CREATE OR REPLACE FORCE EDITIONABLE VIEW "FINTECH"."V_SALDO_INDIVIDUAL" ("IDENTIFICACION", "IBAN", "SALDO", "ABREVIATURA", "CAMBIOEURO") AS 
+  SELECT INDIVIDUAL.ID, CUENTA_REFERENCIA.IBAN, CUENTA_REFERENCIA.SALDO, CUENTA_REFERENCIA.DIVISA_ABREVIATURA, DIVISA.CAMBIOEURO
+FROM INDIVIDUAL, CUENTA_FINTECH, SEGREGADA, POOLED_ACCOUNT, CUENTA_REFERENCIA, DIVISA, DEPOSITADA_EN WHERE INDIVIDUAL.ID = CUENTA_FINTECH.CLIENTE_ID AND ((CUENTA_FINTECH.IBAN = SEGREGADA.IBAN AND SEGREGADA.CUENTA_REFERENCIA_IBAN = CUENTA_REFERENCIA.IBAN)
+OR (CUENTA_FINTECH.IBAN = POOLED_ACCOUNT.IBAN AND DEPOSITADA_EN.POOLED_ACCOUNT_IBAN=POOLED_ACCOUNT.IBAN AND CUENTA_REFERENCIA.IBAN=DEPOSITADA_EN.CUENTA_REFERENCIA_IBAN))
+AND DIVISA.ABREVIATURA = CUENTA_REFERENCIA.DIVISA_ABREVIATURA
+;
+--------------------------------------------------------
+--  DDL for View V_TARJETA_MENSUAL
+--------------------------------------------------------
+
+  CREATE OR REPLACE FORCE EDITIONABLE VIEW "FINTECH"."V_TARJETA_MENSUAL" ("IDENTIFICACION", "NUMERO_TARJETA", "GASTO", "ABREVIATURA") AS 
+  SELECT CLIENTE.IDENTIFICACION, MOVIMIENTOS.TARJETA_NUMERO, SUM(MOVIMIENTOS.CANTIDAD), MOVIMIENTOS.DIVISA_ABREVIATURA FROM CLIENTE, TARJETA, CUENTA_FINTECH, MOVIMIENTOS WHERE MOVIMIENTOS.STATUS LIKE 'PENDIENTE' AND MOVIMIENTOS.TARJETA_NUMERO = TARJETA.NUMERO AND TARJETA.CUENTA_IBAN = CUENTA_FINTECH.IBAN AND CUENTA_FINTECH.CLIENTE_ID = CLIENTE.ID GROUP BY MOVIMIENTOS.DIVISA_ABREVIATURA, CLIENTE.IDENTIFICACION, MOVIMIENTOS.TARJETA_NUMERO
+;
+--------------------------------------------------------
+--  DDL for View V_TARJETA_PENDIENTES
+--------------------------------------------------------
+
+  CREATE OR REPLACE FORCE EDITIONABLE VIEW "FINTECH"."V_TARJETA_PENDIENTES" ("IDENTIFICACION", "NUMERO_TARJETA", "PENDIENTES", "ABREVIATURA") AS 
+  SELECT CLIENTE.IDENTIFICACION, MOVIMIENTOS.TARJETA_NUMERO, COUNT(MOVIMIENTOS.STATUS), MOVIMIENTOS.DIVISA_ABREVIATURA FROM CLIENTE, TARJETA, CUENTA_FINTECH, MOVIMIENTOS WHERE MOVIMIENTOS.STATUS LIKE 'PENDIENTE' AND MOVIMIENTOS.TARJETA_NUMERO = TARJETA.NUMERO AND TARJETA.CUENTA_IBAN = CUENTA_FINTECH.IBAN AND CUENTA_FINTECH.CLIENTE_ID = CLIENTE.ID GROUP BY MOVIMIENTOS.DIVISA_ABREVIATURA, CLIENTE.IDENTIFICACION, MOVIMIENTOS.TARJETA_NUMERO
+;
+--------------------------------------------------------
+--  DDL for Table AUTORIZACION
+--------------------------------------------------------
+
+  CREATE TABLE "FINTECH"."AUTORIZACION" 
+   (	"TIPO" VARCHAR2(40 CHAR), 
+	"PERSONA_AUTORIZADA_ID" NUMBER(*,0), 
+	"EMPRESA_ID" NUMBER(*,0)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Table CLIENTE
+--------------------------------------------------------
+
+  CREATE TABLE "FINTECH"."CLIENTE" 
+   (	"ID" NUMBER(*,0), 
+	"IDENTIFICACION" VARCHAR2(40 CHAR), 
+	"TIPO_CLIENTE" VARCHAR2(20 CHAR), 
+	"ESTADO" CHAR(1 BYTE), 
+	"FECHA_ALTA" DATE, 
+	"FECHA_BAJA" DATE, 
+	"DIRECCION" VARCHAR2(40 CHAR), 
+	"CIUDAD" VARCHAR2(40 CHAR), 
+	"CODIGOPOSTAL" VARCHAR2(40 CHAR), 
+	"PAIS" VARCHAR2(40 CHAR)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Table COTIZACION_EXT
+--------------------------------------------------------
+
+  CREATE TABLE "FINTECH"."COTIZACION_EXT" 
+   (	"NOMBRE" NVARCHAR2(50), 
+	"FECHA" NVARCHAR2(50), 
+	"VALOR1EURO" NVARCHAR2(50), 
+	"VARIOCIONPORC" NVARCHAR2(50), 
+	"VARIOCIONMES" NVARCHAR2(50), 
+	"VARIACIONAÑO" NVARCHAR2(50), 
+	"VALORENEUROS" NVARCHAR2(50)
+   ) 
+   ORGANIZATION EXTERNAL 
+    ( TYPE ORACLE_LOADER
+      DEFAULT DIRECTORY "DIRECTORIO_EXT"
+      ACCESS PARAMETERS
+      ( records delimited by newline  
+          skip 1 
+            characterset WE8ISO8859P1 
+           fields terminated by ';' 
+             )
+      LOCATION
+       ( 'cotizacion.csv'
+       )
+    );
+--------------------------------------------------------
+--  DDL for Table CUENTA
+--------------------------------------------------------
+
+  CREATE TABLE "FINTECH"."CUENTA" 
+   (	"IBAN" VARCHAR2(40 CHAR), 
+	"SWIFT" VARCHAR2(40 CHAR)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Table CUENTA_FINTECH
+--------------------------------------------------------
+
+  CREATE TABLE "FINTECH"."CUENTA_FINTECH" 
+   (	"IBAN" VARCHAR2(40 CHAR), 
+	"ESTADO" CHAR(1 BYTE), 
+	"FECHA_APERTURA" DATE, 
+	"FECHA_CIERRE" DATE, 
+	"CLASIFICACION" VARCHAR2(40 CHAR), 
+	"CLIENTE_ID" NUMBER(*,0)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Table CUENTA_REFERENCIA
+--------------------------------------------------------
+
+  CREATE TABLE "FINTECH"."CUENTA_REFERENCIA" 
+   (	"IBAN" VARCHAR2(40 CHAR), 
+	"NOMBREBANCO" VARCHAR2(40 CHAR), 
+	"SUCURSAL" VARCHAR2(40 CHAR), 
+	"PAIS" VARCHAR2(40 CHAR), 
+	"SALDO" NUMBER, 
+	"FECHA_APERTURA" DATE, 
+	"ESTADO" CHAR(1 BYTE), 
+	"DIVISA_ABREVIATURA" VARCHAR2(20 CHAR)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Table DEPOSITADA_EN
+--------------------------------------------------------
+
+  CREATE TABLE "FINTECH"."DEPOSITADA_EN" 
+   (	"SALDO" NUMBER, 
+	"CUENTA_REFERENCIA_IBAN" VARCHAR2(30 CHAR), 
+	"POOLED_ACCOUNT_IBAN" VARCHAR2(30 CHAR)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Table DIVISA
+--------------------------------------------------------
+
+  CREATE TABLE "FINTECH"."DIVISA" 
+   (	"ABREVIATURA" VARCHAR2(3 CHAR), 
+	"NOMBRE" VARCHAR2(40 CHAR), 
+	"SIMBOLO" VARCHAR2(5 CHAR), 
+	"CAMBIOEURO" NUMBER
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Table EMPRESA
+--------------------------------------------------------
+
+  CREATE TABLE "FINTECH"."EMPRESA" 
+   (	"ID" NUMBER(*,0), 
+	"RAZON_SOCIAL" VARCHAR2(40 CHAR)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Table INDIVIDUAL
+--------------------------------------------------------
+
+  CREATE TABLE "FINTECH"."INDIVIDUAL" 
+   (	"ID" NUMBER(*,0), 
+	"NOMBRE" VARCHAR2(20 CHAR), 
+	"APELLIDO" VARCHAR2(20 CHAR), 
+	"FECHA_NACIMIENTO" CHAR(1 BYTE)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Table MOVIMIENTOS
+--------------------------------------------------------
+
+  CREATE TABLE "FINTECH"."MOVIMIENTOS" 
+   (	"ID" NUMBER(*,0), 
+	"MODOOPERACION" VARCHAR2(20 CHAR), 
+	"STATUS" VARCHAR2(20 CHAR), 
+	"FECHAOPERACION" DATE, 
+	"CONCEPTO" VARCHAR2(20 CHAR), 
+	"DESCRIPCION" VARCHAR2(80 CHAR), 
+	"NOMBREEMISOR" CHAR(60 CHAR), 
+	"TIPOEMISOR" VARCHAR2(20 CHAR), 
+	"CANTIDAD" NUMBER(10,3), 
+	"LIMITEFISICOMENSUAL" NUMBER(5,3), 
+	"LIMITECAJERO" NUMBER(5,3), 
+	"LIMITEONLINEMENSUAL" NUMBER(5,3), 
+	"TARJETA_NUMERO" VARCHAR2(40 CHAR), 
+	"DIVISA_ABREVIATURA" VARCHAR2(3 CHAR)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Table PERSONA_AUTORIZADA
+--------------------------------------------------------
+
+  CREATE TABLE "FINTECH"."PERSONA_AUTORIZADA" 
+   (	"ID" NUMBER(*,0), 
+	"IDENTIFICACION" VARCHAR2(40 CHAR), 
+	"NOMBRE" VARCHAR2(20 CHAR), 
+	"APELLIDOS" VARCHAR2(40 CHAR), 
+	"DIRECCION" VARCHAR2(40 CHAR), 
+	"FECHA_NACIMIENTO" DATE, 
+	"ESTADO" CHAR(1 BYTE), 
+	"FECHAINICIO" DATE, 
+	"FECHAFIN" DATE
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Table POOLED_ACCOUNT
+--------------------------------------------------------
+
+  CREATE TABLE "FINTECH"."POOLED_ACCOUNT" 
+   (	"IBAN" VARCHAR2(40 CHAR)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Table RELATION_21
+--------------------------------------------------------
+
+  CREATE TABLE "FINTECH"."RELATION_21" 
+   (	"PERSONA_AUTORIZADA_ID" NUMBER(*,0), 
+	"TARJETA_NUMERO" VARCHAR2(60 CHAR)
+   ) SEGMENT CREATION DEFERRED 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Table SEGREGADA
+--------------------------------------------------------
+
+  CREATE TABLE "FINTECH"."SEGREGADA" 
+   (	"IBAN" VARCHAR2(40 CHAR), 
+	"COMISION" NUMBER, 
+	"CUENTA_REFERENCIA_IBAN" VARCHAR2(30 CHAR)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Table TARJETA
+--------------------------------------------------------
+
+  CREATE TABLE "FINTECH"."TARJETA" 
+   (	"NUMERO" VARCHAR2(60 CHAR), 
+	"NOMBRE" VARCHAR2(60 CHAR), 
+	"FECHACADUCIDAD" DATE, 
+	"CCV" VARCHAR2(5 CHAR), 
+	"FECHAACTIVISION" DATE, 
+	"MODO" VARCHAR2(10 CHAR), 
+	"CUENTA_IBAN" VARCHAR2(40 CHAR)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Table TRANSACCION
+--------------------------------------------------------
+
+  CREATE TABLE "FINTECH"."TRANSACCION" 
+   (	"ID_UNICO" NUMBER(*,0), 
+	"FECHAINSTRUCCION" DATE, 
+	"CANTIDAD" NUMBER, 
+	"FECHAEJECUCION" DATE, 
+	"TIPO" VARCHAR2(40 CHAR), 
+	"COMISION" NUMBER, 
+	"INTERNACIONAL" CHAR(1 BYTE), 
+	"DIVISA_ABREVIATURA" VARCHAR2(20 CHAR), 
+	"DIVISA_ABREVIATURA2" VARCHAR2(3 CHAR), 
+	"CUENTA_IBAN" VARCHAR2(40 CHAR), 
+	"CUENTA_IBAN2" VARCHAR2(30 CHAR)
+   ) SEGMENT CREATION DEFERRED 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Sequence SQ_CLIENTE
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "FINTECH"."SQ_CLIENTE"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 101 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+--------------------------------------------------------
+--  DDL for Sequence SQ_PERSONA
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "FINTECH"."SQ_PERSONA"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 41 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+--------------------------------------------------------
+--  DDL for Sequence SQ_TRANSACCION
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "FINTECH"."SQ_TRANSACCION"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+--------------------------------------------------------
+--  DDL for Materialized View VM_COTIZA
+--------------------------------------------------------
+
+  CREATE MATERIALIZED VIEW "FINTECH"."VM_COTIZA" ("NOMBRE", "FECHA", "VALOR1EURO", "VARIOCIONPORC", "VARIOCIONMES", "VARIACIONAÑO", "VALORENEUROS")
+  SEGMENT CREATION IMMEDIATE
+  ORGANIZATION HEAP PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" 
+  BUILD IMMEDIATE
+  USING INDEX 
+  REFRESH FORCE ON DEMAND START WITH sysdate+0 NEXT sysdate + 1
+  USING DEFAULT LOCAL ROLLBACK SEGMENT
+  USING ENFORCED CONSTRAINTS DISABLE ON QUERY COMPUTATION DISABLE QUERY REWRITE
+  AS SELECT * FROM cotizacion_EXT;
+
+   COMMENT ON MATERIALIZED VIEW "FINTECH"."VM_COTIZA"  IS 'snapshot table for snapshot FINTECH.VM_COTIZA';
+REM INSERTING into FINTECH.AUTORIZACION
+SET DEFINE OFF;
+Insert into FINTECH.AUTORIZACION (TIPO,PERSONA_AUTORIZADA_ID,EMPRESA_ID) values ('CONSULTA','111111','191293');
+Insert into FINTECH.AUTORIZACION (TIPO,PERSONA_AUTORIZADA_ID,EMPRESA_ID) values ('CONSULTA','222222','221274');
+Insert into FINTECH.AUTORIZACION (TIPO,PERSONA_AUTORIZADA_ID,EMPRESA_ID) values ('Mal y Error','333333','391273');
+Insert into FINTECH.AUTORIZACION (TIPO,PERSONA_AUTORIZADA_ID,EMPRESA_ID) values ('OPERACION','444444','423783');
+Insert into FINTECH.AUTORIZACION (TIPO,PERSONA_AUTORIZADA_ID,EMPRESA_ID) values ('OPERACION','555555','528433');
+REM INSERTING into FINTECH.CLIENTE
+SET DEFINE OFF;
+Insert into FINTECH.CLIENTE (ID,IDENTIFICACION,TIPO_CLIENTE,ESTADO,FECHA_ALTA,FECHA_BAJA,DIRECCION,CIUDAD,CODIGOPOSTAL,PAIS) values ('123456','111A','FISICO','1',to_date('06/06/22','DD/MM/RR'),null,'CALLE 1','MALAGA','29001','ESPANA');
+Insert into FINTECH.CLIENTE (ID,IDENTIFICACION,TIPO_CLIENTE,ESTADO,FECHA_ALTA,FECHA_BAJA,DIRECCION,CIUDAD,CODIGOPOSTAL,PAIS) values ('134321','222A','FISICO','1',to_date('06/06/22','DD/MM/RR'),null,'CALLE 2','SEVILLA','29002','ESPANA');
+Insert into FINTECH.CLIENTE (ID,IDENTIFICACION,TIPO_CLIENTE,ESTADO,FECHA_ALTA,FECHA_BAJA,DIRECCION,CIUDAD,CODIGOPOSTAL,PAIS) values ('149084','333A','FISICO','1',to_date('06/06/22','DD/MM/RR'),null,'CALLE 3','JAEN','29003','ESPANA');
+Insert into FINTECH.CLIENTE (ID,IDENTIFICACION,TIPO_CLIENTE,ESTADO,FECHA_ALTA,FECHA_BAJA,DIRECCION,CIUDAD,CODIGOPOSTAL,PAIS) values ('157278','444A','FISICO','1',to_date('06/06/22','DD/MM/RR'),null,'CALLE 4','ALMERIA','29004','ESPANA');
+Insert into FINTECH.CLIENTE (ID,IDENTIFICACION,TIPO_CLIENTE,ESTADO,FECHA_ALTA,FECHA_BAJA,DIRECCION,CIUDAD,CODIGOPOSTAL,PAIS) values ('160192','555A','FISICO','1',to_date('06/06/22','DD/MM/RR'),null,'CALLE 5','HUELVA','29005','ESPANA');
+Insert into FINTECH.CLIENTE (ID,IDENTIFICACION,TIPO_CLIENTE,ESTADO,FECHA_ALTA,FECHA_BAJA,DIRECCION,CIUDAD,CODIGOPOSTAL,PAIS) values ('191293','222F','JURIDICO','1',to_date('06/06/22','DD/MM/RR'),null,'CALLE JUANITO','MALAGA','29003','ESPANA');
+Insert into FINTECH.CLIENTE (ID,IDENTIFICACION,TIPO_CLIENTE,ESTADO,FECHA_ALTA,FECHA_BAJA,DIRECCION,CIUDAD,CODIGOPOSTAL,PAIS) values ('221274','222G','JURIDICO','1',to_date('06/06/22','DD/MM/RR'),null,'CALLE PEPO','MALAGA','29003','GABON');
+Insert into FINTECH.CLIENTE (ID,IDENTIFICACION,TIPO_CLIENTE,ESTADO,FECHA_ALTA,FECHA_BAJA,DIRECCION,CIUDAD,CODIGOPOSTAL,PAIS) values ('391273','222H','JURIDICO','1',to_date('06/06/22','DD/MM/RR'),null,'CALLE PACO','MALAGA','29003','AMERICA Y AFRICA');
+Insert into FINTECH.CLIENTE (ID,IDENTIFICACION,TIPO_CLIENTE,ESTADO,FECHA_ALTA,FECHA_BAJA,DIRECCION,CIUDAD,CODIGOPOSTAL,PAIS) values ('423783','222I','JURIDICO','1',to_date('06/06/22','DD/MM/RR'),null,'CALLE JUAN','MALAGA','29003','USA');
+Insert into FINTECH.CLIENTE (ID,IDENTIFICACION,TIPO_CLIENTE,ESTADO,FECHA_ALTA,FECHA_BAJA,DIRECCION,CIUDAD,CODIGOPOSTAL,PAIS) values ('528433','222J','JURIDICO','1',to_date('06/06/22','DD/MM/RR'),null,'CALLE LUIS','MALAGA','29003','SUECIA');
+REM INSERTING into FINTECH.COTIZACION_EXT
+SET DEFINE OFF;
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Bahts','23/03/2022','36,965','0,23%','0,99%','0,40%','0,027052617');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Bolívares','11/02/2022','5,0793','-1,29%','-3,17%','-100,00%','0,196877522');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Bolivianos','23/03/2022','7,5659','0,14%','-2,72%','-7,61%','0,132171982');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Cedi','22/03/2022','7,8423','-0,16%','7,64%','14,73%','0,127513612');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Chelines kenianos','23/03/2022','126,0109','-0,29%','-2,35%','-3,75%','0,007935821');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Chelines ugandeses','23/03/2022','3.991,03','0,35%','0,12%','0,42%','0,000250562');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Coronas checas','23/03/2022','24,605','-0,30%','0,54%','-6,08%','0,040642146');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Coronas danesas','23/03/2022','7,4381','-0,03%','-0,01%','0,03%','0,134442936');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Coronas islandesas','22/03/2022','142,7','0','1,06%','-5,58%','0,007007708');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Coronas noruegas','23/03/2022','9,6425','0,20%','-3,90%','-5,26%','0,103707545');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Coronas suecas','23/03/2022','10,4005','0,18%','-1,56%','2,15%','0,096149224');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dinares','25/01/2019','0,4266','0,04%','-0,60%','-8,55%','2,344116268');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dinares','23/03/2022','117,7241','0,01%','0,11%','0,12%','0,008494437');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dinares argelinos','22/03/2022','157,4431','0,16%','-1,37%','-1,38%','0,006351501');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dinares kuwaities','22/03/2022','0,3352','-0,04%','-2,51%','-6,91%','2,983293556');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dinares tunecinos','18/03/2022','3,2717','0,35%','-0,14%','-0,55%','0,305651496');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dirhams de Emiratos Árabes Unido','22/03/2022','4,0486','-0,13%','-2,80%','-7,56%','0,246998963');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dirhams marroquies','23/03/2022','10,6877','-0,19%','-0,01%','0,13%','0,093565501');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dólares australianos','23/03/2022','1,4728','-0,50%','-5,54%','-4,93%','0,678978816');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dólares Beliceños','22/03/2022','2,2078','-0,03%','-2,65%','-7,38%','0,452939578');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dólares canadienses','23/03/2022','1,384','-0,19%','-3,85%','-7,35%','0,722543353');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dólares de Brunéi','22/03/2022','1,4974','0,04%','-2,05%','-6,50%','0,667824229');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dólares de Hong Kong','23/03/2022','8,5948','-0,39%','-2,92%','-6,87%','0,116349421');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dólares namibios','23/03/2022','16,354','-0,48%','-3,99%','-7,51%','0,06114712');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dólares neozelandeses','23/03/2022','1,5822','-0,24%','-5,14%','-6,48%','0,632031349');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dólares Singapur','23/03/2022','1,4919','-0,25%','-2,19%','-6,49%','0,670286212');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dólares trinitense','21/03/2022','7,4591','0,53%','-2,51%','-7,26%','0,134064431');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dólares USA','23/03/2022','1,0985','-0,35%','-3,16%','-7,56%','0,910332271');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Drams','23/03/2022','538,16','0,04%','-0,98%','-14,30%','0,001858183');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Forints húngaros','23/03/2022','372,25','0,27%','4,20%','1,57%','0,002686367');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Francos suizos','23/03/2022','1,0269','-0,06%','-1,55%','-7,20%','0,973804655');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Grivnas','23/03/2022','32,2345','-2,82%','-2,03%','-2,34%','0,031022662');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Guaranies','22/03/2022','7.678,83','-0,15%','-2,45%','-1,78%','0,000130228');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Kunas croatas','23/03/2022','7,571','-0,05%','0,46%','-0,06%','0,132082948');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Kwachas zambianos','23/03/2022','19,5193','0,02%','-2,56%','-25,46%','0,051231345');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Kwanzas','22/03/2022','501,1976','-0,30%','-11,50%','-32,22%','0,001995221');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Laris','24/03/2022','3,563','0,15%','4,03%','-10,07%','0,280662363');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Leis rumanos','23/03/2022','4,9459','0,01%','-0,01%','1,17%','0,202187671');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Leks','23/03/2022','122,8','-0,02%','1,24%','-0,32%','0,008143322');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Leus moldavos','23/03/2022','20,2812','-0,29%','-0,43%','-4,58%','0,049306747');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Levs','23/03/2022','1,9558','0','0','0','0,511299724');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Libras egipcias','27/05/2021','19,1215','-0,13%','0,96%','9,70%','0,052297152');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Libras esterlinas','23/03/2022','0,8328','0,06%','-0,22%','-3,39%','1,200768492');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Libras libanesas','16/03/2022','1.665,10','0,01%','-3,34%','-7,88%','0,000600565');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Liras turcas','23/03/2022','16,3108','-0,20%','3,98%','74,19%','0,061309071');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Manat azeríes','18/03/2022','1,8832','0,39%','-2,53%','-7,35%','0,531011045');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Marcos convertibles','23/03/2022','1,9558','0','0','0','0,511299724');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Nairas','22/03/2022','457,616','-0,32%','-3,06%','1,07%','0,002185238');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Nuevos dólares taiwaneses','30/10/2020','33,424','-0,16%','-1,48%','-1,16%','0,029918621');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Nuevos shéquels','23/03/2022','3,5407','-0,32%','-3,03%','-9,44%','0,282430028');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Ouguiyas','22/03/2022','39,95','-0,40%','-2,99%','-6,62%','0,025031289');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Pesos argentinos','30/10/2020','91,5953','0,01%','2,78%','38,84%','0,010917591');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Pesos chilenos','23/03/2022','874,55','-0,72%','-3,07%','2,19%','0,001143445');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Pesos colombianos','28/02/2022','4.379,53','-0,90%','-0,30%','0,70%','0,000228335');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Pesos dominicanos','22/03/2022','60,3931','-0,17%','-4,00%','-10,97%','0,016558183');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Pesos filipinos','23/03/2022','57,8322','0,21%','-0,76%','-0,28%','0,017291405');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Pesos mexicanos','23/03/2022','22,1978','-0,76%','-3,10%','-9,74%','0,045049509');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Pesos uruguayos','22/03/2022','46,6473','-0,43%','-3,40%','-11,69%','0,021437468');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Pulas','22/03/2022','12,774','-0,13%','-2,35%','-2,74%','0,078284014');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Rands','23/03/2022','16,2501','-0,57%','-4,70%','-7,57%','0,061538083');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Reales brasileños','23/03/2022','5,3903','-0,37%','-5,11%','-17,78%','0,185518431');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Riales','22/03/2022','4,134','-0,13%','-2,80%','-7,45%','0,241896468');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Riales iraníes','15/01/2021','51.013,00','0','-0,05%','9,09%','1,96028E-05');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Riales omaníes','22/03/2022','0,4239','-0,13%','-2,80%','-7,56%','2,359046945');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Ringgits','23/03/2022','4,6401','-0,18%','-2,27%','-5,28%','0,215512597');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Riyales cataries','22/03/2022','4,0127','-0,13%','-2,80%','-7,56%','0,249208762');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Rublos bielorrusos','27/02/2022','3,1375','4,78%','5,89%','-1,20%','0,3187251');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Rublos rusos','22/03/2022','114,7313','-0,71%','27,76%','29,05%','0,008716017');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Rufiyaa','23/03/2022','0,9062','-0,30%','2,62%','8,07%','1,103509159');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Rupias de Mauricio','22/03/2022','48,7455','0,16%','-1,73%','0,87%','0,020514714');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Rupias de Sri Lanka','14/01/2019','208,4879','5,60%','5,60%','11,70%','0,004796441');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Rupias indias','23/03/2022','83,9675','0,06%','-0,76%','-2,48%','0,01190937');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Rupias indonesas','23/03/2022','15.792,11','-0,10%','-2,94%','-7,68%','6,33228E-05');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Rupias nepalies','18/01/2019','129,6179','-0,22%','-0,48%','3,64%','0,007714984');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Rupias paquistanies','22/03/2022','199,6824','-0,31%','0,33%','7,67%','0,005007953');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Soles','21/03/2022','4,1746','0,83%','-0,95%','-5,37%','0,239543908');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Takas','16/03/2022','94,1958','0,12%','-3,57%','-6,89%','0,010616185');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Tenges','31/01/2019','436,6129','1,13%','0,20%','8,55%','0,002290358');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Won surcoreanos','23/03/2022','1.337,76','-0,45%','-0,92%','-0,35%','0,000747518');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Yenes japoneses','23/03/2022','132,65','-0,23%','1,59%','2,84%','0,007538636');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Yuanes chinos','23/03/2022','7,0003','-0,19%','-2,32%','-9,52%','0,142851021');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Zlotys polacos','23/03/2022','4,7052','0,43%','3,45%','1,86%','0,212530817');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Libras esterlinas','24/03/2022','0,8329','0,01%','-0,21%','-3,43%','1,200624325');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dólares USA','24/03/2022','1,0978','-0,06%','-1,66%','-7,16%','0,910912735');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Yenes japoneses','24/03/2022','133,71','0,80%','4,23%','3,97%','0,007478872');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Yuanes chinos','24/03/2022','6,9933','-0,10%','-0,95%','-9,33%','0,142994009');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Leks','24/03/2022','122,48','-0,26%','1,03%','-0,58%','0,008164598');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Kwanzas','24/03/2022','500,0815','-0,22%','-9,94%','-31,93%','0,001999674');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Riales','24/03/2022','4,1168','-0,06%','-1,66%','-7,84%','0,242907112');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dinares argelinos','24/03/2022','156,7586','0,07%','-0,29%','-1,20%','0,006379235');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Pesos argentinos','30/10/2020','91,5953','0,01%','2,78%','38,84%','0,010917591');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Drams','25/03/2022','538,2','0','-0,16%','-13,80%','0,001858045');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dólares australianos','24/03/2022','1,4668','-0,41%','-5,93%','-5,56%','0,681756204');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Manat azeríes','18/03/2022','1,8832','0,39%','-2,53%','-7,35%','0,531011045');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Takas','16/03/2022','94,1958','0,12%','-3,57%','-6,89%','0,010616185');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dinares','25/01/2019','0,4266','0,04%','-0,60%','-8,55%','2,344116268');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dólares Beliceños','24/03/2022','2,1962','0,11%','-1,64%','-7,14%','0,455331937');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Rublos bielorrusos','27/02/2022','3,1375','4,78%','5,89%','-1,20%','0,3187251');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Bolivianos','25/03/2022','7,5446','-0,12%','-1,78%','-6,95%','0,132545132');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Marcos convertibles','25/03/2022','1,9558','0','0','0','0,511299724');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Pulas','24/03/2022','12,6475','-0,06%','-2,11%','-3,10%','0,079067009');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Reales brasileños','24/03/2022','5,3057','-1,57%','-6,71%','-18,70%','0,188476544');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dólares de Brunéi','24/03/2022','1,4908','0,02%','-1,19%','-6,31%','0,670780789');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Levs','24/03/2022','1,9558','0','0','0','0,511299724');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dólares canadienses','24/03/2022','1,3806','-0,25%','-3,56%','-7,24%','0,724322758');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Riyales cataries','24/03/2022','3,996','-0,06%','-1,66%','-7,16%','0,25025025');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Pesos chilenos','25/03/2022','868,18','-0,68%','-3,76%','1,48%','0,001151835');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Pesos colombianos','28/02/2022','4.379,53','-0,90%','-0,30%','0,70%','0,000228335');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Won surcoreanos','24/03/2022','1.342,53','0,36%','-0,38%','0,33%','0,000744862');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Kunas croatas','24/03/2022','7,5745','0,05%','0,30%','0,02%','0,132021916');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Coronas danesas','24/03/2022','7,4397','0,02%','-0,01%','0,05%','0,134414022');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Libras egipcias','27/05/2021','19,1215','-0,13%','0,96%','9,70%','0,052297152');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dirhams de Emiratos Árabes Unido','24/03/2022','4,0317','-0,06%','-1,66%','-7,16%','0,248034328');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Pesos filipinos','25/03/2022','57,6056','-0,10%','0,10%','0,15%','0,017359423');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Laris','25/03/2022','3,5561','-0,19%','1,51%','-9,99%','0,28120694');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Cedi','24/03/2022','7,8149','-0,13%','7,99%','15,37%','0,12796069');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dólares de Hong Kong','24/03/2022','8,5897','-0,06%','-1,47%','-6,49%','0,116418501');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Forints húngaros','24/03/2022','374,44','0,59%','1,58%','2,61%','0,002670655');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Rupias indias','24/03/2022','83,879','-0,11%','-0,49%','-2,31%','0,011921935');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Rupias indonesas','24/03/2022','15.778,31','-0,09%','-1,84%','-7,63%','6,33781E-05');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Riales iraníes','15/01/2021','51.013,00','0','-0,05%','9,09%','1,96028E-05');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Coronas islandesas','24/03/2022','141,2','-0,14%','-0,56%','-5,93%','0,007082153');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Nuevos shéquels','24/03/2022','3,5461','0,15%','-3,16%','-8,88%','0,281999944');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Tenges','31/01/2019','436,6129','1,13%','0,20%','8,55%','0,002290358');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Chelines kenianos','25/03/2022','125,9412','-0,02%','-1,43%','-3,20%','0,007940213');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dinares kuwaities','24/03/2022','0,3338','-0,06%','-1,20%','-6,55%','2,995805872');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Libras libanesas','16/03/2022','1.665,10','0,01%','-3,34%','-7,88%','0,000600565');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Ringgits','24/03/2022','4,6396','-0,01%','-1,07%','-5,01%','0,215535822');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Rufiyaa','24/03/2022','0,9103','0,45%','2,65%','7,83%','1,098538943');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dirhams marroquies','24/03/2022','10,6608','-0,25%','0,56%','-0,02%','0,093801591');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Rupias de Mauricio','24/03/2022','48,7522','0,44%','-0,59%','1,66%','0,020511895');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Ouguiyas','24/03/2022','39,89','-0,13%','-1,70%','-6,07%','0,02506894');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Pesos mexicanos','24/03/2022','22,177','-0,09%','-3,31%','-9,57%','0,045091762');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Leus moldavos','25/03/2022','20,2091','-0,07%','0,28%','-4,51%','0,049482659');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dólares namibios','25/03/2022','16,0241','-1,18%','-6,51%','-9,21%','0,062406001');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Rupias nepalies','18/01/2019','129,6179','-0,22%','-0,48%','3,64%','0,007714984');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Nairas','24/03/2022','456,9093','-0,04%','-1,63%','1,71%','0,002188618');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Coronas noruegas','24/03/2022','9,4923','-1,56%','-5,90%','-6,54%','0,105348546');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dólares neozelandeses','24/03/2022','1,5812','-0,06%','-5,27%','-6,79%','0,632431065');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Riales omaníes','24/03/2022','0,4221','-0,06%','-1,66%','-7,16%','2,369106847');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Rupias paquistanies','24/03/2022','199,3779','-0,15%','0,54%','8,50%','0,005015601');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Guaranies','24/03/2022','7.666,57','0,19%','-2,08%','-0,11%','0,000130436');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Soles','23/03/2022','4,137','-0,43%','-1,68%','-6,31%','0,241721054');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Zlotys polacos','24/03/2022','4,7421','0,78%','1,86%','2,47%','0,210877038');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Coronas checas','24/03/2022','24,72','0,47%','-1,47%','-5,67%','0,040453074');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Pesos dominicanos','24/03/2022','60,254','-0,02%','-2,25%','-10,34%','0,016596409');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Leis rumanos','24/03/2022','4,949','0,06%','0,00%','1,24%','0,202061022');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Rublos rusos','24/03/2022','105,4391','-6,96%','10,16%','16,89%','0,009484148');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dinares','25/03/2022','117,7512','0,01%','0,11%','0,14%','0,008492482');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dólares Singapur','24/03/2022','1,4912','-0,05%','-1,41%','-6,31%','0,670600858');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Rupias de Sri Lanka','14/01/2019','208,4879','5,60%','5,60%','11,70%','0,004796441');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Rands','24/03/2022','16,1478','-0,63%','-5,92%','-7,86%','0,061927941');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Coronas suecas','24/03/2022','10,3555','-0,43%','-3,52%','1,89%','0,096567042');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Francos suizos','24/03/2022','1,0225','-0,43%','-0,92%','-7,62%','0,97799511');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Bahts','24/03/2022','36,837','-0,35%','0,88%','0,49%','0,027146619');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Nuevos dólares taiwaneses','30/10/2020','33,424','-0,16%','-1,48%','-1,16%','0,029918621');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dólares trinitense','23/03/2022','7,4351','-0,31%','-3,17%','-7,70%','0,134497182');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Dinares tunecinos','18/03/2022','3,2717','0,35%','-0,14%','-0,55%','0,305651496');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Liras turcas','24/03/2022','16,2917','-0,12%','1,49%','73,30%','0,061380949');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Grivnas','25/03/2022','32,1233','-0,05%','-3,16%','-2,48%','0,031130052');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Chelines ugandeses','24/03/2022','3.967,53','-0,59%','-0,80%','-0,17%','0,000252046');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Pesos uruguayos','23/03/2022','46,2971','-0,75%','-3,15%','-11,51%','0,021599625');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Bolívares','18/03/2022','4,7316','-0,49%','-4,89%','-100,00%','0,211345');
+Insert into FINTECH.COTIZACION_EXT (NOMBRE,FECHA,VALOR1EURO,VARIOCIONPORC,VARIOCIONMES,"VARIACIONAÑO",VALORENEUROS) values ('Kwachas zambianos','24/03/2022','19,5716','0,27%','-0,86%','-24,95%','0,051094443');
+REM INSERTING into FINTECH.CUENTA
+SET DEFINE OFF;
+Insert into FINTECH.CUENTA (IBAN,SWIFT) values ('ES11','AAAAAAAAAAA');
+Insert into FINTECH.CUENTA (IBAN,SWIFT) values ('ES22','BBBBBBBBBBB');
+Insert into FINTECH.CUENTA (IBAN,SWIFT) values ('ES33','CCCCCCCCCCC');
+Insert into FINTECH.CUENTA (IBAN,SWIFT) values ('ES44','DDDDDDDDDDD');
+Insert into FINTECH.CUENTA (IBAN,SWIFT) values ('ES55','EEEEEEEEEEE');
+Insert into FINTECH.CUENTA (IBAN,SWIFT) values ('ES66','EEEEEEEEEEE');
+Insert into FINTECH.CUENTA (IBAN,SWIFT) values ('ES77','EEEEEEEEEEE');
+Insert into FINTECH.CUENTA (IBAN,SWIFT) values ('ES88','EEEEEEEEEEE');
+Insert into FINTECH.CUENTA (IBAN,SWIFT) values ('ES99','EEEEEEEEEEE');
+Insert into FINTECH.CUENTA (IBAN,SWIFT) values ('ES111','AAAAAAAAAAA');
+Insert into FINTECH.CUENTA (IBAN,SWIFT) values ('ES222','BBBBBBBBBBB');
+Insert into FINTECH.CUENTA (IBAN,SWIFT) values ('ES333','CCCCCCCCCCC');
+Insert into FINTECH.CUENTA (IBAN,SWIFT) values ('ES444','DDDDDDDDDDD');
+Insert into FINTECH.CUENTA (IBAN,SWIFT) values ('ES555','EEEEEEEEEEE');
+REM INSERTING into FINTECH.CUENTA_FINTECH
+SET DEFINE OFF;
+Insert into FINTECH.CUENTA_FINTECH (IBAN,ESTADO,FECHA_APERTURA,FECHA_CIERRE,CLASIFICACION,CLIENTE_ID) values ('ES11','1',to_date('06/06/22','DD/MM/RR'),null,'POOLED','123456');
+Insert into FINTECH.CUENTA_FINTECH (IBAN,ESTADO,FECHA_APERTURA,FECHA_CIERRE,CLASIFICACION,CLIENTE_ID) values ('ES22','1',to_date('06/06/22','DD/MM/RR'),null,'POOLED','134321');
+Insert into FINTECH.CUENTA_FINTECH (IBAN,ESTADO,FECHA_APERTURA,FECHA_CIERRE,CLASIFICACION,CLIENTE_ID) values ('ES33','1',to_date('06/06/22','DD/MM/RR'),null,'POOLED','149084');
+Insert into FINTECH.CUENTA_FINTECH (IBAN,ESTADO,FECHA_APERTURA,FECHA_CIERRE,CLASIFICACION,CLIENTE_ID) values ('ES44','1',to_date('06/06/22','DD/MM/RR'),null,'SEGREGADA','157278');
+Insert into FINTECH.CUENTA_FINTECH (IBAN,ESTADO,FECHA_APERTURA,FECHA_CIERRE,CLASIFICACION,CLIENTE_ID) values ('ES55','1',to_date('06/06/22','DD/MM/RR'),null,'SEGREGADA','160192');
+Insert into FINTECH.CUENTA_FINTECH (IBAN,ESTADO,FECHA_APERTURA,FECHA_CIERRE,CLASIFICACION,CLIENTE_ID) values ('ES111','1',to_date('06/06/22','DD/MM/RR'),null,'POOLED','191293');
+Insert into FINTECH.CUENTA_FINTECH (IBAN,ESTADO,FECHA_APERTURA,FECHA_CIERRE,CLASIFICACION,CLIENTE_ID) values ('ES222','1',to_date('06/06/22','DD/MM/RR'),null,'POOLED','221274');
+Insert into FINTECH.CUENTA_FINTECH (IBAN,ESTADO,FECHA_APERTURA,FECHA_CIERRE,CLASIFICACION,CLIENTE_ID) values ('ES333','1',to_date('06/06/22','DD/MM/RR'),null,'POOLED','391273');
+Insert into FINTECH.CUENTA_FINTECH (IBAN,ESTADO,FECHA_APERTURA,FECHA_CIERRE,CLASIFICACION,CLIENTE_ID) values ('ES444','1',to_date('06/06/22','DD/MM/RR'),null,'SEGREGADA','423783');
+Insert into FINTECH.CUENTA_FINTECH (IBAN,ESTADO,FECHA_APERTURA,FECHA_CIERRE,CLASIFICACION,CLIENTE_ID) values ('ES555','1',to_date('06/06/22','DD/MM/RR'),null,'SEGREGADA','528433');
+REM INSERTING into FINTECH.CUENTA_REFERENCIA
+SET DEFINE OFF;
+Insert into FINTECH.CUENTA_REFERENCIA (IBAN,NOMBREBANCO,SUCURSAL,PAIS,SALDO,FECHA_APERTURA,ESTADO,DIVISA_ABREVIATURA) values ('ES66','BBVA','COIN','ESPAÑA','0',to_date('06/06/22','DD/MM/RR'),'1','EUR');
+Insert into FINTECH.CUENTA_REFERENCIA (IBAN,NOMBREBANCO,SUCURSAL,PAIS,SALDO,FECHA_APERTURA,ESTADO,DIVISA_ABREVIATURA) values ('ES77','BBVA','COIN','ESPAÑA','0',to_date('06/06/22','DD/MM/RR'),'1','EUR');
+Insert into FINTECH.CUENTA_REFERENCIA (IBAN,NOMBREBANCO,SUCURSAL,PAIS,SALDO,FECHA_APERTURA,ESTADO,DIVISA_ABREVIATURA) values ('ES88','BBVA','COIN','ESPAÑA','1000',to_date('06/06/22','DD/MM/RR'),'1','EUR');
+Insert into FINTECH.CUENTA_REFERENCIA (IBAN,NOMBREBANCO,SUCURSAL,PAIS,SALDO,FECHA_APERTURA,ESTADO,DIVISA_ABREVIATURA) values ('ES99','BBVA','COIN','ESPAÑA','1000',to_date('06/06/22','DD/MM/RR'),'1','EUR');
+REM INSERTING into FINTECH.DEPOSITADA_EN
+SET DEFINE OFF;
+REM INSERTING into FINTECH.DIVISA
+SET DEFINE OFF;
+Insert into FINTECH.DIVISA (ABREVIATURA,NOMBRE,SIMBOLO,CAMBIOEURO) values ('EUR','EURO','€','1');
+Insert into FINTECH.DIVISA (ABREVIATURA,NOMBRE,SIMBOLO,CAMBIOEURO) values ('USD','DOLAR AMERICANO','$','0,93');
+Insert into FINTECH.DIVISA (ABREVIATURA,NOMBRE,SIMBOLO,CAMBIOEURO) values ('GBP','LIBRA ESTERLINA','£','1,17');
+REM INSERTING into FINTECH.EMPRESA
+SET DEFINE OFF;
+Insert into FINTECH.EMPRESA (ID,RAZON_SOCIAL) values ('191293','TESLA');
+Insert into FINTECH.EMPRESA (ID,RAZON_SOCIAL) values ('221274','MICROSOFT');
+Insert into FINTECH.EMPRESA (ID,RAZON_SOCIAL) values ('391273','EMBUTIDOS PROLONGO');
+Insert into FINTECH.EMPRESA (ID,RAZON_SOCIAL) values ('423783','CASA TARRADELLAS');
+Insert into FINTECH.EMPRESA (ID,RAZON_SOCIAL) values ('528433','BUITONNI');
+REM INSERTING into FINTECH.INDIVIDUAL
+SET DEFINE OFF;
+Insert into FINTECH.INDIVIDUAL (ID,NOMBRE,APELLIDO,FECHA_NACIMIENTO) values ('123456','DAVID','ENOJO',null);
+Insert into FINTECH.INDIVIDUAL (ID,NOMBRE,APELLIDO,FECHA_NACIMIENTO) values ('134321','LUIS','INOJO',null);
+Insert into FINTECH.INDIVIDUAL (ID,NOMBRE,APELLIDO,FECHA_NACIMIENTO) values ('149084','JOSE','ENCOJO',null);
+Insert into FINTECH.INDIVIDUAL (ID,NOMBRE,APELLIDO,FECHA_NACIMIENTO) values ('157278','JUAN','RECOJO',null);
+Insert into FINTECH.INDIVIDUAL (ID,NOMBRE,APELLIDO,FECHA_NACIMIENTO) values ('160192','JUANA','REMOJO',null);
+REM INSERTING into FINTECH.MOVIMIENTOS
+SET DEFINE OFF;
+Insert into FINTECH.MOVIMIENTOS (ID,MODOOPERACION,STATUS,FECHAOPERACION,CONCEPTO,DESCRIPCION,NOMBREEMISOR,TIPOEMISOR,CANTIDAD,LIMITEFISICOMENSUAL,LIMITECAJERO,LIMITEONLINEMENSUAL,TARJETA_NUMERO,DIVISA_ABREVIATURA) values ('123823','CREDITO','PENDIENTE',to_date('06/06/22','DD/MM/RR'),'CONCEPTO',null,'SANTANDER                                                   ','BANCO','0','0',null,null,'111','EUR');
+Insert into FINTECH.MOVIMIENTOS (ID,MODOOPERACION,STATUS,FECHAOPERACION,CONCEPTO,DESCRIPCION,NOMBREEMISOR,TIPOEMISOR,CANTIDAD,LIMITEFISICOMENSUAL,LIMITECAJERO,LIMITEONLINEMENSUAL,TARJETA_NUMERO,DIVISA_ABREVIATURA) values ('229329','DEBITO','PENDIENTE',to_date('06/06/22','DD/MM/RR'),'CONCEPTO',null,'JUAN                                                        ','USUARIO','0','0',null,null,'222','EUR');
+REM INSERTING into FINTECH.PERSONA_AUTORIZADA
+SET DEFINE OFF;
+Insert into FINTECH.PERSONA_AUTORIZADA (ID,IDENTIFICACION,NOMBRE,APELLIDOS,DIRECCION,FECHA_NACIMIENTO,ESTADO,FECHAINICIO,FECHAFIN) values ('111111','111A','PEPE','GOMEZ','CALLE JUANITO',null,null,null,null);
+Insert into FINTECH.PERSONA_AUTORIZADA (ID,IDENTIFICACION,NOMBRE,APELLIDOS,DIRECCION,FECHA_NACIMIENTO,ESTADO,FECHAINICIO,FECHAFIN) values ('222222','111B','PEPA','PROLONGO','CALLE JUAN',null,null,null,null);
+Insert into FINTECH.PERSONA_AUTORIZADA (ID,IDENTIFICACION,NOMBRE,APELLIDOS,DIRECCION,FECHA_NACIMIENTO,ESTADO,FECHAINICIO,FECHAFIN) values ('333333','111C','JUAN','GARCIA','CALLE ITO',null,null,null,null);
+Insert into FINTECH.PERSONA_AUTORIZADA (ID,IDENTIFICACION,NOMBRE,APELLIDOS,DIRECCION,FECHA_NACIMIENTO,ESTADO,FECHAINICIO,FECHAFIN) values ('444444','111D','JOSE','GEMEZ','CALLE ANITO',null,null,null,null);
+Insert into FINTECH.PERSONA_AUTORIZADA (ID,IDENTIFICACION,NOMBRE,APELLIDOS,DIRECCION,FECHA_NACIMIENTO,ESTADO,FECHAINICIO,FECHAFIN) values ('555555','111E','LUIS','VAZQUEZ','CALLE UANITO',null,null,null,null);
+REM INSERTING into FINTECH.POOLED_ACCOUNT
+SET DEFINE OFF;
+Insert into FINTECH.POOLED_ACCOUNT (IBAN) values ('ES11');
+Insert into FINTECH.POOLED_ACCOUNT (IBAN) values ('ES22');
+Insert into FINTECH.POOLED_ACCOUNT (IBAN) values ('ES33');
+REM INSERTING into FINTECH.RELATION_21
+SET DEFINE OFF;
+REM INSERTING into FINTECH.SEGREGADA
+SET DEFINE OFF;
+Insert into FINTECH.SEGREGADA (IBAN,COMISION,CUENTA_REFERENCIA_IBAN) values ('ES44','0','ES66');
+Insert into FINTECH.SEGREGADA (IBAN,COMISION,CUENTA_REFERENCIA_IBAN) values ('ES55','0','ES77');
+REM INSERTING into FINTECH.TARJETA
+SET DEFINE OFF;
+Insert into FINTECH.TARJETA (NUMERO,NOMBRE,FECHACADUCIDAD,CCV,FECHAACTIVISION,MODO,CUENTA_IBAN) values ('111','TARJETA_1',to_date('06/06/22','DD/MM/RR'),'11111',null,'ONLINE','ES11');
+Insert into FINTECH.TARJETA (NUMERO,NOMBRE,FECHACADUCIDAD,CCV,FECHAACTIVISION,MODO,CUENTA_IBAN) values ('222','TARJETA_2',to_date('06/06/22','DD/MM/RR'),'22222',null,'ONLINE','ES22');
+Insert into FINTECH.TARJETA (NUMERO,NOMBRE,FECHACADUCIDAD,CCV,FECHAACTIVISION,MODO,CUENTA_IBAN) values ('333','TARJETA_3',to_date('06/06/22','DD/MM/RR'),'33333',null,'ONLINE','ES33');
+Insert into FINTECH.TARJETA (NUMERO,NOMBRE,FECHACADUCIDAD,CCV,FECHAACTIVISION,MODO,CUENTA_IBAN) values ('444','TARJETA_4',to_date('06/06/22','DD/MM/RR'),'44444',null,'ONLINE','ES44');
+Insert into FINTECH.TARJETA (NUMERO,NOMBRE,FECHACADUCIDAD,CCV,FECHAACTIVISION,MODO,CUENTA_IBAN) values ('555','TARJETA_1',to_date('06/06/22','DD/MM/RR'),'55555',null,'ONLINE','ES55');
+REM INSERTING into FINTECH.TRANSACCION
+SET DEFINE OFF;
+--------------------------------------------------------
+--  DDL for Index AUTORIZACION_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "FINTECH"."AUTORIZACION_PK" ON "FINTECH"."AUTORIZACION" ("PERSONA_AUTORIZADA_ID", "EMPRESA_ID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Index CLIENTE_IDENTIFICACION_UN
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "FINTECH"."CLIENTE_IDENTIFICACION_UN" ON "FINTECH"."CLIENTE" ("IDENTIFICACION") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Index CLIENTE_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "FINTECH"."CLIENTE_PK" ON "FINTECH"."CLIENTE" ("ID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Index CUENTA_FINTECH_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "FINTECH"."CUENTA_FINTECH_PK" ON "FINTECH"."CUENTA_FINTECH" ("IBAN") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Index CUENTA_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "FINTECH"."CUENTA_PK" ON "FINTECH"."CUENTA" ("IBAN") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Index CUENTA_REFERENCIA_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "FINTECH"."CUENTA_REFERENCIA_PK" ON "FINTECH"."CUENTA_REFERENCIA" ("IBAN") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Index DEPOSITADA_EN_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "FINTECH"."DEPOSITADA_EN_PK" ON "FINTECH"."DEPOSITADA_EN" ("CUENTA_REFERENCIA_IBAN", "POOLED_ACCOUNT_IBAN") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Index DIVISA_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "FINTECH"."DIVISA_PK" ON "FINTECH"."DIVISA" ("ABREVIATURA") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Index EMPRESA_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "FINTECH"."EMPRESA_PK" ON "FINTECH"."EMPRESA" ("ID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Index INDIVIDUAL_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "FINTECH"."INDIVIDUAL_PK" ON "FINTECH"."INDIVIDUAL" ("ID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Index MOVIMIENTOS_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "FINTECH"."MOVIMIENTOS_PK" ON "FINTECH"."MOVIMIENTOS" ("ID", "TARJETA_NUMERO") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Index PA_UNIQUE
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "FINTECH"."PA_UNIQUE" ON "FINTECH"."PERSONA_AUTORIZADA" ("IDENTIFICACION") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Index PERSONA_AUTORIZADA_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "FINTECH"."PERSONA_AUTORIZADA_PK" ON "FINTECH"."PERSONA_AUTORIZADA" ("ID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Index POOLED_ACCOUNT_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "FINTECH"."POOLED_ACCOUNT_PK" ON "FINTECH"."POOLED_ACCOUNT" ("IBAN") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Index RELATION_21_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "FINTECH"."RELATION_21_PK" ON "FINTECH"."RELATION_21" ("PERSONA_AUTORIZADA_ID", "TARJETA_NUMERO") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Index SEGREGADA_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "FINTECH"."SEGREGADA_PK" ON "FINTECH"."SEGREGADA" ("IBAN") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Index TARJETA_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "FINTECH"."TARJETA_PK" ON "FINTECH"."TARJETA" ("NUMERO") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Index TRANSACCION_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "FINTECH"."TRANSACCION_PK" ON "FINTECH"."TRANSACCION" ("ID_UNICO") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Index SEGREGADA__IDX
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "FINTECH"."SEGREGADA__IDX" ON "FINTECH"."SEGREGADA" ("CUENTA_REFERENCIA_IBAN") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH" ;
+--------------------------------------------------------
+--  DDL for Trigger ARC_FKARC_1_EMPRESA
+--------------------------------------------------------
+
+  CREATE OR REPLACE EDITIONABLE TRIGGER "FINTECH"."ARC_FKARC_1_EMPRESA" BEFORE
+    INSERT OR UPDATE OF id ON empresa
+    FOR EACH ROW
+DECLARE
+    d INTEGER;
+BEGIN
+    /*SELECT
+        a.id
+    INTO d
+    FROM
+        cliente a
+    WHERE
+        a.id = :new.id;
+
+    IF ( d IS NULL OR d <> empresa ) THEN
+        raise_application_error(-20223, 'FK EMPRESA_CLIENTE_FK in Table EMPRESA violates Arc constraint on Table CLIENTE - discriminator column ID doesn''t have value EMPRESA');
+    END IF;
+
+EXCEPTION
+    WHEN no_data_found THEN
+        NULL;
+    WHEN OTHERS THEN
+        RAISE;*/
+	NULL;
+END;
+
+/
+ALTER TRIGGER "FINTECH"."ARC_FKARC_1_EMPRESA" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger ARC_FKARC_1_INDIVIDUAL
+--------------------------------------------------------
+
+  CREATE OR REPLACE EDITIONABLE TRIGGER "FINTECH"."ARC_FKARC_1_INDIVIDUAL" BEFORE
+    INSERT OR UPDATE OF id ON individual
+    FOR EACH ROW
+DECLARE
+    d INTEGER;
+BEGIN
+    /*SELECT
+        a.id
+    INTO d
+    FROM
+        cliente a
+    WHERE
+        a.id = :new.id;
+
+    IF ( d IS NULL OR d <> individual ) THEN
+        raise_application_error(-20223, 'FK INDIVIDUAL_CLIENTE_FK in Table INDIVIDUAL violates Arc constraint on Table CLIENTE - discriminator column ID doesn''t have value INDIVIDUAL');
+    END IF;
+
+EXCEPTION
+    WHEN no_data_found THEN
+        NULL;
+    WHEN OTHERS THEN
+        RAISE;*/
+	NULL;
+END;
+
+/
+ALTER TRIGGER "FINTECH"."ARC_FKARC_1_INDIVIDUAL" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger ARC_FKARC_2_POOLED_ACCOUNT
+--------------------------------------------------------
+
+  CREATE OR REPLACE EDITIONABLE TRIGGER "FINTECH"."ARC_FKARC_2_POOLED_ACCOUNT" BEFORE
+    INSERT OR UPDATE OF iban ON pooled_account
+    FOR EACH ROW
+DECLARE
+    d VARCHAR2(40 CHAR);
+BEGIN
+    /*SELECT
+        a.iban
+    INTO d
+    FROM
+        cuenta_fintech a
+    WHERE
+        a.iban = :new.iban;
+
+    IF ( d IS NULL OR d <> 'POOLED' ) THEN
+        raise_application_error(-20223, 'FK POOLED_FINTECH_FK in Table POOLED_ACCOUNT violates Arc constraint on Table CUENTA_FINTECH - discriminator column IBAN doesn''t have value ''POOLED''');
+    END IF;
+
+EXCEPTION
+    WHEN no_data_found THEN
+        NULL;
+    WHEN OTHERS THEN
+        RAISE;*/
+	NULL;
+END;
+
+/
+ALTER TRIGGER "FINTECH"."ARC_FKARC_2_POOLED_ACCOUNT" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger ARC_FKARC_2_SEGREGADA
+--------------------------------------------------------
+
+  CREATE OR REPLACE EDITIONABLE TRIGGER "FINTECH"."ARC_FKARC_2_SEGREGADA" BEFORE
+    INSERT OR UPDATE OF iban ON segregada
+    FOR EACH ROW
+DECLARE
+    d VARCHAR2(40 CHAR);
+BEGIN
+   /* SELECT
+        a.iban
+    INTO d
+    FROM
+        cuenta_fintech a
+    WHERE
+        a.iban = :new.iban;
+
+    IF ( d IS NULL OR d <> 'SEGREGADA' ) THEN
+        raise_application_error(-20223, 'FK SEGREGADA_CUENTA_FINTECH_FK in Table SEGREGADA violates Arc constraint on Table CUENTA_FINTECH - discriminator column IBAN doesn''t have value ''SEGREGADA''');
+    END IF;
+
+EXCEPTION
+    WHEN no_data_found THEN
+        NULL;
+    WHEN OTHERS THEN
+        RAISE;*/
+	NULL;
+END;
+
+/
+ALTER TRIGGER "FINTECH"."ARC_FKARC_2_SEGREGADA" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger ARC_FKARC_3_CUENTA_FINTECH
+--------------------------------------------------------
+
+  CREATE OR REPLACE EDITIONABLE TRIGGER "FINTECH"."ARC_FKARC_3_CUENTA_FINTECH" BEFORE
+    INSERT OR UPDATE OF iban ON cuenta_fintech
+    FOR EACH ROW
+DECLARE
+    d VARCHAR2(40 CHAR);
+BEGIN
+    /*SELECT
+        a.iban
+    INTO d
+    FROM
+        cuenta a
+    WHERE
+        a.iban = :new.iban;
+
+    IF ( d IS NULL OR d <> 'FINTECH' ) THEN
+        raise_application_error(-20223, 'FK CUENTA_FINTECH_CUENTA_FK in Table CUENTA_FINTECH violates Arc constraint on Table CUENTA - discriminator column IBAN doesn''t have value ''FINTECH''');
+    END IF;
+
+EXCEPTION
+    WHEN no_data_found THEN
+        NULL;
+    WHEN OTHERS THEN
+        RAISE;*/
+NULL;
+END;
+
+/
+ALTER TRIGGER "FINTECH"."ARC_FKARC_3_CUENTA_FINTECH" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger ARC_FKARC_3_CUENTA_REFERENCIA
+--------------------------------------------------------
+
+  CREATE OR REPLACE EDITIONABLE TRIGGER "FINTECH"."ARC_FKARC_3_CUENTA_REFERENCIA" BEFORE
+    INSERT OR UPDATE OF iban ON cuenta_referencia
+    FOR EACH ROW
+DECLARE
+    d VARCHAR2(40 CHAR);
+BEGIN
+   /* SELECT
+        a.iban
+    INTO d
+    FROM
+        cuenta a
+    WHERE
+        a.iban = :new.iban;
+
+    IF ( d IS NULL OR d <> 'REFERENCIA' ) THEN
+        raise_application_error(-20223, 'FK CUENTA_REFERENCIA_CUENTA_FK in Table CUENTA_REFERENCIA violates Arc constraint on Table CUENTA - discriminator column IBAN doesn''t have value ''REFERENCIA''');
+    END IF;
+
+EXCEPTION
+    WHEN no_data_found THEN
+        NULL;
+    WHEN OTHERS THEN
+        RAISE;*/
+	NULL;
+END;
+
+/
+ALTER TRIGGER "FINTECH"."ARC_FKARC_3_CUENTA_REFERENCIA" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger TR_TRANSACCION
+--------------------------------------------------------
+
+  CREATE OR REPLACE EDITIONABLE TRIGGER "FINTECH"."TR_TRANSACCION" BEFORE INSERT ON TRANSACCION FOR EACH ROW
+BEGIN
+    SELECT SQ_TRANSACCION.NEXTVAL INTO :NEW.ID_UNICO FROM DUAL;
+END;
+/
+ALTER TRIGGER "FINTECH"."TR_TRANSACCION" ENABLE;
+--------------------------------------------------------
+--  DDL for Procedure P_CAMBIO_EURO
+--------------------------------------------------------
+set define off;
+
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "FINTECH"."P_CAMBIO_EURO" AS
+    BEGIN 
+        FOR i IN (SELECT * FROM V_COTIZACIONES) LOOP
+            UPDATE DIVISA SET CAMBIOEURO=i.CAMBIOEURO WHERE ABREVIATURA LIKE i.ABREVIATURA;
+        END LOOP;
+END;
+
+/
+--------------------------------------------------------
+--  DDL for Procedure P_COBRO
+--------------------------------------------------------
+set define off;
+
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "FINTECH"."P_COBRO" AS
+        ibanCuenta VARCHAR2(20);
+        tipoCuenta VARCHAR2(20);
+        saldoCuenta FLOAT;
+        saldoException EXCEPTION;
+        tipoException EXCEPTION;
+    BEGIN 
+        FOR i IN (SELECT * FROM MOVIMIENTOS WHERE MODOOPERACION LIKE 'DEBITO' AND STATUS LIKE 'PENDIENTE') LOOP
+            SELECT CUENTA_IBAN INTO ibanCuenta FROM TARJETA WHERE NUMERO = i.TARJETA_NUMERO;
+            SELECT CLASIFICACION INTO tipoCuenta FROM CUENTA_FINTECH WHERE IBAN = ibanCuenta;
+            IF tipoCuenta = 'SEGREGADA' THEN
+                SELECT CUENTA_REFERENCIA_IBAN INTO ibanCuenta FROM SEGREGADA WHERE IBAN LIKE ibanCuenta;
+                SELECT SALDO INTO saldoCuenta FROM CUENTA_REFERENCIA WHERE IBAN LIKE ibanCuenta;
+                IF saldoCuenta < i.CANTIDAD THEN
+                    RAISE saldoException;
+                END IF;
+                UPDATE CUENTA_REFERENCIA SET SALDO = saldoCuenta-i.CANTIDAD WHERE IBAN LIKE ibanCuenta;
+                UPDATE MOVIMIENTOS SET STATUS = 'COBRADO' WHERE ID LIKE i.ID;
+            ELSIF tipoCuenta = 'POOLED' THEN
+                SELECT IBAN, SALDO INTO ibanCuenta,saldoCuenta FROM CUENTA_REFERENCIA WHERE IBAN IN (SELECT CUENTA_REFERENCIA_IBAN FROM DEPOSITADA_EN WHERE POOLED_ACCOUNT_IBAN LIKE ibanCuenta) AND DIVISA_ABREVIATURA LIKE i.DIVISA_ABREVIATURA;
+                IF saldoCuenta < i.CANTIDAD THEN
+                    RAISE saldoException;
+                END IF;
+                UPDATE CUENTA_REFERENCIA SET SALDO = saldoCuenta-i.CANTIDAD WHERE IBAN LIKE ibanCuenta;
+                UPDATE MOVIMIENTOS SET STATUS = 'COBRADO' WHERE ID LIKE i.ID;
+            ELSE
+                RAISE tipoException;
+            END IF;
+        END LOOP;  
+END;
+
+/
+--------------------------------------------------------
+--  DDL for Procedure P_COBRO_APLAZADO
+--------------------------------------------------------
+set define off;
+
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "FINTECH"."P_COBRO_APLAZADO" AS
+        ibanCuenta VARCHAR2(20);
+        tipoCuenta VARCHAR2(20);
+        saldoCuenta FLOAT;
+        saldoException EXCEPTION;
+        tipoException EXCEPTION;
+    BEGIN 
+        FOR i IN (SELECT * FROM MOVIMIENTOS WHERE MODOOPERACION NOT LIKE 'DEBITO' AND STATUS LIKE 'PENDIENTE') LOOP
+            SELECT CUENTA_IBAN INTO ibanCuenta FROM TARJETA WHERE NUMERO = i.TARJETA_NUMERO;
+            SELECT CLASIFICACION INTO tipoCuenta FROM CUENTA_FINTECH WHERE IBAN = ibanCuenta;
+            IF tipoCuenta = 'SEGREGADA' THEN
+                SELECT CUENTA_REFERENCIA_IBAN INTO ibanCuenta FROM SEGREGADA WHERE IBAN LIKE ibanCuenta;
+                SELECT SALDO INTO saldoCuenta FROM CUENTA_REFERENCIA WHERE IBAN LIKE ibanCuenta;
+                IF saldoCuenta < i.CANTIDAD THEN
+                    RAISE saldoException;
+                END IF;
+                UPDATE CUENTA_REFERENCIA SET SALDO = saldoCuenta-i.CANTIDAD WHERE IBAN LIKE ibanCuenta;
+                UPDATE MOVIMIENTOS SET STATUS = 'COBRADO' WHERE ID LIKE i.ID;
+            ELSIF tipoCuenta = 'POOLED' THEN
+                SELECT IBAN, SALDO INTO ibanCuenta,saldoCuenta FROM CUENTA_REFERENCIA WHERE IBAN IN (SELECT CUENTA_REFERENCIA_IBAN FROM DEPOSITADA_EN WHERE POOLED_ACCOUNT_IBAN LIKE ibanCuenta) AND DIVISA_ABREVIATURA LIKE i.DIVISA_ABREVIATURA;
+                IF saldoCuenta < i.CANTIDAD THEN
+                    RAISE saldoException;
+                END IF;
+                UPDATE CUENTA_REFERENCIA SET SALDO = saldoCuenta-i.CANTIDAD WHERE IBAN LIKE ibanCuenta;
+                UPDATE MOVIMIENTOS SET STATUS = 'COBRADO' WHERE ID LIKE i.ID;
+            ELSE
+                RAISE tipoException;
+            END IF;
+        END LOOP;  
+END;
+
+/
+--------------------------------------------------------
+--  DDL for Package PK_GESTION_CLIENTES
+--------------------------------------------------------
+
+  CREATE OR REPLACE EDITIONABLE PACKAGE "FINTECH"."PK_GESTION_CLIENTES" IS
+    ModificarCuenta EXCEPTION;
+    CuentasBaja EXCEPTION;
+    AutorizadoExiste EXCEPTION;
+    AutorizadoModificar EXCEPTION;
+    AutorizadoEliminar EXCEPTION;
+    TipoException EXCEPTION;
+    AutorizacionNoExiste EXCEPTION;
+    PROCEDURE ALTA_CLIENTE(IDENT VARCHAR2, TIPO VARCHAR2, ESTADO CHAR, FECHABAJA DATE, DIRE VARCHAR2, CIU VARCHAR2, CP VARCHAR2, PAIS VARCHAR2, RAZON VARCHAR2, NOM VARCHAR2, APE VARCHAR2, FECHANAC DATE);
+    PROCEDURE MODIFICAR_CLIENTE(IDENT VARCHAR2, EST CHAR, BAJA DATE, DIREC VARCHAR2, CIU VARCHAR2, COD VARCHAR2, PA VARCHAR2);
+    PROCEDURE BAJA_CLIENTE(PK INT);
+    PROCEDURE ADD_AUTORIZADO(TIPO VARCHAR2, PK INT, EMP INT, IDENTIFICACION VARCHAR2, NOMBRE VARCHAR2, APELLIDOS VARCHAR2, DIRECCION VARCHAR2, FECHA_NACIMIENTO DATE, ESTADO CHAR, FECHAFIN DATE);
+    PROCEDURE MODIFICAR_AUTORIZADO(PK INT, EMP INT, NOM VARCHAR2, APEL VARCHAR2, DIREC VARCHAR2, NACI DATE, EST CHAR, FIN DATE, TIP VARCHAR2);
+    PROCEDURE ELIMINAR_AUTORIZADO(PK INT, EMP INT);
+
+END PK_GESTION_CLIENTES;
+
+/
+--------------------------------------------------------
+--  DDL for Package PK_GESTION_CUENTAS
+--------------------------------------------------------
+
+  CREATE OR REPLACE EDITIONABLE PACKAGE "FINTECH"."PK_GESTION_CUENTAS" AS
+    ClienteException EXCEPTION;
+    CuentaException EXCEPTION;
+    ReferenciaException EXCEPTION;
+    SaldoException EXCEPTION;
+    PROCEDURE APERTURA_CUENTA_POOLED(ID_CLIENTE INTEGER, IBN VARCHAR2, SWFT VARCHAR2, CIERRE DATE);
+    PROCEDURE APERTURA_CUENTA_SEGREGATED(ID_CLIENTE INTEGER, IBN VARCHAR2, SWFT VARCHAR2, CIERRE DATE, COMISION DECIMAL, REFERENCIA VARCHAR2);
+    PROCEDURE CIERRE_CUENTA_POOLED(IBN VARCHAR2);
+    PROCEDURE CIERRE_CUENTA_SEGREGADA(IBN VARCHAR2);
+
+END PK_GESTION_CUENTAS;
+
+/
+--------------------------------------------------------
+--  DDL for Package PK_OPERATIVA
+--------------------------------------------------------
+
+  CREATE OR REPLACE EDITIONABLE PACKAGE "FINTECH"."PK_OPERATIVA" IS
+    PROCEDURE INSERT_TRANSACCION(IBAN_ORIGEN VARCHAR2, IBAN_DESTINO VARCHAR2, DINERITO DOUBLE);
+    PROCEDURE CAMBIO_DIVISA(IBAN VARCHAR2, DIVISA_ORIGEN VARCHAR2, DIVISA_DESTINO VARCHAR2, DINERITO DOUBLE);
+
+END PK_OPERATIVA;
+
+/
+--------------------------------------------------------
+--  DDL for Package Body PK_GESTION_CLIENTES
+--------------------------------------------------------
+
+  CREATE OR REPLACE EDITIONABLE PACKAGE BODY "FINTECH"."PK_GESTION_CLIENTES" IS
+
+    /*  1. RF2) Alta del cliente: 
+        Se busca dar de alta un cliente (tanto empresa como individual) en el sistema 
+            - Si el cliente existe -> se hace UPDATE de su campo ESTADO a '1' indicando el alta
+              y se actualiza la fecha de alta a la actual
+
+            - Si el cliente no existe -> se creara en la base de datos con los datos pasados por 
+              parametros en el procedimiento, teniendo en cuenta si se trata de un
+              individual o una empresa. En caso de que el tipo no sea "JURIDICO" O "FISICO"
+              saltara la correspondiente excepcion
+    */
+    PROCEDURE ALTA_CLIENTE(IDENT VARCHAR2, TIPO VARCHAR2, ESTADO CHAR, FECHABAJA DATE, DIRE VARCHAR2, CIU VARCHAR2, CP VARCHAR2, PAIS VARCHAR2, RAZON VARCHAR2, NOM VARCHAR2, APE VARCHAR2, FECHANAC DATE) IS
+    existe INTEGER;
+    ID_UNICO  INTEGER;
+    BEGIN
+        SELECT COUNT(*) INTO existe FROM CLIENTE WHERE IDENTIFICACION = IDENT;
+        IF existe=1 THEN
+            UPDATE CLIENTE SET ESTADO = '1', FECHA_ALTA = SYSDATE WHERE IDENTIFICACION = IDENT;
+        ELSE 
+            IF (TIPO = 'JURIDICO') THEN
+                ID_UNICO := SQ_CLIENTE.NEXTVAL;
+                INSERT INTO CLIENTE VALUES(ID_UNICO, IDENT, TIPO, ESTADO, SYSDATE, FECHABAJA, DIRE, CIU, CP, PAIS);
+                INSERT INTO EMPRESA VALUES(ID_UNICO, RAZON);
+            ELSIF (TIPO = 'FISICO') THEN
+                 ID_UNICO := SQ_CLIENTE.NEXTVAL;
+                INSERT INTO CLIENTE VALUES(ID_UNICO, IDENT, TIPO, ESTADO, SYSDATE, FECHABAJA, DIRE, CIU, CP, PAIS);
+                INSERT INTO INDIVIDUAL VALUES(ID_UNICO, NOM, APE, FECHANAC);
+            ELSE RAISE TipoException;
+            END IF;
+        END IF;
+
+    END;
+
+    /*  2. RF3) Modificar Cliente:
+        Procedimiento para modificar los datos de un Cliente en la base de datos
+        dada su identificacion. Si el cliente existe, se hace un UPDATE con los datos
+        pasados como parametros en el procedimiento.
+
+        Si el cliente no existe, salta la correspondiente excepcion de que no se pudo modificar
+
+    */
+    PROCEDURE MODIFICAR_CLIENTE(IDENT VARCHAR2, EST CHAR, BAJA DATE, DIREC VARCHAR2, CIU VARCHAR2, COD VARCHAR2, PA VARCHAR2) IS
+    clienteExiste INTEGER;
+    BEGIN
+        SELECT COUNT(*) INTO clienteExiste FROM CLIENTE WHERE IDENTIFICACION = IDENT;
+        IF clienteExiste=1 THEN
+            UPDATE CLIENTE SET ESTADO = EST, FECHA_BAJA = BAJA, DIRECCION = DIREC, CIUDAD = CIU, CODIGOPOSTAL = COD, PAIS = PA WHERE IDENTIFICACION = IDENT;
+        ELSE RAISE ModificarCuenta;
+        END IF;
+    END;
+
+
+    /*  3. RF4) Baja de un Cliente:
+        Procedimiento para dar de baja al cliente. Esto no significa que el cliente sea
+        eliminado de la BD, si no que su ESTADO pasa a '0'.
+            - Si el cliente exitse Y su cuenta esta de alta, entonces se actualiza a '0'
+
+            - En caso contrario salta la respectiva excepcion
+    */
+    PROCEDURE BAJA_CLIENTE(PK INT) IS
+    cuentasAlta INTEGER;
+    clienteExiste INTEGER;
+    BEGIN
+        SELECT COUNT(*) INTO cuentasAlta FROM CUENTA_FINTECH WHERE ESTADO = '1' AND CLIENTE_ID = PK;
+        SELECT COUNT(*) INTO clienteExiste FROM CLIENTE WHERE IDENTIFICACION = PK;
+        IF cuentasAlta=0 AND clienteExiste=1 THEN
+            UPDATE CLIENTE SET ESTADO = '0', FECHA_BAJA = SYSDATE WHERE ID = PK;
+        ELSE RAISE CuentasBaja;
+        END IF;
+
+    END;
+
+    /*  4. RF6) Aniadir autorizados:
+        Procedimiento para anadir un autorizado a la(s) cuentas de una persona Juridica (empresa)
+            - Solo hay dos tipos de autorizacion; CONSULTA u OPERACION, si no se indica alguno de estos
+              saltara la respectiva excepcion
+    */
+    PROCEDURE ADD_AUTORIZADO(TIPO VARCHAR2, PK INT, EMP INT, IDENTIFICACION VARCHAR2, NOMBRE VARCHAR2, APELLIDOS VARCHAR2, DIRECCION VARCHAR2, FECHA_NACIMIENTO DATE, ESTADO CHAR, FECHAFIN DATE) AS
+    personaAutorizadaExiste INTEGER;
+    empresaExiste INTEGER;
+    autorizacionNoExiste INTEGER;
+    ID_UNICO  INTEGER;
+    BEGIN
+        IF(TIPO NOT LIKE 'CONSULTA' AND TIPO NOT LIKE 'OPERACION') THEN
+            RAISE TipoException;
+        END IF;
+        SELECT COUNT(*) INTO personaAutorizadaExiste FROM PERSONA_AUTORIZADA WHERE ID = PK;
+        SELECT COUNT(*) INTO empresaExiste FROM EMPRESA WHERE ID = EMP;
+	SELECT COUNT(*) INTO autorizacionNoExiste FROM AUTORIZACION WHERE PERSONA_AUTORIZADA_ID = PK AND EMPRESA_ID = EMP;
+        IF personaAutorizadaExiste=1 AND empresaExiste=1 AND autorizacionNoExiste=0 THEN
+            INSERT INTO AUTORIZACION VALUES(TIPO, PK, EMP);
+        ELSIF empresaExiste=1 AND autorizacionNoExiste = 0 THEN
+            ID_UNICO := SQ_PERSONA.NEXTVAL;
+            INSERT INTO PERSONA_AUTORIZADA VALUES (ID_UNICO, IDENTIFICACION, NOMBRE, APELLIDOS, DIRECCION, FECHA_NACIMIENTO, ESTADO, SYSDATE, FECHAFIN);
+            INSERT INTO AUTORIZACION VALUES(TIPO, ID_UNICO, EMP);
+        ELSE RAISE AutorizadoExiste;
+        END IF;
+
+    END;
+
+    /*  5. RF7) Modificar Persona Autorizada:
+        Procedimiento para modificar los datos de una Persona Autorizada ya existente en la Base de datos.
+        Estas personas deben estar en alguna Empresa, y también se puede cambiar su autorizacion.
+
+            - Si el tipo de autorizacion no es vacio, CONSULTA u OPERACION, saltara la respectiva excepcion de Tipo.
+
+            - Si la persona y la empresa existen, y esta autorizada en ella, se hace UPDATE de los datos pasados por parametro
+            a la tabla de Persona Autorizada, y de la autorizacion en la propia empresa.
+
+            - En caso de que no exista la empresa, o la pertsona, o no haya autorizacion NO se hace UPDATE y salta la correspondiente
+            excepcion de AutorizadoModificar
+
+    */
+    PROCEDURE MODIFICAR_AUTORIZADO(PK INT, EMP INT, NOM VARCHAR2, APEL VARCHAR2, DIREC VARCHAR2, NACI DATE, EST CHAR, FIN DATE, TIP VARCHAR2) IS
+    personaAutorizadaExiste INTEGER;
+    empresaExiste INTEGER;
+    autorizacionExiste INTEGER;
+    BEGIN
+        IF(TIP NOT LIKE 'CONSULTA' AND TIP NOT LIKE 'OPERACION') THEN
+            RAISE TipoException;
+        END IF;
+        SELECT COUNT(*) INTO personaAutorizadaExiste FROM PERSONA_AUTORIZADA WHERE ID = PK;
+        IF personaAutorizadaExiste=1 THEN
+            UPDATE PERSONA_AUTORIZADA SET NOMBRE = NOM, APELLIDOS = APEL, DIRECCION = DIREC, FECHA_NACIMIENTO = NACI, ESTADO = EST, FECHAFIN = FIN WHERE ID = PK;
+        ELSE RAISE AutorizadoModificar;
+        END IF;
+        SELECT COUNT(*) INTO empresaExiste FROM EMPRESA WHERE ID = EMP;
+        SELECT COUNT(*) INTO autorizacionExiste FROM AUTORIZACION WHERE PERSONA_AUTORIZADA_ID = PK AND EMPRESA_ID = EMP;
+        IF personaAutorizadaExiste=1 AND empresaExiste=1 AND autorizacionExiste=1 THEN
+            UPDATE AUTORIZACION SET TIPO = TIP WHERE PERSONA_AUTORIZADA_ID = PK AND EMPRESA_ID = EMP;
+        END IF;
+    END;
+
+
+    /*  6. RF8) Eliminar autorizados de una empresa:
+        Procedimiento para eliminar a personas autorizadas de una empresa, esto NO significa que se eliminen de la BD.
+        Lo que se borra es la Autorizacion en la empresa.
+
+            - Si existe la autorizacion de la persona PK y la empresa EMP, entonces se borra.      
+    */
+    PROCEDURE ELIMINAR_AUTORIZADO(PK INT, EMP INT) AS
+    autorizacionExiste INTEGER;
+    personaExiste INTEGER;
+    BEGIN
+	    SELECT COUNT(*) INTO personaExiste FROM AUTORIZACION WHERE PERSONA_AUTORIZADA_ID = PK;
+        SELECT COUNT(*) INTO autorizacionExiste FROM AUTORIZACION WHERE PERSONA_AUTORIZADA_ID LIKE PK AND EMPRESA_ID LIKE EMP;
+        IF autorizacionExiste=1 THEN
+            DELETE FROM AUTORIZACION WHERE PERSONA_AUTORIZADA_ID = PK AND EMPRESA_ID = EMP;
+        ELSE RAISE AutorizacionNoExiste;
+        END IF;
+        IF personaExiste=1 THEN
+            UPDATE PERSONA_AUTORIZADA SET ESTADO = '0', FECHAFIN = SYSDATE WHERE ID = PK;
+        ELSE RAISE AutorizadoEliminar;
+        END IF;
+
+    END;
+
+
+END PK_GESTION_CLIENTES;
+
+/
+--------------------------------------------------------
+--  DDL for Package Body PK_GESTION_CUENTAS
+--------------------------------------------------------
+
+  CREATE OR REPLACE EDITIONABLE PACKAGE BODY "FINTECH"."PK_GESTION_CUENTAS" AS
+
+    /* 1. RF5) Apertura de una cuenta agrupada (Pooled), para ello, el cliente NO puede estar dado de baja, en caso contrario
+    saltara la respectiva excepcion de Cliente. Al igual que si la cuenta ya existe, esta no se creara y dara excepcion Cuenta.
+
+    En el caso correcto, se creara la cuenta, luego la cuenta fintech y finalmente la correspondiente pooled.
+    */
+    PROCEDURE APERTURA_CUENTA_POOLED(ID_CLIENTE INTEGER, IBN VARCHAR2, SWFT VARCHAR2, CIERRE DATE) IS
+    clienteNoAlta INTEGER;
+    cuentaExiste INTEGER;
+    BEGIN
+        SELECT COUNT(*) INTO clienteNoAlta FROM CLIENTE WHERE ID = ID_CLIENTE AND ESTADO LIKE '1';
+        IF clienteNoAlta=0 THEN
+            RAISE ClienteException;
+        END IF;
+        SELECT COUNT(*) INTO cuentaExiste FROM CUENTA WHERE IBAN LIKE IBN;
+        IF cuentaExiste=1 THEN
+            RAISE CuentaException;
+        END IF;
+
+        INSERT INTO CUENTA VALUES(IBN, SWFT);
+        INSERT INTO CUENTA_FINTECH VALUES(IBN, '1', SYSDATE, CIERRE, 'POOLED', ID_CLIENTE);
+        INSERT INTO POOLED_ACCOUNT VALUES(IBN);
+
+    END;
+
+    /* 1. RF5) Apertura de una cuenta segregada, para ello, el cliente NO puede estar dado de baja, en caso contrario
+    saltara la respectiva excepcion de Cliente. Al igual que si la cuenta ya existe, esta no se creara y dara excepcion Cuenta.
+    Al ser segregada necesitara que exista una cuenta referencia.
+
+    En el caso correcto, se creara la cuenta, luego la cuenta fintech y finalmente la correspondiente segregada.
+    */
+    PROCEDURE APERTURA_CUENTA_SEGREGATED(ID_CLIENTE INTEGER, IBN VARCHAR2, SWFT VARCHAR2, CIERRE DATE, COMISION DECIMAL, REFERENCIA VARCHAR2) IS
+    clienteNoAlta INTEGER;
+    cuentaExiste INTEGER;
+    cuentaRefNoExiste INTEGER;
+    BEGIN
+        SELECT COUNT(*) INTO clienteNoAlta FROM CLIENTE WHERE ID = ID_CLIENTE AND ESTADO LIKE '1';
+        IF clienteNoAlta=0 THEN
+            RAISE ClienteException;
+        END IF;
+        SELECT COUNT(*) INTO cuentaExiste FROM CUENTA WHERE IBAN LIKE IBN;
+        IF cuentaExiste=1 THEN
+            RAISE CuentaException;
+        END IF;
+        SELECT COUNT(*) INTO cuentaRefNoExiste FROM CUENTA WHERE IBAN LIKE REFERENCIA;
+        IF cuentaRefNoExiste=0 THEN
+            RAISE ReferenciaException;
+        END IF;
+        INSERT INTO CUENTA VALUES(IBN, SWFT);
+        INSERT INTO CUENTA_FINTECH VALUES(IBN, '1', SYSDATE, CIERRE, 'SEGREGADA', ID_CLIENTE);
+        INSERT INTO SEGREGADA VALUES(IBN, COMISION, REFERENCIA);
+
+    END;
+
+
+    /* 2. RF9) Cierre de una cuenta Pooled, para ello, debe tener 0 en todos los saldos de sus divisas.
+    NO se elimina la cuenta, si no que se coloca el estado y la fecha de cierre correspondientes.
+
+        - Si la cuenta no existe, no ocurre nada y salta excepcion
+
+        - Si todos los saldos son 0, en cada una de las divisas, se coloca el ESTADO como '0' y la fecha de cierre
+        como la de la hora en la que se ejecuta el procedimiento
+
+        - En caso de que el saldo no sea 0, salta la excepcion
+    */
+    PROCEDURE CIERRE_CUENTA_POOLED(IBN VARCHAR2) IS
+    cuentaNoExiste INTEGER;
+    saldo FLOAT;
+    cantidad INTEGER;
+    BEGIN       
+        SELECT COUNT(*) INTO cuentaNoExiste FROM CUENTA WHERE IBAN LIKE IBN;
+        IF cuentaNoExiste = 0 THEN
+            RAISE CuentaException;
+        END IF;
+        SELECT SUM(SALDO), COUNT(*) INTO saldo, cantidad FROM DEPOSITADA_EN WHERE POOLED_ACCOUNT_IBAN LIKE IBN;
+        IF saldo = 0 OR cantidad = 0 THEN
+            UPDATE CUENTA_FINTECH SET ESTADO = '0', FECHA_CIERRE = SYSDATE WHERE IBAN = IBN;
+        ELSE RAISE SaldoException;
+        END IF;
+    END;
+
+    /* 2. RF9) Cierre de una cuenta segregada, para ello, debe tener 0 en su saldo
+    NO se elimina la cuenta, si no que se coloca el estado y la fecha de cierre correspondientes.
+
+        - Si la cuenta no existe, no ocurre nada y salta excepcion
+
+        - Si todos los saldos son 0, en cada una de las divisas, se coloca el ESTADO como '0' y la fecha de cierre
+        como la de la hora en la que se ejecuta el procedimiento
+
+        - En caso de que el saldo no sea 0, salta la excepcion
+    */
+    PROCEDURE CIERRE_CUENTA_SEGREGADA(IBN VARCHAR2) IS
+    cuentaNoExiste INTEGER;
+    saldo FLOAT;
+    BEGIN 
+        SELECT COUNT(*) INTO cuentaNoExiste FROM CUENTA WHERE IBAN LIKE IBN;
+        IF cuentaNoExiste = 0 THEN
+            RAISE CuentaException;
+        END IF;
+        SELECT SALDO INTO saldo FROM CUENTA_REFERENCIA WHERE IBAN LIKE (SELECT CUENTA_REFERENCIA_IBAN FROM SEGREGADA WHERE IBAN LIKE IBN);
+        IF saldo = 0 THEN
+            UPDATE CUENTA_FINTECH SET ESTADO = '0', FECHA_CIERRE = SYSDATE WHERE IBAN = IBN;
+        ELSE RAISE SaldoException;
+        END IF;
+    END;
+
+END PK_GESTION_CUENTAS;
+
+/
+--------------------------------------------------------
+--  DDL for Synonymn COTIZACION
+--------------------------------------------------------
+
+  CREATE OR REPLACE EDITIONABLE SYNONYM "FINTECH"."COTIZACION" FOR "FINTECH"."VM_COTIZA";
+--------------------------------------------------------
+--  Constraints for Table CLIENTE
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."CLIENTE" MODIFY ("ID" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."CLIENTE" MODIFY ("IDENTIFICACION" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."CLIENTE" MODIFY ("TIPO_CLIENTE" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."CLIENTE" MODIFY ("ESTADO" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."CLIENTE" MODIFY ("FECHA_ALTA" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."CLIENTE" MODIFY ("DIRECCION" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."CLIENTE" MODIFY ("CIUDAD" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."CLIENTE" MODIFY ("CODIGOPOSTAL" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."CLIENTE" MODIFY ("PAIS" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."CLIENTE" ADD CONSTRAINT "CLIENTE_PK" PRIMARY KEY ("ID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH"  ENABLE;
+  ALTER TABLE "FINTECH"."CLIENTE" ADD CONSTRAINT "CLIENTE_IDENTIFICACION_UN" UNIQUE ("IDENTIFICACION")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table AUTORIZACION
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."AUTORIZACION" MODIFY ("TIPO" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."AUTORIZACION" MODIFY ("PERSONA_AUTORIZADA_ID" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."AUTORIZACION" MODIFY ("EMPRESA_ID" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."AUTORIZACION" ADD CONSTRAINT "AUTORIZACION_PK" PRIMARY KEY ("PERSONA_AUTORIZADA_ID", "EMPRESA_ID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table SEGREGADA
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."SEGREGADA" MODIFY ("IBAN" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."SEGREGADA" MODIFY ("CUENTA_REFERENCIA_IBAN" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."SEGREGADA" ADD CONSTRAINT "SEGREGADA_PK" PRIMARY KEY ("IBAN")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table CUENTA_FINTECH
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."CUENTA_FINTECH" MODIFY ("IBAN" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."CUENTA_FINTECH" MODIFY ("ESTADO" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."CUENTA_FINTECH" MODIFY ("FECHA_APERTURA" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."CUENTA_FINTECH" MODIFY ("CLIENTE_ID" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."CUENTA_FINTECH" ADD CONSTRAINT "CUENTA_FINTECH_PK" PRIMARY KEY ("IBAN")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table MOVIMIENTOS
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."MOVIMIENTOS" MODIFY ("ID" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."MOVIMIENTOS" MODIFY ("MODOOPERACION" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."MOVIMIENTOS" MODIFY ("STATUS" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."MOVIMIENTOS" MODIFY ("FECHAOPERACION" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."MOVIMIENTOS" MODIFY ("CONCEPTO" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."MOVIMIENTOS" MODIFY ("NOMBREEMISOR" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."MOVIMIENTOS" MODIFY ("TIPOEMISOR" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."MOVIMIENTOS" MODIFY ("CANTIDAD" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."MOVIMIENTOS" MODIFY ("LIMITEFISICOMENSUAL" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."MOVIMIENTOS" MODIFY ("TARJETA_NUMERO" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."MOVIMIENTOS" MODIFY ("DIVISA_ABREVIATURA" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."MOVIMIENTOS" ADD CONSTRAINT "MOVIMIENTOS_PK" PRIMARY KEY ("ID", "TARJETA_NUMERO")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table TARJETA
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."TARJETA" MODIFY ("NUMERO" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."TARJETA" MODIFY ("NOMBRE" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."TARJETA" MODIFY ("FECHACADUCIDAD" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."TARJETA" MODIFY ("CCV" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."TARJETA" ADD CONSTRAINT "TARJETA_PK" PRIMARY KEY ("NUMERO")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table DEPOSITADA_EN
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."DEPOSITADA_EN" MODIFY ("SALDO" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."DEPOSITADA_EN" MODIFY ("CUENTA_REFERENCIA_IBAN" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."DEPOSITADA_EN" MODIFY ("POOLED_ACCOUNT_IBAN" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."DEPOSITADA_EN" ADD CONSTRAINT "DEPOSITADA_EN_PK" PRIMARY KEY ("CUENTA_REFERENCIA_IBAN", "POOLED_ACCOUNT_IBAN")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table EMPRESA
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."EMPRESA" MODIFY ("ID" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."EMPRESA" MODIFY ("RAZON_SOCIAL" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."EMPRESA" ADD CONSTRAINT "EMPRESA_PK" PRIMARY KEY ("ID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table PERSONA_AUTORIZADA
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."PERSONA_AUTORIZADA" MODIFY ("ID" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."PERSONA_AUTORIZADA" MODIFY ("IDENTIFICACION" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."PERSONA_AUTORIZADA" MODIFY ("NOMBRE" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."PERSONA_AUTORIZADA" MODIFY ("APELLIDOS" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."PERSONA_AUTORIZADA" MODIFY ("DIRECCION" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."PERSONA_AUTORIZADA" ADD CONSTRAINT "PERSONA_AUTORIZADA_PK" PRIMARY KEY ("ID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH"  ENABLE;
+  ALTER TABLE "FINTECH"."PERSONA_AUTORIZADA" ADD CONSTRAINT "PA_UNIQUE" UNIQUE ("IDENTIFICACION")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table POOLED_ACCOUNT
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."POOLED_ACCOUNT" MODIFY ("IBAN" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."POOLED_ACCOUNT" ADD CONSTRAINT "POOLED_ACCOUNT_PK" PRIMARY KEY ("IBAN")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table INDIVIDUAL
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."INDIVIDUAL" MODIFY ("ID" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."INDIVIDUAL" MODIFY ("NOMBRE" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."INDIVIDUAL" MODIFY ("APELLIDO" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."INDIVIDUAL" ADD CONSTRAINT "INDIVIDUAL_PK" PRIMARY KEY ("ID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table CUENTA
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."CUENTA" MODIFY ("IBAN" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."CUENTA" ADD CONSTRAINT "CUENTA_PK" PRIMARY KEY ("IBAN")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table RELATION_21
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."RELATION_21" MODIFY ("PERSONA_AUTORIZADA_ID" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."RELATION_21" MODIFY ("TARJETA_NUMERO" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."RELATION_21" ADD CONSTRAINT "RELATION_21_PK" PRIMARY KEY ("PERSONA_AUTORIZADA_ID", "TARJETA_NUMERO")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  TABLESPACE "TS_FINTECH"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table TRANSACCION
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."TRANSACCION" MODIFY ("ID_UNICO" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."TRANSACCION" MODIFY ("FECHAINSTRUCCION" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."TRANSACCION" MODIFY ("CANTIDAD" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."TRANSACCION" MODIFY ("TIPO" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."TRANSACCION" MODIFY ("DIVISA_ABREVIATURA" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."TRANSACCION" MODIFY ("DIVISA_ABREVIATURA2" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."TRANSACCION" MODIFY ("CUENTA_IBAN" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."TRANSACCION" MODIFY ("CUENTA_IBAN2" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."TRANSACCION" ADD CONSTRAINT "TRANSACCION_PK" PRIMARY KEY ("ID_UNICO")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  TABLESPACE "TS_FINTECH"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table DIVISA
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."DIVISA" MODIFY ("ABREVIATURA" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."DIVISA" MODIFY ("NOMBRE" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."DIVISA" MODIFY ("CAMBIOEURO" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."DIVISA" ADD CONSTRAINT "DIVISA_PK" PRIMARY KEY ("ABREVIATURA")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table CUENTA_REFERENCIA
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."CUENTA_REFERENCIA" MODIFY ("IBAN" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."CUENTA_REFERENCIA" MODIFY ("NOMBREBANCO" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."CUENTA_REFERENCIA" MODIFY ("SALDO" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."CUENTA_REFERENCIA" MODIFY ("DIVISA_ABREVIATURA" NOT NULL ENABLE);
+  ALTER TABLE "FINTECH"."CUENTA_REFERENCIA" ADD CONSTRAINT "CUENTA_REFERENCIA_PK" PRIMARY KEY ("IBAN")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "TS_FINTECH"  ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table AUTORIZACION
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."AUTORIZACION" ADD CONSTRAINT "AUTORIZACION_EMPRESA_FK" FOREIGN KEY ("EMPRESA_ID")
+	  REFERENCES "FINTECH"."EMPRESA" ("ID") ENABLE;
+  ALTER TABLE "FINTECH"."AUTORIZACION" ADD CONSTRAINT "PERSONA_AUTORA_FK" FOREIGN KEY ("PERSONA_AUTORIZADA_ID")
+	  REFERENCES "FINTECH"."PERSONA_AUTORIZADA" ("ID") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table CUENTA_FINTECH
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."CUENTA_FINTECH" ADD CONSTRAINT "CUENTA_FINTECH_CLIENTE_FK" FOREIGN KEY ("CLIENTE_ID")
+	  REFERENCES "FINTECH"."CLIENTE" ("ID") ENABLE;
+  ALTER TABLE "FINTECH"."CUENTA_FINTECH" ADD CONSTRAINT "CUENTA_FINTECH_CUENTA_FK" FOREIGN KEY ("IBAN")
+	  REFERENCES "FINTECH"."CUENTA" ("IBAN") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table CUENTA_REFERENCIA
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."CUENTA_REFERENCIA" ADD CONSTRAINT "CUENTA_REFERENCIA_CUENTA_FK" FOREIGN KEY ("IBAN")
+	  REFERENCES "FINTECH"."CUENTA" ("IBAN") ENABLE;
+  ALTER TABLE "FINTECH"."CUENTA_REFERENCIA" ADD CONSTRAINT "CUENTA_REFERENCIA_DIVISA_FK" FOREIGN KEY ("DIVISA_ABREVIATURA")
+	  REFERENCES "FINTECH"."DIVISA" ("ABREVIATURA") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table DEPOSITADA_EN
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."DEPOSITADA_EN" ADD CONSTRAINT "DEPOS_POOLED_FK" FOREIGN KEY ("POOLED_ACCOUNT_IBAN")
+	  REFERENCES "FINTECH"."POOLED_ACCOUNT" ("IBAN") ENABLE;
+  ALTER TABLE "FINTECH"."DEPOSITADA_EN" ADD CONSTRAINT "DEPOS_REF_FK" FOREIGN KEY ("CUENTA_REFERENCIA_IBAN")
+	  REFERENCES "FINTECH"."CUENTA_REFERENCIA" ("IBAN") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table EMPRESA
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."EMPRESA" ADD CONSTRAINT "EMPRESA_CLIENTE_FK" FOREIGN KEY ("ID")
+	  REFERENCES "FINTECH"."CLIENTE" ("ID") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table INDIVIDUAL
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."INDIVIDUAL" ADD CONSTRAINT "INDIVIDUAL_CLIENTE_FK" FOREIGN KEY ("ID")
+	  REFERENCES "FINTECH"."CLIENTE" ("ID") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table MOVIMIENTOS
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."MOVIMIENTOS" ADD CONSTRAINT "MOVIMIENTOS_DIVISA_FK" FOREIGN KEY ("DIVISA_ABREVIATURA")
+	  REFERENCES "FINTECH"."DIVISA" ("ABREVIATURA") ENABLE;
+  ALTER TABLE "FINTECH"."MOVIMIENTOS" ADD CONSTRAINT "MOVIMIENTOS_TARJETA_FK" FOREIGN KEY ("TARJETA_NUMERO")
+	  REFERENCES "FINTECH"."TARJETA" ("NUMERO") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table POOLED_ACCOUNT
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."POOLED_ACCOUNT" ADD CONSTRAINT "POOLED_FINTECH_FK" FOREIGN KEY ("IBAN")
+	  REFERENCES "FINTECH"."CUENTA_FINTECH" ("IBAN") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table RELATION_21
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."RELATION_21" ADD CONSTRAINT "RELATION_21_AUTORIZADA_FK" FOREIGN KEY ("PERSONA_AUTORIZADA_ID")
+	  REFERENCES "FINTECH"."PERSONA_AUTORIZADA" ("ID") ENABLE;
+  ALTER TABLE "FINTECH"."RELATION_21" ADD CONSTRAINT "RELATION_21_TARJETA_FK" FOREIGN KEY ("TARJETA_NUMERO")
+	  REFERENCES "FINTECH"."TARJETA" ("NUMERO") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table SEGREGADA
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."SEGREGADA" ADD CONSTRAINT "SEGREGADA_CUENTA_FINTECH_FK" FOREIGN KEY ("IBAN")
+	  REFERENCES "FINTECH"."CUENTA_FINTECH" ("IBAN") ENABLE;
+  ALTER TABLE "FINTECH"."SEGREGADA" ADD CONSTRAINT "SEGREGADA_CUENTA_REFERENCIA_FK" FOREIGN KEY ("CUENTA_REFERENCIA_IBAN")
+	  REFERENCES "FINTECH"."CUENTA_REFERENCIA" ("IBAN") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table TARJETA
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."TARJETA" ADD CONSTRAINT "TARJETA_CUENTA_FK" FOREIGN KEY ("CUENTA_IBAN")
+	  REFERENCES "FINTECH"."CUENTA" ("IBAN") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table TRANSACCION
+--------------------------------------------------------
+
+  ALTER TABLE "FINTECH"."TRANSACCION" ADD CONSTRAINT "TRANSACCION_CUENTA_FK" FOREIGN KEY ("CUENTA_IBAN")
+	  REFERENCES "FINTECH"."CUENTA" ("IBAN") ENABLE;
+  ALTER TABLE "FINTECH"."TRANSACCION" ADD CONSTRAINT "TRANSACCION_CUENTA_FKV2" FOREIGN KEY ("CUENTA_IBAN2")
+	  REFERENCES "FINTECH"."CUENTA" ("IBAN") ENABLE;
+  ALTER TABLE "FINTECH"."TRANSACCION" ADD CONSTRAINT "TRANSACCION_DIVISA_FK" FOREIGN KEY ("DIVISA_ABREVIATURA")
+	  REFERENCES "FINTECH"."DIVISA" ("ABREVIATURA") ENABLE;
+  ALTER TABLE "FINTECH"."TRANSACCION" ADD CONSTRAINT "TRANSACCION_DIVISA_FKV2" FOREIGN KEY ("DIVISA_ABREVIATURA2")
+	  REFERENCES "FINTECH"."DIVISA" ("ABREVIATURA") ENABLE;

@@ -15,9 +15,8 @@
 <ownerDesignName>modeloABDD</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>40 CHAR</dataTypeSize>
-<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
 <Column name="Identificacion" id="32040AC6-54A5-FF50-FA70-CF2E2B6338F9">
@@ -131,7 +130,7 @@
 <colUsage columnID="DF65ADD9-A63E-F08C-F944-75B2D95646BF"/>
 </indexColumnUsage>
 </ind_PK_UK>
-<ind_PK_UK id="1FFEE4A0-8884-90A4-EC93-3A01FD1A08DD" name="PERSONA_Identificacion_UN">
+<ind_PK_UK id="1FFEE4A0-8884-90A4-EC93-3A01FD1A08DD" name="PA_UNIQUE">
 <createdBy>david</createdBy>
 <createdTime>2022-03-27 20:19:22 UTC</createdTime>
 <generatorID>F8574A8A-D1EE-D52A-B3AB-CD7F0D4FB4C7</generatorID>

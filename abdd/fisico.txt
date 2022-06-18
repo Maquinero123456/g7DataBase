@@ -1,0 +1,163 @@
+/*
+	PROYECTO DEL GRUPO 7 (G7)
+	- David Navarro Jimena
+	- Leonardo Meneses
+	- Pablo Vazquez Vera
+	- Victor Gomez Vazquez
+*/
+
+/*---------------------
+      DESDE SYSTEM:
+-----------------------*/
+/* Creacion de un TABLESPACE */
+CREATE TABLESPACE TS_FINTECH
+    DATAFILE 'C:\USERS\APP\ALUMNOS\ORADATA\ORCL\ts_fintech' 
+    SIZE 10M AUTOEXTEND ON
+    ;                                  
+-- Crea un tablespace con un fichero de tamaño 10M  autoextensible. 
+-- Para que un usuario pueda usarlo debe asignársele una quota de uso.
+
+
+/* Creamos el usuario "fintech", con contraseña "bd" como hemos realizado en prácticas anteriores
+Su Tablespace será TS_FINTECH y se le dará un espacio de 1Mega */
+CREATE USER fintech IDENTIFIED BY bd 
+DEFAULT TABLESPACE TS_FINTECH
+QUOTA 1M ON TS_FINTECH;
+
+/* Le damos los permisos necesarios para realizar la practica */
+GRANT CREATE TABLE, CREATE VIEW, CREATE MATERIALIZED VIEW TO fintech;
+GRANT CONNECT, CREATE SEQUENCE, CREATE PROCEDURE, CREATE SYNONYM TO fintech;
+
+/* Creamos el espacio de tabla "TS_INDICES" */
+CREATE TABLESPACE TS_INDICES DATAFILE 'ts_indice.dat' SIZE 50M;
+
+/* Comprobamos que el usuario ha sido creado*/
+SELECT * FROM USER_TABLESPACES;
+SELECT * FROM DBA_USERS WHERE USERNAME LIKE 'FINTECH';
+
+/* Le asignamos quotas ilimitadas al usuario "fintech" en los Tablespaces que hemos creado */
+ALTER USER FINTECH QUOTA UNLIMITED ON TS_FINTECH;
+ALTER USER FINTECH QUOTA UNLIMITED ON TS_INDICES;
+
+/* Una vez copiamos el archivo CSV en la ruta dada, creamos el directorio pedido  */
+CREATE OR REPLACE directory directorio_ext as 'C:\Users\app\alumnos\admin\orcl\dpdump';
+
+/* Nuevos permisos que le concedemos al usuario "fintech" */
+GRANT READ, WRITE ON DIRECTORY directorio_ext to FINTECH;
+
+
+SELECT 'drop table ' || table_name || ' cascade constraints; ' from fintech_tables;
+/* Con esta sentencia eliminamos todas las tablas, seria el equivalente a escribir linea por linea: 
+drop table AUTORIZACION cascade constraints; drop table CLIENTE cascade constraints; drop table CUENTA cascade constraints; 
+drop table CUENTA_FINTECH cascade constraints; drop table CUENTA_REFERENCIA cascade constraints; drop table DEPOSITADA_EN cascade constraints; 
+drop table DIVISA cascade constraints; drop table EMPRESA cascade constraints; drop table INDIVIDUAL cascade constraints; 
+drop table MOVIMIENTOS cascade constraints; drop table PERSONA_AUTORIZADA cascade constraints; drop table POOLED_ACCOUNT cascade constraints; 
+drop table RELATION_21 cascade constraints; drop table SEGREGADA cascade constraints; drop table TARJETA cascade constraints; 
+drop table TRANSACCION cascade constraints;*/
+
+
+
+/*---------------------
+      DESDE FINTECH
+-----------------------*/
+/* Creamos la tabla cotizacion_ext cuyas columnas sacamos del excel (cotizacion.csv) dado y les colocamos 
+NVARCHAR2 para evitar problemas, además del "characterset WE8ISO8859P1".
+*/
+  create table cotizacion_ext 
+        (Nombre NVARCHAR2(50), Fecha NVARCHAR2(50), Valor1Euro NVARCHAR2(50), VariocionPorc NVARCHAR2(50), VariocionMes NVARCHAR2(50), VariacionAño NVARCHAR2(50), ValorenEuros NVARCHAR2(50))
+        organization external
+       ( default directory directorio_ext
+         access parameters
+         ( records delimited by newline  
+          skip 1 
+             characterset WE8ISO8859P1 
+           fields terminated by ';' 
+         )
+         location ('cotizacion.csv')   
+     ); 
+
+/* Ejecutamos las sentencias */
+select d.abreviatura, d.nombre, d.simbolo, to_number( c.valoreneuros), to_date
+(fecha,'dd/mm/yyyy') from cotizacion_ext c join divisa d on c.nombre =
+d.nombre;
+
+create view v_cotizaciones as select d.abreviatura, d.nombre, d.simbolo,
+to_number( c.valoreneuros) cambioeuro, to_date (fecha,'dd/mm/yyyy') fecha
+from cotizacion_ext c join divisa d on c.nombre = d.nombre
+
+where (d.nombre,to_date (fecha,'dd/mm/yyyy')) in (select nombre, max ( to_date
+(fecha,'dd/mm/yyyy')) from cotizacion_ext group by nombre); 
+
+
+/* Creamos indices sobre CLIENTE */
+CREATE INDEX ICLIENTE ON CLIENTE(UPPER(IDENTIFICACION)) TABLESPACE TS_INDICES;
+CREATE INDEX FECHACLIENTE ON CLIENTE(FECHA_ALTA, FECHA_BAJA) TABLESPACE TS_INDICES;
+CREATE INDEX DIRECCIONCLIENTE ON CLIENTE(DIRECCION) TABLESPACE TS_INDICES;
+
+/* Creamos un indice de tipo BITMAP sobre CUENTA_REFERENCIA y con su respectivo SELECT comprobamos 
+que se creó correctamente */
+CREATE BITMAP INDEX BITREFERENCIA ON CUENTA_REFERENCIA(DIVISA_ABREVIATURA) TABLESPACE TS_INDICES;
+
+/* Creamos una vista materializada VM_COTIZA sobre cotizacion_EXT que tendra un refresh forzado a las 00:00*/
+CREATE MATERIALIZED VIEW VM_COTIZA 
+   REFRESH FORCE NEXT sysdate + 1
+   AS SELECT * FROM cotizacion_EXT; 
+
+/* Creamos el sinonimo COTIZACION para el anterior VM_COTIZA*/
+CREATE SYNONYM COTIZACION
+   FOR VM_COTIZA;
+
+/* Uso del TDE */
+ALTER SYSTEM SET "WALLET_ROOT" = 'C:\Users\app\alumnos\Oracle_instalacion\wallet' scope=SPFILE;
+ALTER SYSTEM SET TDE_CONFIGURATION="KEYSTORE_CONFIGURATION=FILE" scope=both;
+
+
+/* Creacion de un TABLESPACE */
+CREATE TABLESPACE TS_FINTECH
+    DATAFILE 'C:\USERS\APP\ALUMNOS\ORADATA\ORCL\ts_fintech' 
+    SIZE 10M AUTOEXTEND ON;                                  
+-- Crea un tablespace con un fichero de tamano 10M  autoextensible. 
+-- Para que un usuario pueda usarlo debe asignarsele una quota de uso.
+
+
+/* Creacion de un perfil administrativo de la aplicacion */ 
+CREATE PROFILE PERF_ADMINISTRATIVO LIMIT
+    SESSIONS_PER_USER                -- Máximo numero de sesiones para el usuario
+    FAILED_LOGIN_ATTEMPTS 3          -- Intentos para bloquear cuenta
+    CONNECT_TIME 5                   -- Desconecta tras 5 minutos de inactividad
+    IDLE_TIME 10                     -- 10 minutos de tiempo muerto en una sesion
+    PASSWORD_LIFE_TIME 50            -- 50 dias de contraseña antes de expiracion
+    PASSWORD_GRACE_TIME 3            -- Periodo de gracia luego de la expiracion
+    ;
+
+
+/* Creación de perfil cliente */
+CREATE PROFILE PERF_CLIENTE LIMIT 
+    SESSIONS_PER_USER 4             -- Maximo numero de sesiones del usuario
+    CONNECT_TIME 60                  -- Tiempo maximo de conexion en minutos
+    ; 
+   
+
+/* Creacion de rol super administrador, para el personal de la aplicacion*/
+CREATE ROLE R_ADMINISTRADOR_SUPER;
+GRANT CONNECT, CREATE TABLE TO R_ADMINISTRADOR_SUPER;
+
+CREATE ROLE R_CLIENTE;
+GRANT CONNECT, VIEW TABLE TO R_ADMINISTRADOR_SUPER;
+
+
+/* Creacion de usuarios con contrasea 'usuario' */
+CREATE USER adminn IDENTIFIED BY adminastrador
+    DEFAULT TABLESPACE TS_FINTECH           -- Tablespace 'ts_fintech' por defecto
+    QUOTA 1M ON TS_FINTECH                  -- Con 1Mega de espacio
+    ;
+
+CREATE USER cliente IDENTIFIED BY cliente123
+    DEFAULT TABLESPACE TS_FINTECH           
+    QUOTA 1M ON TS_FINTECH          
+    PROFILE PERF_CLIENTE 
+    ;
+
+GRANT R_ADMINISTRADOR_SUPER TO adminn;    -- Asignamos rol admin a admin
+GRANT R_CLIENTE TO cliente;    
+

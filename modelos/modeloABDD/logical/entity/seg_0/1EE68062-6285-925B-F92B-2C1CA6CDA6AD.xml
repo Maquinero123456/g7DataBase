@@ -39,7 +39,7 @@
 <referedAttribute>2381D03A-32DB-726B-1D89-98887444E511</referedAttribute>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
+<logicalDatatype>LOGDT011</logicalDatatype>
 <dataTypeSize>40 CHAR</dataTypeSize>
 <ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
 </Attribute>
@@ -54,7 +54,7 @@
 <referedAttribute>413A118A-DAC6-9FE1-0E14-10C41B93DB0F</referedAttribute>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
+<logicalDatatype>LOGDT011</logicalDatatype>
 <dataTypeSize>40 CHAR</dataTypeSize>
 <ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
 </Attribute>
@@ -64,8 +64,9 @@
 <createdBy>david</createdBy>
 <createdTime>2022-03-14 21:44:27 UTC</createdTime>
 <ownerDesignName>modeloABDD</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
 <engineerTo>
-<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="true"/>
+<item key="1E1EBAB6-18D1-3807-1E94-84894CDD0F55" value="false"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
